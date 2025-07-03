@@ -1,0 +1,335 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Poppins", serif;
+}
+
+body {
+    margin: 16px;
+    overflow: hidden;
+    background-color: #DCDCDC;
+}
+
+.container-fluid{
+    /* background-color: #d53200; */
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.navbar{
+    /* background-color: #0020d5; */
+    height: 48px;
+}
+
+.app{
+    /* background-color: #3CD500; */
+    height: calc(100vh - 80px);
+    overflow: hidden;
+}
+
+.itembody{
+    /* background-color: #ff00ff; */
+    height: calc(100vh - 180px);
+    /* height: 100vh; */
+}
+.itembody::-webkit-scrollbar {
+    display: none;
+}
+
+
+.verticle_navbar{
+    /* background-color: aqua; */
+}
+
+.accordion {
+    --bs-accordion-active-bg: #efefef00;
+    --bs-accordion-btn-focus-box-shadow: none;
+  }
+
+.accordion-item, .accordion-header, .accordion-button , .accordion-collapse{
+    background-color: #efefef00;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.card{
+    border: 0;
+    background-color: #EFEFEF;
+}
+
+.card{
+    /* background: transparent; */
+}
+
+.btn-icon {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    padding: 7px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-close {
+    width: 32px;
+    height: 32px;
+}
+  
+.offcanvas {
+    margin: 16px;
+    border-radius: 16px;
+    background-color: #EFEFEF;
+}
+
+.offcanvas-footer {
+    padding: 16px 32px;
+}
+
+.modal-content{
+    border-radius: 16px;
+    background-color: #EFEFEF;
+}
+
+.nav-pills{
+    background-color: #EFEFEF;
+}
+
+
+/* Gradient CSS */
+.cursor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    background-image: linear-gradient(#FFF720 10%, #3CD500);
+    filter: blur(150px);
+    transition: all 150ms ease-out;
+    position: fixed;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    transform: translate(calc(-50% + 15px), -50%);
+    z-index: -1;
+}
+
+/************************************************************************************************** typescale **************************/
+
+h1 {
+    font-size: 61px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 49px;
+    font-weight: 600;
+    line-height: calc(49*1.5px);
+}
+
+h3 {
+    font-size: 39px;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 31px;
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+h6 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+p,td,.form-control {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+strong{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+caption,th,.form-label, .label, .badge {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+th, .form-label{
+    font-weight: 500 !important;
+}
+
+
+.card-title{
+    font-weight: 500;
+}
+
+.footnote{
+    font-size: 10px;
+    font-weight: 400;
+}
+
+
+/************************************************************************************************** responsive designs **************************/
+
+/* // Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+    .navbar{
+    height: auto !important;
+    }
+    .cursor{
+        display: none;
+    }
+    body{
+        background-image: none !important;
+    }
+    
+}
+
+
+/* // Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+    .verticle_navbar {
+        display: none;
+    }
+
+    body {
+        margin: 8px;
+    }
+
+    .offcanvas{
+        margin: 8px;
+        width: auto !important;
+    }
+
+    .list-group {
+        gap: 2px;
+    }
+
+    h1 {
+        font-size: 53px;
+        font-weight: 600;
+    }
+    
+    h2 {
+        font-size: 43px;
+        font-weight: 600;
+    }
+    
+    h3 {
+        font-size: 34px;
+        font-weight: 600;
+    }
+    
+    h4 {
+        font-size: 27px;
+        font-weight: 600;
+    }
+    
+    h5 {
+        font-size: 22px;
+        font-weight: 600;
+    }
+    
+    h6 {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    p,td,.form-control,.form-label, .label, .form-check-label {
+    font-size: 14px;
+    }
+
+    strong{
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    caption,
+    th {
+        font-size: 11px;
+        opacity: 50%;
+    }
+
+    .app{
+        /* background-color: #3CD500; */
+        height: calc(100vh - 240px);
+        overflow: auto;
+    }
+    .itembody{
+        /* background-color: #ff00ff; */
+        height: calc(100vh - 360px);
+        /* height: 100vh; */
+    }
+       
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .horizontal_navbar {
+        display: none;
+    }
+    
+}
+

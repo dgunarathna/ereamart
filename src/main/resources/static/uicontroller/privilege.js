@@ -1,0 +1,305 @@
+window.addEventListener("load", () => {
+    console.log("browser load Event");
+    refreshPrivilegeTable();
+    refreshPrivilegeForm();
+});
+
+
+//table *********************************************************************************************************************************************************************************************
+const refreshPrivilegeTable = () => {
+    let privileges = [
+        {id: 1, privi_select: true, privi_insert: false, privi_update: true, privi_delete: false, designation_id: { id: 2, name: "Accountant" }, module_id: {id: 3, name: "Reports"}}, 
+        {id: 2, privi_select: true, privi_insert: true, privi_update: true, privi_delete: true, designation_id: { id: 3, name: "Cashier" }, module_id: {id: 1, name: "Employee"}}, 
+        {id: 3, privi_select: true, privi_insert: true, privi_update: false, privi_delete: false, designation_id: { id: 3, name: "Cashier" }, module_id: {id: 2, name: "Invoice"}}, 
+        {id: 4, privi_select: true, privi_insert: true, privi_update: true, privi_delete: false, designation_id: { id: 3, name: "Cashier" }, module_id: {id: 4, name: "Payroll"}},  
+        {id: 5, privi_select: false, privi_insert: false, privi_update: false, privi_delete: false, designation_id: { id: 1, name: "Manager" }, module_id: {id: 1, name: "Employee"}}, 
+      ];
+    // string > string, date, number
+    // function > object, array, boolean
+    let propertyList = [
+        {propertyName: getDesignation, dataType: "function"},
+        {propertyName: getModule, dataType: "function"},
+        {propertyName: getSelet, dataType: "function"},
+        {propertyName: getInsert, dataType: "function"},
+        {propertyName: getUpdate, dataType: "function"},
+        {propertyName: getDelete, dataType: "function"},
+    ];
+
+    fillDataIntoTable(tablePrivilegeBody, privileges, propertyList, privilegeFormRefill);
+
+};
+
+const getDesignation = (ob)=>{
+    return ob.designation_id.name;
+};
+
+const getModule = (ob)=>{
+    return ob.module_id.name;
+};
+
+const getSelet = (ob)=>{
+    if (ob.privi_select) {
+        return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
+    } else {
+        return "<p class='badge bg-danger  w-100 my-auto'>Not Granted</p>";
+    }
+};
+
+const getInsert = (ob)=>{
+    if (ob.privi_insert) {
+        return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
+    } else {
+        return "<p class='badge bg-danger w-100 my-auto'>Not Granted</p>";
+    }
+};
+
+const getUpdate = (ob)=>{
+    if (ob.privi_update) {
+        return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
+    } else {
+        return "<p class='badge bg-danger w-100 my-auto'>Not Granted</p>";
+    }
+};
+
+const getDelete = (ob)=>{
+    if (ob.privi_delete) {
+        return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
+    } else {
+        return "<p class='badge bg-danger w-100 my-auto'>Not Granted</p>";
+    }
+};
+
+//form *********************************************************************************************************************************************************************************************
+const refreshPrivilegeForm = () => {
+    privilege = new Object();
+
+    formPrivilege.reset();
+
+    setDefault([selectDesignation, selectModule]);
+
+    let designations = getServiceRequest('/designation/alldata');
+
+    let modules = [
+        {id:1, name:"Employee"},
+        {id:2, name:"Invoice"},
+        {id:3, name:"Reports"},
+        {id:4, name:"Payroll"},
+    ];
+
+    fillDataIntoSelect(selectDesignation,"Select Designation", designations, "name");
+
+    fillDataIntoSelect(selectModule,"Select Module", modules, "name");
+
+    selectDesignation.disabled = false;
+    selectModule.disabled = false;
+
+    chkBoxSelect.checked = true;
+    privilege.privi_select = true;
+
+    chkBoxInsert.checked = true;
+    privilege.privi_insert = true;
+
+    chkBoxUpdate.checked = true;
+    privilege.privi_update = true;
+
+    chkBoxDelete.checked = true;
+    privilege.privi_delete = true;
+
+    selectDesignation.style.border = "1px solid #ced4da";
+    selectModule.style.border = "1px solid #ced4da";
+};
+
+const privilegeFormRefill = (ob, index) => {
+    console.log("Edit", ob, index);
+
+    selectDesignation.value = JSON.stringify(ob.designation_id);
+    selectDesignation.disabled = true;
+    
+    selectModule.value = JSON.stringify(ob.module_id);
+    selectModule.disabled = true;
+
+    if (ob.privi_select) {
+        chkBoxSelect.checked = true;
+    } else {
+        chkBoxSelect.checked = false;
+    }
+
+    if (ob.privi_insert) {
+        chkBoxInsert.checked = true;
+    } else {
+        chkBoxInsert.checked = false;
+    }
+
+    if (ob.privi_update) {
+        chkBoxUpdate.checked = true;
+    } else {
+        chkBoxUpdate.checked = false;
+    }
+
+    if (ob.privi_delete) {
+        chkBoxDelete.checked = true;
+    } else {
+        chkBoxDelete.checked = false;
+    }
+    
+    privilege = JSON.parse(JSON.stringify(ob));
+    oldprivilege = JSON.parse(JSON.stringify(ob));
+
+    $("#modalPrivilegeForm").modal("show");
+    $("#modalPrivilegeFormLabel").text(ob.designation_id.name);
+    $("#buttonSubmit").hide();
+    $("#buttonClear").hide();
+
+    $("#buttonDelete").show();
+    $("#buttonPrint").show();
+    $("#buttonUpdate").show();
+};
+
+const buttonPrivilegeDelete = (ob, index) => {
+    console.log("Delete", ob, index);
+    let userConfirm = window.confirm("Are you sure to delete " + ob.designation_id.name + " privileges of " + ob.module_id.name + "?");
+    if (userConfirm == true) {
+        let deleteResponce = "OK";
+        if (deleteResponce == "OK") {
+            window.alert("Delete Successfully");
+            refreshPrivilegeTable();
+            $("#modalPrivilegeForm").modal("hide"); 
+        }else{
+            window.alert("Faild to Delete\n" + errors)
+        }
+    }
+};
+
+const buttonPrivilegePrint = (ob, index) => {
+    let newWindow = window.open();
+    let printView =
+    "<head>"
+        +"<title>www.ereamart.com</title>"
+        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        +"<link rel='stylesheet' href='/css/main.css'>"
+    +"</head>"
+    +"<body>"
+        +"<div class='container m-0 mt-4'>"
+            +"<h5 class='mb-4'>"+ ob.designation_id.name + " Details</h5>"
+            +"<table class='table'>"
+                +"<tbody>"
+                    +"<tr><th> Designation </th><td>"+ ob.designation_id.name +"</td></tr>" 
+                    +"<tr><th> Module </th><td>"+ getModule(ob) +"</td></tr>" 
+                    +"<tr><th> Select </th><td>"+ getSelet(ob) +"</td></tr>" 
+                    +"<tr><th> Insert </th><td>"+ getInsert(ob) +"</td></tr>" 
+                    +"<tr><th> Update </th><td>"+ getUpdate(ob) +"</td></tr>" 
+                    +"<tr><th> Delete </th><td>"+ getDelete(ob) +"</td></tr>"
+                +"</tbody>" 
+            +"</table>" 
+        +"</div>" 
+    +"</body>";
+
+    newWindow.document.write(printView);
+    
+    setTimeout(()=>{
+        newWindow.stop();
+        newWindow.print();
+        newWindow.close();
+        $("#modalPrivilegeForm").modal("hide"); 
+    }, 500);
+};
+
+const checkFormError = ()=>{
+    let errors = "";
+    if (privilege.designation_id == null) {
+        errors = errors + "Please select Designation \n"
+    }
+
+    if (privilege.module_id == null) {
+        errors = errors + "Please select module \n"
+    }
+
+    return errors;
+};
+
+const buttonPrivilegeSubmit = () => {
+    console.log(privilege);
+    
+    let errors = checkFormError();
+    if (errors == "") {
+        let userConfirm = window.confirm("Are you sure to add "+ privilege.designation_id.name + " privileges of " + privilege.module_id.name + "?");
+        if (userConfirm == true) {
+            let postResponce = "OK";
+            if (postResponce == "OK") {
+                window.alert("Save Successfully");
+                refreshPrivilegeTable();
+                refreshPrivilegeForm();
+                $("#modalPrivilegeForm").modal("hide"); 
+            }else{
+                window.alert("Faild to submit\n" + postResponce);
+            }
+        }
+    }else{
+        window.alert("Form has following errors\n" + errors);
+    }
+};
+
+const checkFormUpdate = () => {
+    let updates = "";
+
+    if (privilege != null && oldprivilege != null) {
+        if (privilege.designation_id.name != oldprivilege.designation_id.name) {
+            updates = updates + "Designation - " + oldprivilege.designation_id.name + " to " + privilege.designation_id.name + "\n";
+        }
+        if (privilege.module_id.name != oldprivilege.module_id.name) {
+            updates = updates + "Module - " + oldprivilege.module_id.name + " to " + privilege.module_id.name + "\n";
+        }
+        if (privilege.privi_select != oldprivilege.privi_select) {
+            updates = updates + "Select privilege - " + oldprivilege.privi_select + " to " + privilege.privi_select + "\n";
+        }
+        if (privilege.privi_insert != oldprivilege.privi_insert) {
+            updates = updates + "Insert privilege - " + oldprivilege.privi_insert + " to " + privilege.privi_insert + "\n";
+        }
+        if (privilege.privi_update != oldprivilege.privi_update) {
+            updates = updates + "Update privilege - " + oldprivilege.privi_update + " to " + privilege.privi_update + "\n";
+        }
+        if (privilege.privi_delete != oldprivilege.privi_delete) {
+            updates = updates + "Delete privilege - " + oldprivilege.privi_delete + " to " + privilege.privi_delete + "\n";
+        }
+    }
+    return updates;
+};
+
+const buttonPrivilegeUpdate = () => {
+    let errors = checkFormError();
+    if (errors == "") {
+        let updates = checkFormUpdate();
+        if (updates == "") {
+            window.alert("Nothing to update");
+        } else {
+            let userConfirm = window.confirm("Are you sure want to update "+ privilege.designation_id.name + " privileges of " + privilege.module_id.name + "? \n");
+            if (userConfirm) {
+                let putResponce = "OK";
+                if (putResponce == "OK") {
+                    window.alert("Update Successfull");
+                    refreshPrivilegeTable();
+                    refreshPrivilegeForm();
+                    $("#modalPrivilegeForm").modal("hide");
+                } else {
+                    window.alert("Failed to update" + putResponce);
+                }
+            }
+        }
+    } else {
+        window.alert("Form has following errors..\n" + errors)
+    }
+};
+
+//Add new record ************************************************************************************************************************************************************************************
+
+const buttonAddNew = () => {
+    refreshPrivilegeForm();
+    $("#modalPrivilegeFormLabel").text("Add New Privilege");
+
+    $("#buttonSubmit").show();
+    $("#buttonClear").show();
+
+    $("#buttonDelete").hide();
+    $("#buttonPrint").hide();
+    $("#buttonUpdate").hide();
+};
