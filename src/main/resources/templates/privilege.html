@@ -62,7 +62,7 @@
                 <table class="table table-hover align-middle" id="tablePrivilege">
                 <thead>
                     <tr>
-                    <th>Designation</th>
+                    <th>Role</th>
                     <th>Module</th>
                     <th>Select</th>
                     <th>Insert</th>
@@ -87,9 +87,9 @@
 
             <div class="modal-body">
                 <form id="formPrivilege" class="row g-3 col-lg-12 col-md-12 mx-auto">
-                    <div class="col-xl-12" id="selectDesignationDiv">
-                        <label for="selectDesignation" class="form-label">Designation<span class="text-danger">*</span></label>
-                        <select id="selectDesignation" Required class="form-select" onchange="selectDynamicElementValidator(this,'privilege','designation_id')"></select>
+                    <div class="col-xl-12">
+                        <label for="selectRole" class="form-label">Role<span class="text-danger">*</span></label>
+                        <select id="selectRole" Required class="form-select" onchange="selectDynamicElementValidator(this,'privilege','designation_id')"></select>
                     </div>
                     <div class="col-xl-12">
                         <label for="selectModule" class="form-label">Module<span class="text-danger">*</span></label>
@@ -130,10 +130,10 @@
         <!-- Bottombar -->
         <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
              
-            <li class="nav-item"><a class="nav-link btn-icon active" href="/dashboard.html"><img  src="/icons/administration.svg" alt=""></a></li>
-            <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><img  src="/icons/operations.svg" alt=""></a></li>
-            <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><img  src="/icons/transection.svg" alt=""></a></li>
-            <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><img  src="/icons/resources.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
              
         </ul>
     </div>

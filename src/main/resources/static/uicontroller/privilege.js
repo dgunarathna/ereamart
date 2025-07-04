@@ -7,18 +7,13 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshPrivilegeTable = () => {
-    let privileges = [
-        {id: 1, privi_select: true, privi_insert: false, privi_update: true, privi_delete: false, designation_id: { id: 2, name: "Accountant" }, module_id: {id: 3, name: "Reports"}}, 
-        {id: 2, privi_select: true, privi_insert: true, privi_update: true, privi_delete: true, designation_id: { id: 3, name: "Cashier" }, module_id: {id: 1, name: "Employee"}}, 
-        {id: 3, privi_select: true, privi_insert: true, privi_update: false, privi_delete: false, designation_id: { id: 3, name: "Cashier" }, module_id: {id: 2, name: "Invoice"}}, 
-        {id: 4, privi_select: true, privi_insert: true, privi_update: true, privi_delete: false, designation_id: { id: 3, name: "Cashier" }, module_id: {id: 4, name: "Payroll"}},  
-        {id: 5, privi_select: false, privi_insert: false, privi_update: false, privi_delete: false, designation_id: { id: 1, name: "Manager" }, module_id: {id: 1, name: "Employee"}}, 
-      ];
+    let privileges = getServiceRequest('/privilege/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getDesignation, dataType: "function"},
         {propertyName: getModule, dataType: "function"},
+        {propertyName: getRole, dataType: "function"},
         {propertyName: getSelet, dataType: "function"},
         {propertyName: getInsert, dataType: "function"},
         {propertyName: getUpdate, dataType: "function"},
@@ -29,8 +24,8 @@ const refreshPrivilegeTable = () => {
 
 };
 
-const getDesignation = (ob)=>{
-    return ob.designation_id.name;
+const getRole = (ob)=>{
+    return ob.role_id.name;
 };
 
 const getModule = (ob)=>{
@@ -75,22 +70,17 @@ const refreshPrivilegeForm = () => {
 
     formPrivilege.reset();
 
-    setDefault([selectDesignation, selectModule]);
+    setDefault([selectRole, selectModule]);
 
-    let designations = getServiceRequest('/designation/alldata');
+    let roles = getServiceRequest('/role/alldata');
 
-    let modules = [
-        {id:1, name:"Employee"},
-        {id:2, name:"Invoice"},
-        {id:3, name:"Reports"},
-        {id:4, name:"Payroll"},
-    ];
+    let modules = getServiceRequest('/module/alldata');
 
-    fillDataIntoSelect(selectDesignation,"Select Designation", designations, "name");
+    fillDataIntoSelect(selectRole,"Select Role", roles, "name");
 
     fillDataIntoSelect(selectModule,"Select Module", modules, "name");
 
-    selectDesignation.disabled = false;
+    selectRole.disabled = false;
     selectModule.disabled = false;
 
     chkBoxSelect.checked = true;
@@ -105,15 +95,15 @@ const refreshPrivilegeForm = () => {
     chkBoxDelete.checked = true;
     privilege.privi_delete = true;
 
-    selectDesignation.style.border = "1px solid #ced4da";
+    selectRole.style.border = "1px solid #ced4da";
     selectModule.style.border = "1px solid #ced4da";
 };
 
 const privilegeFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
-    selectDesignation.value = JSON.stringify(ob.designation_id);
-    selectDesignation.disabled = true;
+    selectRole.value = JSON.stringify(ob.designation_id);
+    selectRole.disabled = true;
     
     selectModule.value = JSON.stringify(ob.module_id);
     selectModule.disabled = true;
