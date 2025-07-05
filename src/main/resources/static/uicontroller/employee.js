@@ -82,7 +82,6 @@ const employeeFormRefill = (ob, index) => {
     textMobile.value = ob.mobileno;
     textAddress.value = ob.address;
     textNote.value = ob.note;
-
     selectCivilStatus.value = ob.civilstatus;
     selectDesignation.value = JSON.stringify(ob.designation_id);
     selectEmployeeStatus.value = JSON.stringify(ob.employeestatus_id);

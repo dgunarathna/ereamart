@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Privilege {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
     @NotNull

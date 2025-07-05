@@ -87,7 +87,7 @@ public class EmployeeController {
 		Employee extById = employeeDao.getReferenceById(employee.getId()); // check id with db
 		if (extById == null) {
 			return "Update not completed, NIC already exists" ;
-		}
+		}  
 
 		//duplicate check
 		Employee extEmployeeByNic = employeeDao.getByNIC(employee.getNic());
@@ -122,14 +122,12 @@ public class EmployeeController {
 
 		//check ext pk - update / delete only
 		if (employee.getId() == null) { // no employee id - with link access
-			return "Delete not completed, NIC already exists" ;
+			return "Delete not completed, Employee not exist" ;
 		}
 		Employee extEmployeeById = employeeDao.getReferenceById(employee.getId()); // check id with db
 		if (extEmployeeById == null) {
-			return "Delete not completed, NIC already exists" ;
+			return "Delete not completed, Employee not exist in the database" ;
 		}
-
-		//duplicate check 
 		 
 		try {
 			// set auto added data

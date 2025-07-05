@@ -2,15 +2,6 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 
-//cusor effect
-var cursor = document.querySelector('.cursor');
-document.addEventListener('mousemove', function(e){
-  var x = e.clientX;
-  var y = e.clientY;
-  cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`
-});
-
-
 // form input reset
 const setDefault = (elements) => {
     elements.forEach(element => {
@@ -90,9 +81,15 @@ const getHTTPServiceRequest = (url, method, data)=>{
     return getServiceResponce;
 }
 
-const login = () => {
-    window.location.href = "/dashboard.html"
-}
+
+//cusor effect
+var cursor = document.querySelector('.cursor');
+document.addEventListener('mousemove', function(e){
+  var x = e.clientX;
+  var y = e.clientY;
+  cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`
+});
+
 
 
 

@@ -74,9 +74,9 @@ const refreshPrivilegeForm = () => {
 
     let roles = getServiceRequest('/role/alldata');
 
-    let modules = getServiceRequest('/module/alldata');
-
     fillDataIntoSelect(selectRole,"Select Role", roles, "name");
+    
+    let modules = getServiceRequest('/module/alldata');
 
     fillDataIntoSelect(selectModule,"Select Module", modules, "name");
 
@@ -102,11 +102,8 @@ const refreshPrivilegeForm = () => {
 const privilegeFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
-    selectRole.value = JSON.stringify(ob.designation_id);
-    selectRole.disabled = true;
-    
+    selectRole.value = JSON.stringify(ob.role_id);
     selectModule.value = JSON.stringify(ob.module_id);
-    selectModule.disabled = true;
 
     if (ob.privi_select) {
         chkBoxSelect.checked = true;
@@ -136,7 +133,7 @@ const privilegeFormRefill = (ob, index) => {
     oldprivilege = JSON.parse(JSON.stringify(ob));
 
     $("#modalPrivilegeForm").modal("show");
-    $("#modalPrivilegeFormLabel").text(ob.designation_id.name);
+    $("#modalPrivilegeFormLabel").text(ob.role_id.name);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 
@@ -147,9 +144,9 @@ const privilegeFormRefill = (ob, index) => {
 
 const buttonPrivilegeDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.designation_id.name + " privileges of " + ob.module_id.name + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.role_id.name + " privileges of " + ob.module_id.name + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/privilege/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshPrivilegeTable();
@@ -170,10 +167,10 @@ const buttonPrivilegePrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.designation_id.name + " Details</h5>"
+            +"<h5 class='mb-4'>"+ ob.role_id.name + " Details</h5>"
             +"<table class='table'>"
                 +"<tbody>"
-                    +"<tr><th> Designation </th><td>"+ ob.designation_id.name +"</td></tr>" 
+                    +"<tr><th> Role </th><td>"+ ob.role_id.name +"</td></tr>" 
                     +"<tr><th> Module </th><td>"+ getModule(ob) +"</td></tr>" 
                     +"<tr><th> Select </th><td>"+ getSelet(ob) +"</td></tr>" 
                     +"<tr><th> Insert </th><td>"+ getInsert(ob) +"</td></tr>" 
@@ -196,8 +193,8 @@ const buttonPrivilegePrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (privilege.designation_id == null) {
-        errors = errors + "Please select Designation \n"
+    if (privilege.role_id == null) {
+        errors = errors + "Please select Role \n"
     }
 
     if (privilege.module_id == null) {
@@ -212,9 +209,9 @@ const buttonPrivilegeSubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ privilege.designation_id.name + " privileges of " + privilege.module_id.name + "?");
+        let userConfirm = window.confirm("Are you sure to add "+ privilege.role_id.name + " privileges of " + privilege.module_id.name + "?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce  = getHTTPServiceRequest("/privilege/insert", "POST", privilege);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshPrivilegeTable();
@@ -233,8 +230,8 @@ const checkFormUpdate = () => {
     let updates = "";
 
     if (privilege != null && oldprivilege != null) {
-        if (privilege.designation_id.name != oldprivilege.designation_id.name) {
-            updates = updates + "Designation - " + oldprivilege.designation_id.name + " to " + privilege.designation_id.name + "\n";
+        if (privilege.role_id.name != oldprivilege.role_id.name) {
+            updates = updates + "Role - " + oldprivilege.role_id.name + " to " + privilege.role_id.name + "\n";
         }
         if (privilege.module_id.name != oldprivilege.module_id.name) {
             updates = updates + "Module - " + oldprivilege.module_id.name + " to " + privilege.module_id.name + "\n";
@@ -262,9 +259,9 @@ const buttonPrivilegeUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure want to update "+ privilege.designation_id.name + " privileges of " + privilege.module_id.name + "? \n");
+            let userConfirm = window.confirm("Are you sure want to update "+ privilege.role_id.name + " privileges of " + privilege.module_id.name + "? \n");
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/privilege/update", "PUT", privilege);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshPrivilegeTable();

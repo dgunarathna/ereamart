@@ -22,13 +22,13 @@ public class EreamartApplication {
 	public ModelAndView uiIndexPage(){
 		ModelAndView indexPage = new ModelAndView();
 		indexPage.setViewName("index.html");
-		return indexPage;
+		return indexPage; 
 	}
 
-}
+}   
  
 
-  
+   
  
  
 

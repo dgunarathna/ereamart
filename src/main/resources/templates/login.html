@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="/css/main.css">
 
   <style>
-    body{
-    background-image: url(/images/bodybg.png);
-    background-repeat: no-repeat;
-    background-position: right;
+    body {
+      background-image: url(/images/bodybg.png);
+      background-repeat: no-repeat;
+      background-position: right;
     }
   </style>
 
@@ -29,48 +29,51 @@
   <div class="cursor"></div>
 
   <div class="container-fluid p-0 m-0">
-      <!-- nav bar -->
-      <nav class="navbar row py-0 mx-0">
-          <div class="col-xl d-flex p-0 gap-1">
-              <a href="/home.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h4 class="my-auto"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
-          </div>
-      </nav>
-      <div class="row app p-0 m-0">
-          <div class="col col-lg-3 col-md-12 mx-auto mt-5">
-            <div class="row mb-3">
-              <div class="col align-midlle text-center">
-                <h4 class="modal-title text-center mt-2" id="staticBackdropLabel">Login 👋</h4>
-                <p class="mt-2">Don't have an account <a href="/register.html">Sign up</a></p>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <form onsubmit="return false">
-                  <div class="form-floating ">
-                    <input  id="textEmail" type="email" class="form-control rounded-0 rounded-top" placeholder="name@example.com">
-                    <label for="textEmail">Email address</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input  id="textPassword" type="password" class="form-control rounded-0 rounded-bottom" placeholder="Password">
-                    <label for="textPassword">Password</label>
-                  </div>
-                  <div class="form-floating">
-                    <a href="">Forgot password</a>
-                  </div>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <button onclick="login()" type="submit" class="btn btn-primary rounded-pill w-100">Login</button>
-                </form>
-              </div>
-            </div>
-          </div>
+    <!-- nav bar -->
+    <nav class="navbar row py-0 mx-0">
+      <div class="col-xl d-flex p-0 gap-1">
+        <a href="/home.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+        <h4 class="my-auto"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
       </div>
+    </nav>
+    <div class="row app p-0 m-0">
+      <div class="col col-lg-3 col-md-12 mx-auto mt-5">
+
+        <div class="row mb-3">
+          <div class="col align-midlle text-center">
+            <h4 class="modal-title text-center mt-2" id="staticBackdropLabel">Login 👋</h4>
+            <p class="mt-2">Don't have an account <a href="/register.html">Sign up</a></p>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <form action="/login" method="post">
+
+              <div class="form-floating ">
+                <input type="text" required name="username" class="form-control rounded-0 rounded-top"placeholder="Admin">
+                <label>Email address</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" required name="password" class="form-control rounded-0 rounded-bottom"placeholder="Password">
+                <label>Password</label>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col">
+                  <button type="submit" class="btn btn-primary rounded-pill w-100">Login</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
   </div>
+
 
 
 
