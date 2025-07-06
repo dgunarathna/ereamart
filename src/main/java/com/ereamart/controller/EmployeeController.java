@@ -51,8 +51,13 @@ public class EmployeeController {
     // mapping for return employee html page
     @RequestMapping(value =  {"/employee","/employee.html"})
     public ModelAndView uiEmployeePage(){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		ModelAndView employeePage = new ModelAndView();
 		employeePage.setViewName("employee.html");
+		employeePage.addObject("loggedusername", auth.getName());
 		return employeePage;
 	} 
 	
