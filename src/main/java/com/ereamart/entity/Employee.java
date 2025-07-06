@@ -35,6 +35,8 @@ public class Employee {
     @NotNull
     private String empno;
 
+    private byte[] empphoto;
+
     @NotNull
     private String fullname;
 

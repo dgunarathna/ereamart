@@ -1,11 +1,16 @@
 package com.ereamart.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.EmployeeDao;
 import com.ereamart.dao.EmployeeStatusDao;
+import com.ereamart.dao.RoleDao;
+import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Employee;
+import com.ereamart.entity.Role;
+import com.ereamart.entity.User;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,7 +37,16 @@ public class EmployeeController {
 	private EmployeeDao employeeDao;
 
 	@Autowired
+	private UserDao userDao;
+
+	@Autowired
 	private EmployeeStatusDao employeeStatusDao;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private RoleDao roleDao;
 
     // mapping for return employee html page
     @RequestMapping(value =  {"/employee","/employee.html"})
@@ -47,6 +66,8 @@ public class EmployeeController {
 	@PostMapping(value = "/employe/insert")
 	public String saveEmployeeData(@RequestBody Employee employee) {
 		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.geByUsename(auth.getName());
 
 		//duplicate check
 		Employee extEmployeeByNic = employeeDao.getByNIC(employee.getNic());
@@ -62,13 +83,33 @@ public class EmployeeController {
 		try {
 			// set auto added data
 			employee.setAdded_datetime(LocalDateTime.now());
-			employee.setAdded_user_id(1);
+			employee.setAdded_user_id(loggedUser.getId());
 			employee.setEmpno(employeeDao.getNextEmpNo());
 
 			// save oparator
 			employeeDao.save(employee);
 
 			// dependances
+
+			if (employee.getDesignation_id().getUseraccount()) {
+				User user = new User();
+				user.setUsername(employee.getEmpno()); //dhanushka - change to email
+				user.setEmail(employee.getEmail());
+				user.setStatus(true);
+				user.setAdded_datetime(LocalDateTime.now());
+				user.setPassword(bCryptPasswordEncoder.encode(employee.getNic()));
+
+				Set<Role> roles = new HashSet<>();
+				Role role = roleDao.getReferenceById(employee.getDesignation_id().getRoleid());
+				roles.add(role);
+
+				user.setRoles(roles); 
+				
+				userDao.save(user);
+			}
+			
+
+
 			return "OK";
 		} catch (Exception e) {
 			return "Save not completed" + e.getMessage();

@@ -22,5 +22,9 @@ public class Designation {
     private Integer id;
 
     private String name;
+
+    private Integer roleid;
+    
+    private Boolean useraccount;
 }
 

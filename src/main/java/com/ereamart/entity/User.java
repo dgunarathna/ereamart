@@ -45,8 +45,6 @@ public class User {
     @NotNull
     private Boolean status;
 
-    private byte[] userphoto;
-
     private String note;
 
     @NotNull

@@ -7,13 +7,8 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshUserTable = () => {
-    let users = [
-        {id: 1, employee_id: { id: 1, userPhoto: "/images/user.png", empno: "EMP001", fullname: "Jane Smith", email: "jane.smith@gmail.com", nic: "983456789V", dob: "1995-05-21", gender: "Female", mobileno: "0723456789", civilstatus: "Married", address: "45 Green St City", note: "Sample note 1", designation_id: { id: 3, name: "Cashier" }, employeeStatus: { id: 1, name: "Working" }}, username: "Jane", password: "123", accountstatus_id: { id: 1, name: "Active" }, note: "note 1"},
-        {id: 2, employee_id: { id: 2, userPhoto: "/images/user.png", empno: "EMP002", fullname: "Michael Johnson", email: "michael.j@gmail.com", nic: "200012345678", dob: "1990-11-12", gender: "Male", mobileno: "0774567890", civilstatus: "Single", address: "78 Blue St City", note: "Sample note 2", designation_id: { id: 1, name: "Manager" }, employeeStatus: { id: 2, name: "Resign" }}, username: "Mike", password: "123", accountstatus_id: { id: 1, name: "Active" },note: "note 2"},
-        {id: 3, employee_id: { id: 3, userPhoto: "/images/user.png", empno: "EMP003", fullname: "Emily Davis", email: "emily.d@gmail.com", nic: "199876543210", dob: "1998-07-19", gender: "Female", mobileno: "0765678901", civilstatus: "Single", address: "23 Red St City", note: "Sample note 3", designation_id: { id: 3, name: "Cashier" }, employeeStatus: { id: 1, name: "Working" }}, username: "Emily", password: "123", accountstatus_id: { id: 2, name: "Inactive" },note: "note 3"},
-        {id: 4, employee_id: { id: 4, userPhoto: "/images/user.png", empno: "EMP004", fullname: "Robert Wilson", email: "robert.w@gmail.com", nic: "756123456V", dob: "1988-03-25", gender: "Male", mobileno: "0716789012", civilstatus: "Married", address: "56 Yellow St City", note: "Sample note 4", designation_id: { id: 2, name: "Accountant" }, employeeStatus: { id: 1, name: "Working" }}, username: "Rob", password: "123", accountstatus_id: { id: 1, name: "Active" },note: "note 4"},
-        {id: 5, employee_id: { id: 5, userPhoto: "/images/user.png", empno: "EMP005", fullname: "Sophia Brown", email: "sophia.b@gmail.com", nic: "678999999v", dob: "1993-09-10", gender: "Female", mobileno: "0787890123", civilstatus: "Single", address: "89 Purple St City", note: "Sample note 5", designation_id: { id: 3, name: "Cashier" }, employeeStatus: { id: 3, name: "Removed" }}, username: "Sophia", password: "123", accountstatus_id: { id: 2, name: "Inactive" },note: "note 5"},
-      ];
+    let users = getServiceRequest('/user/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
@@ -30,8 +25,9 @@ const refreshUserTable = () => {
     fillDataIntoTable(tableUserBody, users, propertyList, UserFormRefill);
 }
 
+
 const getUserPhoto = (dataOb) => {
-    return dataOb.employee_id.userPhoto;
+    return dataOb.employee_id.empphoto;
 }
 
 const getName = (dataOb) => {
@@ -43,13 +39,13 @@ const getDesignation = (dataOb) => {
 }
 
 const getEmail = (dataOb) => {
-    return dataOb.employee_id.email;
+    return dataOb.email;
 }
 
 const getStatus = (dataOb) => {
-    if (dataOb.accountstatus_id.name == "Active") {
+    if (dataOb.status.name == "Active") {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.accountstatus_id.name + "</p>";
-    } if (dataOb.accountstatus_id.name == "Inactive") {
+    } if (dataOb.status.name == "Inactive") {
         return "<p class='badge bg-dark w-100 my-auto'>" + dataOb.accountstatus_id.name + "</p>";
     }
 }
@@ -65,15 +61,9 @@ const refreshUserForm = () => {
 
     setDefault([selectEmployee, textUsername, textPassword, textRetypePassword, textNote, selectAccountStatus]);
 
-    let employees = [
-        {id:1, name:"Jane Smith"},
-        {id:2, name:"Michael Johnson"},
-        {id:3, name:"Emily Davis"},
-        {id:4, name:"Robert Wilson"},
-        {id:5, name:"Sophia Brown"}
-    ];
+    let employees = getServiceRequest('/employee/alldata');
     
-    fillDataIntoSelect(selectEmployee,"Select Employee",employees,"name");
+    fillDataIntoSelect(selectEmployee,"Select Employee",employees,"fullname");
     
     let accountStatus = [
         {id:1, name:"Active"},

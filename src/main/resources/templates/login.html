@@ -1,27 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ereamart</title>
-
-  <!-- css -->
-  <link href="/bootstrap-5.2.3/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/main.css">
-
-  <style>
-    body {
-      background-image: url(/images/bodybg.png);
-      background-repeat: no-repeat;
-      background-position: right;
-    }
-  </style>
-
-  <!-- boostrap js -->
-  <script src="/bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
-
-</head>
+<head th:replace="head :: loginheadFragment"></head>
 
 <body>
 
@@ -32,7 +12,7 @@
     <!-- nav bar -->
     <nav class="navbar row py-0 mx-0">
       <div class="col-xl d-flex p-0 gap-1">
-        <a href="/home.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+        <a href="/index"><img src="/images/logo/logomark-md.svg" alt=""></a>
         <h4 class="my-auto"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
       </div>
     </nav>
@@ -42,7 +22,7 @@
         <div class="row mb-3">
           <div class="col align-midlle text-center">
             <h4 class="modal-title text-center mt-2" id="staticBackdropLabel">Login 👋</h4>
-            <p class="mt-2">Don't have an account <a href="/register.html">Sign up</a></p>
+            <p class="mt-2">Don't have an account <a href="/register">Sign up</a></p>
           </div>
         </div>
 
@@ -57,6 +37,10 @@
               <div class="form-floating mb-3">
                 <input type="password" required name="password" class="form-control rounded-0 rounded-bottom"placeholder="Password">
                 <label>Password</label>
+              </div>
+
+              <div class="form-floating mt-1 mb-3 text-danger" th:if="${param.error}">
+                <p>Username & Password is not correct</p>
               </div>
 
               <div class="row mb-3">

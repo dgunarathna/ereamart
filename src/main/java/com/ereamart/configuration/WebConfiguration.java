@@ -21,11 +21,13 @@ public class WebConfiguration {
             .requestMatchers("/css/**").permitAll()
             .requestMatchers("/fonts/**").permitAll()
             .requestMatchers("/fontawesome-free-6.6.0/**").permitAll()
+            .requestMatchers("/index/**").permitAll()
             .requestMatchers("/login").permitAll()
-            .requestMatchers("/createadmin").permitAll() //create 1st admin
-            .requestMatchers("/dashboard").hasAnyAuthority("Admin")
+            .requestMatchers("/register").permitAll() 
+            .requestMatchers("/createadmin").permitAll() //create admin
+            .requestMatchers("/dashboard").hasAnyAuthority("Admin","Manager", "Cashier") 
             .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin","Manager")
-            .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Cashier")
             .requestMatchers("/user/**").hasAnyAuthority("Admin","Manager").anyRequest().authenticated();
          })
          //login details
@@ -58,3 +60,4 @@ public class WebConfiguration {
         return new BCryptPasswordEncoder();
      }
 }
+    

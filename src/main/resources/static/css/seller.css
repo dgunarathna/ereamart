@@ -1,0 +1,261 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+*{
+    margin: 0%;
+    padding: 0%;
+    font-family: "Poppins", serif;
+}
+
+body{
+    margin: 16px 16px 0px 16px;
+    background-color: #DCDCDC;
+    display: flex;
+    justify-content: center;
+}
+
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.navbar{
+    height: 48px;
+}
+
+.card{
+    border-radius: 12px;
+    background-color: #efefef;
+    border: none;
+}
+
+
+.card:hover{
+    background-color: #97CC16;
+    color: #ffffff;
+}
+
+.accordion {
+    --bs-accordion-active-bg: #dcdcdc00;
+    --bs-accordion-btn-focus-box-shadow: none;
+  }
+
+.accordion-item, .accordion-button {
+    background-color: #dcdcdc00;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    
+}
+
+.accordion{
+    --bs-accordion-border-color:   #efefef;
+}
+
+
+/* Gradient CSS */
+.cursor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    background-image: linear-gradient(#FFF720 10%, #3CD500);
+    filter: blur(150px);
+    transition: all 150ms ease-out;
+    position: fixed;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    transform: translate(calc(-50% + 15px), -50%);
+    z-index: -1;
+}
+
+
+
+
+/************************** typescale **************************/
+
+h1 {
+    font-size: 61px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 49px;
+    font-weight: 600;
+    line-height: calc(49*1.5px);
+}
+
+h3 {
+    font-size: 39px;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 31px;
+    font-weight: 600;
+}
+
+
+.logo::first-line{color: #FFF720;}
+
+h5 {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+h6 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+p{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+strong{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+caption{
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.footnote{
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+footer{
+    /* background-color: rgb(255, 255, 255); */
+    width: 100%;
+}
+
+
+/************************** responsive designs **************************/
+
+
+@media (max-width: 991.98px) {
+    h1 {
+        font-size: 53px;
+        font-weight: 600;
+    }
+    
+    h2 {
+        font-size: 43px;
+        font-weight: 600;
+    }
+    
+    h3 {
+        font-size: 34px;
+        font-weight: 600;
+    }
+    
+    h4 {
+        font-size: 27px;
+        font-weight: 600;
+    }
+    
+    h5 {
+        font-size: 22px;
+        font-weight: 600;
+    }
+    
+    h6 {
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    p{
+        font-size: 14px;
+        font-weight: 400;
+    }
+    strong{
+        font-size: 14px;
+        font-weight: 600;
+    }
+    caption{
+        font-size: 11px;
+        font-weight: 500;
+    }
+    
+    .footnote{
+        font-size: 9px;
+        font-weight: 500;
+    }
+
+    .desktop, .mobile{
+        display: none;
+    }
+
+    .navbar{
+        height: auto !important;
+    }
+
+    .cursor{
+        display: none;
+    }
+ }
+
+
+ @media (max-width: 575.98px) {
+    .desktop, .tab{
+        display: none;
+    }
+
+    .mobile{
+        display: block;
+    }
+ }
