@@ -58,7 +58,8 @@ public class User {
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee_id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_has_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name= "role_id"))
     private Set<Role>roles;
 }
+ 

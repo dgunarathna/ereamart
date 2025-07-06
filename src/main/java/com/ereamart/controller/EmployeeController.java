@@ -1,6 +1,7 @@
 package com.ereamart.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ import com.ereamart.dao.EmployeeStatusDao;
 import com.ereamart.dao.RoleDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Employee;
+import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Role;
 import com.ereamart.entity.User;
 
@@ -48,23 +50,58 @@ public class EmployeeController {
 	@Autowired
 	private RoleDao roleDao;
 
-    // mapping for return employee html page
+	@Autowired
+	private UserPrivilegeController userPrivilegeController;
+
+    // mapping for return employee html page 
     @RequestMapping(value =  {"/employee","/employee.html"})
     public ModelAndView uiEmployeePage(){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		ModelAndView employeePage = new ModelAndView();
 		employeePage.setViewName("employee.html");
+		employeePage.addObject("loggedusername", auth.getName());
 		return employeePage;
 	} 
 	
 	// mapping for get employee all data 
 	@GetMapping(value = "/employee/alldata", produces = "application/json")
 	public List<Employee> findAllData() {
-		return employeeDao.findAll(Sort.by(Direction.DESC, "id"));
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
+
+		if (userPrivilege.getPrivi_select()) {
+            return employeeDao.findAll(Sort.by(Direction.DESC, "id"));
+        } else {
+            return new ArrayList<>();
+        }
+	}
+	
+	// mapping for get employee all data 
+	@GetMapping(value = "/employee/withoutuseraccount", produces = "application/json")
+	public List<Employee> findWithoutUserAccount() {
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
+
+		if (userPrivilege.getPrivi_select()) {
+            return employeeDao.findWithoutUserAccount();
+        } else {
+            return new ArrayList<>();
+        }
+
+		
 	}
 	
 	// mapping for insert employee data
 	@PostMapping(value = "/employe/insert")
 	public String saveEmployeeData(@RequestBody Employee employee) {
+
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User loggedUser = userDao.geByUsename(auth.getName());
@@ -98,6 +135,7 @@ public class EmployeeController {
 				user.setStatus(true);
 				user.setAdded_datetime(LocalDateTime.now());
 				user.setPassword(bCryptPasswordEncoder.encode(employee.getNic()));
+				user.setEmployee_id(employeeDao.getByNIC(employee.getNic()));
 
 				Set<Role> roles = new HashSet<>();
 				Role role = roleDao.getReferenceById(employee.getDesignation_id().getRoleid());
@@ -120,39 +158,45 @@ public class EmployeeController {
 	@PutMapping(value = "/employee/update")
 	public String updateEmployeeData(@RequestBody Employee employee) {
 		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
 
-		//check ext pk - update / delete only
-		if (employee.getId() == null) { // no employee id - with link access
-			return "Update not completed, NIC already exists" ;
-		}
-		Employee extById = employeeDao.getReferenceById(employee.getId()); // check id with db
-		if (extById == null) {
-			return "Update not completed, NIC already exists" ;
-		}  
+		if (userPrivilege.getPrivi_update()) {
+			//check ext pk - update / delete only
+			if (employee.getId() == null) { // no employee id - with link access
+				return "Update not completed, NIC already exists" ;
+			}
+			Employee extById = employeeDao.getReferenceById(employee.getId()); // check id with db
+			if (extById == null) {
+				return "Update not completed, NIC already exists" ;
+			}  
 
-		//duplicate check
-		Employee extEmployeeByNic = employeeDao.getByNIC(employee.getNic());
-		if (extEmployeeByNic != null && extEmployeeByNic.getId() != employee.getId()) {
-			return "Update not completed, NIC already exists" ;
-		};
+			//duplicate check
+			Employee extEmployeeByNic = employeeDao.getByNIC(employee.getNic());
+			if (extEmployeeByNic != null && extEmployeeByNic.getId() != employee.getId()) {
+				return "Update not completed, NIC already exists" ;
+			};
 
-		Employee extEmployeeByEmail = employeeDao.getByEmail(employee.getEmail());
-		if (extEmployeeByEmail != null && extEmployeeByEmail.getId() != employee.getId()) {
-			return "Update not completed, Email already exists" ;
-		};
+			Employee extEmployeeByEmail = employeeDao.getByEmail(employee.getEmail());
+			if (extEmployeeByEmail != null && extEmployeeByEmail.getId() != employee.getId()) {
+				return "Update not completed, Email already exists" ;
+			};
 
-		try {
-			// set auto added data
-			employee.setUpdate_datetime(LocalDateTime.now());
-			employee.setUpdate_user_id(1);
+			try {
+				// set auto added data
+				employee.setUpdate_datetime(LocalDateTime.now());
+				employee.setUpdate_user_id(1);
 
-			// update oparator
-			employeeDao.save(employee);
+				// update oparator
+				employeeDao.save(employee);
 
-			// dependances
-			return "OK";
-		} catch (Exception e) {
-			return "Update not completed" + e.getMessage();
+				// dependances
+				return "OK";
+			} catch (Exception e) {
+				return "Update not completed" + e.getMessage();
+			}
+		} else {
+			return "Update not completed, No Permission!";
 		}
 	}
 	 
@@ -160,29 +204,36 @@ public class EmployeeController {
 	@DeleteMapping(value = "/employee/delete") 
 	public String deleteEmployeeData(@RequestBody Employee employee) {
 		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
 
-		//check ext pk - update / delete only
-		if (employee.getId() == null) { // no employee id - with link access
-			return "Delete not completed, Employee not exist" ;
-		}
-		Employee extEmployeeById = employeeDao.getReferenceById(employee.getId()); // check id with db
-		if (extEmployeeById == null) {
-			return "Delete not completed, Employee not exist in the database" ;
-		}
-		 
-		try {
-			// set auto added data
-			extEmployeeById.setDelete_datetime(LocalDateTime.now());
-			extEmployeeById.setDelete_user_id(1);
-			extEmployeeById.setEmployeestatus_id(employeeStatusDao.getReferenceById(3));
+		if (userPrivilege.getPrivi_delete()) {
 
-			// delete oparator
-			employeeDao.save(extEmployeeById);
+			//check ext pk - update / delete only
+			if (employee.getId() == null) { // no employee id - with link access
+				return "Delete not completed, Employee not exist" ;
+			}
+			Employee extEmployeeById = employeeDao.getReferenceById(employee.getId()); // check id with db
+			if (extEmployeeById == null) {
+				return "Delete not completed, Employee not exist in the database" ;
+			}
+			
+			try {
+				// set auto added data
+				extEmployeeById.setDelete_datetime(LocalDateTime.now());
+				extEmployeeById.setDelete_user_id(1);
+				extEmployeeById.setEmployeestatus_id(employeeStatusDao.getReferenceById(3));
 
-			// dependances
-			return "OK";
-		} catch (Exception e) {
-			return "Delete not completed" + e.getMessage();
+				// delete oparator
+				employeeDao.save(extEmployeeById);
+
+				// dependances
+				return "OK";
+			} catch (Exception e) {
+				return "Delete not completed" + e.getMessage();
+			}
+		} else {
+			return "Delete not completed, No Permission!";
 		}
 	}
 }

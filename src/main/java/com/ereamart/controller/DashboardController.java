@@ -12,12 +12,13 @@ public class DashboardController {
     // mapping for return dashboard page
     @RequestMapping(value =  {"/dashboard","/dashboard.html"})
     public ModelAndView uiDashboardPage(){
-		
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	ModelAndView dashboardPage = new ModelAndView();   
-	dashboardPage.setViewName("dashboard.html");
-	dashboardPage.addObject("loggedusername", auth.getName());
 
-	return dashboardPage;
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		ModelAndView dashboardPage = new ModelAndView();   
+		dashboardPage.setViewName("dashboard.html");
+		dashboardPage.addObject("loggedusername", auth.getName());
+		return dashboardPage;
 	}
 }

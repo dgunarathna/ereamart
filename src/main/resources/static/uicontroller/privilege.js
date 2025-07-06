@@ -24,8 +24,8 @@ const refreshPrivilegeTable = () => {
 
 };
 
-const getRole = (ob)=>{
-    return ob.role_id.name;
+const getRole = (ob)=>{ //D22 : Start User Module Back End and Font End dhanushka
+    return ob.role_id.name; 
 };
 
 const getModule = (ob)=>{

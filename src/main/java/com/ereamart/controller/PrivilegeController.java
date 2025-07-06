@@ -32,9 +32,14 @@ public class PrivilegeController {
     // mapping for return privilege page
     @RequestMapping(value =  {"/privilege","/privilege.html"})
     public ModelAndView uiPrivilegePage(){
-	ModelAndView privilegePage = new ModelAndView();
-	privilegePage.setViewName("privilege.html");
-	return privilegePage;
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		ModelAndView privilegePage = new ModelAndView();
+		privilegePage.setViewName("privilege.html");
+		privilegePage.addObject("loggedusername", auth.getName());
+		return privilegePage;
 	}
 
 	// mapping for get privilege all data 
@@ -89,7 +94,8 @@ public class PrivilegeController {
 
 	// mapping for update privilege data
 	@PutMapping(value = "/privilege/update")
-	public String updatePrivilegeeData(@RequestBody Privilege privilege) {
+	public String updatePrivilegeData(@RequestBody Privilege privilege) {
+		
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");

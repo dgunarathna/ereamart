@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="head :: headFragment"></head>
+<div th:replace="~{common :: headFragment}"></div>
 <body>
   <!-- Cursor effect -->
   <div class="cursor"></div>
@@ -168,9 +168,7 @@
 
 
 
-    <script src="/script/common.js"></script>
-    <script src="/script/tablefunction.js"></script>
-    <script src="/script/validationFunctions.js"></script>
+    <div th:replace="~{common :: scripts}"></div>
     <script src="/uicontroller/employee.js"></script>
 </body>
 </html>

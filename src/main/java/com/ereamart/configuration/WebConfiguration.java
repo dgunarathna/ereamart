@@ -22,12 +22,13 @@ public class WebConfiguration {
             .requestMatchers("/fonts/**").permitAll()
             .requestMatchers("/fontawesome-free-6.6.0/**").permitAll()
             .requestMatchers("/index/**").permitAll()
+            .requestMatchers("/script/seller.js").permitAll()
             .requestMatchers("/login").permitAll()
             .requestMatchers("/register").permitAll() 
             .requestMatchers("/createadmin").permitAll() //create admin
-            .requestMatchers("/dashboard").hasAnyAuthority("Admin","Manager", "Cashier") 
+            .requestMatchers("/dashboard").hasAnyAuthority("Admin") 
             .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin","Manager")
-            .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Cashier")
+            .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Manager")
             .requestMatchers("/user/**").hasAnyAuthority("Admin","Manager").anyRequest().authenticated();
          })
          //login details

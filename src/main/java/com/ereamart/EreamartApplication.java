@@ -14,7 +14,9 @@ public class EreamartApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EreamartApplication.class, args);
 	
-		System.out.println("Project start successfully");
+		System.out.println("********************************************************");
+		System.out.println("************** Project start successfully **************");
+		System.out.println("********************************************************");
 	}
 
 	// mapping for return index page
@@ -27,6 +29,8 @@ public class EreamartApplication {
 
 }   
  
+
+
 
    
  

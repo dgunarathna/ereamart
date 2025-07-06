@@ -99,8 +99,6 @@ const fullNameValidator = (textFullName) => {
 }
 
 
-
-
 const nicValidator = (nicElement) => {
     const nicValue =  nicElement.value;
     if (nicValue != "") {
@@ -115,5 +113,17 @@ const nicValidator = (nicElement) => {
         nicElement.style.border = "1px solid pink";
         employee.nic = null;
         
+    }
+}
+
+
+const passwordvalidator = () => {
+
+    if (textPassword == textRetypePassword) {
+        user.password = textPassword.value;
+        textPassword.style.boder = "1px solid green";
+    } else {
+        user.password = null;
+        textPassword.style.boder = "1px solid pink";
     }
 }

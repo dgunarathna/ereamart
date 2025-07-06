@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="head :: headFragment"></head>
+<div th:replace="~{common :: headFragment}"></div>
  <style>
     body {
       background-image: url(/images/bodybg.png);
@@ -8,7 +8,7 @@
       background-position: right;
     }
   </style>
-  
+
 <body>
 
     
@@ -255,6 +255,7 @@
       </ul>
   </div>
 
+   <div th:replace="~{common :: scripts}"></div>
     <script src="/script/common.js"></script>
 </body>
 </html>

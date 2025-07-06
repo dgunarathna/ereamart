@@ -43,10 +43,10 @@ const getEmail = (dataOb) => {
 }
 
 const getStatus = (dataOb) => {
-    if (dataOb.status.name == "Active") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.accountstatus_id.name + "</p>";
-    } if (dataOb.status.name == "Inactive") {
-        return "<p class='badge bg-dark w-100 my-auto'>" + dataOb.accountstatus_id.name + "</p>";
+    if (dataOb.status == "1") {
+        return "<p class='badge bg-success w-100 my-auto'>" + "Active" + "</p>";
+    } if (dataOb.status == "0") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + "Inactive" + "</p>";
     }
 }
 
@@ -56,24 +56,28 @@ const getStatus = (dataOb) => {
 const refreshUserForm = () => {
 
     user = new Object();
+    oldUser = null;
 
     formUser.reset();
 
-    setDefault([selectEmployee, textUsername, textPassword, textRetypePassword, textNote, selectAccountStatus]);
+    setDefault([selectEmployee, selectRole, textUsername, textPassword, textRetypePassword, textNote, selectAccountStatus]);
 
-    let employees = getServiceRequest('/employee/alldata');
+    let employees = getServiceRequest('/employee/withoutuseraccount');
     
     fillDataIntoSelect(selectEmployee,"Select Employee",employees,"fullname");
+
+    let roles = getServiceRequest('/role/withoutadmin');
+
+    fillDataIntoSelect(selectRole,"Select Role", roles, "name");
     
-    let accountStatus = [
-        {id:1, name:"Active"},
-        {id:2, name:"Inactive"}
-    ];
+    let accountStatus = getServiceRequest('/useraccountstatus/alldata'); // dhanushka dropdown
     
     fillDataIntoSelect(selectAccountStatus,"Select Status",accountStatus,"name");
 
     selectEmployee.disabled = false
 }
+
+
 
 const UserFormRefill = (ob, index) => {
     refreshUserForm();
@@ -103,7 +107,7 @@ const buttonUserDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.employee_id.fullname + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/user/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshUserTable();
@@ -161,6 +165,11 @@ const checkFormError = ()=>{
     if (user.password == null) {
         errors = errors + "Please select Password \n"
     }
+    if (oldUser == null) {
+        if (textRetypePassword.value == "") {
+            errors = errors + "Please re enter password"
+        }
+    }
     if (user.accountstatus_id == null) {
         errors = errors + "Please select account status \n"
     }
@@ -175,7 +184,7 @@ const buttonUserSubmit = () => {
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add " +  user.employee_id.fullname + "?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/user/insert", "POST", user);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshUserTable();
@@ -227,7 +236,7 @@ const buttonUserUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure want to update "+  user.employee_id.fullname + "? \n");
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/user/update", "PUT", user);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshUserTable();
