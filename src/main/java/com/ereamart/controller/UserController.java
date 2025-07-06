@@ -63,7 +63,7 @@ public class UserController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
 
 		if (userPrivilege.getPrivi_insert()) {
 			//duplicate check
@@ -96,7 +96,7 @@ public class UserController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
 		
 		if (userPrivilege.getPrivi_update()) {
 
@@ -136,7 +136,7 @@ public class UserController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
 
 		if (userPrivilege.getPrivi_delete()) {
 
