@@ -12,10 +12,10 @@ import com.ereamart.entity.ProductDepartment;
 @RestController
 public class ProductDepartmentController {
 
-    @Autowired // genarate instance of designation dao - interface
+    @Autowired // genarate instance of productdepartment dao - interface
     private ProductDepartmentDao productDepartmentDao;
 
-    //request mapping for load designation all data - /designation/alldata
+    //request mapping for load productdepartment all data - /productdepartment/alldata
     @GetMapping(value = "/productdepartment/alldata", produces = "application/json")
     public List<ProductDepartment> findAllData(){
         return productDepartmentDao.findAll();
