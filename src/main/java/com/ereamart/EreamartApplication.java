@@ -15,7 +15,9 @@ public class EreamartApplication {
 		SpringApplication.run(EreamartApplication.class, args);
 	
 		System.out.println("********************************************************");
+		System.out.println("********************************************************");
 		System.out.println("************** Project start successfully **************");
+		System.out.println("********************************************************");
 		System.out.println("********************************************************");
 	}
 

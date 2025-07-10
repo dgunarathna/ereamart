@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<div th:replace="~{common :: headFragment}"></div>
+
+<body>
+  <!-- Cursor effect -->
+  <div class="cursor"></div>
+
+  <div class="container-fluid p-0 m-0">
+      <!-- nav bar -->
+      <nav class="navbar row py-0 mx-0">
+          <div class="col-xl d-flex p-0 gap-1">
+              <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+              <h5 class="my-auto">Operations</h5>
+          </div>
+          <div class="col-xl-6 d-flex p-0">
+            <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation.html">Quotation</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/order.html">Order</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/grn.html">GRN</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill active" href="/product.html">Product</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
+          </ul>
+          </div>
+          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="btn btn-icon btn-primary" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalProductForm"><i class="fa-solid fa-plus"></i></button>
+            </div>
+      </nav>
+      <div class="row app p-0 m-0">
+          <!-- Sidebbar -->
+        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
+          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
+               
+              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
+               
+          </ul>
+        </div>
+          <div class="col">
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table  table-hover align-middle" id="tableProduct">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Brand</th>
+                  <th>Weight</th>
+                  <th>Size</th>
+                  <th>Discount</th>
+                  <th>Profit</th>
+                  <th>Barcode</th>
+                  <th>Manufacture</th>
+                  <th>Category</th>
+                  <th>Department</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tableProductBody"></tbody>
+            </table>
+          </div>
+          </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="modalProductForm" tabindex="-1" aria-labelledby="modalProductFormLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h6 class="modal-title" id="modalProductFormLabel">Add New</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="formProduct" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+              <div class="col-xl-6 col-lg-6">
+                <label class="form-label">Category<span class="text-danger">*</span></label>
+                <select id="selectCategory" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','category_id')"></select>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <label class="form-label">Department<span class="text-danger">*</span></label>
+                <select id="selectDepartment" class="form-select" onchange="selectDynamicElementValidator(this,'product','department_id')"></select>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <label class="form-label">Manufacture<span class="text-danger">*</span></label>
+                <select id="textManufacture" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','manufacture_id')"></select>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <label class="form-label">Brand<span class="text-danger">*</span></label>
+                <select id="textBrand" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','brand_id')"></select>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <label class="form-label">Weight<span class="text-danger">*</span></label>
+                <input id="textWeight" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','weight')">
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <label class="form-label">Size<span class="text-danger">*</span></label>
+                <input id="textSize" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','size')">
+              </div>
+              <div class="col-lg-3">
+                <label class="form-label">Discount rate<span class="text-danger">*</span></label>
+                <input id="textDiscountRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','discountrate')">
+              </div>
+              <div class="col-lg-3">
+                <label class="form-label">Profit rate<span class="text-danger">*</span></label>
+                <input id="textProfitRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','profitrate')">
+              </div>
+              <div class="col-lg-6">
+                <label class="form-label">Barcode<span class="text-danger">*</span></label>
+                <input id="textBarcode" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','barcode')">
+              </div>
+              <div class="col-lg-6">
+                <label class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectStatus" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','status_id')"></select>
+              </div>
+              <div class="col-lg-12">
+                <label class="form-label">Product name<span class="text-danger">*</span></label>
+                <input id="textProductName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'product','productname')">
+              </div>
+              <div class="col-xl-12">
+                <label for="formFile" class="form-label">Product image<span class="text-danger">*</span></label>
+                <input id="productimage" Required class="form-control" type="file" onkeyup="textValidator(this,'^.*$', 'product','productimage')">
+              </div>
+              <div class="col-lg-12">
+                <label for="inputdescription" class="form-label">Description</label>
+                <textarea id="textDescription"  class="form-control" onkeyup="textValidator(this,'^.*$', 'product','productdescription')"></textarea>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <div class="col">
+              <button type="button" onclick="buttonProductDelete(window['editOb'], window['editRowIndex'])"class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshProductForm()" class="btn btn-outline-danger"id="buttonClear">Clear</button>
+            </div>
+            <div class="col text-end">
+              <button type="button" onclick="buttonProductPrint(window['editOb'], window['editRowIndex'])"class="btn btn-tertiry" id="buttonPrint">Print</button>
+              <button type="button" onclick="buttonProductUpdate()" class="btn btn-primary"id="buttonUpdate">Update</button>
+              <button type="button" onclick="buttonProductSubmit()" class="btn btn-primary"id="buttonSubmit">Submit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+
+      <!-- Bottombar -->
+      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+         
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
+         
+      </ul>
+  </div>
+
+<div th:replace="~{common :: scripts}"></div>
+<script src="/uicontroller/product.js"></script>
+</body>
+
+</html>

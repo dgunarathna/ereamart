@@ -29,7 +29,8 @@ public class WebConfiguration {
             .requestMatchers("/dashboard").hasAnyAuthority("Admin") 
             .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin","Manager")
             .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Manager")
-            .requestMatchers("/user/**").hasAnyAuthority("Admin","Manager").anyRequest().authenticated();
+            .requestMatchers("/user/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/product/**").hasAnyAuthority("Admin","Manager").anyRequest().authenticated();
          })
          //login details
          .formLogin(login -> {
