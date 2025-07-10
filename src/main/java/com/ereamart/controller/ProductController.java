@@ -1,23 +1,41 @@
 package com.ereamart.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.ProductDao;
+import com.ereamart.dao.ProductStatusDao;
+import com.ereamart.dao.UserDao;
+import com.ereamart.entity.Employee;
+import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Product;
+import com.ereamart.entity.User;
 
 @RestController
 public class ProductController {
 
     @Autowired // genarate instance of product dao - interface
     private ProductDao productDao;
+
+    @Autowired // genarate instance of product dao - interface
+    private ProductStatusDao productStatusDao;
+
+    @Autowired // genarate instance of user dao - interface
+    private UserDao userDao;
+
+    @Autowired
+	private UserPrivilegeController userPrivilegeController;
 
     // mapping for return product html page
     @RequestMapping(value =  {"/product","/product.html"})
@@ -37,4 +55,122 @@ public class ProductController {
     public List<Product> findAllData(){
         return productDao.findAll();
     } 
+
+		// mapping for insert product data
+	@PostMapping(value = "/product/insert")
+	public String saveUserData(@RequestBody Product product) {
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.geByUsename(auth.getName());
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+		if (userPrivilege.getPrivi_insert()) {
+			//duplicate check
+			Product extProductName = productDao.getByName(product.getName());
+			if (extProductName != null) {
+				return "Save not completed, Product allready exist";
+			}
+	
+			try {
+				// set auto added data
+				product.setAdded_datetime(LocalDateTime.now());
+				product.setAdded_user_id(loggedUser.getId());
+				product.setCode(productDao.getNextCode());
+
+				// save oparator
+				productDao.save(product);
+
+				// dependances
+				return "OK";
+			} catch (Exception e) {
+				return "Save not completed" + e.getMessage();
+			}
+		} else {
+			return "Save not completed, No Permission!";
+		}
+
+
+	} 
+
+		// mapping for product user data
+	@PutMapping(value = "/product/update")
+	public String updateUserData(@RequestBody Product product) {
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.geByUsename(auth.getName());
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+		
+		if (userPrivilege.getPrivi_update()) {
+
+			//check ext pk - update / delete only
+			if (product.getId() == null) { // no employee id - with link access
+				return "Update not completed, product already exists" ;
+			}
+			Product extById = productDao.getReferenceById(product.getId()); // check id with db
+			if (extById == null) {
+				return "Update not completed, product already exists" ;
+			}  
+
+			//duplicate check
+			Product extProductByName = productDao.getByName(product.getName());
+			if (extProductByName != null && extProductByName.getId() != product.getId()) {
+				return "Update not completed, Product already exists" ;
+			};
+
+			//email
+
+			try {
+				// set auto added data
+				product.setUpdate_datetime(LocalDateTime.now());
+				product.setUpdate_user_id(loggedUser.getId());
+
+				// update oparator
+				productDao.save(product);
+
+				// dependances
+				return "OK";
+			} catch (Exception e) {
+				return "Update not completed" + e.getMessage();
+			}
+		}else {
+			return "Update not completed, No Permission!";
+		}
+	
+	}
+
+
+	// mapping for delete product data
+	@DeleteMapping(value = "/product/delete") 
+	public String deleteEmployeeData(@RequestBody Product product) {
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+        
+
+		//check ext pk - update / delete only
+		if (product.getId() == null) { // no employee id - with link access
+			return "Delete not completed, product not exist" ;
+		}
+		Product extProductById = productDao.getReferenceById(product.getId()); // check id with db
+		if (extProductById == null) {
+			return "Delete not completed, product not exist in the database" ;
+		}
+		 
+		try {
+			// set auto added data
+			extProductById.setDelete_datetime(LocalDateTime.now());
+			extProductById.setDelete_user_id(userDao.geByUsename(auth.getName()).getId());
+			extProductById.setProductstatus_id(productStatusDao.getReferenceById(2));
+
+			// delete oparator
+			productDao.save(extProductById);
+
+			// dependances
+			return "OK";
+		} catch (Exception e) {
+			return "Delete not completed" + e.getMessage();
+		}
+	}
 }

@@ -12,6 +12,8 @@ const refreshProductTable = () => {
 
     // string > string, date, number
     // function > object, array, boolean
+    // decimal >
+
     let propertyList = [
         {propertyName: "image", dataType: "string"},
         {propertyName: "name", dataType: "string"},
@@ -19,9 +21,9 @@ const refreshProductTable = () => {
         {propertyName: getBrand, dataType: "string"},
         {propertyName: "weight", dataType: "string"},
         {propertyName: "size", dataType: "string"},
-        {propertyName: "discount_rate", dataType: "string"},
-        {propertyName: "profit_rate", dataType: "string"},
-        {propertyName: "barcode", dataType: "string"},
+        {propertyName: "discount_rate", dataType: "decimal"},
+        {propertyName: "profit_rate", dataType: "decimal"},
+        {propertyName: "code", dataType: "string"},
         {propertyName: getManufacture, dataType: "function"},
         {propertyName: getCategory, dataType: "function"},
         {propertyName: getDepartment, dataType: "function"},
@@ -76,6 +78,9 @@ const refreshProductForm = () => {
     
     let status = getServiceRequest('/productstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select Status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]); // set default values
+    product.status = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen"
 
     let manufactures = getServiceRequest('/productmanufacture/alldata');
     fillDataIntoSelect(textManufacture,"Select Manufacture",manufactures,"name");
@@ -91,20 +96,19 @@ const productFormRefill = (ob, index) => {
     refreshProductForm();
     console.log("Edit", ob, index);
 
-    selectCategory.value = JSON.stringify(ob.category_id);
-    selectDepartment.value = JSON.stringify(ob.department_id);
-    selectDepartment.disabled = true;
-    productimage.value = ob.productimage;
-    textProductName.value = ob.productname;
-    textDescription.value = ob.productdescription;
-    textManufacture.value = JSON.stringify(ob.manufacture_id);
+    selectCategory.value = JSON.stringify(ob.productcategory_id);
+    selectDepartment.value = JSON.stringify(ob.productcategory_id.productdepartment_id);
+    productimage.value = ob.image;
+    textProductName.value = ob.name;
+    textDescription.value = ob.description;
+    textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);
     textWeight.value = ob.weight;
     textSize.value = ob.size;
-    textDiscountRate.value = ob.discountrate;
-    textProfitRate.value = ob.profitrate;
-    textBarcode.value = ob.barcode;
-    selectStatus.value = JSON.stringify(ob.status_id);
+    textDiscountRate.value = ob.discount_rate;
+    textProfitRate.value = ob.profit_rate;
+    textBarcode.value = ob.code;
+    selectStatus.value = JSON.stringify(ob.productstatus_id);
 
     product = JSON.parse(JSON.stringify(ob));
     oldProduct = JSON.parse(JSON.stringify(ob));
@@ -123,7 +127,7 @@ const buttonProductDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.productname + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/product/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshProductTable();
@@ -228,7 +232,7 @@ const buttonProductSubmit = () => {
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add "+ product.productname +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/product/insert", "POST", product);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshProductTable();
@@ -299,11 +303,11 @@ const buttonProductUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ product.productname +"? \n");
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/product/update", "PUT", product);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshProductTable();
-    refreshProductForm();
+                    refreshProductForm();
                     $("#modalProductForm").modal("hide");
                 } else {
                     window.alert("Failed to update" + putResponce);

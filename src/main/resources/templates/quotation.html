@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="~{common :: headFragment}"></div>
+<body>
+
+  <!-- Cursor effect -->
+  <div class="cursor"></div>
+
+  <div class="container-fluid p-0 m-0">
+      <!-- nav bar -->
+      <nav class="navbar row py-0 mx-0">
+          <div class="col-xl d-flex p-0 gap-1">
+              <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+              <h5 class="my-auto">Operations</h5>
+          </div>
+          <div class="col-xl-6 d-flex p-0">
+          <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
+            <li class="nav-item"><a class="nav-link rounded-pill active" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/order.html">Order</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/grn.html">GRN</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/product.html">Product</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
+          </ul>
+          </div>
+          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
+                        <button type="button" class="btn btn-icon btn-primary" onclick="buttonrAddNew()" data-bs-toggle="modal" data-bs-target="#modalQuotationForm"><i class="fa-solid fa-plus"></i></button>
+          </div>
+      </nav>
+      
+      <div class="row app p-0 m-0">
+          <!-- Sidebbar -->
+        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
+          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
+               
+              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
+               
+          </ul>
+        </div>
+          <div class="col">
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table table-hover" id="tableQuotation">
+              <thead>
+                <tr>
+                  <th>Quotation no</th>
+                  <th>Supplier</th>
+                  <th>Total Items</th>
+                  <th>Note</th>
+                  <th>Request Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tableQuotationBody"></tbody>
+            </table>
+          </div>
+          </div>
+      </div>
+      <!-- Modal -->
+    <div class="modal fade" id="modalQuotationForm" tabindex="-1" aria-labelledby="modalQuotationFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+      
+          <div class="modal-header">
+            <h6 class="modal-title" id="modalQuotationFormLabel">Add New</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      
+          <div class="modal-body">
+
+            <form id="formQuotation" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+              <div class="col-xl-6">
+                <label class="form-label">Supplier<span class="text-danger">*</span></label>
+                <select id="selectSupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'Quotation','supplier_id')"></select>
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Total Items<span class="text-danger">*</span></label>
+                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'Quotation','totalitems')">
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Request Date<span class="text-danger">*</span></label>
+                <input id="textDate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'Quotation','requestddate' )">
+              </div>
+              <div class="col-xl-6">
+                <label for="selectQuotationStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectQuotationStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'Quotation','status_id')"></select>
+              </div> 
+              <div class="col-lg-12">
+                <label for="inputAddress" class="form-label">Note</label>
+                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'Quotation','note')">
+              </div>
+
+              <div class="col-lg-12 pt-3"><strong>Product List</strong></div>
+
+              <div class="col-xl-8">
+                <label class="form-label">Name<span class="text-danger">*</span></label>
+                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotationHasItem','item_id')"></select>
+              </div>
+              <div class="col-xl-2">
+                <label class="form-label">Quantity<span class="text-danger">*</span></label>
+                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'quotationHasItem','quantity')">
+              </div>
+              <div class="col-xl-2 gap-1 d-flex align-items-end">
+                <button type="button" onclick="buttonQuotationItemSubmit()" class="btn btn-success" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
+                <button type="button" onclick="buttonQuotationItemUpdate()" class="btn btn-warning" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
+              </div>
+              
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle" id="tableQuotationItem">
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Modify</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableQuotationItemBody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              
+              <!-- <div class="col-lg-12 pt-3"><strong>Product List</strong></div>
+              
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-borderles table-hover align-middle">
+                    <thead>
+                      <tr>
+                        <th>Product ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>P001</td>
+                        <td><img src="/images/product/product.png" alt="" height="64px"></td>
+                        <td>Product Name 1</td>
+                        <td>Brand A</td>
+                        <td><button type="button" class="btn btn-outline-danger w-100">Remove</button></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><button type="button" class="btn btn-outline-primary w-100">Add</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div> -->
+
+            </form>
+          </div>
+      
+          <div class="modal-footer">
+            <div class="col">
+              <button type="button" onclick="buttonQuotationDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshQuotationForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
+            </div> 
+            <div class="col text-end">
+              <button type="button" onclick="buttonQuotationPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
+              <button type="button" onclick="buttonQuotationUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
+              <button type="button" onclick="buttonQuotationSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+          </div>
+          </div>
+      
+        </div>
+      </div>
+      </div>
+      <!-- Bottombar -->
+      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+         
+        <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><img  src="/icons/administration.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><img  src="/icons/operations.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><img  src="/icons/transection.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><img  src="/icons/resources.svg" alt=""></a></li>
+         
+      </ul>
+  </div>
+
+
+    
+
+    <div th:replace="~{common :: scripts}"></div>
+    <script src="/uicontroller/quotation.js"></script>
+</body>
+</html>

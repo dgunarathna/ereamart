@@ -33,6 +33,9 @@ public class Product {
     private String name;
 
     @NotNull
+    private String code;
+
+    @NotNull
     private String description;
 
     @NotNull
