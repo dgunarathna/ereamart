@@ -1,5 +1,7 @@
 package com.ereamart.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,18 +12,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "role") //table mapping
+@Table(name = "expenses") //table mapping
 
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
+public class Expenses {
 
-public class Role {
- 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
-
-    private String name;
+    private Integer bill_no;
+    private Integer total_due_amount;
+    private Integer paid_amount;
+    private String payment_methord;
+    private Integer balance_amount;
+    private LocalDateTime date;
 }
-

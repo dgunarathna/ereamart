@@ -56,7 +56,7 @@ public class ProductController {
         return productDao.findAll();
     } 
 
-		// mapping for insert product data
+	// mapping for insert product data
 	@PostMapping(value = "/product/insert")
 	public String saveUserData(@RequestBody Product product) {
 

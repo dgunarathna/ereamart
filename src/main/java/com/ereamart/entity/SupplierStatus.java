@@ -10,18 +10,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "role") //table mapping
+@Table(name = "suplier_status") //table mapping
 
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
+public class SupplierStatus {
 
-public class Role {
- 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
-
+ 
     private String name;
 }
-
+ 
