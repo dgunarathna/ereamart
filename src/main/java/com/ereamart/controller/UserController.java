@@ -67,7 +67,7 @@ public class UserController {
 
 		if (userPrivilege.getPrivi_insert()) {
 			//duplicate check
-			User extPrivilege = userDao.geByUsename(user.getUsername());
+			User extPrivilege = userDao.getByUsename(user.getUsername());
 			if (extPrivilege != null) {
 				return "Save not completed, Privilege allready exist";
 			}

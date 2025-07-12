@@ -49,7 +49,7 @@ public class SupplierController {
 
         //check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Supplier");
 
         if (userPrivilege.getPrivi_select()) {
             return supplierDao.findAll(Sort.by(Direction.DESC, "id"));
@@ -59,41 +59,6 @@ public class SupplierController {
         
     } 
 
-    // mapping for insert supplier data
-	// @PostMapping(value = "/supplier/insert")
-	// public String saveUserData(@RequestBody Supplier supplier) {
 
-	// 	//check logged user authorization
-	// 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	// 	User loggedUser = userDao.geByUsename(auth.getName());
-	// 	Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
-
-	// 	if (userPrivilege.getPrivi_insert()) {
-	// 		//duplicate check
-	// 		Supplier extSupplierName = supplierDao.getByName(supplier.getName());
-	// 		if (extSupplierName != null) {
-	// 			return "Save not completed, supplier allready exist";
-	// 		}
-	
-	// 		try {
-	// 			// set auto added data
-	// 			product.setAdded_datetime(LocalDateTime.now());
-	// 			product.setAdded_user_id(loggedUser.getId());
-	// 			product.setCode(productDao.getNextCode());
-
-	// 			// save oparator
-	// 			productDao.save(product);
-
-	// 			// dependances
-	// 			return "OK";
-	// 		} catch (Exception e) {
-	// 			return "Save not completed" + e.getMessage();
-	// 		}
-	// 	} else {
-	// 		return "Save not completed, No Permission!";
-	// 	}
-
-
-	// } 
 
 }

@@ -29,7 +29,7 @@ public class MyUserServiceDetail implements UserDetailsService{
 
         System.out.println(username);
 
-        User extUser = userdao.geByUsename(username);
+        User extUser = userdao.getByUsename(username);
 
         Set<GrantedAuthority> authority = new HashSet<GrantedAuthority>();
 

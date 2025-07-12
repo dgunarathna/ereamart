@@ -47,7 +47,7 @@ public class LoginController {
     @RequestMapping(value =  {"/createadmin"})
     public ModelAndView genarateAdminAccount(){
 
-		User extAdminUser = userDao.geByUsename("Admin");
+		User extAdminUser = userDao.getByUsename("Admin");
 		if (extAdminUser == null) {
 			User adminUser = new User();
 			adminUser.setUsername("Admin");

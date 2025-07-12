@@ -35,6 +35,7 @@ const fillDataIntoTable = (tableBodayId, dataList, propertyList, editFunction)=>
 
 const fillDataIntoInnerTable = (tableBodayId, dataList, propertyList, editFunction, deleteFunction, buttonVisibility = true)=>{
    
+    
     tableBodayId.innerHTML = "";
 
     dataList.forEach((dataOb,index) => {

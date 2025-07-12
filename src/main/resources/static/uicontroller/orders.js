@@ -1,0 +1,355 @@
+window.addEventListener("load", () => {
+    console.log("browser load Event");
+    refreshOrderTable();
+    refreshOrderForm();
+});
+
+//table *********************************************************************************************************************************************************************************************
+const refreshOrderTable = () => {
+    
+    let Orders = getServiceRequest('/orders/alldata');
+
+    // string > string, date, number
+    // function > object, array, boolean
+    let propertyList = [
+        {propertyName: "orders_code", dataType: "string"},
+        {propertyName: getQuotation, dataType: "function"},
+        {propertyName: "required_date", dataType: "string"},
+        {propertyName: "total_amount", dataType: "string"},
+        {propertyName: "note", dataType: "string"},
+        {propertyName: getSupplier, dataType: "function"},
+        {propertyName: getStatus, dataType: "function"}
+    ];
+
+    fillDataIntoTable(tableOrderBody, Orders, propertyList, orderFormRefill);
+    
+}
+
+const getSupplier = (dataOb) => {
+    return dataOb.supplier_id.name;
+}
+
+const getQuotation = (dataOb) => {
+    return dataOb.supplier_id.name;
+}
+
+const getStatus = (dataOb) => {
+    if (dataOb.orders_status_id.name == "Available") {
+        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.orders_status_id.name + "</p>";
+    } if (dataOb.orders_status_id.name == "Active") {
+        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.orders_status_id.name + "</p>";
+    }
+}   
+
+//form *********************************************************************************************************************************************************************************************
+
+const refreshOrderForm = () => {   
+    order = new Object();
+    order.orderHasProductList = new Array();
+    console.log(order.orderHasProductList);
+    
+
+    formOrder.reset();
+
+    setDefault([ selectrequireddate, texttotalamount, selectsupplier, selectorderstate, textnote]);
+
+    let suppliers = getServiceRequest('/supplier/alldata');
+    fillDataIntoSelect(selectsupplier,"Select supplier",suppliers,"name");
+
+    let status = getServiceRequest('/ordersstatus/alldata');
+    fillDataIntoSelect(selectorderstate,"Select status",status,"name");
+    
+
+    //inner form ************************************
+    refreshOrderInnerForm();
+}
+
+const orderFormRefill = (ob, index) => {
+    refreshOrderForm();
+    console.log("Edit", ob, index);
+
+    selectQuotationno.value = JSON.stringify(ob.Quotation_id);
+    selectrequireddate.value = ob.required_date;
+    texttotalamount.value = ob.total_amount;
+    selectsupplier.value = JSON.stringify(ob.supplier_id);
+    selectorderstate.value = JSON.stringify(ob.orders_status_id);
+    textnote.value = ob.note;
+
+    order = JSON.parse(JSON.stringify(ob));
+    oldOrder = JSON.parse(JSON.stringify(ob));
+
+    $("#modalOrderForm").modal("show");
+    $("#modalOrderFormLabel").text(ob.orderno);
+    $("#buttonSubmit").hide();
+    $("#buttonClear").hide();
+
+    $("#buttonDelete").show();
+    $("#buttonPrint").show();
+    $("#buttonUpdate").show();
+
+
+}
+
+const buttonOrderDelete = (ob, index) => {
+    console.log("Delete", ob, index);
+    let userConfirm = window.confirm("Are you sure to delete " + ob.orderno + "?");
+    if (userConfirm == true) {
+        let deleteResponce = "OK";
+        if (deleteResponce == "OK") {
+            window.alert("Delete Successfully");
+            refreshOrderTable();
+            $("#modalOrderForm").modal("hide"); 
+        }else{
+            window.alert("Faild to Delete\n" + errors)
+        }
+    }
+}
+
+const buttonOrderPrint = (ob, index) => {
+    console.log("View", ob, index);
+
+    let newWindow = window.open();
+    let printView =
+    "<head>"
+        +"<title>www.ereamart.com</title>"
+        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        +"<link rel='stylesheet' href='/css/main.css'>"
+    +"</head>"
+    +"<body>"
+        +"<div class='container m-0 mt-4'>"
+            +"<h5 class='mb-4'>"+ ob.orderno + " Details</h5>"
+            +"<table class='table'>"
+            +"<tbody>"
+                +"<tr><th> Order no	 </th><td>"+ ob.orderno +"</td></tr>" 
+                +"<tr><th> Quotation no	 </th><td>"+ ob.Quotation_id.name +"</td></tr>" 
+                +"<tr><th> Required Date	 </th><td>"+ ob.requireddate +"</td></tr>" 
+                +"<tr><th> Total Amount	 </th><td>"+ ob.totalamount +"</td></tr>" 
+                +"<tr><th> Note	 </th><td>"+ ob.note +"</td></tr>" 
+                +"<tr><th> Supplier	 </th><td>"+ ob.supplier_id.name +"</td></tr>" 
+                +"<tr><th> Status </th><td>"+ ob.status_id.name +"</td></tr>" 
+            +"</tbody>" 
+            +"</table>" 
+        +"</div>" 
+    +"</body>";
+
+    newWindow.document.write(printView);
+    
+    setTimeout(()=>{
+        newWindow.stop();
+        newWindow.print();
+        newWindow.close();
+        $("#modalOrderForm").modal("hide"); 
+    }, 500);
+}
+
+const checkFormError = ()=>{
+    let errors = "";
+    if (order.requireddate == null) {
+        errors = errors + "Please enter required date\n"
+    }
+    if (order.totalamount == null) {
+        errors = errors + "Please select total amount \n";
+    }
+    if (order.supplier_id == null) {
+        errors = errors + "Please select supplier \n";
+    }
+    if (order.orders_status_id == null) {
+        errors = errors + "Please select status \n";
+    }
+    if (order.orderHasProductList.length == 0) {
+        errors = errors + "Please select products \n";
+    }
+    return errors;
+}
+
+const buttonOrderSubmit = () => {
+    console.log(order);
+    
+    let errors = checkFormError();
+    if (errors == "") {
+        let userConfirm = window.confirm("Are you sure to add?");
+        if (userConfirm == true) {
+            let postResponce = getHTTPServiceRequest("/orders/insert", "POST", order);
+            if (postResponce == "OK") {
+                window.alert("Save Successfully");
+                refreshOrderTable();
+                refreshOrderForm();
+                $("#modalOrderForm").modal("hide");
+            }else{
+                window.alert("Faild to submit\n" + postResponce);
+            }
+        }
+    }else{
+        window.alert("Form has following errors\n" + errors);
+    }
+}
+
+const checkFormUpdate = () => {
+    let updates = "";
+
+    console.log(order);
+    console.log(oldOrder);
+    
+    if (order != null && oldOrder !== null) {
+        if (order.Quotation_id.name != oldOrder.Quotation_id.name) {
+            updates = updates + "Quotation - " + oldOrder.Quotation_id.name + " to " + order.Quotation_id.name + "\n";
+        }
+        if (order.requireddate != oldOrder.requireddate) {
+            updates = updates + "Required date - " + oldOrder.requireddate + " to " + order.requireddate + "\n";
+        }
+        if (order.totalamount != oldOrder.totalamount) {
+            updates = updates + "Total amount - " + oldOrder.totalamount + " to " + order.totalamount + "\n";
+        }
+        if (order.supplier_id.name != oldOrder.supplier_id.name) {
+            updates = updates + "Supplier - " + oldOrder.supplier_id.name + " to " + order.supplier_id.name + "\n";
+        }
+        if (order.status_id.name != oldOrder.status_id.name) {
+            updates = updates + "Status - " + oldOrder.status_id.name + " to " + order.status_id.name + "\n";
+        }
+        if (order.note != oldOrder.note) {
+            updates = updates + "Note - " + oldOrder.note + " to " + order.note + "\n";
+        }
+    }
+    return updates;
+}
+
+const buttonOrderUpdate = () => {
+    let errors = checkFormError();
+    if (errors == "") {
+        let updates = checkFormUpdate();
+        if (updates == "") {
+            window.alert("Nothing to update");
+        } else {
+            let userConfirm = window.confirm("Are you sure to update "+ order.orderno +"?\n"+ updates);
+            if (userConfirm) {
+                let putResponce = "OK";
+                if (putResponce == "OK") {
+                    window.alert("Update Successfull");
+                    refreshOrderTable();
+                    refreshOrderForm();
+                    $("#modalOrderForm").modal("hide");
+                } else {
+                    window.alert("Failed to update" + putResponce);
+                }
+            }
+        }
+    } else {
+        window.alert("Form has following errors..\n" + errors)
+    }
+}
+
+//Add new record ************************************************************************************************************************************************************************************
+
+const buttonAddNew = () => {
+    refreshOrderForm();
+    $("#modalOrderFormLabel").text("Add New Order");
+
+    $("#buttonSubmit").show();
+    $("#buttonClear").show();
+
+    $("#buttonDelete").hide();
+    $("#buttonPrint").hide();
+    $("#buttonUpdate").hide();
+
+}
+
+
+// inner form ***************************************************************************************************************************************************************************************
+
+const refreshOrderInnerForm = () =>{
+    orderHasProduct = new Object();
+
+    textUnitPrice.value = "";
+    textQTY.value = "";
+    textLinePrice.value = "";
+
+    setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
+
+    let selectItems = getServiceRequest('/product/alldata');
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+
+    //refresh inner table ****************************************************************************************************************************************************************************   
+
+    // string > string, date, number
+    // function > object, array, boolean
+    let propertyList = [
+        {propertyName: getProductImage, dataType: "function"},
+        {propertyName: getProductName, dataType: "function"},
+        {propertyName: "unitprice", dataType: "decimal"},
+        {propertyName: "quantity", dataType: "string"},
+        {propertyName: "lineprice", dataType: "decimal"}
+    ];
+
+    fillDataIntoInnerTable(tableOrderItemBody, order.orderHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
+
+
+    //auto load total amount
+    let totalAmount = 0.00;
+    for (const orderproduct of order.orderHasProductList) {
+        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
+    };
+
+    if (totalAmount != 0.00) {
+        texttotalamount.value = totalAmount.toFixed(2);
+        order.totalamount = texttotalamount.value;
+        texttotalamount.style.border = "1px solid lightgreen"
+        
+    };
+
+
+}
+
+
+const getProductImage = (dataOb) => {  
+    return dataOb.product_id.image;
+}
+
+const getProductName = (dataOb) => {  
+    return dataOb.product_id.name;
+}
+
+const getItemImage = (dataOb) => {
+    return dataOb.productimage;
+}
+
+const getItemName = (dataOb) => {
+    return dataOb.productname;
+}
+
+const orderInnerFormRefill = (ob, index) =>{
+
+    
+    refreshOrderInnerForm();
+    console.log("Edit", ob, index);
+
+    selectItem.value = ob.productname;
+    textUnitPrice.value = ob.unitPrice;
+    textQTY.value = ob.quantity;
+}
+
+const orderInnerFormDelete = (ob, index) => {
+    console.log(orderHasProduct);
+
+    let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
+    if (userConfirm) {
+        let extIndex = order.orderHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        if (extIndex != -1) {
+            order.orderHasProductList.splice(extIndex,1);
+        }
+        refreshOrderInnerForm();
+    }
+}
+
+const buttonOrderItemSubmit = () => {
+    console.log(orderHasProduct);
+
+    order.orderHasProductList.push(orderHasProduct);
+    refreshOrderInnerForm();
+}
+
+const buttonOrderItemUpdate = () => {
+
+}
+
+
+

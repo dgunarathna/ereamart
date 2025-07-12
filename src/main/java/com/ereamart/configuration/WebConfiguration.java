@@ -26,11 +26,21 @@ public class WebConfiguration {
             .requestMatchers("/login").permitAll()
             .requestMatchers("/register").permitAll() 
             .requestMatchers("/createadmin").permitAll() //create admin
-            .requestMatchers("/dashboard").hasAnyAuthority("Admin") 
-            .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/profile/**").hasAnyAuthority("Admin","Manager") 
+            .requestMatchers("/dashboard/**").hasAnyAuthority("Admin") 
             .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin","Manager")
             .requestMatchers("/user/**").hasAnyAuthority("Admin","Manager")
-            .requestMatchers("/product/**").hasAnyAuthority("Admin","Manager").anyRequest().authenticated();
+            .requestMatchers("/quotation/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/orders/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/grn/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/product/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/inventory/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/invoice/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/expenses/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/income/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/supplier/**").hasAnyAuthority("Admin","Manager")
+            .requestMatchers("/customer/**").hasAnyAuthority("Admin","Manager").anyRequest().authenticated();
          })
          //login details
          .formLogin(login -> {

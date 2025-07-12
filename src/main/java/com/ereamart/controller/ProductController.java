@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.ProductDao;
 import com.ereamart.dao.ProductStatusDao;
 import com.ereamart.dao.UserDao;
-import com.ereamart.entity.Employee;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Product;
 import com.ereamart.entity.User;
@@ -62,7 +61,7 @@ public class ProductController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User loggedUser = userDao.geByUsename(auth.getName());
+		User loggedUser = userDao.getByUsename(auth.getName());
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
 
 		if (userPrivilege.getPrivi_insert()) {
@@ -99,7 +98,7 @@ public class ProductController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User loggedUser = userDao.geByUsename(auth.getName());
+		User loggedUser = userDao.getByUsename(auth.getName());
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
 		
 		if (userPrivilege.getPrivi_update()) {
@@ -161,7 +160,7 @@ public class ProductController {
 		try {
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
-			extProductById.setDelete_user_id(userDao.geByUsename(auth.getName()).getId());
+			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
 			extProductById.setProductstatus_id(productStatusDao.getReferenceById(2));
 
 			// delete oparator

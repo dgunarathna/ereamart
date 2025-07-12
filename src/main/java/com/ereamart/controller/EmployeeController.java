@@ -78,7 +78,7 @@ public class EmployeeController {
 	public String saveEmployeeData(@RequestBody Employee employee) {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User loggedUser = userDao.geByUsename(auth.getName());
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		//duplicate check
 		Employee extEmployeeByNic = employeeDao.getByNIC(employee.getNic());
