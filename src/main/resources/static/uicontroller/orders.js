@@ -236,6 +236,9 @@ const checkFormUpdate = () => {
         if (order.note != oldOrder.note) {
             updates = updates + "Note - " + oldOrder.note + " to " + order.note + "\n";
         }
+        if (order.orderHasProductList != oldOrder.orderHasProductList) {
+            updates = updates + "Product List - " + oldOrder.orderHasProductList.length + " to " + order.orderHasProductList.length + "\n";
+        }
     }
     return updates;
 }
