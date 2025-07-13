@@ -2,6 +2,9 @@ package com.ereamart.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +20,8 @@ import lombok.NoArgsConstructor;
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
+@JsonInclude(value = Include.NON_NULL)
+
 public class Expenses {
 
     @Id

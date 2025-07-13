@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +27,8 @@ import lombok.NoArgsConstructor;
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
+@JsonInclude(value = Include.NON_NULL)
+
 public class Employee {
 
     @Id

@@ -3,6 +3,8 @@ package com.ereamart.entity;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +24,8 @@ import lombok.NoArgsConstructor;
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
+@JsonInclude(value = Include.NON_NULL)
+
 public class OrdersHasProduct { 
 
     @Id

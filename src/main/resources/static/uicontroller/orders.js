@@ -280,6 +280,21 @@ const buttonAddNew = () => {
 
 // inner form ***************************************************************************************************************************************************************************************
 
+// function for check item ext in the inner table
+const checkProductExt = () => {
+    let selectedProduct = JSON.parse(selectItem.value);
+    let extIndex = order.orderHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+
+    if (extIndex > -1) {
+        window.alert(" Product selected");
+        refreshOrderInnerForm();
+    } else {
+        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
+        orderHasProduct.unitPrice = parseFloat(textUnitPrice.value).toFixed(2);
+        textUnitPrice.style.border = "1px solid lightgreen"
+    }
+}
+
 // filter products by select supplier dropdown
 const filterProductBySupplier = () => {
     let selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
@@ -290,6 +305,7 @@ const refreshOrderInnerForm = () =>{
     orderHasProduct = new Object();
 
     textUnitPrice.value = "";
+    textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
 
@@ -311,7 +327,7 @@ const refreshOrderInnerForm = () =>{
     let propertyList = [
         {propertyName: getProductImage, dataType: "function"},
         {propertyName: getProductName, dataType: "function"},
-        {propertyName: "unitprice", dataType: "decimal"},
+        {propertyName: "unitPrice", dataType: "decimal"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "lineprice", dataType: "decimal"}
     ];
