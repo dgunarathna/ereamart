@@ -93,20 +93,20 @@
                 <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'orderHasProduct','product_id'); checkProductExt();"></select>
               </div>
               <div class="col-xl-2">
-                <label class="form-label">Unit Price<span class="text-danger">*</span></label>
-                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'orderHasProduct','unitprice')">
+                <label class="form-label">Quantity<span class="text-danger">*</span></label>
+                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'orderHasProduct','quantity'); calculateLinePrice();">
               </div>
               <div class="col-xl-2">
-                <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'orderHasProduct','quantity')">
+                <label class="form-label">Unit Price<span class="text-danger">*</span></label>
+                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'orderHasProduct','unitprice')">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
                 <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'orderHasProduct','lineprice')">
               </div>
               <div class="col-xl-2 gap-1 d-flex align-items-end">
-                <button type="button" onclick="buttonOrderItemSubmit()" class="btn btn-success" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
-                <button type="button" onclick="buttonOrderItemUpdate()" class="btn btn-warning" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
+                <button type="button" onclick="buttonOrderItemSubmit()" class="btn btn-success w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
+                <button type="button" onclick="buttonOrderItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
               </div>
               
               <div class="col-lg-12">
@@ -116,8 +116,8 @@
                       <tr>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Unit Price</th>
                         <th>Quantity</th>
+                        <th>Unit Price</th>
                         <th>Line Price</th>
                         <th>Modify</th>
                       </tr>

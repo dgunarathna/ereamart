@@ -36,8 +36,8 @@ const getQuotation = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.orders_status_id.name == "Available") {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.orders_status_id.name + "</p>";
-    } if (dataOb.orders_status_id.name == "Active") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.orders_status_id.name + "</p>";
+    } if (dataOb.orders_status_id.name == "Delete") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.orders_status_id.name + "</p>";
     }
 }   
 
@@ -48,6 +48,7 @@ const refreshOrderForm = () => {
     order.orderHasProductList = new Array();
     console.log(order.orderHasProductList);
     
+    selectsupplier.disabled = "";
 
     formOrder.reset();
 
@@ -98,29 +99,31 @@ const orderFormRefill = (ob, index) => {
     selectrequireddate.value = ob.required_date;
     texttotalamount.value = ob.total_amount;
     selectsupplier.value = JSON.stringify(ob.supplier_id);
+    selectsupplier.disabled = "disabled";
     selectorderstate.value = JSON.stringify(ob.orders_status_id);
     textnote.value = ob.note;
 
     order = JSON.parse(JSON.stringify(ob));
     oldOrder = JSON.parse(JSON.stringify(ob));
 
+    
     $("#modalOrderForm").modal("show");
     $("#modalOrderFormLabel").text(ob.orderno);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
-
+    
     $("#buttonDelete").show();
     $("#buttonPrint").show();
     $("#buttonUpdate").show();
-
-
+    
+    refreshOrderInnerForm();
 }
 
 const buttonOrderDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.orderno + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/orders/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshOrderTable();
@@ -218,8 +221,8 @@ const checkFormUpdate = () => {
     console.log(oldOrder);
     
     if (order != null && oldOrder !== null) {
-        if (order.requireddate != oldOrder.requireddate) {
-            updates = updates + "Required date - " + oldOrder.requireddate + " to " + order.requireddate + "\n";
+        if (order.required_date != oldOrder.required_date) {
+            updates = updates + "Required date - " + oldOrder.required_date + " to " + order.required_date + "\n";
         }
         if (order.totalamount != oldOrder.totalamount) {
             updates = updates + "Total amount - " + oldOrder.totalamount + " to " + order.totalamount + "\n";
@@ -227,8 +230,8 @@ const checkFormUpdate = () => {
         if (order.supplier_id.name != oldOrder.supplier_id.name) {
             updates = updates + "Supplier - " + oldOrder.supplier_id.name + " to " + order.supplier_id.name + "\n";
         }
-        if (order.status_id.name != oldOrder.status_id.name) {
-            updates = updates + "Status - " + oldOrder.status_id.name + " to " + order.status_id.name + "\n";
+        if (order.orders_status_id.name != oldOrder.orders_status_id.name) {
+            updates = updates + "Status - " + oldOrder.orders_status_id.name + " to " + order.orders_status_id.name + "\n";
         }
         if (order.note != oldOrder.note) {
             updates = updates + "Note - " + oldOrder.note + " to " + order.note + "\n";
@@ -246,7 +249,7 @@ const buttonOrderUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ order.orderno +"?\n"+ updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/orders/update", "PUT", order);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshOrderTable();
@@ -275,6 +278,9 @@ const buttonAddNew = () => {
     $("#buttonPrint").hide();
     $("#buttonUpdate").hide();
 
+    $("#buttonItemUpdate").hide();
+
+   
 }
 
 
@@ -286,7 +292,7 @@ const checkProductExt = () => {
     let extIndex = order.orderHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
 
     if (extIndex > -1) {
-        window.alert(" Product selected");
+        window.alert(" Product Added already");
         refreshOrderInnerForm();
     } else {
         textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
@@ -294,6 +300,23 @@ const checkProductExt = () => {
         textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
+
+//define function for line price
+const calculateLinePrice = ()=> {
+    if (textQTY.value > 0) {
+        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        orderHasProduct.lineprice = lineprice;
+        textLinePrice.value = lineprice;
+        textLinePrice.style.border = "1px solid lightgreen"
+    } else {
+        orderHasProduct.unitPrice = null;
+        orderHasProduct.lineprice = null;
+        textQTY.style.border = "1px solid pink";
+        textLinePrice.style.border = "1px solid #ced4da";
+        textLinePrice.value = "";
+    }
+}
+
 
 // filter products by select supplier dropdown
 const filterProductBySupplier = () => {
@@ -304,10 +327,15 @@ const filterProductBySupplier = () => {
 const refreshOrderInnerForm = () =>{
     orderHasProduct = new Object();
 
+    selectItem.disabled = "";
+
     textUnitPrice.value = "";
     textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
+    textLinePrice.disabled = "disabled";
+    
+
 
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
 
@@ -327,8 +355,8 @@ const refreshOrderInnerForm = () =>{
     let propertyList = [
         {propertyName: getProductImage, dataType: "function"},
         {propertyName: getProductName, dataType: "function"},
-        {propertyName: "unitPrice", dataType: "decimal"},
         {propertyName: "quantity", dataType: "string"},
+        {propertyName: "unitPrice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"}
     ];
 
@@ -370,13 +398,27 @@ const getItemName = (dataOb) => {
 
 const orderInnerFormRefill = (ob, index) =>{
 
-    
     refreshOrderInnerForm();
     console.log("Edit", ob, index);
+    
 
-    selectItem.value = ob.productname;
-    textUnitPrice.value = ob.unitPrice;
-    textQTY.value = ob.quantity;
+    innerFormIndex = index;
+
+    orderHasProduct = JSON.parse(JSON.stringify(ob));
+    oldOlorderHasProduct = JSON.parse(JSON.stringify(ob));
+
+
+    selectItems = getServiceRequest('/product/alldata');
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+
+    selectItem.disabled = "disabled";
+    selectItem.value = JSON.stringify(orderHasProduct.product_id)
+    textUnitPrice.value = parseFloat(orderHasProduct.unitPrice);
+    textQTY.value = orderHasProduct.quantity;
+    textLinePrice.value = parseFloat(orderHasProduct.lineprice);
+
+    $("#buttonItemSubmit").hide();
+    $("#buttonItemUpdate").show();
 }
 
 const orderInnerFormDelete = (ob, index) => {
@@ -400,6 +442,12 @@ const buttonOrderItemSubmit = () => {
 }
 
 const buttonOrderItemUpdate = () => {
+    console.log(orderHasProduct);
+
+    if (orderHasProduct.quantity != oldOlorderHasProduct.quantity) {
+        order.orderHasProductList[innerFormIndex] = orderHasProduct;
+        refreshOrderInnerForm();
+    }
 
 }
 

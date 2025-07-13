@@ -67,5 +67,6 @@ public class Orders {
 
     @OneToMany(mappedBy = "orders_id", cascade = CascadeType.ALL ,orphanRemoval = true)
     private List<OrdersHasProduct> orderHasProductList;
+
  
 }
