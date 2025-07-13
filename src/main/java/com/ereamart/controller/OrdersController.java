@@ -75,7 +75,6 @@ public class OrdersController {
 
 		if (userPrivilege.getPrivi_insert()) {
 			//duplicate check
-
 	
 			try {
 				// set auto added data

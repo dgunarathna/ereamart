@@ -14,4 +14,6 @@ public interface ProductDepartmentDao extends JpaRepository<ProductDepartment, I
    
     // @Query(value = "SELECT pd FROM ProductDepartment pd WHERE pd.productdepartment_id.id=1") 
     // public List<ProductDepartment> findDepartmentByCategory(Integer categoryid); 
+
+    
 }

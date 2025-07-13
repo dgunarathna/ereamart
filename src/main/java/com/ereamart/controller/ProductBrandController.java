@@ -23,8 +23,8 @@ public class ProductBrandController {
     } 
 
     //request mapping for load productbrand all data - /productbrand/bycategory
-    // @GetMapping(value = "/productbrand/bycategory/{categoryid}", produces = "application/json")
-    // public List<ProductBrand> findPBrandybyPCategory(@PathVariable("categoryid") Integer categoryid){
-    //     return productBrandDao.findPBrandybyPCategory(categoryid);
-    // } 
+    @GetMapping(value = "/productbrand/bycategory/{categoryid}", produces = "application/json")
+    public List<ProductBrand> findPBrandybyPCategory(@PathVariable("categoryid") Integer categoryid){
+        return productBrandDao.findPBrandybyPCategory(categoryid);
+    } 
 }

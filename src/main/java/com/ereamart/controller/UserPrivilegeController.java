@@ -12,7 +12,6 @@ public class UserPrivilegeController {
     @Autowired
     private PrivilegeDao privilegeDao; 
 
-
     //define function for get privilege by given username and modulename
     public Privilege getPrivilegeByUserModule(String username, String modulename){
 

@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "suplier_status") //table mapping
+@Table(name = "supplier_status") //table mapping
 
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
