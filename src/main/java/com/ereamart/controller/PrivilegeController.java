@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.PrivilegeDao;
-import com.ereamart.entity.Privilege; 
+import com.ereamart.dao.ProductDao;
+import com.ereamart.entity.Privilege;
+import com.ereamart.entity.Product;
 
 @RestController
 public class PrivilegeController {
+
+    private final ProductDao productDao;
 
 	@Autowired
 	private PrivilegeDao privilegeDao;
 	
 	@Autowired
 	private UserPrivilegeController userPrivilegeController;
+
+    PrivilegeController(ProductDao productDao) {
+        this.productDao = productDao;
+    }
 
     // mapping for return privilege page
     @RequestMapping(value =  {"/privilege","/privilege.html"})

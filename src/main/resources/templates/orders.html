@@ -75,7 +75,7 @@
             <form id="formOrder" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
               <div class="col-xl-6">
                 <label class="form-label">Required Date<span class="text-danger">*</span></label>
-                <input id="selectrequireddate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'order','requireddate' )">
+                <input id="selectrequireddate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'order','required_date' )">
               </div>
               <div class="col-xl-6">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
@@ -129,7 +129,7 @@
               
               <div class="col-xl-6">
                 <label class="form-label">Total Amount<span class="text-danger">*</span></label>
-                <input id="texttotalamount" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','order','totalamount')">
+                <input id="texttotalamount" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','order','total_amount')">
               </div>
               <div class="col-xl-6">
                 <label for="selectorderstate" class="form-label">Status<span class="text-danger">*</span></label>

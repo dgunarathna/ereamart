@@ -1,5 +1,7 @@
 package com.ereamart.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity // this class genatate as an entity
+@Entity // this class genatate as an entity 
 @Table(name = "orders") //table mapping
 
 @Data // for settes getters
@@ -31,9 +33,9 @@ public class Orders {
     
     private String orders_code;
 
-    private LocalDateTime required_date;
+    private LocalDate required_date;
 
-    private Integer total_amount;
+    private BigDecimal total_amount;
     
     private String note;
 

@@ -26,7 +26,7 @@ const refreshOrderTable = () => {
 }
 
 const getSupplier = (dataOb) => {
-    return dataOb.supplier_id.name;
+    return dataOb.supplier_id.reg_no;
 }
 
 const getQuotation = (dataOb) => {
@@ -58,7 +58,34 @@ const refreshOrderForm = () => {
 
     let status = getServiceRequest('/ordersstatus/alldata');
     fillDataIntoSelect(selectorderstate,"Select status",status,"name");
+    selectorderstate.value = JSON.stringify(status[0]); // set default values
+    order.orders_status_id = JSON.parse(selectorderstate.value);
+    selectorderstate.style.border = "1px solid lightgreen"
     
+
+    //set mix max date [YYYY - mm - DD]
+
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth() + 1; // [0-11]
+    if (currentMonth < 10) {
+        currentMonth = '0' + currentMonth;
+    }
+    let currentDay = currentDate.getDate(); // [1-31]
+    if (currentDay < 10) {
+        currentDay = '0' + currentDay;
+    }
+    selectrequireddate.min = currentDate.getFullYear() + "-" + currentMonth + "-" + currentDay;
+
+    currentDate.setDate(currentDate.getDate() + 1);
+    let maxCurrentMonth = currentDate.getMonth() + 1; // [0-11]
+    if (maxCurrentMonth < 10) {
+        maxCurrentMonth = '0' + maxCurrentMonth;
+    }
+    let maxCurrentDay = currentDate.getDate(); // [1-31]
+    if (maxCurrentDay < 10) {
+        maxCurrentDay = '0' + maxCurrentDay;
+    }
+    selectrequireddate.max = currentDate.getFullYear() + "-" + maxCurrentMonth + "-" + maxCurrentDay;
 
     //inner form ************************************
     refreshOrderInnerForm();
@@ -68,7 +95,6 @@ const orderFormRefill = (ob, index) => {
     refreshOrderForm();
     console.log("Edit", ob, index);
 
-    selectQuotationno.value = JSON.stringify(ob.Quotation_id);
     selectrequireddate.value = ob.required_date;
     texttotalamount.value = ob.total_amount;
     selectsupplier.value = JSON.stringify(ob.supplier_id);
@@ -144,10 +170,10 @@ const buttonOrderPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (order.requireddate == null) {
+    if (order.required_date == null) {
         errors = errors + "Please enter required date\n"
     }
-    if (order.totalamount == null) {
+    if (order.total_amount == null) {
         errors = errors + "Please select total amount \n";
     }
     if (order.supplier_id == null) {
@@ -164,6 +190,7 @@ const checkFormError = ()=>{
 
 const buttonOrderSubmit = () => {
     console.log(order);
+    console.log("order object eka");
     
     let errors = checkFormError();
     if (errors == "") {
@@ -191,9 +218,6 @@ const checkFormUpdate = () => {
     console.log(oldOrder);
     
     if (order != null && oldOrder !== null) {
-        if (order.Quotation_id.name != oldOrder.Quotation_id.name) {
-            updates = updates + "Quotation - " + oldOrder.Quotation_id.name + " to " + order.Quotation_id.name + "\n";
-        }
         if (order.requireddate != oldOrder.requireddate) {
             updates = updates + "Required date - " + oldOrder.requireddate + " to " + order.requireddate + "\n";
         }
@@ -291,7 +315,7 @@ const refreshOrderInnerForm = () =>{
 
     if (totalAmount != 0.00) {
         texttotalamount.value = totalAmount.toFixed(2);
-        order.totalamount = texttotalamount.value;
+        order.total_amount = texttotalamount.value;
         texttotalamount.style.border = "1px solid lightgreen"
         
     };

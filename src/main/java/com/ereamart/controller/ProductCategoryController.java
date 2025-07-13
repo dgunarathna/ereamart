@@ -20,4 +20,5 @@ public class ProductCategoryController {
     public List<ProductCategory> findAllData(){
         return productCategoryDao.findAll();
     } 
+
 }

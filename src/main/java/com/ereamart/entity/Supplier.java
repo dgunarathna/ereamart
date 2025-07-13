@@ -28,24 +28,33 @@ public class Supplier {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
+
     private String reg_no;
+
     private String supplier_brn;
+
     private String name;
+
     private String email;
+
     private String mobile_no;
+
     private String address;
+
     private String description;
+
     private String bank;
+
     private String branch;
+    
     private Integer account_no;
-    private String order;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "supplier_has_product", joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name= "product_id"))
     private Set<Product>supplyProducts;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "suplier_status_id", referencedColumnName = "id")
-    private SupplierStatus suplier_status_id;
+    @JoinColumn(name = "supplier_status_id", referencedColumnName = "id")
+    private SupplierStatus supplier_status_id;
 
 }

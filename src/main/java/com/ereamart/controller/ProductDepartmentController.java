@@ -21,9 +21,11 @@ public class ProductDepartmentController {
     public List<ProductDepartment> findAllData(){
         return productDepartmentDao.findAll();
     } 
+
     //request mapping for load productdepartment all data - /productdepartment/bycategory
     // @GetMapping(value = "/productdepartment/bycategory", params = {"categoryid"} , produces = "application/json")
     // public List<ProductDepartment> findDepartmentByCategory(@RequestParam("categoryid") Integer categoryid){
     //     return productDepartmentDao.findDepartmentByCategory(categoryid);
     // } 
+
 }
