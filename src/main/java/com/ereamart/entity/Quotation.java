@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
 @Table(name = "product") //table mapping
-
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
