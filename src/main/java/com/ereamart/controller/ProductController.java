@@ -181,18 +181,21 @@ public class ProductController {
 
 
 	//  request mapping for load productbrand all data - /product/bysupplier
-    // @GetMapping(value = "/product/bysupplier/{supplierid}", produces = "application/json")
-    // public List<Product> findProductBySupplierID(@PathVariable("supplierid") Integer supplierid){
+    @GetMapping(value = "/product/bysupplier/{supplierid}", produces = "application/json")
+    public List<Product> findProductBySupplierID(@PathVariable("supplierid") Integer supplierid){
 
-	// 	//check logged user authorization
-	// 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	// 	Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
 
-	// 		if (userPrivilege.getPrivi_select()) {
-	// 		return productDao.findProductBySupplier(supplierid);
-	// 		} else {
-	// 			return new ArrayList<>();
-	// 		}
-    // }
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductBySupplier(supplierid);
+			} else {
+				return new ArrayList<>();
+			}
+    }
+
+
+	
 
 }

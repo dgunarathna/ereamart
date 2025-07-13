@@ -18,8 +18,8 @@ public interface ProductDao extends JpaRepository<Product, Integer>{
     String getNextCode();
 
 
-    // @Query(value = "select p from Product p where p.id not in (select shp.product_id.id from SupplierHasProduct shp where shp.supplier_id.id=?1)")
-    // List<Product> findProductBySupplier(Integer supplierid);
+    @Query(value = "select p from Product p where p.id in (select shp.product_id.id from SupplierHasProduct shp where shp.supplier_id.id=?1)")
+    List<Product> findProductBySupplier(Integer supplierid);
 
     
 
