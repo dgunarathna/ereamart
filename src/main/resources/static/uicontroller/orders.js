@@ -280,6 +280,12 @@ const buttonAddNew = () => {
 
 // inner form ***************************************************************************************************************************************************************************************
 
+// filter products by select supplier dropdown
+const filterProductBySupplier = () => {
+    let selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+}
+
 const refreshOrderInnerForm = () =>{
     orderHasProduct = new Object();
 
@@ -289,8 +295,14 @@ const refreshOrderInnerForm = () =>{
 
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
 
-    let selectItems = getServiceRequest('/product/alldata');
+    let selectItems = [];
+    if (selectsupplier.value != "") {
+        selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
+    } else {
+        selectItems = getServiceRequest('/product/alldata');
+    }        
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+
 
     //refresh inner table ****************************************************************************************************************************************************************************   
 

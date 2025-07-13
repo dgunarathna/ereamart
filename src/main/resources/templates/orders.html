@@ -79,7 +79,7 @@
               </div>
               <div class="col-xl-6">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
-                <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'order','supplier_id')"></select>
+                <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'order','supplier_id'); filterProductBySupplier();" ></select>
               </div>
               <div class="col-xl-12">
                 <label for="inputAddress" class="form-label">Note</label>
