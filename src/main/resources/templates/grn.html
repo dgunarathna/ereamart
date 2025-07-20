@@ -16,11 +16,11 @@
           </div>
           <div class="col-xl-6 d-flex p-0">
           <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
-              <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation.html">Quotation</a></li>
-              <li class="nav-item"><a class="nav-link rounded-pill" href="/order.html">Order</a></li>
-              <li class="nav-item"><a class="nav-link rounded-pill active" href="/grn.html">GRN</a></li>
-              <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
-              <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/orders.html">Order</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill active" href="/grn.html">GRN</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
+            <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
           </ul>
           </div>
           <div class="col-xl d-flex gap-1 text-end my-auto p-0">
@@ -32,7 +32,7 @@
           <!-- Sidebbar -->
         <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
           <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
-               
+
               <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
               <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
               <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
@@ -100,11 +100,11 @@
               </div>
               <div class="col-lg-12">
                 <label for="inputAddress" class="form-label">Note<span class="text-danger">*</span></label>
-                <input id="textNote" type="text" Required class="form-control" id="textNote" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','note')">
+                <input id="textNote" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','note')">
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Received Date<span class="text-danger">*</span></label>
-                <input id="textReceivedDate" type="date" Required  class="form-control" id="dteDOB" onkeydown="return false" onchange="dateElemantValidator(this, 'grn','receiveddate')">
+                <input id="textReceivedDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'grn','receiveddate')">
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Status<span class="text-danger">*</span></label>
@@ -139,7 +139,7 @@
          
       </ul>
   </div>
-</div>
+
       <div th:replace="~{common :: scripts}"></div>
       <script src="/uicontroller/grn.js"></script>
 </body>
