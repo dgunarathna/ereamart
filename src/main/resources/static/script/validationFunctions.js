@@ -64,22 +64,25 @@ const selectDynamicElementValidator = (element, object, property) => {
     }
 }
 
+//form images
+const fileValidator = (fileElement, object , property, priviElement)=>{
 
+    if (fileElement.value != "") {
 
-//******************Employee validations ******************* */
+        console.log(fileElement.files);
+        
+        let file = fileElement.files[0];
+        let fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            priviElement.src = e.target.result;
+            window[object][property] = btoa(e.target.result);
+        }
 
-
-const userPhotoValidation = (inputUserPhoto) => {
-    const userPhotoValue = inputUserPhoto.value;
-
-    if (userPhotoValue != "") {
-        inputUserPhoto.style.border = "1px solid lightgreen";
-        employee.userPhoto = inputUserPhoto.value;
-    } else {
-        inputUserPhoto.style.border = "1px solid pink";
-        employee.userPhoto = null;
+        fileReader.readAsDataURL(file);
     }
 }
+
+//******************Employee validations ******************* */
 
 
 const fullNameValidator = (textFullName) => {
@@ -127,3 +130,5 @@ const passwordvalidator = () => {
         textPassword.style.boder = "1px solid pink";
     }
 }
+
+

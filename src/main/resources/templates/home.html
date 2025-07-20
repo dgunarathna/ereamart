@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="~{common :: headFragment}"></div>
+<body>
+  <!-- Cursor effect -->
+  <div class="cursor"></div>
+
+  <!-- nav bar -->
+  <div class="container-fluid p-0 m-0">
+      <nav class="navbar row py-0 mx-0">
+          <div class="col-xl d-flex p-0 gap-1">
+              <a href="/home.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+              <h4 class="my-auto"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
+          </div>
+          <div class="col-xl-6 d-flex p-0 col">
+            <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
+            </div>
+            <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0 col">
+
+              <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"data-bs-auto-close="outside">Kiribathgoda </button>
+              <form class="dropdown-menu dropdown-menu-end p-3 border-0">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="exampleDropdownFormEmail2" placeholder="Location" value="Kiribathgoda Sri Lanka">
+                </div>
+                <img src="/images/map.png" alt="" width="250px">
+                <div class="form-group">
+                  <label for="" class="form-label">Range: </label>
+                  <label for="" class="form-label">1km</label>
+                  <input type="range" class="form-range" id="customRange1">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Apply</button>
+              </form> -->
+            
+              <button class="btn btn-icon btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"aria-controls="offcanvasRight"><i class="fa-solid fa-filter"></i></button>
+              
+              <button type="button" class="btn btn-icon btn-primary" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i></button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/dashboard.html">Orders</a></li>
+                <li><a class="dropdown-item" href="/dashboard.html">Seller mode</a></li>
+                <li><a class="dropdown-item" href="/profile.html">Profile</a></li>
+                <li><a class="dropdown-item" href="/login.html">Log out</a></li>
+              </ul>
+              <button onclick="location.href='/cart.html';" class="btn btn-icon btn-primary" type="button"><i class="fa-solid fa-cart-shopping"></i></button>
+              
+            </div>
+      </nav>
+
+     
+      
+      <div class="row app p-0 m-0 ">
+        <!-- Sidebbar -->
+        <!-- <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
+          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
+              <li class="nav-item"><a class="nav-link btn-icon active" href="/home.html"><img  src="/icons/home.svg" alt=""></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><img  src="/icons/administration.svg" alt=""></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><img  src="/icons/operations.svg" alt=""></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><img  src="/icons/transection.svg" alt=""></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><img  src="/icons/resources.svg" alt=""></a></li>
+               
+          </ul>
+        </div> -->
+        
+          <div class="col p-1">
+            <div class="row g-1">
+
+              <!-- <ul class="nav nav-pills bg-transparent justify-content-center" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation"><button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Grocery</small></button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"><img src="/icons/health.svg" alt=""><small class="m-0 d-flex">Health</small></button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><img src="/icons/Sport.svg" alt=""><small class="m-0 d-flex">Sport</small></button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false"><img src="/icons/electronic.svg" alt=""><small class="m-0 d-flex">Electronic</small></button></li>
+              </ul>
+              
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                  <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto bg-transparent" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page" href="#">Busicuits</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Vegitable</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Fruits</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Meat</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Beverage</a></li>
+                  </ul>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                  <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto bg-transparent" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page" href="#">Phamacy</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Products</a></li>
+                  </ul>
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                  <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto bg-transparent" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page" href="#">Cricket</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Vollyball</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Football</a></li>
+                  </ul>
+                </div>
+                <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
+                  <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto bg-transparent" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page" href="#">Tv</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Sounds</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Bluetooth</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Mobile</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Fridge</a></li>
+                  </ul>
+                </div>
+              </div> -->
+              
+              <div class="col-xl-12 d-flex p-0">
+
+                <div class="btn-group mx-auto" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                  <label class="btn btn-outline-primary border-0" for="btnradio1"><i class="fa-solid fa-carrot"></i><small class="m-0 d-flex">Grocery</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio2"><i class="fa-solid fa-suitcase-medical"></i><small class="m-0 d-flex">Health</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio3"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Sport</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio4"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Electronic</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio5"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Clothing</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio6"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Clothing</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio7"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Health</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio8" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio8"><img src="/icons/toys.svg" alt=""><small class="m-0 d-flex">Toys</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio9" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio9"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Home</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio10" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio10"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Sound & TV</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio11"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Sports</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio12" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio12"><img src="/icons/electronics.svg" alt=""><small class="m-0 d-flex">Electronics</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio13" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio13"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">DIY</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio14" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio14"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Photos</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio15" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio15"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Gaming</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio16" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio16"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Phones</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio17" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio17"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Kids</small></label>
+                
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio18" autocomplete="off">
+                  <label class="btn btn-outline-primary border-0" for="btnradio18"><img src="/icons/clothing.svg" alt=""><small class="m-0 d-flex">Mobility</small></label>
+                </div>
+
+                </div>
+
+                <div class="col-xl-12 d-flex p-0 mx-auto">
+                  <ul class="nav nav-pills bg-transparent justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page" href="#">Busicuits</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Vegitable</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Fruits</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Meat</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" href="#">Beverage</a></li>
+                  </ul>
+                  </div>
+            </div>
+            
+            <div class="row itembody g-1" id="product-container"></div>
+            
+          </div>
+      </div>
+
+      <!-- Bottombar -->
+      <!-- <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/home.html"><img  src="/icons/home.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><img  src="/icons/administration.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><img  src="/icons/operations.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><img  src="/icons/transection.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><img  src="/icons/resources.svg" alt=""></a></li>
+         
+      </ul> -->
+  </div>
+
+
+<!-- offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title" id="offcanvasRightLabel">Filter</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form class="row g-3 col-lg-12 col-md-6 mx-auto">
+      <div class="col-lg-12">
+        <label for="inputState" class="form-label">Seller</label>
+        <select id="inputState" class="form-select">
+          <option selected disabled>Select</option>
+          <option>...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-lg-12">
+        <label for="inputState" class="form-label">Condition</label>
+        <select id="inputState" class="form-select">
+          <option selected disabled>Select</option>
+          <option>...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-lg-12">
+        <label for="inputState" class="form-label">Brand</label>
+        <select id="inputState" class="form-select">
+          <option selected disabled>Select</option>
+          <option>...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-lg-12">
+        <label for="inputState" class="form-label">Weight</label>
+        <select id="inputState" class="form-select">
+          <option selected disabled>Select</option>
+          <option>...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-lg-12">
+        <label for="inputState" class="form-label">Size</label>
+        <select id="inputState" class="form-select">
+          <option selected disabled>Select</option>
+          <option>...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-lg-12">
+        <label for="inputState" class="form-label">Color</label>
+        <select id="inputState" class="form-select">
+          <option selected disabled>Select</option>
+          <option>...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="col-lg-12">
+        <label for="customRange1" class="form-label">Price</label>
+        <input type="range" class="form-range" min="0" max="5" id="customRange2">
+      </div>
+    </form>
+  </div>
+  <div class="offcanvas-footer border-top"> 
+      <div class="row gap-1" >
+          <div class="col"><button type="button" class="btn w-100 rounded-pill btn-secondary" data-bs-dismiss="modal">Clear</button></div>
+          <div class="col"><button type="button" class="btn w-100 rounded-pill btn-primary">Save</button></div>
+      </div>
+
+  </div>
+</div>
+
+
+ <!-- Modal -->
+ <div class="modal fade " id="modalExpensesForm" tabindex="-1" aria-labelledby="modalExpensesFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content h-100">
+  
+      <div class="modal-header border-0">
+        <!-- <h6 class="modal-title" id="modalExpensesFormLabel">Add New</h6> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+  
+      <div class="modal-body">
+        a
+      </div>
+  
+      <div class="modal-footer border-0">
+        <div class="col text-end">
+          <button type="button" onclick="buttonExpensesSubmit()" class="btn btn-outline-primary" id="buttonSubmit">Add to cart</button>  
+          <button type="button" onclick="buttonExpensesSubmit()" class="btn btn-primary" id="buttonSubmit">Buy now</button>  
+      </div>
+      </div>
+  
+    </div>
+  </div>
+  </div>
+
+    <script src="/script/common.js"></script>
+    <script src="/uicontroller/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="~{common :: headFragment}"></div>
+<body>
+
+  
+  <!-- Cursor effect -->
+  <div class="cursor"></div>
+
+  <div class="container-fluid p-0 m-0">
+      <!-- nav bar -->
+      <nav class="navbar row py-0 mx-0">
+          <div class="col-xl d-flex p-0 gap-1">
+              <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+              <h5 class="my-auto" th:text="'Hi '+ ${loggedusername} + '👋'"></h5>
+          </div>
+          <div class="col-xl-6 d-flex p-0">
+          <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation.html">Quotation</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/order.html">Order</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/grn.html">GRN</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill active" href="/inventory.html">Inventory</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
+          </ul>
+          </div>
+          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="btn btn-icon btn-primary" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalInventoryForm"><i class="fa-solid fa-plus"></i></button>
+            </div>
+      </nav>
+      <div class="row app p-0 m-0">
+          <!-- Sidebbar -->
+        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
+          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
+               
+              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
+               
+          </ul>
+        </div>
+          <div class="col">
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table   table-hover" id="tableInventory">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Sale Price</th>
+                  <th>Available QTY</th>
+                  <th>Total QTY</th>
+                  <th>Manufacture Date</th>
+                  <th>Expire Date</th>
+                  <th>Batch Number</th>
+                  <th>GRN No</th>
+                  <th>Status</th>
+              </tr>
+              </thead>
+              <tbody id="tableInventoryBody"></tbody>
+            </table>
+          </div>
+          </div>
+      </div>
+      <!-- Modal -->
+    <div class="modal fade" id="modalInventoryForm" tabindex="-1" aria-labelledby="modalInventoryFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+      
+          <div class="modal-header">
+            <h6 class="modal-title" id="modalInventoryFormLabel">Add New</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      
+          <div class="modal-body">
+            <form id="formInventory" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+              <div class="col-xl-6">
+                <label class="form-label">Product<span class="text-danger">*</span></label>
+                <select id="selectProduct" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','product_id')"></select>
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Sale Price<span class="text-danger">*</span></label>
+                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','saleprice')">
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Available QTY<span class="text-danger">*</span></label>
+                <input id="textAvailableQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','availableqty')">
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Total QTY<span class="text-danger">*</span></label>
+                <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','totalqty')">
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Expire Date<span class="text-danger">*</span></label>
+                <input id="textExpireDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','expiredate' )">
+              </div>
+              <div class="col-xl-6">
+                <label class="form-label">Manufacture Date<span class="text-danger">*</span></label>
+                <input id="textManufactureDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','manufacturedate' )">
+              </div>
+              <div class="col-xl-4">
+                <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
+                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','batchno')">
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">GRN No<span class="text-danger">*</span></label>
+                <select id="selectGRN" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','grn_id')"></select>
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Status ID<span class="text-danger">*</span></label>
+                <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','status_id')"></select>
+              </div>     
+            </form>
+          </div>
+      
+          <div class="modal-footer">
+            <div class="col">
+              <button type="button" onclick="buttonInventoryDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshInventoryForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
+            </div> 
+            <div class="col text-end">
+              <button type="button" onclick="buttonInventoryPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
+              <button type="button" onclick="buttonInventoryUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
+              <button type="button" onclick="buttonInventorySubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+          </div>
+          </div>
+      
+        </div>
+      </div>
+      </div>
+
+      <!-- Bottombar -->
+      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+         
+        <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
+         
+      </ul>
+  </div>
+</div>
+    <div th:replace="~{common :: scripts}"></div>
+    <script src="/uicontroller/inventory.js"></script>
+</body>
+</html>

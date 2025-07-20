@@ -105,6 +105,9 @@ public class EmployeeController {
 			if (employee.getDesignation_id().getUseraccount()) {
 				User user = new User();
 				user.setUsername(employee.getEmpno()); //dhanushka - change to email
+				if (employee.getEmpphoto() != null) {
+					user.setUserphoto(employee.getEmpphoto());
+				}
 				user.setEmail(employee.getEmail());
 				user.setStatus(true);
 				user.setAdded_datetime(LocalDateTime.now());
@@ -119,8 +122,6 @@ public class EmployeeController {
 				
 				userDao.save(user);
 			}
-			
-
 
 			return "OK";
 		} catch (Exception e) {

@@ -6,6 +6,8 @@ window.addEventListener("load", () => {
 
 
 //table *********************************************************************************************************************************************************************************************
+
+
 const refreshEmployeeTable = () => {
 
     let employees = getServiceRequest('/employee/alldata');
@@ -14,7 +16,7 @@ const refreshEmployeeTable = () => {
     // function > object, array, boolean
     let propertyList = [
         { propertyName: "empno", dataType: "string" },
-        { propertyName: "userPhoto", dataType: "string" },
+        { propertyName: "empphoto", dataType: "image-array" },
         { propertyName: "fullname", dataType: "string" },
         { propertyName: "email", dataType: "string" },
         { propertyName: "nic", dataType: "string" },
@@ -50,16 +52,18 @@ const getEmployeeStatus = (dataOb) => {
 const refreshEmployeeForm = () => {
     employee = new Object();
 
-    formEmployee.reset();
 
-    setDefault([inputUserPhoto, textFullName, textNic, radioMale, radioFemale, textAddress, dteDOB, textEmail, selectCivilStatus, textMobile, selectDesignation, selectEmployeeStatus, textNote]);
+    formEmployee.reset();
+    
+    fileEmployeePhoto.value = "";
+    imgEmpPhotoPreview.src = "/images/default.png";
+
+    setDefault([ textFullName, textNic, radioMale, radioFemale, textAddress, dteDOB, textEmail, selectCivilStatus, textMobile, selectDesignation, selectEmployeeStatus, textNote]);
 
     let designations = getServiceRequest('/designation/alldata');
-    
     fillDataIntoSelect(selectDesignation,"Select Designation",designations,"name");
 
     let employeeStatus = getServiceRequest('/employeestatus/alldata');
-
     fillDataIntoSelect(selectEmployeeStatus,"Select Status",employeeStatus,"name");
 };
 
@@ -67,7 +71,13 @@ const employeeFormRefill = (ob, index) => {
     refreshEmployeeForm();
     console.log("Edit", ob, index);
 
-    inputUserPhoto.value = ob.userPhoto;
+    // set photo 
+    if (ob.empphoto != null) {
+        imgEmpPhotoPreview.src = atob(ob.empphoto);
+    } else {
+        imgEmpPhotoPreview.src = "/images/default.png";
+    }
+
     textFullName.value = ob.fullname;
     textNic.value = ob.nic;
     dteDOB.value = ob.dob;
@@ -256,7 +266,10 @@ const checkFormUpdate = () => {
         }
         if (employee.note != oldEmployee.note) {
             updates = updates + "note - " + oldEmployee.note + " to " + employee.note + "\n";
-        }
+        } 
+        if (employee.empphoto != oldEmployee.empphoto) {
+            updates = updates + "Photo - " + oldEmployee.empphoto + " to " + employee.empphoto + "\n";
+        } 
     }
     return updates;
 };

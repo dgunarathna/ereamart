@@ -1,10 +1,6 @@
 package com.ereamart.dao;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import com.ereamart.entity.ProductDepartment;
 
 public interface ProductDepartmentDao extends JpaRepository<ProductDepartment, Integer>{ 

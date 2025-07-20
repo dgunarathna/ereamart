@@ -42,6 +42,8 @@ public class User {
     @NotNull
     private String password;
 
+    private byte[] userphoto;
+
     @NotNull
     @Column(name = "email", unique = true)
     private String email;

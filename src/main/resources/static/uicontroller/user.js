@@ -12,12 +12,12 @@ const refreshUserTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getUserPhoto, dataType: "function"},
+        {propertyName: getEmpNo, dataType: "function"},
+        {propertyName: "userphoto", dataType: "image-array"},
         {propertyName: getName, dataType: "function"},
         {propertyName: getDesignation, dataType: "function"},
         {propertyName: getEmail, dataType: "function"},
         {propertyName: "username", dataType: "string"},
-        {propertyName: "password", dataType: "string"},
         {propertyName: "note", dataType: "string"},
         {propertyName: getStatus, dataType: "function"},
     ];
@@ -26,8 +26,9 @@ const refreshUserTable = () => {
 }
 
 
-const getUserPhoto = (dataOb) => {
-    return dataOb.employee_id.empphoto;
+
+const getEmpNo = (dataOb) => {
+    return dataOb.employee_id.empno;
 }
 
 const getName = (dataOb) => {
@@ -76,8 +77,6 @@ const refreshUserForm = () => {
 
     selectEmployee.disabled = false
 }
-
-
 
 const UserFormRefill = (ob, index) => {
     refreshUserForm();

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="~{common :: headFragment}"></div>
+
+<body>
+
+  <!-- Cursor effect -->
+  <div class="cursor"></div>
+
+  <div class="container-fluid p-0 m-0">
+      <!-- nav bar -->
+      <nav class="navbar row py-0 mx-0">
+          <div class="col-xl d-flex col-6 p-0 gap-1">
+              <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+              <button onclick="location.href='/dashboard.html';" class="btn btn-icon btn-light my-auto rounded-pill" type="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+              <h5 class="my-auto">Profile</h5>
+          </div>
+      </nav>
+      <div class="row app p-0 m-0">
+          <div class=" col-lg-6 col-md-12 mx-auto ">
+            <div class="card text-bg-success">
+              <div class="card-body">
+                <p class="card-subtitle my-2 text-body-secondary">Your plan</p>
+                <h4 class="card-title">Ereamart Buyer</h4>
+                <a href="#" class="btn btn-warning" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">Become a Seller</a>
+              </div>
+            </div>
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                      Account 
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse" aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+                      <form class="row g-2 align-items-center" onsubmit="return false">
+
+                          <div class="col-lg-4"><label class="form-label">Photo</label></div>
+                          <div class="col-lg-8">
+                            <img id="imgEditPhotoPreview" src="/images/default.png" alt="" class="rounded-circle img-thumbnail" width="90px" height="90px">
+                            <button onclick="fileEditUserPhoto.click()" type="button" class="btn btn-link">Edit photo</button>
+                            <input onchange="fileValidator(this, 'lguser', 'userphoto', imgEditPhotoPreview)" type="file" class="d-none" id="fileEditUserPhoto">
+                          </div>
+                          
+                          <div class="col-lg-4"><label class="form-label">Username</label></div>
+                          <div class="col-lg-8">
+                            <input id="textEditUserName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','lguser','username')">
+                          </div>
+
+                          <div class="col-lg-4"><label class="form-label">Old Password</label></div>
+                          <div class="col-lg-8">
+                            <input id="textPassword" type="password" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','lguser','oldpassword')">
+                          </div>
+
+                          <div class="col-lg-4"><label class="form-label">New Password</label></div>
+                          <div class="col-lg-8">
+                            <input id="" type="password" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','lguser','oldpassword')">
+                          </div>
+
+                          <div class="col-lg-4"><label class="form-label">Confirm Password</label></div>
+                          <div class="col-lg-8">
+                            <input id="" type="password" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','lguser','oldpassword')">
+                          </div>
+
+                          <div class="col-lg-4"><label class="form-label">Email</label></div>
+                          <div class="col-lg-8">
+                            <input id="textEditUserEmail" type="email" Required class="form-control" onkeyup="textValidator(this,'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$', 'lguser','email')">
+                          </div>
+
+                          <div class="col-lg-12 mt-3 text-end">
+                            <button type="button" onclick="saveChanges()" class="btn btn-primary">Update</button>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                      Store
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body">
+                      <form class="row g-2 align-items-center">
+
+                        <div class="col-lg-4"><label class="form-label">Name</label></div>
+                        <div class="col-lg-8"><input type="text" Required class="form-control" value="Keells"></div>
+                      
+                        <div class="col-lg-4"><label class="form-label">Location</label></div>
+                        <div class="col-lg-8"><input type="text" Required class="form-control" value="Kiribathgoda,sril lanka"></div>
+                      
+                        <div class="col-lg-4"><label class="form-label">BR</label></div>
+                        <div class="col-lg-8"><input type="text" Required class="form-control" value="Br65468468"></div>
+                      
+                        <div class="col-lg-4"><label class="form-label">Upload BR</label></div>
+                        <div class="col-lg-8"><input class="form-control" type="file" id="formFile"></div>
+
+                        <div class="col-lg-12 mt-3 text-end">
+                          <button type="button" class="btn btn-primary">Update</button>
+                          <button type="button" class="btn btn-success">Submit</button>
+                        </div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                      Security 
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                  <div class="accordion-body">
+                      <form class="row g-2 align-items-center">
+                          <div class="col-lg-4"><label class="form-label">Current Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-4"><label class="form-label">New Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-4"><label class="form-label">Retype New Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-12 mt-3 text-end"><button type="button" class="btn btn-primary">Update</button></div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                        Notification
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+                        <form class="row g-2 align-items-center">
+                            <div class="col-lg-4"><label class="form-label">Email</label></div>
+                            <div class="col-lg-8 form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"></div>
+
+                            <div class="col-lg-4"><label class="form-label">Mobile</label></div>
+                            <div class="col-lg-8 form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"></div>
+
+                            <div class="col-lg-4"><label class="form-label">Promotional</label></div>
+                            <div class="col-lg-8 form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"></div>
+
+                            <div class="col-lg-12 mt-3 text-end"><button type="button" class="btn btn-primary">Update</button></div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                      Wallet 
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                  <div class="accordion-body">
+                      <form class="row g-2 align-items-center">
+                          <div class="col-lg-4"><label class="form-label">Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-4"><label class="form-label">Retype Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-12 mt-3 text-end"><button type="button" class="btn btn-primary">Update</button></div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
+                      Appearance 
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSix">
+                  <div class="accordion-body">
+                      <form class="row g-2 align-items-center">
+                          <div class="col-lg-4"><label class="form-label">Dark Theme</label></div>
+                          <div class="col-lg-8 form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"></div>
+
+                          <div class="col-lg-12 mt-3 text-end"><button type="button" class="btn btn-primary">Update</button></div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
+                      Help 
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSeven">
+                  <div class="accordion-body">
+                      <form class="row g-2 align-items-center">
+                          <div class="col-lg-4"><label class="form-label">Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-4"><label class="form-label">Retype Password</label></div>
+                          <div class="col-lg-8"><input type="password" Required class="form-control" value="12345"></div>
+
+                          <div class="col-lg-12 mt-3 text-end"><button type="button" class="btn btn-primary">Update</button></div>
+                      </form>
+                  </div>
+                </div>
+              </div> -->
+
+            </div>
+          </div>
+      </div>
+  </div>
+
+
+
+  
+
+
+    <div th:replace="~{common :: scripts}"></div>
+    <script src="/uicontroller/profile.js"></script>
+</body>
+</html>

@@ -133,7 +133,7 @@ const privilegeFormRefill = (ob, index) => {
     oldprivilege = JSON.parse(JSON.stringify(ob));
 
     $("#modalPrivilegeForm").modal("show");
-    $("#modalPrivilegeFormLabel").text(ob.role_id.name);
+    $("#modalPrivilegeFormLabel").text(ob.module_id.name + " " + ob.role_id.name);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

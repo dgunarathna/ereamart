@@ -11,10 +11,23 @@ const fillDataIntoTable = (tableBodayId, dataList, propertyList, editFunction)=>
 
             if (property.dataType == "string") {
                 td.innerText = dataOb[property.propertyName];
-            } if (property.dataType == "function") {
+            } 
+            if (property.dataType == "function") {
                 td.innerHTML = property.propertyName(dataOb);
-            } if (property.dataType == "decimal") {
+            } 
+            if (property.dataType == "decimal") {
                 td.innerText = parseFloat(dataOb[property.propertyName]).toFixed(2);
+            } 
+            if (property.dataType == "image-array") {
+                let img = document.createElement("img");
+                img.style.width = "40px";
+                img.style.borderRadius = "4px";
+                 if (dataOb[property.propertyName] != null) {
+                        img.src = atob(dataOb[property.propertyName]);
+                    } else {
+                        img.src = "/images/default.png";
+                    }
+                td.appendChild(img);
             }
 
             tr.appendChild(td);
@@ -86,7 +99,7 @@ const fillDataIntoInnerTable = (tableBodayId, dataList, propertyList, editFuncti
 }
 
 // datatables jquery 
-new DataTable('#tablePrivilege, #tableEmployee, #tableUser, #tableProduct, #tableQuotation, #tableOrder, #tableProduct, #tableGRN, #tableInventory, #tableInvoice, #tableExpenses, #tableIncome, #tableSupplier, #tableCustomer ,  #tableOrderItem' , {
+new DataTable('#tablePrivilege, #tableEmployee, #tableUser, #tableProduct, #tableQuotation, #tableOrder, #tableProduct, #tableGRN, #tableInventory, #tableInvoice, #tableExpenses, #tableIncome, #tableSupplier, #tableCustomer ,  #tableOrderItem , #tabledahboard' , {
     info: false,
     paging: false,
     searching: false,

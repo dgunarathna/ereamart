@@ -19,7 +19,18 @@
     <script src="/jquery/jQuery-3.7.1.min.js"></script>
     <script src="/datatables/datatables.js"></script>
 
+    <!-- logged userimage -->
+    <script th:inline="javascript">
+      window.addEventListener("load", ()=>{
+        let logedUserPhoto = /*[[${loggeduserphoto}]]*/ 'loggeduserphoto';
+        if (logedUserPhoto != null) {
+          imgLogUserPhoto.src = atob(logedUserPhoto);
+        }
+      });
+    </script>
 </head>
+
+
 
 
 <!-- login / register head -->
@@ -40,6 +51,7 @@
     body {
       background-image: url(/images/bodybg.png);
       background-repeat: no-repeat;
+      background-size: cover;
       background-position: right bottom;
     }
   </style>

@@ -22,6 +22,14 @@ const refreshOrderTable = () => {
     ];
 
     fillDataIntoTable(tableOrderBody, Orders, propertyList, orderFormRefill);
+
+    //diable when status delete - dhanushka
+    // for (const index in Orders) {
+    //     if (Orders[index].orders_status_id.name == "Delete") {
+    //         // tableOrderBody.children[index].lastChild.children[1].disabled = "disabled";
+    //         $("#buttonDelete").hide();
+    //     }
+    // }
     
 }
 
@@ -146,20 +154,20 @@ const buttonOrderPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.orderno + " Details</h5>"
+            +"<h5 class='mb-4'>"+ ob.orders_code + " Details</h5>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Order no	 </th><td>"+ ob.orderno +"</td></tr>" 
-                +"<tr><th> Quotation no	 </th><td>"+ ob.Quotation_id.name +"</td></tr>" 
-                +"<tr><th> Required Date	 </th><td>"+ ob.requireddate +"</td></tr>" 
-                +"<tr><th> Total Amount	 </th><td>"+ ob.totalamount +"</td></tr>" 
+                +"<tr><th> Order no	 </th><td>"+ ob.orders_code +"</td></tr>" 
+                +"<tr><th> Required Date	 </th><td>"+ ob.required_date +"</td></tr>" 
+                +"<tr><th> Total Amount	 </th><td>"+ ob.total_amount +"</td></tr>" 
                 +"<tr><th> Note	 </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Supplier	 </th><td>"+ ob.supplier_id.name +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.status_id.name +"</td></tr>" 
+                +"<tr><th> Status </th><td>"+ ob.orders_status_id.name +"</td></tr>" 
             +"</tbody>" 
-            +"</table>" 
+            +"</table>" // dhanushka - inner table
         +"</div>" 
     +"</body>";
+
 
     newWindow.document.write(printView);
     
@@ -239,6 +247,33 @@ const checkFormUpdate = () => {
         if (order.orderHasProductList != oldOrder.orderHasProductList) {
             updates = updates + "Product List - " + oldOrder.orderHasProductList.length + " to " + order.orderHasProductList.length + "\n";
         }
+        //check inner form updates
+        if (order.orderHasProductList.length != oldOrder.orderHasProductList.length) {
+            updates = updates + "Products List changeged\n";
+        } else {
+            let equalCount = 0;
+            for(const oldoproduct of oldOrder.orderHasProductList){
+                for(const newoproduct of order.orderHasProductList){
+                    if (oldoproduct.product_id.id == newoproduct.product_id.id) {
+                        equalCount = equalCount + 1;
+                    }
+                }
+            }
+
+            if (equalCount != order.orderHasProductList.length) {
+                updates = updates + "Products List changeged\n";
+            }else{
+                for(const oldoproduct of oldOrder.orderHasProductList){
+                    for(const newoproduct of order.orderHasProductList){
+                        if (oldoproduct.product_id.id == newoproduct.product_id.id && oldoproduct.quantity != newoproduct.quantity) {
+                            updates = updates + "Products quantity changeged\n";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
     }
     return updates;
 }
@@ -260,6 +295,7 @@ const buttonOrderUpdate = () => {
                     $("#modalOrderForm").modal("hide");
                 } else {
                     window.alert("Failed to update" + putResponce);
+                    refreshOrderInnerForm();
                 }
             }
         }
@@ -379,6 +415,8 @@ const refreshOrderInnerForm = () =>{
         
     };
 
+    $("#buttonItemSubmit").show();
+    $("#buttonItemUpdate").hide();
 
 }
 

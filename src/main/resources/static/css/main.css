@@ -76,7 +76,7 @@ body::-webkit-scrollbar {
 .app{
     /* background-color: #3CD500; */
     height: calc(100vh - 80px);
-    overflow: hidden;
+    overflow: auto;
 }
 
 .itembody{
@@ -105,7 +105,7 @@ body::-webkit-scrollbar {
     border-right: none;
 }
 
-.card{
+.card, .card-header{
     border: 0;
     background-color: #EFEFEF;
 }

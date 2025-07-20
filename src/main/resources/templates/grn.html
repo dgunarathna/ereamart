@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="~{common :: headFragment}"></div>
+<body>
+
+  
+  <!-- Cursor effect -->
+  <div class="cursor"></div>
+
+  <div class="container-fluid p-0 m-0">
+      <!-- nav bar -->
+      <nav class="navbar row py-0 mx-0">
+          <div class="col-xl d-flex p-0 gap-1">
+              <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
+              <h5 class="my-auto" th:text="'Hi '+ ${loggedusername} + '👋'"></h5>
+          </div>
+          <div class="col-xl-6 d-flex p-0">
+          <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation.html">Quotation</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/order.html">Order</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill active" href="/grn.html">GRN</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
+              <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
+          </ul>
+          </div>
+          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="btn btn-icon btn-primary" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalGRNForm"><i class="fa-solid fa-plus"></i></button>
+            </div>
+      </nav>
+      <div class="row app p-0 m-0">
+          <!-- Sidebbar -->
+        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
+          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
+               
+              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
+              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
+               
+          </ul>
+        </div>
+          <div class="col">
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table   table-hover" id="tableGRN">
+              <thead>
+                <tr>
+                  <th>GRN No</th>
+                  <th>Order No</th>
+                  <th>Invoice No</th>
+                  <th>Received Date</th>
+                  <th>Total Amount</th>
+                  <th>Discount Rate</th>
+                  <th>Net Amount</th>
+                  <th>Note</th>
+                  <th>Status</th>
+              </tr>
+              </thead>
+              <tbody id="tableGRNBody"></tbody>
+            </table>
+          </div>
+          </div>
+      </div>
+      <!-- Modal -->
+    <div class="modal fade" id="modalGRNForm" tabindex="-1" aria-labelledby="modalGRNFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+      
+          <div class="modal-header">
+            <h6 class="modal-title" id="modalGRNFormLabel">Add New</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      
+          <div class="modal-body">
+            <form id="formGRN" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+              <div class="col-lg-4">
+                <label class="form-label">GRN No<span class="text-danger">*</span></label>
+                <input id="textGRN" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','grnno')">
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Order no<span class="text-danger">*</span></label>
+                <select id="selectOrder" Required  class="form-select" onchange="selectDynamicElementValidator(this,'grn','order_id')"></select>
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Supplier Invoice Number<span class="text-danger">*</span></label>
+                <input id="textInvoiceNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','invoiceno')">
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Total Amount<span class="text-danger">*</span></label>
+                <input id="textTotalAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','totalamount')">
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Discount Rate<span class="text-danger">*</span></label>
+                <input id="textDiscountRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','discountrate')">
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Net Amount<span class="text-danger">*</span></label>
+                <input id="textNetAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','netamount')">
+              </div>
+              <div class="col-lg-12">
+                <label for="inputAddress" class="form-label">Note<span class="text-danger">*</span></label>
+                <input id="textNote" type="text" Required class="form-control" id="textNote" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','note')">
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Received Date<span class="text-danger">*</span></label>
+                <input id="textReceivedDate" type="date" Required  class="form-control" id="dteDOB" onkeydown="return false" onchange="dateElemantValidator(this, 'grn','receiveddate')">
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'grn','status_id')"></select>
+              </div>  
+            </form>
+          </div>
+      
+          <div class="modal-footer">
+            <div class="col">
+              <button type="button" onclick="buttonGRNDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshGRNForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
+            </div> 
+            <div class="col text-end">
+              <button type="button" onclick="buttonGRNPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
+              <button type="button" onclick="buttonGRNUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
+              <button type="button" onclick="buttonGRNSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+          </div>
+          </div>
+      
+        </div>
+      </div>
+      </div>
+
+      <!-- Bottombar -->
+      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+         
+        <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><img  src="/icons/administration.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><img  src="/icons/operations.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><img  src="/icons/transection.svg" alt=""></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><img  src="/icons/resources.svg" alt=""></a></li>
+         
+      </ul>
+  </div>
+</div>
+      <div th:replace="~{common :: scripts}"></div>
+      <script src="/uicontroller/grn.js"></script>
+</body>
+</html>

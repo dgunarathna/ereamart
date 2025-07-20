@@ -7,11 +7,11 @@ window.addEventListener("load", () => {
 //table *********************************************************************************************************************************************************************************************
 const refreshExpensesTable = () => {
     let expenses = [
-        { id: 1, billno: "EXP001", expensesreceipt: "/images/user.png", paymentmethord: "Cash", totaldueamount: 150.75, paidamount: 100.00, balanceamount: 50.75, date: "2025-03-12", supplier_id: { id: 1, name: "Jane Smith" }},
-        { id: 2, billno: "EXP002", expensesreceipt: "/images/user.png", paymentmethord: "Card", totaldueamount: 200.50, paidamount: 200.50, balanceamount: 0.00, date: "2025-03-11", supplier_id: { id: 3, name: "Michael Johnson" }},
-        { id: 3, billno: "EXP003", expensesreceipt: "/images/user.png", paymentmethord: "Bank", totaldueamount: 500.00, paidamount: 450.00, balanceamount: 50.00, date: "2025-03-10", supplier_id: { id: 2, name: "Emily Davis" }},
-        { id: 4, billno: "EXP004", expensesreceipt: "/images/user.png", paymentmethord: "Cash", totaldueamount: 320.25, paidamount: 200.00, balanceamount: 120.25, date: "2025-03-09", supplier_id: { id: 1, name: "Robert Wilson" }},
-        { id: 5, billno: "EXP005", expensesreceipt: "/images/user.png", paymentmethord: "Card", totaldueamount: 99.99, paidamount: 50.00, balanceamount: 49.99, date: "2025-03-08", supplier_id: { id: 3, name: "Sophia Brown" }}
+        { id: 1, billno: "EXP001", expensesreceipt: "/images/default.png", paymentmethord: "Cash", totaldueamount: 150.75, paidamount: 100.00, balanceamount: 50.75, date: "2025-03-12", supplier_id: { id: 1, name: "Jane Smith" }},
+        { id: 2, billno: "EXP002", expensesreceipt: "/images/default.png", paymentmethord: "Card", totaldueamount: 200.50, paidamount: 200.50, balanceamount: 0.00, date: "2025-03-11", supplier_id: { id: 3, name: "Michael Johnson" }},
+        { id: 3, billno: "EXP003", expensesreceipt: "/images/default.png", paymentmethord: "Bank", totaldueamount: 500.00, paidamount: 450.00, balanceamount: 50.00, date: "2025-03-10", supplier_id: { id: 2, name: "Emily Davis" }},
+        { id: 4, billno: "EXP004", expensesreceipt: "/images/default.png", paymentmethord: "Cash", totaldueamount: 320.25, paidamount: 200.00, balanceamount: 120.25, date: "2025-03-09", supplier_id: { id: 1, name: "Robert Wilson" }},
+        { id: 5, billno: "EXP005", expensesreceipt: "/images/default.png", paymentmethord: "Card", totaldueamount: 99.99, paidamount: 50.00, balanceamount: 49.99, date: "2025-03-08", supplier_id: { id: 3, name: "Sophia Brown" }}
       ]
     ;
     // string > string, date, number

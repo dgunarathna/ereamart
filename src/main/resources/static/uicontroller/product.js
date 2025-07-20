@@ -15,7 +15,7 @@ const refreshProductTable = () => {
     // decimal >
 
     let propertyList = [
-        {propertyName: "image", dataType: "string"},
+        {propertyName: "image", dataType: "image-array"},
         {propertyName: "name", dataType: "string"},
         {propertyName: "description", dataType: "string"},
         {propertyName: getBrand, dataType: "string"},
@@ -95,6 +95,13 @@ const refreshProductForm = () => {
 const productFormRefill = (ob, index) => {
     refreshProductForm();
     console.log("Edit", ob, index);
+
+    // set photo 
+    if (ob.image != null) {
+        imgEmpPhotoPreview.src = atob(ob.image);
+    } else {
+        imgEmpPhotoPreview.src = "/images/default.png";
+    }
 
     selectCategory.value = JSON.stringify(ob.productcategory_id);
     selectDepartment.value = JSON.stringify(ob.productcategory_id.productdepartment_id);
