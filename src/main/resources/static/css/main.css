@@ -76,7 +76,12 @@ body::-webkit-scrollbar {
 .app{
     /* background-color: #3CD500; */
     height: calc(100vh - 80px);
-    overflow: auto;
+    overflow: auto; 
+    
+}
+
+.appCenter{
+   overflow: auto; 
 }
 
 .itembody{
@@ -84,7 +89,7 @@ body::-webkit-scrollbar {
     height: calc(100vh - 180px);
     /* height: 100vh; */
 }
-.itembody::-webkit-scrollbar {
+.app::-webkit-scrollbar {
     display: none;
 }
 

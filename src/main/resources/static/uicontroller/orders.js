@@ -412,7 +412,6 @@ const refreshOrderInnerForm = () =>{
         texttotalamount.value = totalAmount.toFixed(2);
         order.total_amount = texttotalamount.value;
         texttotalamount.style.border = "1px solid lightgreen"
-        
     };
 
     $("#buttonItemSubmit").show();
