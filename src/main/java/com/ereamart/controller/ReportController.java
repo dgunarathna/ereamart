@@ -1,11 +1,17 @@
 package com.ereamart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.ereamart.dao.ReportDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.User;
 
 @RestController
 public class ReportController {
@@ -15,6 +21,21 @@ public class ReportController {
 
     @Autowired
 	private UserDao userDao;
+
+    // mapping for return report page
+    @RequestMapping(value =  {"/report","/report.html"})
+    public ModelAndView uiReportPage(){
+		
+	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
+
+	ModelAndView reportPage = new ModelAndView();   
+	reportPage.setViewName("report.html");
+	reportPage.addObject("loggedusername", auth.getName());
+	reportPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
+
+	return reportPage;
+	}
 
 
 	//request mapping for load productdepartment all data - /productdepartment/bycategory

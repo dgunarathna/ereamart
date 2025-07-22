@@ -1,93 +1,18 @@
 window.addEventListener("load", () => {
   console.log("browser load Event");
-
-  let currentYear = new Date();
-  let currentMonth = currentYear.getMonth() + 1; // [0-11]
-    if (currentMonth < 10) currentMonth = '0' + currentMonth;
-    
-  let currentDay = currentYear.getDate(); // [1-31]
-    if (currentDay < 10) currentDay = '0' + currentDay;
-  
-  dateStart.value = currentYear.getFullYear()-10 + "-" + currentMonth + "-" + currentDay;
-  dateEnd.value = currentYear.getFullYear() + "-" + currentMonth + "-" + currentDay;
-
-  selectType.value = "Monthly";
-  console.log(dateEnd , dateStart, selectType);
-
-  genearatePayementReport();
   genearateOrderReport('orderReport', 'bar');
   genearateOrderReport('salesReport', 'line');
+  genearateOrderReport('topCategories', 'doughnut');
+  genearateOrderReport('topProducts', 'polarArea');
   
 
 });
 
-const genearatePayementReport = () => {
-
-  let dataList = getServiceRequest("http://localhost:8080/reportpayment/bytime?startdate="+ dateStart.value +"&enddate="+ dateEnd.value +"&type="+ selectType.value);
-
-  let reportDataList = new Array();
-  let data = new Array();
-  let lable = new Array();
-
-  for (const index in dataList) {
-    let object = new Object();
-    object.month = dataList[index][0];
-    object.amount = dataList[index][1];
-    reportDataList.push(object);
-
-    lable.push(dataList[index][0]);
-    data.push(dataList[index][1]);
-  }
-
-  // table
-  // string > string, date, number
-  // function > object, array, boolean
-  
-  let propertyList = [
-        { propertyName: "month", dataType: "string" },
-        { propertyName: "amount", dataType: "decimal" },
-    ];
-
-  fillDataIntoReportTable(tableBodyPayement, reportDataList, propertyList); 
-
-  //chart
-  const ctx = document.getElementById('paymentReport');
-
-  if (Chart.getChart('paymentReport') != undefined) {
-    Chart.getChart('paymentReport').destroy();
-  }
 
 
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: lable,
-      datasets: [{
-        label: '',
-        data: data,
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        x: {
-          grid: {
-            display: false
-          }
-        },
-        y: {
-          grid: {
-            display: false
-          }
-        }
-      }
-    }
-  });
-}
+
 const genearateOrderReport = (chartid, type) => {
 
-  let chartname = chartid;
-  let charttype = type;
   let dataList = getServiceRequest("/reportpayment/bymonth");
 
   let reportDataList = new Array();
@@ -123,6 +48,11 @@ const genearateOrderReport = (chartid, type) => {
       }]
     },
     options: {
+      plugins: {
+      legend: {
+        display: false
+      }
+    },
       scales: {
         x: {
           grid: {
@@ -130,6 +60,7 @@ const genearateOrderReport = (chartid, type) => {
           }
         },
         y: {
+          display: false,
           grid: {
             display: false
           }
@@ -139,33 +70,3 @@ const genearateOrderReport = (chartid, type) => {
   });
 }
 
-
-const printChart = (chartname, chartid, table) => {
-
-  let id = chartid;
-  let tablex = table;
-
-  const ctx = document.getElementById(id)
-  const tableo = tablex ? document.getElementById(tablex) : null;
-
-  let newWindow = window.open();
-  let printView =
-    "<head>"
-      + "<title>www.ereamart.com</title>"
-      + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-      + "<link rel='stylesheet' href='/css/main.css'>"
-    + "</head>"
-    + "<body>"
-      + "<h6 class='mb-4'>" + chartname + "</h6>"
-      + "<div class='col-12'><img src='" + ctx.toDataURL() + "'/></div>"
-      + (tableo ? "<div class='col-12'>"+ tableo.outerHTML +"</div>" : "")
-    + "</body>";
-
-  newWindow.document.write(printView);
-
-  setTimeout(() => {
-    newWindow.stop();
-    newWindow.print();
-    newWindow.close();
-  }, 500);
-}

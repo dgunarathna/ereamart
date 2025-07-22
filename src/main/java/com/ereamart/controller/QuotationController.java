@@ -21,4 +21,7 @@ public class QuotationController {
 		quotationPage.addObject("loggedusername", auth.getName());
 		return quotationPage;
 	} 
+
+
+	
 }
