@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ereamart.entity.Product;
 
-public interface ProductDao extends JpaRepository<Product, Integer>{
+public interface ProductDao extends JpaRepository<Product, Integer>{ 
 
     @Query(value = "Select p from Product p where p.name=?1") 
     Product getByName(String name);

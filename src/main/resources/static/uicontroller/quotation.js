@@ -6,13 +6,9 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshQuotationTable = () => {
-    let Quotations = [
-        { id: 1, Quotationno: "Q001", totalitems: 2, requestddate: "2025-03-12", note: "note 1", supplier_id: { id: 1, name: "Jane Smith" }, status_id: { id: 1, name: "Active" }},
-        { id: 2, Quotationno: "Q002", totalitems: 3, requestddate: "2025-03-12", note: "note 2", supplier_id: { id: 2, name: "Michael Johnson" }, status_id: { id: 1, name: "Active" }},
-        { id: 3, Quotationno: "Q003", totalitems: 4, requestddate: "2025-03-12", note: "note 3", supplier_id: { id: 3, name: "Emily Davis" }, status_id: { id: 2, name: "Deactive" }},
-        { id: 4, Quotationno: "Q004", totalitems: 5, requestddate: "2025-03-12", note: "note 4", supplier_id: { id: 4, name: "Robert Wilson" }, status_id: { id: 1, name: "Active" }},
-        { id: 5, Quotationno: "Q005", totalitems: 6, requestddate: "2025-03-12", note: "note 5", supplier_id: { id: 5, name: "Sophia Brown" }, status_id: { id: 2, name: "Deactive" }}
-      ];      
+
+    let Quotations = getServiceRequest('/qutation/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [

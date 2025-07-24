@@ -6,13 +6,9 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshInvoiceTable = () => {
-    let invoices = [
-        { id: 1, invoiceno: "INV001", totalamount: 150.75, discountamount: 66.27, netamount: 50.75, customer_id: { id: 1, regno: "CUS001", fullname: "Jane Smith", email: "jane.smith@gmail.com", mobileno: "0723456789", address: "45 Green St City", status: { id: 1, name: "Active" }, note: "Note 1" }},
-        { id: 2, invoiceno: "INV002", totalamount: 200.50, discountamount: 75.00, netamount: 50.12, customer_id: { id: 2, regno: "CUS002", fullname: "John Doe", email: "john.doe@email.com", mobileno: "0712345678", address: "12 Blue St City", status: { id: 2, name: "Pending" }, note: "Note 2" }},
-        { id: 3, invoiceno: "INV003", totalamount: 500.00, discountamount: 90.00, netamount: 50.00, customer_id: { id: 3, regno: "CUS003", fullname: "Emma Brown", email: "emma.brown@email.com", mobileno: "0756781234", address: "78 Red St City", status: { id: 3, name: "Active" }, note: "Note 3" }},
-        { id: 4, invoiceno: "INV004", totalamount: 320.25, discountamount: 62.44, netamount: 120.25, customer_id: { id: 4, regno: "CUS004", fullname: "Michael Lee", email: "michael.lee@email.com", mobileno: "0767892345", address: "90 Yellow St City", status: { id: 4, name: "Received" }, note: "Note 4" }},
-        { id: 5, invoiceno: "INV005", totalamount: 99.99, discountamount: 50.00, netamount: 49.99, customer_id: { id: 5, regno: "CUS005", fullname: "Sophia White", email: "sophia.white@email.com", mobileno: "0778903456", address: "23 Green St City", status: { id: 5, name: "Active" }, note: "Note 5" }}
-      ];
+
+    let invoices = getServiceRequest('/invoice/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [

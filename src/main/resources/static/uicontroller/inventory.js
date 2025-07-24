@@ -7,13 +7,9 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshInventoryTable = () => {
-    let inventorys = [
-        { id: 1, availableqty: 15, totalqty: 150, saleprice: "66.27", expiredate: "2025-03-12", manufacturedate: "2025-03-12", batchno: "654684849", grn_id: { id: 1, grnno: "GRN001", invoicenumber: "INV001", receiveddate: "2025-03-12", totalamount: 150.75, discountrate: "66.27%", netamount: 50.75, note: "Note 1", order_id: { id: 1, orderno: "PO001" }, status_id: { id: 1, name: "Active" }}, product_id: { id: 1, name: "Munchi busicut" }, status_id: { id: 1, name: "Active" }},
-        { id: 2, availableqty: 20, totalqty: 200, saleprice: "75.00", expiredate: "2025-03-11", manufacturedate: "2025-03-11", batchno: "316486484", grn_id: { id: 2, grnno: "GRN002", invoicenumber: "INV002", receiveddate: "2025-03-11", totalamount: 200.50, discountrate: "100%", netamount: 0.00, note: "Note 2", order_id: { id: 2, orderno: "PO002" }, status_id: { id: 2, name: "Received" } }, product_id: { id: 2, name: "Cake" }, status_id: { id: 2, name: "Received" }},
-        { id: 3, availableqty: 50, totalqty: 500, saleprice: "90.00", expiredate: "2025-03-10", manufacturedate: "2025-03-10", batchno: "654686546", grn_id: { id: 3, grnno: "GRN003", invoicenumber: "INV003", receiveddate: "2025-03-10", totalamount: 500.00, discountrate: "90%", netamount: 50.00, note: "Note 3", order_id: { id: 3, orderno: "PO003" }, status_id: { id: 1, name: "Active" } }, product_id: { id: 3, name: "Meat" }, status_id: { id: 1, name: "Active" }},
-        { id: 4, availableqty: 32, totalqty: 320, saleprice: "62.44", expiredate: "2025-03-09", manufacturedate: "2025-03-09", batchno: "6516865", grn_id: { id: 4, grnno: "GRN004", invoicenumber: "INV004", receiveddate: "2025-03-09", totalamount: 320.25, discountrate: "62.44%", netamount: 120.25, note: "Note 4", order_id: { id: 4, orderno: "PO004" }, status_id: { id: 2, name: "Received" } }, product_id: { id: 4, name: "Oil" }, status_id: { id: 2, name: "Received" }},
-        { id: 5, availableqty: 9, totalqty: 99, saleprice: "50.00", expiredate: "2025-03-08", manufacturedate: "2025-03-08", batchno: "2416616", grn_id: { id: 5, grnno: "GRN005", invoicenumber: "INV005", receiveddate: "2025-03-08", totalamount: 99.99, discountrate: "50%", netamount: 49.99, note: "Note 5", order_id: { id: 5, orderno: "PO005" }, status_id: { id: 1, name: "Active" } }, product_id: { id: 5, name: "Gas" }, status_id: { id: 1, name: "Active" }}
-      ];
+
+    let inventorys = getServiceRequest('/inventory/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [

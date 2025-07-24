@@ -45,7 +45,7 @@ public class ReportController {
     } 
 
 
-    //request mapping for load productdepartment all data - /reportpayment/bytime?type=
+    //request mapping for load productdepartment all data - /reportpayment/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
     @GetMapping(value = "/reportpayment/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
     public String[][] getPaymentReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
        

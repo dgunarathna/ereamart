@@ -28,6 +28,7 @@ public class WebConfiguration {
             .requestMatchers("/createadmin").permitAll() //create admin
             .requestMatchers("/profile/**").hasAnyAuthority("Admin") 
             .requestMatchers("/dashboard/**").hasAnyAuthority("Admin","Manager") 
+            .requestMatchers("/report/**").hasAnyAuthority("Admin") 
             .requestMatchers("/privilege/**").hasAnyAuthority("Admin")
             .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin")
             .requestMatchers("/user/**").hasAnyAuthority("Admin")

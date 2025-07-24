@@ -7,6 +7,7 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshUserTable = () => {
+    
     let users = getServiceRequest('/user/alldata');
 
     // string > string, date, number

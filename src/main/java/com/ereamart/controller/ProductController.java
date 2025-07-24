@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,16 +29,16 @@ import com.ereamart.entity.User;
 @RestController
 public class ProductController {
 
-    @Autowired // genarate instance of product dao - interface
+    @Autowired // genarate instance of product dao
     private ProductDao productDao;
 
-    @Autowired // genarate instance of product dao - interface
+    @Autowired // genarate instance of product status dao
     private ProductStatusDao productStatusDao;
 
-    @Autowired // genarate instance of user dao - interface
+    @Autowired // genarate instance of user dao
     private UserDao userDao;
 
-    @Autowired
+    @Autowired // genarate instance of user privilege dao
 	private UserPrivilegeController userPrivilegeController;
 
     // mapping for return product html page
@@ -55,7 +57,16 @@ public class ProductController {
     //request mapping for load product all data - /product/alldata
     @GetMapping(value = "/product/alldata", produces = "application/json")
     public List<Product> findAllData(){
-        return productDao.findAll();
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+        if (userPrivilege.getPrivi_select()) {
+            return productDao.findAll(Sort.by(Direction.DESC, "id"));
+        } else {
+            return new ArrayList<>();
+        }
     } 
 
 	// mapping for insert product data
@@ -95,7 +106,7 @@ public class ProductController {
 
 	} 
 
-		// mapping for product user data
+	// mapping for update product data
 	@PutMapping(value = "/product/update")
 	public String updateUserData(@RequestBody Product product) {
 
@@ -141,7 +152,6 @@ public class ProductController {
 		}
 	
 	}
-
 
 	// mapping for delete product data
 	@DeleteMapping(value = "/product/delete") 

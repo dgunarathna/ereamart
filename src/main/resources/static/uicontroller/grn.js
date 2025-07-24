@@ -6,13 +6,9 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshGRNTable = () => {
-    let grns = [
-        { id: 1, grnno: "GRN001", invoiceno: "INV001", receiveddate: "2025-03-12", totalamount: 150.75, discountrate: "66.27%", netamount: 50.75, note: "Note 1", order_id: { id: 1, orderno: "O001" }, status_id: { id: 1, name: "Active" } },
-        { id: 2, grnno: "GRN002", invoiceno: "INV002", receiveddate: "2025-03-11", totalamount: 200.50, discountrate: "100%", netamount: 0.00, note: "Note 2", order_id: { id: 2, orderno: "O002" }, status_id: { id: 2, name: "Received" } },
-        { id: 3, grnno: "GRN003", invoiceno: "INV003", receiveddate: "2025-03-10", totalamount: 500.00, discountrate: "90%", netamount: 50.00, note: "Note 3", order_id: { id: 3, orderno: "O003" }, status_id: { id: 1, name: "Active" } },
-        { id: 4, grnno: "GRN004", invoiceno: "INV004", receiveddate: "2025-03-09", totalamount: 320.25, discountrate: "62.44%", netamount: 120.25, note: "Note 4", order_id: { id: 4, orderno: "O004" }, status_id: { id: 2, name: "Received" } },
-        { id: 5, grnno: "GRN005", invoiceno: "INV005", receiveddate: "2025-03-08", totalamount: 99.99, discountrate: "50%", netamount: 49.99, note: "Note 5", order_id: { id: 5, orderno: "O005" }, status_id: { id: 1, name: "Active" } }
-      ];
+
+    let grns = getServiceRequest('/grn/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [

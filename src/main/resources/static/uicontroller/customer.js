@@ -7,13 +7,8 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshCustomerTable = () => {
-    let customers = [
-        { id: 1, regno: "CUS001", fullname: "Jane Smith", email: "jane.smith@gmail.com",  mobileno: "0723456789", address: "45 Green St City", status: "Inactive", note: "note 1"},
-        { id: 2, regno: "CUS002", fullname: "Michael Johnson", email: "michael.j@gmail.com", mobileno: "0774567890", address: "78 Blue St City", status: "Active",note: "note 2"},
-        { id: 3, regno: "CUS003", fullname: "Emily Davis", email: "emily.d@gmail.com", mobileno: "0765678901", address: "23 Red St City", status: "Inactive",note: "note 3"},
-        { id: 4, regno: "CUS004", fullname: "Robert Wilson", email: "robert.w@gmail.com", mobileno: "0716789012", address: "56 Yellow St City", status: "Active",note: "note 4"},
-        { id: 5, regno: "CUS005", fullname: "Sophia Brown", email: "sophia.b@gmail.com", mobileno: "0787890123", address: "89 Purple St City", status: "Active",note: "note 5"}
-    ];
+    let customers = getServiceRequest('/customer/alldata');
+    
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [

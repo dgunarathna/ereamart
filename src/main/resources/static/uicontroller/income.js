@@ -6,13 +6,9 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshIncomeTable = () => {
-    let incomes = [
-        { id: 1, incomeno: "INC001", incomereceipt: "/images/default.png", totalamount: 150.75, paidamount: "66.27", balanceamount: 50.75, paymentmethord: "Cash", date: "2025-03-12", customer_id: { id: 1, regno: "CUS001", fullname: "Jane Smith", email: "jane.smith@gmail.com", mobileno: "0723456789", address: "45 Green St City", status: { id: 1, name: "Active" }, note: "Note 1" }, invoice_id: { id: 1, name: "INV001" } },
-        { id: 2, incomeno: "INC002", incomereceipt: "/images/default.png", totalamount: 200.50, paidamount: "75.00", balanceamount: 50.12, paymentmethord: "Card", date: "2025-03-11", customer_id: { id: 2, regno: "CUS002", fullname: "John Doe", email: "john.doe@email.com", mobileno: "0712345678", address: "12 Blue St City", status: { id: 2, name: "Pending" }, note: "Note 2" }, invoice_id: { id: 2, name: "INV002" } },
-        { id: 3, incomeno: "INC003", incomereceipt: "/images/default.png", totalamount: 500.00, paidamount: "90.00", balanceamount: 50.00, paymentmethord: "Bank", date: "2025-03-10", customer_id: { id: 3, regno: "CUS003", fullname: "Emma Brown", email: "emma.brown@email.com", mobileno: "0756781234", address: "78 Red St City", status: { id: 3, name: "Active" }, note: "Note 3" }, invoice_id: { id: 3, name: "INV003" } },
-        { id: 4, incomeno: "INC004", incomereceipt: "/images/default.png", totalamount: 320.25, paidamount: "62.44", balanceamount: 120.25, paymentmethord: "Cash", date: "2025-03-09", customer_id: { id: 4, regno: "CUS004", fullname: "Michael Lee", email: "michael.lee@email.com", mobileno: "0767892345", address: "90 Yellow St City", status: { id: 4, name: "Received" }, note: "Note 4" }, invoice_id: { id: 4, name: "INV004" } },
-        { id: 5, incomeno: "INC005", incomereceipt: "/images/default.png", totalamount: 99.99, paidamount: "50.00", balanceamount: 49.99, paymentmethord: "Cash", date: "2025-03-08", customer_id: { id: 5, regno: "CUS005", fullname: "Sophia White", email: "sophia.white@email.com", mobileno: "0778903456", address: "23 Green St City", status: { id: 5, name: "Active" }, note: "Note 5" }, invoice_id: { id: 5, name: "INV005" } }
-      ];
+
+    let incomes = getServiceRequest('/income/alldata');
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [

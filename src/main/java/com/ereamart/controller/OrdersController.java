@@ -29,16 +29,16 @@ import com.ereamart.entity.User;
 @RestController
 public class OrdersController {
 
-	@Autowired
+	@Autowired // genarate instance of Orders dao
 	private OrdersDao ordersDao;
 
-	@Autowired
-	private UserDao userDao;
+	@Autowired // genarate instance of user dao
+    private UserDao userDao;
 
-	@Autowired
+	@Autowired // genarate instance of user privilege dao
 	private UserPrivilegeController userPrivilegeController;
 
-	@Autowired
+	@Autowired // genarate instance of Order status dao
 	private OrdersStatusDao ordersStatusDao;
 
     // mapping for return order page
