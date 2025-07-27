@@ -22,7 +22,6 @@ import com.ereamart.dao.ExpensesDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Expenses;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.Product;
 import com.ereamart.entity.User;
 
 @RestController
@@ -67,7 +66,7 @@ public class ExpenseController {
     }
 
     // mapping for insert Expenses data
-	@PostMapping(value = "/Expenses/insert")
+	@PostMapping(value = "/expenses/insert")
 	public String saveUserData(@RequestBody Expenses expenses) {
 
 		//check logged user authorization

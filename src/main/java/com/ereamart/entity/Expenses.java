@@ -1,5 +1,7 @@
 package com.ereamart.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,12 +31,18 @@ public class Expenses {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
-    private Integer bill_no;
-    private Integer total_due_amount;
-    private Integer paid_amount;
-    private String payment_methord;
-    private Integer balance_amount;
-    private LocalDateTime date;
+
+    private String bill_no;
+
+    private BigDecimal total_due_amount;
+
+    private BigDecimal paid_amount;
+
+    private String payment_method;
+
+    private BigDecimal balance_amount;
+
+    private LocalDate date;
 
     
     @NotNull
@@ -48,4 +58,8 @@ public class Expenses {
     private Integer update_user_id;
 
     private Integer delete_user_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
+    private Supplier supplier_id;
 }

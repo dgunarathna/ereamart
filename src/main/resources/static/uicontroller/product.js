@@ -217,10 +217,10 @@ const checkFormError = ()=>{
     if (product.barcode == null) {
         errors = errors + "Please Select barcode \n";
     }
-    if (product.status_id == null) {
+    if (product.productstatus_id == null) {
         errors = errors + "Please Select Status \n";
     }
-    if (product.productname == null) {
+    if (product.name == null) {
         errors = errors + "Please Enter product name \n";
     }
     // if (product.productimage == null) {

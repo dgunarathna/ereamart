@@ -75,42 +75,43 @@
       
           <div class="modal-body">
             <form id="formInventory" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
-              <div class="col-xl-6">
-                <label class="form-label">Product<span class="text-danger">*</span></label>
-                <select id="selectProduct" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','product_id')"></select>
-              </div>
-              <div class="col-xl-6">
-                <label class="form-label">Sale Price<span class="text-danger">*</span></label>
-                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','saleprice')">
-              </div>
-              <div class="col-xl-6">
-                <label class="form-label">Available QTY<span class="text-danger">*</span></label>
-                <input id="textAvailableQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','availableqty')">
-              </div>
-              <div class="col-xl-6">
-                <label class="form-label">Total QTY<span class="text-danger">*</span></label>
-                <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','totalqty')">
-              </div>
-              <div class="col-xl-6">
-                <label class="form-label">Expire Date<span class="text-danger">*</span></label>
-                <input id="textExpireDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','expiredate' )">
-              </div>
-              <div class="col-xl-6">
-                <label class="form-label">Manufacture Date<span class="text-danger">*</span></label>
-                <input id="textManufactureDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','manufacturedate' )">
-              </div>
-              <div class="col-xl-4">
-                <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
-                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','batchno')">
-              </div>
+              
               <div class="col-xl-4">
                 <label class="form-label">GRN No<span class="text-danger">*</span></label>
                 <select id="selectGRN" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','grn_id')"></select>
+              </div> 
+              <div class="col-xl-4">
+                <label class="form-label">Product<span class="text-danger">*</span></label>
+                <select id="selectProduct" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','product_id')"></select>
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Status ID<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','status_id')"></select>
-              </div>     
+                <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','inventory_status_id')"></select>
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Sale Price<span class="text-danger">*</span></label>
+                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','sales_price')">
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Available QTY<span class="text-danger">*</span></label>
+                <input id="textAvailableQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','available_qty')">
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Total QTY<span class="text-danger">*</span></label>
+                <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','total_qty')">
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Manufacture Date<span class="text-danger">*</span></label>
+                <input id="textManufactureDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','manufacture_date' )">
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Expire Date<span class="text-danger">*</span></label>
+                <input id="textExpireDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','expire_date' )">
+              </div>
+              <div class="col-xl-4">
+                <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
+                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','batch_number')">
+              </div>    
             </form>
           </div>
       
@@ -134,7 +135,7 @@
       <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
          
         <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
          

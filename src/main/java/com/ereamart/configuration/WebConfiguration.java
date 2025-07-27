@@ -25,9 +25,10 @@ public class WebConfiguration {
             .requestMatchers("/script/seller.js").permitAll()
             .requestMatchers("/login").permitAll()
             .requestMatchers("/register").permitAll() 
+            .requestMatchers("/error").permitAll() 
             .requestMatchers("/createadmin").permitAll() //create admin
             .requestMatchers("/profile/**").hasAnyAuthority("Admin") 
-            .requestMatchers("/dashboard/**").hasAnyAuthority("Admin","Manager") 
+            .requestMatchers("/dashboard/**").hasAnyAuthority("Admin") 
             .requestMatchers("/report/**").hasAnyAuthority("Admin") 
             .requestMatchers("/privilege/**").hasAnyAuthority("Admin")
             .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin")

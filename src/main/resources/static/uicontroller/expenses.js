@@ -12,14 +12,14 @@ const refreshExpensesTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "billno", dataType: "string"},
+        {propertyName: "bill_no", dataType: "string"},
         {propertyName: "expensesreceipt", dataType: "string"},
         {propertyName: getSupplierName, dataType: "function"},
-        {propertyName: "paymentmethord", dataType: "string"},
+        {propertyName: "payment_method", dataType: "string"},
         {propertyName: "date", dataType: "string"},
-        {propertyName: "totaldueamount", dataType: "string"},
-        {propertyName: "paidamount", dataType: "string"},
-        {propertyName: "balanceamount", dataType: "string"},
+        {propertyName: "total_due_amount", dataType: "string"},
+        {propertyName: "paid_amount", dataType: "string"},
+        {propertyName: "balance_amount", dataType: "string"},
     ];
 
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
@@ -33,37 +33,28 @@ const getSupplierName = (dataOb) => {
 
 const refreshExpensesForm = () => {
     expenses = new Object();
-    expenses.expensesHasItemList = new Array();
 
     formExpenses.reset();
 
     setDefault([billNo, expensesReceipt, selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate]);
 
-    let supliers = [
-        {id: 1, name: "Jane Smith"},
-        {id: 3, name: "Michael Johnson"},
-        {id: 2, name: "Emily Davis"},
-        {id: 1, name: "Robert Wilson"},
-        {id: 3, name: "Sophia Brown"},
-    ];
+    let supliers = getServiceRequest('/supplier/alldata');
 
     fillDataIntoSelect(selectSupplier,"Select Status",supliers,"name");
 
-    //inner form ************************************
-    refreshExpensesInnerForm();
 }
 
 const expensesFormRefill = (ob, index) => {
     refreshExpensesForm();
     console.log("Edit", ob, index);
 
-    billNo.value = ob.billno;
+    billNo.value = ob.bill_no;
     expensesReceipt.value = ob.expensesreceipt;
     selectSupplier.value = JSON.stringify(ob.supplier_id);
-    selectPaymentMethord.value = ob.paymentmethord;
-    textTotalDue.value = ob.totaldueamount;
-    textTotalPaid.value = ob.paidamount;
-    textTotalBalance.value = ob.balanceamount;
+    selectPaymentMethord.value = ob.payment_method;
+    textTotalDue.value = ob.total_due_amount;
+    textTotalPaid.value = ob.paid_amount;
+    textTotalBalance.value = ob.balance_amount;
     expensesDate.value = ob.date;
 
     expenses = JSON.parse(JSON.stringify(ob));
@@ -83,7 +74,7 @@ const buttonExpensesDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.billno + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/expenses/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshExpensesTable();
@@ -112,7 +103,7 @@ const buttonExpensesPrint = (ob, index) => {
                 +"<tr><th> Bill no </th><td>"+ ob.billno +"</td></tr>" 
                 +"<tr><th> expensesReceipt </th><td>"+ ob.expensesreceipt +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
-                +"<tr><th> Payment Method </th><td>"+ ob.paymentmethord +"</td></tr>" 
+                +"<tr><th> Payment Method </th><td>"+ ob.payment_method +"</td></tr>" 
                 +"<tr><th> Total Due Amount </th><td>"+ ob.totaldueamount +"</td></tr>" 
                 +"<tr><th> Paid Amount </th><td>"+ ob.paidamount +"</td></tr>" 
                 +"<tr><th> Balance Amount </th><td>"+ ob.balanceamount +"</td></tr>" 
@@ -134,25 +125,22 @@ const buttonExpensesPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (expenses.billno == null) {
+    if (expenses.bill_no == null) {
         errors = errors + "Please Enter Bill no\n"
-    }
-    if (expenses.expensesreceipt == null) {
-        errors = errors + "Please Enter expensesReceipt\n"
     }
     if (expenses.supplier_id == null) {
         errors = errors + "Please Select Supplier\n"
     }
-    if (expenses.paymentmethord == null) {
+    if (expenses.payment_method == null) {
         errors = errors + "Please Enter Payment Method\n"
     }
-    if (expenses.totaldueamount == null) {
+    if (expenses.total_due_amount == null) {
         errors = errors + "Please Enter Total Due Amount\n"
     }
-    if (expenses.paidamount == null) {
+    if (expenses.paid_amount == null) {
         errors = errors + "Please Enter Paid Amount\n"
     }
-    if (expenses.balanceamount == null) {
+    if (expenses.balance_amount == null) {
         errors = errors + "Please Enter Balance Amount\n"
     }
     if (expenses.date == null) {
@@ -166,9 +154,9 @@ const buttonExpensesSubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ expenses.billno +"?");
+        let userConfirm = window.confirm("Are you sure to add "+ expenses.bill_no +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/expenses/insert", "POST", expenses);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshExpensesTable();
@@ -190,8 +178,8 @@ const checkFormUpdate = () => {
     console.log(oldExpenses);
     
     if (expenses != null && oldExpenses !== null) {
-        if (expenses.billno != oldExpenses.billno) {
-            updates = updates + "Bill no - " + oldExpenses.billno + " to " + expenses.billno + "\n";
+        if (expenses.bill_no != oldExpenses.bill_no) {
+            updates = updates + "Bill no - " + oldExpenses.bill_no + " to " + expenses.bill_no + "\n";
         }
         if (expenses.expensesreceipt != oldExpenses.expensesreceipt) {
             updates = updates + "expensesReceipt - " + oldExpenses.expensesreceipt + " to " + expenses.expensesreceipt + "\n";
@@ -199,17 +187,17 @@ const checkFormUpdate = () => {
         if (expenses.supplier_id.name != oldExpenses.supplier_id.name) {
             updates = updates + "Supplier - " + oldExpenses.supplier_id.name + " to " + expenses.supplier_id.name + "\n";
         }
-        if (expenses.paymentmethord != oldExpenses.paymentmethord) {
-            updates = updates + "Payment Method - " + oldExpenses.paymentmethord + " to " + expenses.paymentmethord + "\n";
+        if (expenses.payment_method != oldExpenses.payment_method) {
+            updates = updates + "Payment Method - " + oldExpenses.payment_method + " to " + expenses.payment_method + "\n";
         }
-        if (expenses.totaldueamount != oldExpenses.totaldueamount) {
-            updates = updates + "Total Due Amount - " + oldExpenses.totaldueamount + " to " + expenses.totaldueamount + "\n";
+        if (expenses.total_due_amount != oldExpenses.total_due_amount) {
+            updates = updates + "Total Due Amount - " + oldExpenses.total_due_amount + " to " + expenses.total_due_amount + "\n";
         }
-        if (expenses.paidamount != oldExpenses.paidamount) {
-            updates = updates + "Paid Amount - " + oldExpenses.paidamount + " to " + expenses.paidamount + "\n";
+        if (expenses.paid_amount != oldExpenses.paid_amount) {
+            updates = updates + "Paid Amount - " + oldExpenses.paid_amount + " to " + expenses.paid_amount + "\n";
         }
-        if (expenses.balanceamount != oldExpenses.balanceamount) {
-            updates = updates + "Balance Amount - " + oldExpenses.balanceamount + " to " + expenses.balanceamount + "\n";
+        if (expenses.balance_amount != oldExpenses.balance_amount) {
+            updates = updates + "Balance Amount - " + oldExpenses.balance_amount + " to " + expenses.balance_amount + "\n";
         }
         if (expenses.date != oldExpenses.date) {
             updates = updates + "Date - " + oldExpenses.date + " to " + expenses.date + "\n";
@@ -227,7 +215,7 @@ const buttonExpensesUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ expenses.billno +"?\n" + updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/expenses/update", "PUT", expenses);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshExpensesTable();
@@ -256,5 +244,3 @@ const buttonAddNew = () => {
     $("#buttonPrint").hide();
     $("#buttonUpdate").hide();
 }
-
-// inner form ***************************************************************************************************************************************************************************************

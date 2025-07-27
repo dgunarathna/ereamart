@@ -41,14 +41,6 @@ public class LoginController {
 		return loginPage;
 	}
 
-	// mapping for return error page
-    @RequestMapping(value =  {"/error","/error.html"})
-    public ModelAndView uiErrorPage(){
-		ModelAndView errorPage = new ModelAndView();
-		errorPage.setViewName("error.html");
-		return errorPage;
-	}
-
 	// mapping for createadmin account
     @RequestMapping(value =  {"/createadmin"})
     public ModelAndView genarateAdminAccount(){
@@ -62,11 +54,14 @@ public class LoginController {
 			adminUser.setAdded_datetime(LocalDateTime.now());
 			adminUser.setPassword(bCryptPasswordEncoder.encode("Admin"));
 
-			Set<Role> roles = new HashSet<>();
-			Role adminRole = roleDao.getReferenceById(1);
-			roles.add(adminRole);
+			// Role adminRole = new Role();  //dhanushka - record 1st role as admin in to db instrd of getting roles from db 
+			// adminRole.setName("Admin");
+			// roleDao.save(adminRole);
 
-			adminUser.setRoles(roles); 
+			Set<Role> roles = new HashSet<>();
+			Role adminRole = roleDao.getReferenceById(1); 
+			roles.add(adminRole);
+			adminUser.setRoles(roles);  
 			
 			userDao.save(adminUser);
 		}

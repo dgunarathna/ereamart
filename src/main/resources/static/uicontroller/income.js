@@ -12,15 +12,15 @@ const refreshIncomeTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "incomeno", dataType: "string"},
+        {propertyName: "income_number", dataType: "string"},
         {propertyName: "incomereceipt", dataType: "string"},
         {propertyName: getInvoice, dataType: "function"},
         {propertyName: getCustomer, dataType: "function"},
-        {propertyName: "paymentmethord", dataType: "string"},
+        {propertyName: "payment_methord", dataType: "string"},
         {propertyName: "date", dataType: "string"},
-        {propertyName: "totalamount", dataType: "string"},
-        {propertyName: "paidamount", dataType: "string"},
-        {propertyName: "balanceamount", dataType: "string"},
+        {propertyName: "total_amount", dataType: "string"},
+        {propertyName: "paid_amount", dataType: "string"},
+        {propertyName: "balanced_amount", dataType: "string"},
     ];
 
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
@@ -31,7 +31,7 @@ const getCustomer = (dataOb) => {
 }
 
 const getInvoice = (dataOb) => {
-    return dataOb.invoice_id.name;
+    return dataOb.invoice_id.invoice_code;
 }
 
 //form *********************************************************************************************************************************************************************************************
@@ -43,46 +43,32 @@ const refreshIncomeForm = () => {
 
     setDefault([textIncomeNo, incomeReceipt, selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal, textPaid, textBalance]);
 
-    let invoices = [
-        {id:1, name:"INV001"},
-        {id:2, name:"INV002"},
-        {id:3, name:"INV003"},
-        {id:4, name:"INV004"},
-        {id:5, name:"INV005"},
-    ];
-    
-    fillDataIntoSelect(selectInvoiceNo,"Select invoice",invoices,"name");
+    let invoices = getServiceRequest('/invoice/alldata');
+    fillDataIntoSelect(selectInvoiceNo,"Select invoice",invoices,"invoice_code");
 
-    let customers = [
-        {id:1, name:"Jane Smith"},
-        {id:2, name:"John Doe"},
-        {id:3, name:"Emma Brown"},
-        {id:4, name:"Michael Lee"},
-        {id:5, name:"Sophia White"},
-    ];
-
-    fillDataIntoSelect(selectCustomer,"Select customer",customers,"name");
+    let customers = getServiceRequest('/customer/alldata');
+    fillDataIntoSelect(selectCustomer,"Select customer",customers,"fullname");
 }
 
 const incomeFormRefill = (ob, index) => {
     refreshIncomeForm();
     console.log("Edit", ob, index);
 
-    textIncomeNo.value = ob.incomeno;
+    textIncomeNo.value = ob.income_number;
     incomeReceipt.value = ob.incomereceipt;
     selectInvoiceNo.value = JSON.stringify(ob.invoice_id);
     selectCustomer.value = JSON.stringify(ob.customer_id);
-    selectPaymentMethord.value = ob.paymentmethord;
+    selectPaymentMethord.value = ob.payment_methord;
     incomeDate.value = ob.date;
-    textTotal.value = ob.totalamount;
-    textPaid.value = ob.paidamount;
-    textBalance.value = ob.balanceamount;
+    textTotal.value = ob.total_amount;
+    textPaid.value = ob.paid_amount;
+    textBalance.value = ob.balanced_amount;
 
     income = JSON.parse(JSON.stringify(ob));
     oldIncome = JSON.parse(JSON.stringify(ob));
 
     $("#modalIncomeForm").modal("show");
-    $("#modalIncomeFormLabel").text(ob.incomeno);
+    $("#modalIncomeFormLabel").text(ob.income_number);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 
@@ -93,9 +79,9 @@ const incomeFormRefill = (ob, index) => {
 
 const buttonIncomeDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.incomeno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.income_number + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/income/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshIncomeTable();
@@ -147,31 +133,25 @@ const buttonIncomePrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (income.incomeno == null) {
+    if (income.income_number == null) {
         errors = errors + "Please Enter Income no\n"
-    }
-    if (income.incomereceipt == null) {
-        errors = errors + "Please Enter Receipt\n"
-    }
-    if (income.invoice_id == null) {
-        errors = errors + "Please Enter Invoice no\n"
     }
     if (income.customer_id == null) {
         errors = errors + "Please Enter Customer\n"
     }
-    if (income.paymentmethord == null) {
+    if (income.payment_methord == null) {
         errors = errors + "Please Enter Payment Method\n"
     }
     if (income.date == null) {
         errors = errors + "Please Enter Date\n"
     }
-    if (income.totalamount == null) {
+    if (income.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
-    if (income.paidamount == null) {
+    if (income.paid_amount == null) {
         errors = errors + "Please Enter Paid Amount\n"
     }
-    if (income.balanceamount == null) {
+    if (income.balanced_amount == null) {
         errors = errors + "Please Enter Balance Amount\n"
     }
     return errors;
@@ -182,9 +162,9 @@ const buttonIncomeSubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ income.incomeno +"?");
+        let userConfirm = window.confirm("Are you sure to add "+ income.income_number +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/income/insert", "POST", income);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshIncomeTable();
@@ -206,32 +186,32 @@ const checkFormUpdate = () => {
     console.log(oldIncome);
     
     if (income != null && oldIncome !== null) {
-        if (income.incomeno != oldIncome.incomeno) {
-            updates = updates + "Income no - " + oldIncome.incomeno + " to " + income.incomeno + "\n";
+        if (income.income_number != oldIncome.income_number) {
+            updates = updates + "Income no - " + oldIncome.income_number + " to " + income.income_number + "\n";
         }
         if (income.incomereceipt != oldIncome.incomereceipt) {
             updates = updates + "Receipt - " + oldIncome.incomereceipt + " to " + income.incomereceipt + "\n";
         }
-        if (income.invoice_id.name != oldIncome.invoice_id.name) {
-            updates = updates + "Invoice no - " + oldIncome.invoice_id.name + " to " + income.invoice_id.name + "\n";
+        if (income.invoice_id.invoice_code != oldIncome.invoice_id.invoice_code) {
+            updates = updates + "Invoice no - " + oldIncome.invoice_id.invoice_code + " to " + income.invoice_id.invoice_code + "\n";
         }
         if (income.customer_id.name != oldIncome.customer_id.name) {
             updates = updates + "Customer - " + oldIncome.customer_id.name + " to " + income.customer_id.name + "\n";
         }
-        if (income.paymentmethord != oldIncome.paymentmethord) {
-            updates = updates + "Payment Method - " + oldIncome.paymentmethord + " to " + income.paymentmethord + "\n";
+        if (income.payment_methord != oldIncome.payment_methord) {
+            updates = updates + "Payment Method - " + oldIncome.payment_methord + " to " + income.payment_methord + "\n";
         }
         if (income.date != oldIncome.date) {
             updates = updates + "Date - " + oldIncome.date + " to " + income.date + "\n";
         }
-        if (income.totaldueamount != oldIncome.totaldueamount) {
-            updates = updates + "Total Amount - " + oldIncome.totaldueamount + " to " + income.totaldueamount + "\n";
+        if (income.total_amount != oldIncome.total_amount) {
+            updates = updates + "Total Amount - " + oldIncome.total_amount + " to " + income.total_amount + "\n";
         }
-        if (income.paidamount != oldIncome.paidamount) {
-            updates = updates + "Paid Amount - " + oldIncome.paidamount + " to " + income.paidamount + "\n";
+        if (income.paid_amount != oldIncome.paid_amount) {
+            updates = updates + "Paid Amount - " + oldIncome.paid_amount + " to " + income.paid_amount + "\n";
         }
-        if (income.balanceamount != oldIncome.balanceamount) {
-            updates = updates + "Balance Amount - " + oldIncome.balanceamount + " to " + income.balanceamount + "\n";
+        if (income.balanced_amount != oldIncome.balanced_amount) {
+            updates = updates + "Balance Amount - " + oldIncome.balanced_amount + " to " + income.balanced_amount + "\n";
         }
     }
     return updates;
@@ -246,7 +226,7 @@ const buttonIncomeUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ income.incomeno +"?\n" + updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/income/update", "PUT", income);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshIncomeTable();

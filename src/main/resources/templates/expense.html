@@ -70,7 +70,7 @@
             <form id="formExpenses" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
               <div class="col-xl-4">
                 <label class="form-label">Bill no<span class="text-danger">*</span></label>
-                <input id="billNo" type="text" Required  class="form-control" onchange="selectStaticElementValidator(this,'expenses','billno')">
+                <input id="billNo" type="text" Required  class="form-control" onchange="selectStaticElementValidator(this,'expenses','bill_no')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Receipt<span class="text-danger">*</span></label>
@@ -82,7 +82,7 @@
               </div> 
               <div class="col-xl-4">
                 <label class="form-label">Payment Method<span class="text-danger">*</span></label>
-                <select id="selectPaymentMethord" class="form-select" Required  onchange="selectStaticElementValidator(this,'expenses','paymentmethord')">
+                <select id="selectPaymentMethord" class="form-select" Required  onchange="selectStaticElementValidator(this,'expenses','payment_method')">
                   <option value="Select Civil Status" selected disabled>Select Method</option>
                   <option value="Cash">Cash</option> 
                   <option value="Card">Card</option>
@@ -91,15 +91,15 @@
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Total Due Amount<span class="text-danger">*</span></label>
-                <input id="textTotalDue" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','totaldueamount')">
+                <input id="textTotalDue" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','total_due_amount')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Paid Amount<span class="text-danger">*</span></label>
-                <input id="textTotalPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','paidamount')">
+                <input id="textTotalPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','paid_amount')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Balance Amount<span class="text-danger">*</span></label>
-                <input id="textTotalBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','balanceamount')">
+                <input id="textTotalBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','balance_amount')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Date<span class="text-danger">*</span></label>
@@ -127,7 +127,7 @@
       <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
          
         <li class="nav-item"><a class="nav-link btn-icon " href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon active" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon " href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
          

@@ -8,6 +8,6 @@ import com.ereamart.entity.Product;
 
 public interface CustomerDao extends JpaRepository<Customer, Integer>{
 
-    @Query(value = "Select c from Customer c where c.name=?1") 
+    @Query(value = "Select c from Customer c where c.fullname=?1") 
     Product getByName(Integer name);
 }

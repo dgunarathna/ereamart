@@ -73,15 +73,10 @@ const refreshPrivilegeForm = () => {
     setDefault([selectRole, selectModule]);
 
     let roles = getServiceRequest('/role/alldata');
-
     fillDataIntoSelect(selectRole,"Select Role", roles, "name");
     
     let modules = getServiceRequest('/module/alldata');
-
     fillDataIntoSelect(selectModule,"Select Module", modules, "name");
-
-    selectRole.disabled = false;
-    selectModule.disabled = false;
 
     chkBoxSelect.checked = true;
     privilege.privi_select = true;
@@ -101,6 +96,9 @@ const refreshPrivilegeForm = () => {
 
 const privilegeFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
+
+    // selectRole.disabled = true;
+    // selectModule.disabled = true;
 
     selectRole.value = JSON.stringify(ob.role_id);
     selectModule.value = JSON.stringify(ob.module_id);

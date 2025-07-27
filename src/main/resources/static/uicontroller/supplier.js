@@ -20,7 +20,7 @@ const refreshSupplierTable = () => {
         {propertyName: "description", dataType: "string"},
         {propertyName: "bank", dataType: "string"},
         {propertyName: "branch", dataType: "string"},
-        {propertyName: "accno", dataType: "string"},
+        {propertyName: "account_no", dataType: "string"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -41,30 +41,30 @@ const getStatus = (dataOb) => {
 
 const refreshSupplierForm = () => {
     supplier = new Object();
-    suplier.suplierHasItemList = new Array();
+    // suplier.suplierHasItemList = new Array();
 
     formSupplier.reset();
 
     setDefault([textRegNo, textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectState]);
 
     //inner form ************************************
-    refreshSuplierInnerForm();
+    // refreshSuplierInnerForm();
 }
 
 const supplierFormRefill = (ob, index) => {
     refreshSupplierForm();
     console.log("Edit", ob, index);
 
-    textRegNo.value = ob.regno;
-    textBRN.value = ob.brn;
-    textName.value = ob.fullname;
+    textRegNo.value = ob.reg_no;
+    textBRN.value = ob.supplier_brn;
+    textName.value = ob.name;
     textEmail.value = ob.email;
-    textMobileNo.value = ob.mobileno;
+    textMobileNo.value = ob.mobile_no;
     textAddress.value = ob.address;
     textNote.value = ob.note;
     textBank.value = ob.bank;
     textBranch.value = ob.branch;
-    textAccountNo.value = ob.accno;
+    textAccountNo.value = ob.account_no;
     selectState.value = ob.status
 
     supplier = JSON.parse(JSON.stringify(ob));

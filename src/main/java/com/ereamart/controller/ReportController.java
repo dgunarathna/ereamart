@@ -1,6 +1,10 @@
 package com.ereamart.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.ReportDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 
 @RestController
@@ -21,6 +26,9 @@ public class ReportController {
 
     @Autowired
 	private UserDao userDao;
+
+    @Autowired
+	private UserPrivilegeController userPrivilegeController;
 
     // mapping for return report page
     @RequestMapping(value =  {"/report","/report.html"})
@@ -41,25 +49,38 @@ public class ReportController {
 	//request mapping for load productdepartment all data - /productdepartment/bycategory
     @GetMapping(value = "/reportpayment/bymonth" , produces = "application/json")
     public String[][] getPaymentReportMonthly(){
-        return reportDao.getPaymentsByMonthly();
-    } 
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
 
+        if (userPrivilege.getPrivi_select()) {
+			return reportDao.getPaymentsByMonthly();
+		} else {
+			return new String[0][0];
+        } 
+    } 
 
     //request mapping for load productdepartment all data - /reportpayment/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
     @GetMapping(value = "/reportpayment/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
     public String[][] getPaymentReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
-       
-        if (type.equals("Monthly")) {
-            return reportDao.getPaymentsByMonth(startdate, enddate);
-        }
-        if (type.equals("Weekly")) {
-            return reportDao.getPaymentsByweek(startdate, enddate);
-        }
-        if (type.equals("Daily")) {
-            return reportDao.getPaymentsByDay(startdate, enddate);
-        }
-        return new String[0][0];
-    } 
 
-    
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getPaymentsByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getPaymentsByweek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getPaymentsByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
 }

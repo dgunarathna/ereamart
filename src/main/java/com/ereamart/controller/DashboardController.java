@@ -20,8 +20,11 @@ public class DashboardController {
     @RequestMapping(value =  {"/dashboard","/dashboard.html"})
     public ModelAndView uiDashboardPage(){
 		
+	//check logged user authorization
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	User loggedUser = userDao.getByUsename(auth.getName());
+
+	
 
 	ModelAndView dashboardPage = new ModelAndView();   
 	dashboardPage.setViewName("dashboard.html");

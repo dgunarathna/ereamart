@@ -47,15 +47,8 @@ const refreshGRNForm = () => {
 
     setDefault([textGRN, textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textNote, textReceivedDate, selectStatus]);
 
-    let orders = [
-        {id:1, orderno:"O001"},
-        {id:2, orderno:"O002"},
-        {id:3, orderno:"O003"},
-        {id:4, orderno:"O004"},
-        {id:5, orderno:"O005"},
-    ];
-    
-    fillDataIntoSelect(selectOrder,"Select order no",orders,"orderno");
+    let orders = getServiceRequest('/orders/alldata');
+    fillDataIntoSelect(selectOrder,"Select order no",orders,"orders_code");
 
     let grnStatus = [
         {id:1, name:"Active"},

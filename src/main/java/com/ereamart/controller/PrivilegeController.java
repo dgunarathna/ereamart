@@ -18,23 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.PrivilegeDao;
-import com.ereamart.dao.ProductDao;
 import com.ereamart.entity.Privilege;
 
 @RestController
 public class PrivilegeController {
-
-    private final ProductDao productDao;
 
 	@Autowired
 	private PrivilegeDao privilegeDao;
 	
 	@Autowired
 	private UserPrivilegeController userPrivilegeController;
-
-    PrivilegeController(ProductDao productDao) {
-        this.productDao = productDao;
-    }
 
     // mapping for return privilege page
     @RequestMapping(value =  {"/privilege","/privilege.html"})
@@ -62,8 +55,6 @@ public class PrivilegeController {
 		} else {
 			return new ArrayList<>();
 		}
-
-		
 	}
 
 	// mapping for insert privilege data

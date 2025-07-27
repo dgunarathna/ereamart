@@ -13,14 +13,14 @@ const refreshInventoryTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getProductNo, dataType: "function"},
-        {propertyName: "saleprice", dataType: "string"},
-        {propertyName: "availableqty", dataType: "string"},
-        {propertyName: "totalqty", dataType: "string"},
-        {propertyName: "expiredate", dataType: "string"},
-        {propertyName: "manufacturedate", dataType: "string"},
-        {propertyName: "batchno", dataType: "string"},
-        {propertyName: getGrnNo, dataType: "function"},
+        {propertyName: "sales_pric", dataType: "string"},
+        {propertyName: "sales_price", dataType: "string"},
+        {propertyName: "available_qty", dataType: "string"},
+        {propertyName: "total_qty", dataType: "string"},
+        {propertyName: "expire_date", dataType: "string"},
+        {propertyName: "manufacture_date", dataType: "string"},
+        {propertyName: "batch_number", dataType: "string"},
+        {propertyName: "sales_prc", dataType: "string"},
         {propertyName: getStatus, dataType: "function"},
     ];
 
@@ -28,18 +28,18 @@ const refreshInventoryTable = () => {
 }
 
 const getGrnNo = (dataOb) => {
-    return dataOb.grn_id.grnno;
+    return dataOb.grn_id.grn_no;
 }
 
-const getProductNo = (dataOb) => {
-    return dataOb.product_id.name;
-}
+// const getProductNo = (dataOb) => {
+//     return dataOb.product_id.name;
+// }
 
 const getStatus = (dataOb) => {
-    if (dataOb.status_id.name == "Active") {
-        return "<p class='badge bg-warning text-dark w-100 my-auto'>" + dataOb.status_id.name + "</p>";
-    } if (dataOb.status_id.name == "Received") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.status_id.name + "</p>";
+    if (dataOb.inventory_status_id.name == "In stock") {
+        return "<p class='badge bg-successs text-dark w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
+    } if (dataOb.inventory_status_id.name == "Out of stock") {
+        return "<p class='badge bg-warning w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
     }
 }
 
@@ -51,24 +51,10 @@ const refreshInventoryForm = () => {
 
     setDefault([selectProduct, textSalePrice, textAvailableQty, textTotalQty, textExpireDate, textManufactureDate, textBatchNo, selectGRN, selectStatus]);
 
-    let products = [
-        {id:1, name:"Munchi busicut"},
-        {id:2, name:"Cake"},
-        {id:3, name:"Meat"},
-        {id:4, name:"Oil"},
-        {id:5, name:"Gas"},
-    ];
-    
+    let products = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectProduct,"Select Product",products,"name");
 
-    let grns = [
-        {id:1, grnno:"GRN001"},
-        {id:2, grnno:"GRN002"},
-        {id:3, grnno:"GRN003"},
-        {id:4, grnno:"GRN004"},
-        {id:5, grnno:"GRN005"},
-    ];
-
+    let grns = getServiceRequest('/grn/alldata');
     fillDataIntoSelect(selectGRN,"Select GRN",grns,"grnno");
 
     let status = [
@@ -110,7 +96,7 @@ const buttonInventoryDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.product_id.name + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/inventory/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshInventoryTable();
@@ -162,33 +148,30 @@ const buttonInventoryPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (inventory.product_id == null) {
-        errors = errors + "Please Enter Product\n"
-    }
-    if (inventory.saleprice == null) {
+    if (inventory.sales_price == null) {
         errors = errors + "Please Enter Sale Price\n"
     }
-    if (inventory.availableqty == null) {
+    if (inventory.available_qty == null) {
         errors = errors + "Please Enter Available QTY\n"
     }
-    if (inventory.totalqty == null) {
+    if (inventory.total_qty == null) {
         errors = errors + "Please Enter Total QTY\n"
     }
-    if (inventory.expiredate == null) {
+    if (inventory.expire_date == null) {
         errors = errors + "Please Enter Expire Date\n"
     }
-    if (inventory.manufacturedate == null) {
+    if (inventory.manufacture_date == null) {
         errors = errors + "Please Enter Manufacture Date\n"
     }
-    if (inventory.batchno == null) {
+    if (inventory.batch_number == null) {
         errors = errors + "Please Enter Batch Number\n"
     }
-    if (inventory.grn_id == null) {
-        errors = errors + "Please Enter GRN No\n"
-    }
-    if (inventory.status_id == null) {
-        errors = errors + "Please Enter Status ID\n"
-    }
+    // if (inventory.grn_id == null) {
+    //     errors = errors + "Please Enter GRN No\n"
+    // }
+    // if (inventory.status_id == null) {
+    //     errors = errors + "Please Enter Status ID\n"
+    // }
     return errors;
 }
 
@@ -197,9 +180,9 @@ const buttonInventorySubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ inventory.product_id.name +"?");
+        let userConfirm = window.confirm("Are you sure to add?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/inventory/insert", "POST", inventory);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshInventoryTable();
@@ -261,7 +244,7 @@ const buttonInventoryUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ inventory.product_id.name +"?\n" +updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/inventory/update", "PUT", inventory);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshInventoryTable();

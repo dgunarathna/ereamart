@@ -16,25 +16,24 @@ public class UserPrivilegeController {
     public Privilege getPrivilegeByUserModule(String username, String modulename){
 
         Privilege userPrivilege = new Privilege();
+        System.out.println(username + modulename);
 
-        if (username == "Admin" || username == "admin") {
+        if (username == "Admin" || username == "Admin") {
             userPrivilege.setPrivi_select(true);
             userPrivilege.setPrivi_insert(true);
             userPrivilege.setPrivi_update(true);
             userPrivilege.setPrivi_delete(true);
-        }else{
+        } else {
             String userPriString = privilegeDao.getUserPrivilegeByuserModule(username, modulename);
             String[] userPriviArray = userPriString.split(",");
-            System.out.println(userPriString);
+            System.out.println(username + " - " + modulename + " - " + userPriString);
 
             userPrivilege.setPrivi_select(userPriviArray[0].equals("1"));
             userPrivilege.setPrivi_insert(userPriviArray[1].equals("1"));
             userPrivilege.setPrivi_update(userPriviArray[2].equals("1"));
             userPrivilege.setPrivi_delete(userPriviArray[3].equals("1"));
         }
-
         
-
         return userPrivilege;
     };
 

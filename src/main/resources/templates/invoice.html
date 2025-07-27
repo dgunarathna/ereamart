@@ -77,7 +77,10 @@
                 </div>
                 <div class="col-xl-6">
                   <label class="form-label">Customer<span class="text-danger">*</span></label>
-                  <select id="selectCustomer" Required  class="form-select" onchange="selectDynamicElementValidator(this,'invoice','customer_id')"></select>
+                  <div class="input-group">
+                    <select id="selectCustomer" Required  class="form-select" onchange="selectDynamicElementValidator(this,'invoice','customer_id')"></select>
+                    <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i></button>
+                  </div>
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
@@ -151,7 +154,7 @@
       <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
          
         <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
          

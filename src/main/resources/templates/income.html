@@ -72,7 +72,7 @@
               <form id="formIncome" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
                 <div class="col-xl-4">
                   <label class="form-label">Income no<span class="text-danger">*</span></label>
-                  <input id="textIncomeNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','incomeno')">
+                  <input id="textIncomeNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','income_number')">
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Receipt<span class="text-danger">*</span></label>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Payment Method<span class="text-danger">*</span></label>
-                  <select id="selectPaymentMethord" class="form-select" Required  onchange="selectStaticElementValidator(this,'income','paymentmethord')">
+                  <select id="selectPaymentMethord" class="form-select" Required  onchange="selectStaticElementValidator(this,'income','payment_methord')">
                     <option value="Select Civil Status" selected disabled>Select Method</option>
                     <option value="Cash">Cash</option> 
                     <option value="Card">Card</option>
@@ -101,15 +101,15 @@
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
-                  <input id="textTotal" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','totalamount')">
+                  <input id="textTotal" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','total_amount')">
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Paid Amount<span class="text-danger">*</span></label>
-                  <input id="textPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','paidamount')">
+                  <input id="textPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','paid_amount')">
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Balance Amount<span class="text-danger">*</span></label>
-                  <input id="textBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','balanceamount')">
+                  <input id="textBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','balanced_amount')">
                 </div>
   
               </form>

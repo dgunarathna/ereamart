@@ -28,19 +28,17 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
-    private Integer reg_no;
+    private String regno;
 
-    private Integer name;
+    private String fullname;
 
-    private Integer email;
+    private String email;
 
-    private Integer mobile_no;
+    private Integer mobileno;
 
-    private Integer address;
-
-    private Integer status;
+    private String address;
     
-    private Integer note;
+    private String note;
 
     
     @NotNull

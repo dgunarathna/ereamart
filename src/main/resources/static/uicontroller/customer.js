@@ -73,7 +73,7 @@ const buttonCustomerDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.fullname + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/customer/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshCustomerTable();
@@ -138,12 +138,6 @@ const checkFormError = ()=>{
     if (customer.address == null) {
         errors = errors + "Please Enter Address\n"
     }
-    if (customer.note == null) {
-        errors = errors + "Please Enter Note\n"
-    }
-    if (customer.status == null) {
-        errors = errors + "Please Enter Status\n"
-    }
     return errors;
 };
 
@@ -154,7 +148,7 @@ const buttonCustomerSubmit = () => {
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add "+ customer.fullname +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/customer/insert", "POST", customer);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshCustomerTable();
@@ -210,7 +204,7 @@ const buttonCustomerUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ customer.fullname +"?\n"+updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/customer/update", "PUT", customer);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshCustomerTable();

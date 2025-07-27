@@ -79,17 +79,13 @@
               </div>
               <div class="col-xl-6">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
-                <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'order','supplier_id'); filterProductBySupplier();" ></select>
+                <div class="input-group">
+                  <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'order','supplier_id'); filterProductBySupplier();" ></select>
+                  <button class="btn btn-outline-primary" type="button"><i class="fa-solid fa-plus"></i></button>
+                </div>
               </div>
-              <div class="col-xl-12">
-                <label for="inputAddress" class="form-label">Note</label>
-                <input id="textnote" type="text" class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','order','note')">
-              </div>
-              
-              <div class="col-lg-12 pt-3"><strong>Product List</strong></div>
-
               <div class="col-xl-4">
-                <label class="form-label">Name<span class="text-danger">*</span></label>
+                <label class="form-label">Product<span class="text-danger">*</span></label>
                 <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'orderHasProduct','product_id'); checkProductExt();"></select>
               </div>
               <div class="col-xl-2">
@@ -105,7 +101,7 @@
                 <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'orderHasProduct','lineprice')">
               </div>
               <div class="col-xl-2 gap-1 d-flex align-items-end">
-                <button type="button" onclick="buttonOrderItemSubmit()" class="btn btn-success w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
+                <button type="button" onclick="buttonOrderItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
                 <button type="button" onclick="buttonOrderItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
               </div>
               
@@ -135,6 +131,10 @@
                 <label for="selectorderstate" class="form-label">Status<span class="text-danger">*</span></label>
                 <select id="selectorderstate" Required class="form-select" onchange="selectDynamicElementValidator(this,'order','orders_status_id')"></select>
               </div>
+              <div class="col-xl-12">
+                <label for="inputAddress" class="form-label">Note</label>
+                <input id="textnote" type="text" class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','order','note')">
+              </div>
 
             </form>
           </div>
@@ -159,7 +159,7 @@
       <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
          
         <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon active" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
+        <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
         <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
          

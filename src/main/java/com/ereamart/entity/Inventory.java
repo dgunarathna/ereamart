@@ -1,5 +1,7 @@
 package com.ereamart.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,15 +36,13 @@ public class Inventory {
 
     private Integer total_qty;
 
-    private Integer sales_price;
+    private BigDecimal sales_price;
 
-    private Integer expire_date;
+    private LocalDate expire_date;
 
-    private Integer manufacture_date;
+    private LocalDate manufacture_date;
 
-    private Integer batch_number;
-
-    private Integer grn_no;
+    private String batch_number;
 
     
     @NotNull
@@ -62,4 +62,8 @@ public class Inventory {
     @ManyToOne()
     @JoinColumn(name = "inventory_status_id", referencedColumnName = "id")
     private InventoryStatus inventory_status_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "grn_id", referencedColumnName = "id")
+    private GRN grn_id;
 }
