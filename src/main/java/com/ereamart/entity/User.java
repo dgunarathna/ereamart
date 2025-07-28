@@ -51,8 +51,6 @@ public class User {
     @NotNull
     private Boolean status;
 
-    private String note;
-
     @NotNull
     private LocalDateTime added_datetime;
 

@@ -64,14 +64,13 @@ public class PrivilegeController {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Privilege");
-
+		
 		if (userPrivilege.getPrivi_insert()) {
 			//duplicate check
 			Privilege extPrivilege = privilegeDao.getPrivilegeByRoleModule(privilege.getRole_id().getId(), privilege.getModule_id().getId());
 			if (extPrivilege != null) {
 				return "Save not completed, Privilege allready exist";
 			}
-	
 			try {
 				// set auto added data
 

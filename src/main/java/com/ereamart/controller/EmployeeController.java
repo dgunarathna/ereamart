@@ -120,14 +120,14 @@ public class EmployeeController {
 
 				if (employee.getDesignation_id().getUseraccount()) {
 					User user = new User();
-					user.setUsername(employee.getEmpno()); //dhanushka - change to email
+					user.setUsername(employee.getDesignation_id().getName()); //dhanushka - change to designation
 					if (employee.getEmpphoto() != null) {
 						user.setUserphoto(employee.getEmpphoto());
 					}
 					user.setEmail(employee.getEmail());
 					user.setStatus(true);
 					user.setAdded_datetime(LocalDateTime.now());
-					user.setPassword(bCryptPasswordEncoder.encode(employee.getNic()));
+					user.setPassword(bCryptPasswordEncoder.encode(employee.getDesignation_id().getName()));
 					user.setEmployee_id(employeeDao.getByNIC(employee.getNic()));
 
 					Set<Role> roles = new HashSet<>();
@@ -155,9 +155,9 @@ public class EmployeeController {
 	public String updateEmployeeData(@RequestBody Employee employee) {
 
 		//check logged user authorization
-		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Employee");
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		if (userPrivilege.getPrivi_update()) {
 			//check ext pk - update / delete only
@@ -183,7 +183,7 @@ public class EmployeeController {
 			try {
 				// set auto added data
 				employee.setUpdate_datetime(LocalDateTime.now());
-				employee.setUpdate_user_id(1);
+				employee.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
 				employeeDao.save(employee);
@@ -206,6 +206,7 @@ public class EmployeeController {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Employee");
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		if (userPrivilege.getPrivi_delete()) {
 			//check ext pk - update / delete only
@@ -219,7 +220,7 @@ public class EmployeeController {
 			try {
 				// set auto added data
 				extEmployeeById.setDelete_datetime(LocalDateTime.now());
-				extEmployeeById.setDelete_user_id(1);
+				extEmployeeById.setDelete_user_id(loggedUser.getId());
 				extEmployeeById.setEmployeestatus_id(employeeStatusDao.getReferenceById(3));
 
 				// delete oparator

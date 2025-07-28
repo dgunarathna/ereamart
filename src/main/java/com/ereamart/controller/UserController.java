@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,11 +52,10 @@ public class UserController {
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
 
         if (userPrivilege.getPrivi_select()) {
-            return userDao.findAll(auth.getName());
+            return userDao.findAll(Sort.by(Direction.DESC, "id"));
         } else {
             return new ArrayList<>();
         }
-        
     } 
 
 	// mapping for insert privilege data

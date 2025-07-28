@@ -42,9 +42,9 @@ public class Privilege {
 
     @ManyToOne()
     @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role module_id;
+    private Role role_id;
 
     @ManyToOne()
     @JoinColumn(name = "module_id", referencedColumnName = "id")
-    private Module role_id;
+    private Module module_id;
 }

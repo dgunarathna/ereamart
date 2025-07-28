@@ -54,10 +54,6 @@ public class LoginController {
 			adminUser.setAdded_datetime(LocalDateTime.now());
 			adminUser.setPassword(bCryptPasswordEncoder.encode("Admin"));
 
-			// Role adminRole = new Role();  //dhanushka - record 1st role as admin in to db instrd of getting roles from db 
-			// adminRole.setName("Admin");
-			// roleDao.save(adminRole);
-
 			Set<Role> roles = new HashSet<>();
 			Role adminRole = roleDao.getReferenceById(1); 
 			roles.add(adminRole);

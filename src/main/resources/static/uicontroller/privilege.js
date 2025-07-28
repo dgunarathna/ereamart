@@ -12,8 +12,8 @@ const refreshPrivilegeTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getModule, dataType: "function"},
         {propertyName: getRole, dataType: "function"},
+        {propertyName: getModule, dataType: "function"},
         {propertyName: getSelet, dataType: "function"},
         {propertyName: getInsert, dataType: "function"},
         {propertyName: getUpdate, dataType: "function"},
@@ -70,9 +70,12 @@ const refreshPrivilegeForm = () => {
 
     formPrivilege.reset();
 
+    selectRole.disabled = false;
+    selectModule.disabled = false;
+
     setDefault([selectRole, selectModule]);
 
-    let roles = getServiceRequest('/role/alldata');
+    let roles = getServiceRequest('/role/withoutadmin');
     fillDataIntoSelect(selectRole,"Select Role", roles, "name");
     
     let modules = getServiceRequest('/module/alldata');
@@ -97,8 +100,8 @@ const refreshPrivilegeForm = () => {
 const privilegeFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
-    // selectRole.disabled = true;
-    // selectModule.disabled = true;
+    selectRole.disabled = true;
+    selectModule.disabled = true;
 
     selectRole.value = JSON.stringify(ob.role_id);
     selectModule.value = JSON.stringify(ob.module_id);

@@ -19,4 +19,10 @@ public class ModuleController {
     public List<com.ereamart.entity.Module> findAllData(){
         return moduleDao.findAll();
     } 
+
+    //request mapping for load module all data - /module/withoutprivilege
+    @GetMapping(value = "/module/withoutprivilege", produces = "application/json")
+    public List<com.ereamart.entity.Module> modulesWithoutDPR(){
+        return moduleDao.modulesWithoutDPR();
+    } 
 }

@@ -16,10 +16,10 @@ const refreshUserTable = () => {
         {propertyName: getEmpNo, dataType: "function"},
         {propertyName: "userphoto", dataType: "image-array"},
         {propertyName: getName, dataType: "function"},
-        {propertyName: getDesignation, dataType: "function"},
         {propertyName: getEmail, dataType: "function"},
+        {propertyName: getDesignation, dataType: "function"},
+        {propertyName: getRole, dataType: "function"},
         {propertyName: "username", dataType: "string"},
-        {propertyName: "note", dataType: "string"},
         {propertyName: getStatus, dataType: "function"},
     ];
 
@@ -27,6 +27,16 @@ const refreshUserTable = () => {
 }
 
 
+
+const getRole = (ob) => {
+
+    let roles = "";
+    ob.roles.forEach(role => {
+        roles = roles + role.name
+    });
+
+    return roles;
+}
 
 const getEmpNo = (dataOb) => {
     return dataOb.employee_id.empno;
@@ -62,19 +72,13 @@ const refreshUserForm = () => {
 
     formUser.reset();
 
-    setDefault([selectEmployee, selectRole, textUsername, textPassword, textRetypePassword, textNote, selectAccountStatus]);
+    setDefault([selectEmployee, selectRole, textUsername, textPassword, textRetypePassword, selectAccountStatus]);
 
     let employees = getServiceRequest('/employee/withoutuseraccount');
-    
     fillDataIntoSelect(selectEmployee,"Select Employee",employees,"fullname");
 
     let roles = getServiceRequest('/role/withoutadmin');
-
     fillDataIntoSelect(selectRole,"Select Role", roles, "name");
-    
-    let accountStatus = getServiceRequest('/useraccountstatus/alldata'); // dhanushka dropdown
-    
-    fillDataIntoSelect(selectAccountStatus,"Select Status",accountStatus,"name");
 
     selectEmployee.disabled = false
 }
@@ -83,12 +87,22 @@ const UserFormRefill = (ob, index) => {
     refreshUserForm();
     console.log("Edit", ob, index);
 
+    let employees = getServiceRequest('/employee/alldata');
+    fillDataIntoSelect(selectEmployee,"Select Employee",employees,"fullname");
     selectEmployee.value = JSON.stringify(ob.employee_id);
+    selectEmployee.disabled = true;
+
+
     textUsername.value = ob.username;
     textPassword.value = ob.password;
     textRetypePassword.value = ob.password;
-    textNote.value = ob.note;
-    selectAccountStatus.value = JSON.stringify(ob.accountstatus_id);
+
+    if (ob.status) {
+        selectAccountStatus.checked = "checked";
+    } else {
+        selectAccountStatus.checked = "";
+    }
+
     
     user = JSON.parse(JSON.stringify(ob));
     oldUser = JSON.parse(JSON.stringify(ob));
@@ -135,8 +149,7 @@ const buttonUserPrint = (ob, index) => {
                     +"<tr><th> Designation </th><td>"+ ob.employee_id.designation_id.name +"</td></tr>" 
                     +"<tr><th> Email </th><td>"+ ob.employee_id.email +"</td></tr>" 
                     +"<tr><th> User name </th><td>"+ ob.username +"</td></tr>" 
-                    +"<tr><th> Password </th><td>"+ ob.password +"</td></tr>" 
-                    +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>"
+                    +"<tr><th> Password </th><td>"+ ob.password +"</td></tr>"
                     +"<tr><th> Status </th><td>"+ ob.accountstatus_id.name +"</td></tr>"
                 +"</tbody>" 
             +"</table>" 
@@ -158,7 +171,6 @@ const checkFormError = ()=>{
     if (user.employee_id == null) {
         errors = errors + "Please select Employee \n"
     }
-
     if (user.username == null) {
         errors = errors + "Please select username \n"
     }
@@ -170,10 +182,9 @@ const checkFormError = ()=>{
             errors = errors + "Please re enter password"
         }
     }
-    if (user.accountstatus_id == null) {
+    if (user.selectAccountStatus == null) {
         errors = errors + "Please select account status \n"
     }
-
     return errors;
 }
 
@@ -212,11 +223,8 @@ const checkFormUpdate = () => {
         if (user.password != oldUser.password) {
             updates = updates + "Password - " + oldUser.password + " to " + user.password + "\n";
         }
-        if (user.note != oldUser.note) {
-            updates = updates + "Note - " + oldUser.note + " to " + user.note + "\n";
-        }
-        if (user.accountstatus_id.name != oldUser.accountstatus_id.name) {
-            updates = updates + "Accout status - " + oldUser.accountstatus_id.name + " to " + user.accountstatus_id.name + "\n";
+        if (user.selectAccountStatus != oldUser.selectAccountStatus) {
+            updates = updates + "Accout status - " + oldUser.selectAccountStatus + " to " + user.selectAccountStatus + "\n";
         }
         
     }

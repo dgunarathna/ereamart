@@ -9,8 +9,10 @@ import com.ereamart.entity.Employee;
 
 public interface EmployeeDao  extends JpaRepository<Employee, Integer>{
 
-    
-    @Query(value = "SELECT lpad(max(e.empno) + 1, 8, 0) FROM ereamart.employee as e;", nativeQuery = true)
+    // @Query(value = "SELECT lpad(max(e.empno) + 1, 8, 0) FROM ereamart.employee as e;", nativeQuery = true)
+    // String getNextEmpNo();
+
+    @Query(value = "SELECT COALESCE(CONCAT('E', max(e.empno) + 1), 'E1') FROM ereamart.employee as e;", nativeQuery = true) 
     String getNextEmpNo();
 
     @Query(value = "select e from Employee e where e.nic=?1")

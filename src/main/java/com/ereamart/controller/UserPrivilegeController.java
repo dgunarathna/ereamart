@@ -16,9 +16,8 @@ public class UserPrivilegeController {
     public Privilege getPrivilegeByUserModule(String username, String modulename){
 
         Privilege userPrivilege = new Privilege();
-        System.out.println(username + modulename);
 
-        if (username == "Admin" || username == "Admin") {
+        if (username.equalsIgnoreCase("admin")) {
             userPrivilege.setPrivi_select(true);
             userPrivilege.setPrivi_insert(true);
             userPrivilege.setPrivi_update(true);
@@ -33,7 +32,6 @@ public class UserPrivilegeController {
             userPrivilege.setPrivi_update(userPriviArray[2].equals("1"));
             userPrivilege.setPrivi_delete(userPriviArray[3].equals("1"));
         }
-        
         return userPrivilege;
     };
 
