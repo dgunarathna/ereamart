@@ -7,20 +7,20 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshUserTable = () => {
-    
+
     let users = getServiceRequest('/user/alldata');
 
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getEmpNo, dataType: "function"},
-        {propertyName: "userphoto", dataType: "image-array"},
-        {propertyName: getName, dataType: "function"},
-        {propertyName: getEmail, dataType: "function"},
-        {propertyName: getDesignation, dataType: "function"},
-        {propertyName: getRole, dataType: "function"},
-        {propertyName: "username", dataType: "string"},
-        {propertyName: getStatus, dataType: "function"},
+        { propertyName: getEmpNo, dataType: "function" },
+        { propertyName: "userphoto", dataType: "image-array" },
+        { propertyName: getName, dataType: "function" },
+        { propertyName: getEmail, dataType: "function" },
+        { propertyName: getDesignation, dataType: "function" },
+        { propertyName: getRoles, dataType: "function" },
+        { propertyName: "username", dataType: "string" },
+        { propertyName: getStatus, dataType: "function" },
     ];
 
     fillDataIntoTable(tableUserBody, users, propertyList, UserFormRefill);
@@ -28,7 +28,7 @@ const refreshUserTable = () => {
 
 
 
-const getRole = (ob) => {
+const getRoles = (ob) => {
 
     let roles = "";
     ob.roles.forEach(role => {
@@ -69,16 +69,52 @@ const refreshUserForm = () => {
 
     user = new Object();
     oldUser = null;
+    user.roles = new Array();
 
     formUser.reset();
 
-    setDefault([selectEmployee, selectRole, textUsername, textPassword, textRetypePassword, selectAccountStatus]);
+    setDefault([selectEmployee, textUsername, textPassword, textRetypePassword, selectAccountStatus]);
 
     let employees = getServiceRequest('/employee/withoutuseraccount');
-    fillDataIntoSelect(selectEmployee,"Select Employee",employees,"fullname");
+    fillDataIntoSelect(selectEmployee, "Select Employee", employees, "fullname");
+
+    selectAccountStatus.checked = "checked";
+    user.status = true;
+
+    textPassword.disabled = false;
+    textRetypePassword.disabled = false;
 
     let roles = getServiceRequest('/role/withoutadmin');
-    fillDataIntoSelect(selectRole,"Select Role", roles, "name");
+    let divRole = document.querySelector("#divRoles");
+    divRole.innerHTML = "";
+    roles.forEach((role, index) => {
+        let div = document.createElement("div");
+        div.className = "form-check form-check-inline py-1";
+        divRole.appendChild(div);
+
+        let inputCheck = document.createElement("input");
+        inputCheck.type = "checkbox"; //dhanushka - radio 
+        inputCheck.id = role.id;
+        inputCheck.className = "form-check-input";
+
+        inputCheck.onclick = () => {
+            if (inputCheck.checked) {
+                user.roles.push(role)
+            } else {
+                let extIndex = user.roles.map(userrole => userrole.name).indexOf(role.name);
+                if (extIndex != -1) {
+                    user.roles.splice(extIndex, 1);
+                }
+            }
+        }
+
+        div.appendChild(inputCheck);
+
+        let label = document.createElement("label");
+        label.className = "form-check-label";
+        label.innerText = role.name;
+        div.appendChild(label);
+    });
 
     selectEmployee.disabled = false
 }
@@ -87,15 +123,17 @@ const UserFormRefill = (ob, index) => {
     refreshUserForm();
     console.log("Edit", ob, index);
 
+    user = new Object();
+    user.roles = new Array();
+
     let employees = getServiceRequest('/employee/alldata');
-    fillDataIntoSelect(selectEmployee,"Select Employee",employees,"fullname");
+    fillDataIntoSelect(selectEmployee, "Select Employee", employees, "fullname");
     selectEmployee.value = JSON.stringify(ob.employee_id);
     selectEmployee.disabled = true;
 
-
     textUsername.value = ob.username;
-    textPassword.value = ob.password;
-    textRetypePassword.value = ob.password;
+    textPassword.disabled = true;
+    textRetypePassword.disabled = true;
 
     if (ob.status) {
         selectAccountStatus.checked = "checked";
@@ -103,7 +141,47 @@ const UserFormRefill = (ob, index) => {
         selectAccountStatus.checked = "";
     }
 
-    
+    let roles = getServiceRequest('/role/withoutadmin');
+    let divRole = document.querySelector("#divRoles");
+    divRole.innerHTML = "";
+    roles.forEach((role, index) => {
+        let div = document.createElement("div");
+        div.className = "form-check form-check-inline py-1";
+        divRole.appendChild(div);
+
+        let inputCheck = document.createElement("input");
+        inputCheck.type = "checkbox";
+        inputCheck.id = role.id;
+        inputCheck.className = "form-check-input";
+
+        const isChecked = ob.roles.some(r => r.name === role.name); // dhanushka
+        inputCheck.checked = isChecked;
+        
+        inputCheck.onclick = () => {
+            if (inputCheck.checked) {
+                user.roles.push(role)
+            } else {
+                let extIndex = user.roles.map(userrole => userrole.name).indexOf(role.name);
+                if (extIndex != -1) {
+                    user.roles.splice(extIndex, 1);
+                }
+            }
+        }
+
+        let extIndex = user.roles.map(userrole => userrole.name).indexOf(role.name);
+        if (extIndex != -1) {
+            inputCheck.checked = true;
+        }
+
+        div.appendChild(inputCheck);
+
+        let label = document.createElement("label");
+        label.className = "form-check-label";
+        label.innerText = role.name;
+        div.appendChild(label);
+    });
+
+
     user = JSON.parse(JSON.stringify(ob));
     oldUser = JSON.parse(JSON.stringify(ob));
 
@@ -125,8 +203,8 @@ const buttonUserDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshUserTable();
-            $("#modalUserForm").modal("hide"); 
-        }else{
+            $("#modalUserForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -135,38 +213,38 @@ const buttonUserDelete = (ob, index) => {
 const buttonUserPrint = (ob, index) => {
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.employee_id.fullname + " Details</h5>"
-            +"<table class='table'>"
-                +"<tbody>"
-                    +"<tr><th> Employee </th><td>"+ ob.employee_id.fullname +"</td></tr>" 
-                    +"<tr><th> Designation </th><td>"+ ob.employee_id.designation_id.name +"</td></tr>" 
-                    +"<tr><th> Email </th><td>"+ ob.employee_id.email +"</td></tr>" 
-                    +"<tr><th> User name </th><td>"+ ob.username +"</td></tr>" 
-                    +"<tr><th> Password </th><td>"+ ob.password +"</td></tr>"
-                    +"<tr><th> Status </th><td>"+ ob.accountstatus_id.name +"</td></tr>"
-                +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h5 class='mb-4'>" + ob.employee_id.fullname + " Details</h5>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Employee </th><td>" + ob.employee_id.fullname + "</td></tr>"
+        + "<tr><th> Designation </th><td>" + ob.employee_id.designation_id.name + "</td></tr>"
+        + "<tr><th> Email </th><td>" + ob.employee_id.email + "</td></tr>"
+        + "<tr><th> User name </th><td>" + ob.username + "</td></tr>"
+        + "<tr><th> Password </th><td>" + ob.password + "</td></tr>"
+        + "<tr><th> Status </th><td>" + ob.accountstatus_id.name + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalUserForm").modal("hide"); 
+        $("#modalUserForm").modal("hide");
     }, 500);
 }
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (user.employee_id == null) {
         errors = errors + "Please select Employee \n"
@@ -174,6 +252,10 @@ const checkFormError = ()=>{
     if (user.username == null) {
         errors = errors + "Please select username \n"
     }
+    if (user.roles.lenght == 0) {
+        errors = errors + "Please select username \n"
+    }
+
     if (user.password == null) {
         errors = errors + "Please select Password \n"
     }
@@ -182,30 +264,31 @@ const checkFormError = ()=>{
             errors = errors + "Please re enter password"
         }
     }
-    if (user.selectAccountStatus == null) {
+    if (user.status == null) {
         errors = errors + "Please select account status \n"
     }
+
     return errors;
 }
 
 const buttonUserSubmit = () => {
     console.log(user);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add " +  user.employee_id.fullname + "?");
+        let userConfirm = window.confirm("Are you sure to add " + user.employee_id.fullname + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/user/insert", "POST", user);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshUserTable();
                 refreshUserForm();
-                $("#modalUserForm").modal("hide"); 
-            }else{
+                $("#modalUserForm").modal("hide");
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
@@ -223,10 +306,13 @@ const checkFormUpdate = () => {
         if (user.password != oldUser.password) {
             updates = updates + "Password - " + oldUser.password + " to " + user.password + "\n";
         }
-        if (user.selectAccountStatus != oldUser.selectAccountStatus) {
-            updates = updates + "Accout status - " + oldUser.selectAccountStatus + " to " + user.selectAccountStatus + "\n";
+        if (user.status != oldUser.status) {
+            updates = updates + "Accout status - " + oldUser.status + " to " + user.status + "\n";
         }
-        
+        if (user.roles != oldUser.roles) {
+            updates = updates + "Username name - " + oldUser.roles + " to " + user.roles + "\n";
+        }
+
     }
     return updates;
 }
@@ -234,15 +320,15 @@ const checkFormUpdate = () => {
 const buttonUserUpdate = () => {
     console.log(user);
     console.log(oldUser);
-    
-    
+
+
     let errors = checkFormError();
     if (errors == "") {
         let updates = checkFormUpdate();
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure want to update "+  user.employee_id.fullname + "? \n");
+            let userConfirm = window.confirm("Are you sure want to update " + user.employee_id.fullname + "? \n");
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/user/update", "PUT", user);
                 if (putResponce == "OK") {

@@ -1,8 +1,9 @@
 package com.ereamart.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -19,42 +20,46 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "invoice") //table mapping
+@Table(name = "grn_has_product") //table mapping
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
 @JsonInclude(value = Include.NON_NULL)
 
-public class Invoice {
+public class GRNHasProduct { 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment pk
+    @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
-    private String invoice_code;
-
-    private BigDecimal total_amount;
-
-    private Integer discount_amount;
-    
-    private BigDecimal net_amount;
-
-    
-    @NotNull
-    private LocalDateTime added_datetime;
-
-    private LocalDateTime update_datetime;
-
-    private LocalDateTime delete_datetime;
+    @ManyToOne()
+    @JoinColumn(name = "grn_id", referencedColumnName = "id")
+    @JsonIgnore // block reading 
+    private GRN grn_id;
 
     @NotNull
-    private Integer added_user_id;
+    private BigDecimal unitprice;
 
-    private Integer update_user_id;
+    @NotNull
+    private Integer quantity;
 
-    private Integer delete_user_id;
+    @NotNull
+    private BigDecimal lineprice;
+
+    @NotNull
+    private Date expire_date;
+
+    @NotNull
+    private Date manufacture_date;
+
+    @NotNull
+    private String batch_number;
 
     @ManyToOne()
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Customer customer_id;
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product_id;
+
+
+
+
 }

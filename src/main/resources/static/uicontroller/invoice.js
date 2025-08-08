@@ -12,11 +12,11 @@ const refreshInvoiceTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "invoiceno", dataType: "string"},
+        {propertyName: "invoice_code", dataType: "string"},
         {propertyName: getCustomer, dataType: "function"},
-        {propertyName: "totalamount", dataType: "string"},
-        {propertyName: "discountamount", dataType: "string"},
-        {propertyName: "netamount", dataType: "string"},
+        {propertyName: "total_amount", dataType: "decimal"},
+        {propertyName: "discount_amount", dataType: "string"},
+        {propertyName: "net_amount", dataType: "decimal"},
     ];
 
     fillDataIntoTable(tableInvoiceBody, invoices, propertyList, invoiceFormRefill);
@@ -34,17 +34,11 @@ const refreshInvoiceForm = () => {
 
     formInvoice.reset();
 
-    setDefault([textInvoiceNo, selectCustomer, textTotalAmount, textDisountAmount, textNetAmount]);
+    setDefault([ selectCustomer, textTotalAmount, textDisountAmount, textNetAmount]);
 
-    let customers = [
-        {id:1, name:"Jane Smith"},
-        {id:2, name:"John Doe"},
-        {id:3, name:"Emma Brown"},
-        {id:4, name:"Michael Le"},
-        {id:5, name:"Sophia White"},
-    ];
+    let customers = getServiceRequest('/customer/alldata');
+    fillDataIntoSelect(selectCustomer,"Select customer",customers,"fullname");
     
-    fillDataIntoSelect(selectCustomer,"Select customer",customers,"name");
 
     //inner form ************************************
     refreshinvoiceInnerForm();
@@ -79,7 +73,7 @@ const buttonInvoiceDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.invoiceno + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce  = getHTTPServiceRequest("/invoice/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshInvoiceTable();
@@ -127,13 +121,10 @@ const buttonInvoicePrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (invoice.invoiceno == null) {
-        errors = errors + "Please Enter Invoice no\n"
-    }
     if (invoice.customer_id == null) {
         errors = errors + "Please Enter Customer\n"
     }
-    if (invoice.totalamount == null) {
+    if (invoice.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
     if (invoice.discountamount == null) {
@@ -152,7 +143,7 @@ const buttonInvoiceSubmit = () => {
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add "+ invoice.invoiceno +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/invoice/insert", "POST", invoice);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshInvoiceTable();
@@ -180,8 +171,8 @@ const checkFormUpdate = () => {
         if (invoice.customer_id.name != oldInvoice.customer_id.name) {
             updates = updates + "Customer - " + oldInvoice.customer_id.fullname + " to " + invoice.customer_id.name + "\n";
         }
-        if (invoice.totalamount != oldInvoice.totalamount) {
-            updates = updates + "Total Amount - " + oldInvoice.totalamount + " to " + invoice.totalamount + "\n";
+        if (invoice.total_amount != oldInvoice.total_amount) {
+            updates = updates + "Total Amount - " + oldInvoice.total_amount + " to " + invoice.total_amount + "\n";
         }
         if (invoice.discountamount != oldInvoice.discountamount) {
             updates = updates + "Discount Amount - " + oldInvoice.discountamount + " to " + invoice.discountamount + "\n";
@@ -202,7 +193,7 @@ const buttonInvoiceUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ invoice.invoiceno +"?\n" + updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/invoice/update", "PUT", invoice);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshInvoiceTable();
@@ -233,3 +224,147 @@ const buttonAddNew = () => {
 }
 
 // inner form ***************************************************************************************************************************************************************************************
+
+// function for check item ext in the inner table
+const checkProductExt = () => {
+    let selectedProduct = JSON.parse(selectItem.value);
+    let extIndex = invoice.invoiceHasItemList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+
+    if (extIndex > -1) {
+        window.alert(" Product Added already");
+        refreshinvoiceInnerForm();
+    } else {
+        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
+        orderHasProduct.unitPrice = parseFloat(textUnitPrice.value).toFixed(2);
+        textUnitPrice.style.border = "1px solid lightgreen"
+    }
+}
+
+//define function for line price
+const calculateLinePrice = ()=> {
+    if (textQTY.value > 0) {
+        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        orderHasProduct.lineprice = lineprice;
+        textLinePrice.value = lineprice;
+        textLinePrice.style.border = "1px solid lightgreen"
+    } else {
+        orderHasProduct.unitPrice = null;
+        orderHasProduct.lineprice = null;
+        textQTY.style.border = "1px solid pink";
+        textLinePrice.style.border = "1px solid #ced4da";
+        textLinePrice.value = "";
+    }
+}
+
+
+const refreshinvoiceInnerForm = () =>{
+    orderHasProduct = new Object();
+
+    selectItem.disabled = "";
+
+    textUnitPrice.value = "";
+    textUnitPrice.disabled = "disabled";
+    textQTY.value = "";
+    textLinePrice.value = "";
+    textLinePrice.disabled = "disabled";
+
+
+    setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
+ 
+    selectItems = getServiceRequest('/product/alldata');       
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+
+
+    //refresh inner table ****************************************************************************************************************************************************************************   
+
+    // string > string, date, number
+    // function > object, array, boolean
+    let propertyList = [
+        {propertyName: getProductName, dataType: "function"},
+        {propertyName: "quantity", dataType: "string"},
+        {propertyName: "unitPrice", dataType: "decimal"},
+        {propertyName: "lineprice", dataType: "decimal"}
+    ];
+
+    fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasItemList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
+
+
+    //auto load total amount
+    let totalAmount = 0.00;
+    for (const orderproduct of invoice.invoiceHasItemList) {
+        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
+    };
+
+    if (totalAmount != 0.00) {
+        textTotalAmount.value = totalAmount.toFixed(2);
+        invoice.total_amount = textTotalAmount.value;
+        textTotalAmount.style.border = "1px solid lightgreen"
+    };
+
+    $("#buttonItemSubmit").show();
+    $("#buttonItemUpdate").hide();
+
+}
+
+const getProductName = (dataOb) => {  
+    return dataOb.product_id.name;
+}
+
+const orderInnerFormRefill = (ob, index) =>{
+
+    refreshinvoiceInnerForm();
+    console.log("Edit", ob, index);
+    
+
+    innerFormIndex = index;
+
+    orderHasProduct = JSON.parse(JSON.stringify(ob));
+    oldOlorderHasProduct = JSON.parse(JSON.stringify(ob));
+
+
+    selectItems = getServiceRequest('/product/alldata');
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+
+    selectItem.disabled = "disabled";
+    selectItem.value = JSON.stringify(orderHasProduct.product_id)
+    textUnitPrice.value = parseFloat(orderHasProduct.unitPrice);
+    textQTY.value = orderHasProduct.quantity;
+    textLinePrice.value = parseFloat(orderHasProduct.lineprice);
+
+    $("#buttonItemSubmit").hide();
+    $("#buttonItemUpdate").show();
+}
+
+const orderInnerFormDelete = (ob, index) => {
+    console.log(orderHasProduct);
+
+    let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
+    if (userConfirm) {
+        let extIndex = invoice.invoiceHasItemList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        if (extIndex != -1) {
+            invoice.invoiceHasItemList.splice(extIndex,1);
+        }
+        refreshinvoiceInnerForm();
+    }
+}
+
+const buttonInvoiceItemSubmit = () => {
+    console.log(orderHasProduct);
+
+    invoice.invoiceHasItemList.push(orderHasProduct);
+    refreshinvoiceInnerForm();
+}
+
+const buttonInvoiceItemUpdate = () => {
+    console.log(orderHasProduct);
+
+    if (orderHasProduct.quantity != oldOlorderHasProduct.quantity) {
+        invoice.invoiceHasItemList[innerFormIndex] = orderHasProduct;
+        refreshinvoiceInnerForm();
+    }
+
+}
+
+
+
+

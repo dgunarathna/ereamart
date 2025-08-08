@@ -83,6 +83,7 @@ public class IncomeController {
 				// set auto added data
 				income.setAdded_datetime(LocalDateTime.now());
 				income.setAdded_user_id(loggedUser.getId());
+				income.setIncome_number(incomeDao.getNextCode());
 
 				// save oparator
 				incomeDao.save(income);

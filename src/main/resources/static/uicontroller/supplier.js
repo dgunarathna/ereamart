@@ -17,7 +17,7 @@ const refreshSupplierTable = () => {
         {propertyName: "email", dataType: "string"},
         {propertyName: "mobile_no", dataType: "string"},
         {propertyName: "address", dataType: "string"},
-        {propertyName: "description", dataType: "string"},
+        {propertyName: "note", dataType: "string"},
         {propertyName: "bank", dataType: "string"},
         {propertyName: "branch", dataType: "string"},
         {propertyName: "account_no", dataType: "string"},
@@ -30,10 +30,10 @@ const refreshSupplierTable = () => {
 }
 
 const getStatus = (dataOb) => {
-    if (dataOb.suplier_status_id == "Active") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.suplier_status_id + "</p>";
-    } if (dataOb.suplier_status_id == "Inactive") {
-        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.suplier_status_id + "</p>";
+    if (dataOb.supplier_status_id == "Active") {
+        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.supplier_status_id + "</p>";
+    } if (dataOb.supplier_status_id == "Inactive") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.supplier_status_id + "</p>";
     } 
 }
 
@@ -41,15 +41,25 @@ const getStatus = (dataOb) => {
 
 const refreshSupplierForm = () => {
     supplier = new Object();
-    // suplier.suplierHasItemList = new Array();
+    supplier.supplierItemList = new Array();
 
     formSupplier.reset();
 
     setDefault([textRegNo, textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectState]);
 
-    //inner form ************************************
-    // refreshSuplierInnerForm();
+    let supplierStatus = getServiceRequest('/supplierstatus/alldata');
+    fillDataIntoSelect(selectState,"Select Status",supplierStatus,"name");
+    selectState.value = JSON.stringify(supplierStatus[0]);
+    supplier.supplier_status_id = supplierStatus[0];
+    selectState.style.border = "1px solid lightgreen"
+
+
+    allProducts = getServiceRequest('/product/alldata');
+    fillDataIntoSelect(selectAllProducts, "" ,allProducts,"name");
+
+    fillDataIntoSelect(selectSelectedProducts, "" ,supplier.supplierItemList,"name");
 }
+
 
 const supplierFormRefill = (ob, index) => {
     refreshSupplierForm();
@@ -65,7 +75,7 @@ const supplierFormRefill = (ob, index) => {
     textBank.value = ob.bank;
     textBranch.value = ob.branch;
     textAccountNo.value = ob.account_no;
-    selectState.value = ob.status
+    selectState.value = ob.supplier_status_id;
 
     supplier = JSON.parse(JSON.stringify(ob));
     oldSupplier = JSON.parse(JSON.stringify(ob));
@@ -84,7 +94,7 @@ const buttonSupplierDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.fullname + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/supplier/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshSupplierTable();
@@ -119,7 +129,7 @@ const buttonSupplierPrint = (ob, index) => {
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Bank </th><td>"+ ob.bank +"</td></tr>" 
                 +"<tr><th> Branch </th><td>"+ ob.branch +"</td></tr>" 
-                +"<tr><th> Account No </th><td>"+ ob.accno +"</td></tr>" 
+                +"<tr><th> Account No </th><td>"+ ob.account_no +"</td></tr>" 
                 +"<tr><th> Supplier Status </th><td>"+ ob.status +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
@@ -138,19 +148,19 @@ const buttonSupplierPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (supplier.regno == null) {
+    if (supplier.reg_no == null) {
         errors = errors + "Please Enter Reg No\n"
     }
-    if (supplier.fullname == null) {
+    if (supplier.name == null) {
         errors = errors + "Please Enter BRN\n"
     }
-    if (supplier.brn == null) {
+    if (supplier.supplier_brn == null) {
         errors = errors + "Please Enter Name\n"
     }
     if (supplier.email == null) {
         errors = errors + "Please Enter Email\n"
     }
-    if (supplier.mobileno == null) {
+    if (supplier.mobile_no == null) {
         errors = errors + "Please Enter Mobile Number\n"
     }
     if (supplier.address == null) {
@@ -165,10 +175,10 @@ const checkFormError = ()=>{
     if (supplier.branch == null) {
         errors = errors + "Please Enter Branch\n"
     }
-    if (supplier.accno == null) {
+    if (supplier.account_no == null) {
         errors = errors + "Please Enter Account No\n"
     }
-    if (supplier.status == null) {
+    if (supplier.supplier_status_id == null) {
         errors = errors + "Please Enter Supplier Status\n"
     }
     return errors;
@@ -179,9 +189,9 @@ const buttonSupplierSubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ supplier.fullname +"?");
+        let userConfirm = window.confirm("Are you sure to add "+ supplier.name +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/supplier/insert", "POST", supplier);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshSupplierTable();
@@ -230,11 +240,11 @@ const checkFormUpdate = () => {
         if (supplier.branch != oldSupplier.branch) {
             updates = updates + "Branch - " + oldSupplier.branch + " to " + supplier.branch + "\n";
         }
-        if (supplier.accno != oldSupplier.accno) {
-            updates = updates + "Account No - " + oldSupplier.accno + " to " + supplier.accno + "\n";
+        if (supplier.account_no != oldSupplier.account_no) {
+            updates = updates + "Account No - " + oldSupplier.account_no + " to " + supplier.account_no + "\n";
         }
-        if (supplier.status != oldSupplier.status) {
-            updates = updates + "Supplier Status - " + oldSupplier.status + " to " + supplier.status + "\n";
+        if (supplier.supplier_status_id != oldSupplier.supplier_status_id) {
+            updates = updates + "Supplier Status - " + oldSupplier.supplier_status_id + " to " + supplier.supplier_status_id + "\n";
         }
     }
     return updates;
@@ -249,7 +259,7 @@ const buttonSupplierUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ supplier.fullname +"?\n" + updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/supplier/update", "PUT", supplier);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshSupplierTable();
@@ -279,4 +289,41 @@ const buttonAddNew = () => {
     $("#buttonUpdate").hide();
 }
 
-// inner form ***************************************************************************************************************************************************************************************
+// List transfer ***************************************************************************************************************************************************************************************
+const addProduct = () =>{
+
+    if (selectAllProducts.value != "") {
+        let selectedProduct = JSON.parse(selectAllProducts.value);
+        supplier.supplierItemList.push(selectedProduct);
+        fillDataIntoSelect(selectSelectedProducts,"",supplier.supplierItemList,"name");
+
+        let extIndex =  allProducts.map(product=>product.id).indexOf(selectedProduct.id);
+        if (extIndex != -1) {
+            allProducts.splice(extIndex, 1)
+        }
+        fillDataIntoSelect(selectAllProducts,"",allProducts,"name");
+    } else {
+        window.alert("Please select product")
+    }
+
+}
+
+const removeProduct = () =>{
+
+    if (selectSelectedProducts.value != "") {
+        let selectedProduct = JSON.parse(selectSelectedProducts.value);
+        allProducts.push(selectedProduct);
+        fillDataIntoSelect(selectAllProducts,"",allProducts,"name");
+        
+
+        let extIndex =  supplier.supplierItemList.map(product=>product.id).indexOf(selectedProduct.id);
+        if (extIndex != -1) {
+            supplier.supplierItemList.splice(extIndex, 1)
+        }
+        fillDataIntoSelect(selectSelectedProducts,"",supplier.supplierItemList,"name");
+    } else {
+        window.alert("Please select product")
+    }
+    
+}
+

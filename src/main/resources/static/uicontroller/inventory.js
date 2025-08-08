@@ -13,14 +13,14 @@ const refreshInventoryTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "sales_pric", dataType: "string"},
+        {propertyName: getProductName, dataType: "function"},
+        {propertyName: getGrnNo, dataType: "function"},
         {propertyName: "sales_price", dataType: "string"},
         {propertyName: "available_qty", dataType: "string"},
         {propertyName: "total_qty", dataType: "string"},
         {propertyName: "expire_date", dataType: "string"},
         {propertyName: "manufacture_date", dataType: "string"},
         {propertyName: "batch_number", dataType: "string"},
-        {propertyName: "sales_prc", dataType: "string"},
         {propertyName: getStatus, dataType: "function"},
     ];
 
@@ -31,19 +31,26 @@ const getGrnNo = (dataOb) => {
     return dataOb.grn_id.grn_no;
 }
 
-// const getProductNo = (dataOb) => {
-//     return dataOb.product_id.name;
-// }
+const getProductName = (dataOb) => {
+    return dataOb.name;
+}
 
 const getStatus = (dataOb) => {
     if (dataOb.inventory_status_id.name == "In stock") {
-        return "<p class='badge bg-successs text-dark w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
+        return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
     } if (dataOb.inventory_status_id.name == "Out of stock") {
         return "<p class='badge bg-warning w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
     }
 }
 
 //form *********************************************************************************************************************************************************************************************
+
+// filter products by order dropdown
+const filterProductByGRN = () => {
+    let selectItems = getServiceRequest('/product/bygrncode/' + JSON.parse(selectGRN.value).id);
+    fillDataIntoSelect(selectProduct,"Select Product",selectItems,"name");   
+}
+
 const refreshInventoryForm = () => {
     inventory = new Object();
 
@@ -51,18 +58,22 @@ const refreshInventoryForm = () => {
 
     setDefault([selectProduct, textSalePrice, textAvailableQty, textTotalQty, textExpireDate, textManufactureDate, textBatchNo, selectGRN, selectStatus]);
 
-    let products = getServiceRequest('/product/alldata');
-    fillDataIntoSelect(selectProduct,"Select Product",products,"name");
-
     let grns = getServiceRequest('/grn/alldata');
-    fillDataIntoSelect(selectGRN,"Select GRN",grns,"grnno");
+    fillDataIntoSelect(selectGRN,"Select GRN",grns,"grn_no");
+    
+    let selectItems = [];
+    if (selectGRN.value != "") {
+        selectItems = getServiceRequest('/product/bygrncode/' + JSON.parse(selectGRN.value).id);
+    } else {
+        selectItems = getServiceRequest('/product/alldata');
+    }  
+    fillDataIntoSelect(selectProduct,"Select Product",selectItems,"name");
 
-    let status = [
-        {id:1, name:"Active"},
-        {id:2, name:"Received"},
-    ];
-
-    fillDataIntoSelect(selectStatus,"Select Status",status,"name");
+    let status = getServiceRequest('/inventorystatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]); // set default values
+    inventory.inventory_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen";
 }
 
 const inventoryFormRefill = (ob, index) => {
@@ -151,9 +162,6 @@ const checkFormError = ()=>{
     if (inventory.sales_price == null) {
         errors = errors + "Please Enter Sale Price\n"
     }
-    if (inventory.available_qty == null) {
-        errors = errors + "Please Enter Available QTY\n"
-    }
     if (inventory.total_qty == null) {
         errors = errors + "Please Enter Total QTY\n"
     }
@@ -166,12 +174,12 @@ const checkFormError = ()=>{
     if (inventory.batch_number == null) {
         errors = errors + "Please Enter Batch Number\n"
     }
-    // if (inventory.grn_id == null) {
-    //     errors = errors + "Please Enter GRN No\n"
-    // }
-    // if (inventory.status_id == null) {
-    //     errors = errors + "Please Enter Status ID\n"
-    // }
+    if (inventory.grn_id == null) {
+        errors = errors + "Please Enter GRN No\n"
+    }
+    if (inventory.inventory_status_id == null) {
+        errors = errors + "Please Enter Status ID\n"
+    }
     return errors;
 }
 

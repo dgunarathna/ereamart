@@ -46,7 +46,7 @@ public class Supplier {
 
     private String address;
 
-    private String description;
+    private String note;
 
     private String bank;
 
@@ -74,7 +74,7 @@ public class Supplier {
     @JoinTable(name = "supplier_has_product", joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name= "product_id"))
     private Set<Product>supplyProducts;
 
-    @ManyToOne(optional = true)
+    @ManyToOne()
     @JoinColumn(name = "supplier_status_id", referencedColumnName = "id")
     private SupplierStatus supplier_status_id;
 

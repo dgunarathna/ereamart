@@ -25,6 +25,5 @@ public class SupplierStatus {
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
  
-    private String name;
+    private String name; 
 }
- 

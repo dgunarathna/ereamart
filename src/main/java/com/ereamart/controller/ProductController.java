@@ -202,6 +202,36 @@ public class ProductController {
 			}
     }
 
+	//  request mapping for load productbrand all data - /product/byorderscode
+    @GetMapping(value = "/product/byorderscode/{ordersid}", produces = "application/json")
+    public List<Product> findProductByOrder(@PathVariable("ordersid") Integer ordersid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductByOrdersCode(ordersid);
+			} else {
+				return new ArrayList<>();
+			}
+    }
+
+
+	//  request mapping for load productbrand all data - /product/byorderscode
+    @GetMapping(value = "/product/bygrncode/{grnid}", produces = "application/json")
+    public List<Product> findProductByGRN(@PathVariable("grnid") Integer grnid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductByGRNCode(grnid);
+			} else {
+				return new ArrayList<>();
+			}
+    }
 
 	
 

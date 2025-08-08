@@ -11,46 +11,53 @@
       <nav class="navbar row py-0 mx-0">
           <div class="col-xl d-flex p-0 gap-1">
               <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h5 class="my-auto" th:text="'Hi '+ ${loggedusername} + '👋'"></h5>
+              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
           </div>
           <div class="col-xl-6 d-flex p-0">
-          <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
-            <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page" href="/expense.html">Expenses</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill active" href="/income.html">Income</a></li>
-          </ul>
+            <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/product.html">Store</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/expense.html">Wallet</i></a></li>
+                </ul>
           </div>
-          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+          <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0">
+                <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">  <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/home.html">Buyer mode</a></li>
+                    <li><a class="dropdown-item" href="/profile.html">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                </ul>
+            </div>
+          
+      </nav>
+
+      <div class=" container-fluid row p-0 m-0">
+        <div class="col"></div>
+        <div class="col-xl-6 mt-1 p-0">
+          <ul class="nav nav-pills bg-transparent justify-content-center p-1 mx-auto" style="width: fit-content;">
+            <li class="nav-item"><a class="nav-link" aria-current="page" href="/expense.html">Expenses</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/income.html">Income</a></li>
+          </ul>
+        </div>
+        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
               <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
               <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalIncomeForm"><i class="fa-solid fa-plus"></i></button>
             </div>
-      </nav>
+    </div>
+
       <div class="row app p-0 m-0">
-          <!-- Sidebbar -->
-        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
-          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
-               
-              <li class="nav-item"><a class="nav-link btn-icon " href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon" href="/quotation.html"><i class="fa-solid fa-store"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon active" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon " href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-               
-          </ul>
-        </div>
           <div class="col">
           <!-- Table -->
           <div class="table-responsive">
             <table class="table   table-hover" id="tableIncome">
               <thead>
                 <tr>
-                    <th>Income Number</th>
-                    <th>Receipt</th>
+                    <th>Income No</th>
                     <th>Invoice No</th>
                     <th>Customer</th>
                     <th>Payment Method</th>
                     <th>Date</th>
                     <th>Total Amount</th>
-                    <th>Paid Amount</th>
-                    <th>Balance Amount</th>
                 </tr>
               </thead>
               <tbody id="tableIncomeBody"></tbody>
@@ -70,10 +77,6 @@
         
             <div class="modal-body">
               <form id="formIncome" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
-                <div class="col-xl-4">
-                  <label class="form-label">Income no<span class="text-danger">*</span></label>
-                  <input id="textIncomeNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','income_number')">
-                </div>
                 <div class="col-xl-4">
                   <label class="form-label">Receipt<span class="text-danger">*</span></label>
                   <input id="incomeReceipt" type="text" Required  class="form-control" onchange="selectStaticElementValidator(this,'income','incomereceipt')">
@@ -103,14 +106,6 @@
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
                   <input id="textTotal" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','total_amount')">
                 </div>
-                <div class="col-xl-4">
-                  <label class="form-label">Paid Amount<span class="text-danger">*</span></label>
-                  <input id="textPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','paid_amount')">
-                </div>
-                <div class="col-xl-4">
-                  <label class="form-label">Balance Amount<span class="text-danger">*</span></label>
-                  <input id="textBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','balanced_amount')">
-                </div>
   
               </form>
             </div>
@@ -130,16 +125,6 @@
           </div>
         </div>
         </div>
-
-      <!-- Bottombar -->
-      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-         
-        <li class="nav-item"><a class="nav-link btn-icon " href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon active" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon " href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-         
-    </ul>
   </div>
 </div>
 

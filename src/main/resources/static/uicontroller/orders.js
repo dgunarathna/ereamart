@@ -13,11 +13,10 @@ const refreshOrderTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "orders_code", dataType: "string"},
-        {propertyName: getQuotation, dataType: "function"},
+        {propertyName: getSupplier, dataType: "function"},
         {propertyName: "required_date", dataType: "string"},
         {propertyName: "total_amount", dataType: "string"},
         {propertyName: "note", dataType: "string"},
-        {propertyName: getSupplier, dataType: "function"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -37,9 +36,6 @@ const getSupplier = (dataOb) => {
     return dataOb.supplier_id.reg_no;
 }
 
-const getQuotation = (dataOb) => {
-    return dataOb.supplier_id.name;
-}
 
 const getStatus = (dataOb) => {
     if (dataOb.orders_status_id.name == "Available") {
@@ -54,6 +50,7 @@ const getStatus = (dataOb) => {
 const refreshOrderForm = () => {   
     order = new Object();
     order.orderHasProductList = new Array();
+    
     console.log(order.orderHasProductList);
     
     selectsupplier.disabled = "";
@@ -335,7 +332,7 @@ const checkProductExt = () => {
         refreshOrderInnerForm();
     } else {
         textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
-        orderHasProduct.unitPrice = parseFloat(textUnitPrice.value).toFixed(2);
+        orderHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
@@ -392,7 +389,6 @@ const refreshOrderInnerForm = () =>{
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getProductImage, dataType: "function"},
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitPrice", dataType: "decimal"},
@@ -420,10 +416,6 @@ const refreshOrderInnerForm = () =>{
 }
 
 
-const getProductImage = (dataOb) => {  
-    return dataOb.product_id.image;
-}
-
 const getProductName = (dataOb) => {  
     return dataOb.product_id.name;
 }
@@ -450,10 +442,10 @@ const orderInnerFormRefill = (ob, index) =>{
 
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
-
     selectItem.disabled = "disabled";
     selectItem.value = JSON.stringify(orderHasProduct.product_id)
-    textUnitPrice.value = parseFloat(orderHasProduct.unitPrice);
+
+    textUnitPrice.value = parseFloat(orderHasProduct.unitprice);
     textQTY.value = orderHasProduct.quantity;
     textLinePrice.value = parseFloat(orderHasProduct.lineprice);
 

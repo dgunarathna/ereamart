@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.SupplierDao;
-import com.ereamart.dao.SupplierStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Product;
 import com.ereamart.entity.Supplier;
+import com.ereamart.entity.SupplierStatusDao;
 import com.ereamart.entity.User;
 
 @RestController
@@ -111,7 +112,7 @@ public class SupplierController {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User loggedUser = userDao.getByUsename(auth.getName());
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Supplier");
 		
 		if (userPrivilege.getPrivi_update()) {
 
@@ -151,7 +152,7 @@ public class SupplierController {
 	public String deleteEmployeeData(@RequestBody Supplier supplier) {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Supplier");
         
 
 		//check ext pk - update / delete only
@@ -178,4 +179,5 @@ public class SupplierController {
 			return "Delete not completed" + e.getMessage();
 		}
 	}
+
 }

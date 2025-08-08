@@ -13,21 +13,18 @@ const refreshIncomeTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "income_number", dataType: "string"},
-        {propertyName: "incomereceipt", dataType: "string"},
         {propertyName: getInvoice, dataType: "function"},
         {propertyName: getCustomer, dataType: "function"},
         {propertyName: "payment_methord", dataType: "string"},
         {propertyName: "date", dataType: "string"},
         {propertyName: "total_amount", dataType: "string"},
-        {propertyName: "paid_amount", dataType: "string"},
-        {propertyName: "balanced_amount", dataType: "string"},
     ];
 
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
 }
 
 const getCustomer = (dataOb) => {
-    return dataOb.customer_id.fullname;
+    return dataOb.customer_id.regno;
 }
 
 const getInvoice = (dataOb) => {
@@ -41,7 +38,7 @@ const refreshIncomeForm = () => {
 
     formIncome.reset();
 
-    setDefault([textIncomeNo, incomeReceipt, selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal, textPaid, textBalance]);
+    setDefault([ incomeReceipt, selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal,]);
 
     let invoices = getServiceRequest('/invoice/alldata');
     fillDataIntoSelect(selectInvoiceNo,"Select invoice",invoices,"invoice_code");
@@ -61,8 +58,6 @@ const incomeFormRefill = (ob, index) => {
     selectPaymentMethord.value = ob.payment_methord;
     incomeDate.value = ob.date;
     textTotal.value = ob.total_amount;
-    textPaid.value = ob.paid_amount;
-    textBalance.value = ob.balanced_amount;
 
     income = JSON.parse(JSON.stringify(ob));
     oldIncome = JSON.parse(JSON.stringify(ob));
@@ -114,8 +109,6 @@ const buttonIncomePrint = (ob, index) => {
                 +"<tr><th> Payment Method </th><td>"+ ob.paymentmethord +"</td></tr>" 
                 +"<tr><th> Date </th><td>"+ ob.date +"</td></tr>" 
                 +"<tr><th> Total Amount </th><td>"+ ob.totalamount +"</td></tr>" 
-                +"<tr><th> Paid Amount </th><td>"+ ob.paidamount +"</td></tr>" 
-                +"<tr><th> Balance Amount </th><td>"+ ob.balanceamount +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
         +"</div>" 
@@ -133,9 +126,6 @@ const buttonIncomePrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (income.income_number == null) {
-        errors = errors + "Please Enter Income no\n"
-    }
     if (income.customer_id == null) {
         errors = errors + "Please Enter Customer\n"
     }
@@ -147,12 +137,6 @@ const checkFormError = ()=>{
     }
     if (income.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
-    }
-    if (income.paid_amount == null) {
-        errors = errors + "Please Enter Paid Amount\n"
-    }
-    if (income.balanced_amount == null) {
-        errors = errors + "Please Enter Balance Amount\n"
     }
     return errors;
 }
@@ -206,12 +190,6 @@ const checkFormUpdate = () => {
         }
         if (income.total_amount != oldIncome.total_amount) {
             updates = updates + "Total Amount - " + oldIncome.total_amount + " to " + income.total_amount + "\n";
-        }
-        if (income.paid_amount != oldIncome.paid_amount) {
-            updates = updates + "Paid Amount - " + oldIncome.paid_amount + " to " + income.paid_amount + "\n";
-        }
-        if (income.balanced_amount != oldIncome.balanced_amount) {
-            updates = updates + "Balance Amount - " + oldIncome.balanced_amount + " to " + income.balanced_amount + "\n";
         }
     }
     return updates;

@@ -11,36 +11,47 @@
       <nav class="navbar row py-0 mx-0">
           <div class="col-xl d-flex p-0 gap-1">
               <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h5 class="my-auto" th:text="'Hi '+ ${loggedusername} + '👋'"></h5>
+              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
           </div>
           <div class="col-xl-6 d-flex p-0">
-          <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/product.html">Product</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill active" href="/quotation.html">Quotation</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/orders.html">Order</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/grn.html">GRN</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
-          </ul>
+            <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/product.html">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/expense.html">Wallet</i></a></li>
+                </ul>
           </div>
-          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+            <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0">
+                <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">  <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/home.html">Buyer mode</a></li>
+                    <li><a class="dropdown-item" href="/profile.html">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                </ul>
+            </div>
+          
+      </nav>
+
+      <div class=" container-fluid row p-0 m-0">
+        <div class="col"></div>
+        <div class="col-xl-6 mt-1">
+          <ul class="nav nav-pills bg-transparent justify-content-center p-1 mx-auto" style="width: fit-content;">
+            <li class="nav-item"><a class="nav-link" href="/product.html">Product</a></li>
+            <li class="nav-item"><a class="nav-link" href="/supplier.html">Supplier</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="/orders.html">Order</a></li>
+            <li class="nav-item"><a class="nav-link" href="/grn.html">GRN</a></li>
+            <li class="nav-item"><a class="nav-link" href="/inventory.html">Inventory</a></li>
+            <li class="nav-item"><a class="nav-link" href="/customer.html">Customer</a></li>
+            <li class="nav-item"><a class="nav-link" href="/invoice.html">Invoice</a></li>
+          </ul>
+        </div>
+        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
               <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
                         <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonrAddNew()" data-bs-toggle="modal" data-bs-target="#modalQuotationForm"><i class="fa-solid fa-plus"></i></button>
           </div>
-      </nav>
+    </div>
       
       <div class="row app p-0 m-0">
-          <!-- Sidebbar -->
-        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
-          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
-               
-              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-               
-          </ul>
-        </div>
           <div class="col">
           <!-- Table -->
           <div class="table-responsive">
@@ -71,33 +82,18 @@
           </div>
       
           <div class="modal-body">
-
             <form id="formQuotation" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+              <div class="col-xl-6">
+                <label class="form-label">Request Date<span class="text-danger">*</span></label>
+                <input id="selectrequireddate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'Quotation','requestddate' )">
+              </div>
               <div class="col-xl-6">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
                 <select id="selectSupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'Quotation','supplier_id')"></select>
               </div>
-              <div class="col-xl-6">
-                <label class="form-label">Total Items<span class="text-danger">*</span></label>
-                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'Quotation','totalitems')">
-              </div>
-              <div class="col-xl-6">
-                <label class="form-label">Request Date<span class="text-danger">*</span></label>
-                <input id="textDate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'Quotation','requestddate' )">
-              </div>
-              <div class="col-xl-6">
-                <label for="selectQuotationStatus" class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectQuotationStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'Quotation','status_id')"></select>
-              </div> 
-              <div class="col-lg-12">
-                <label for="inputAddress" class="form-label">Note</label>
-                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'Quotation','note')">
-              </div>
-
-              <div class="col-lg-12 pt-3"><strong>Product List</strong></div>
 
               <div class="col-xl-8">
-                <label class="form-label">Name<span class="text-danger">*</span></label>
+                <label class="form-label">Product<span class="text-danger">*</span></label>
                 <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotationHasItem','item_id')"></select>
               </div>
               <div class="col-xl-2">
@@ -124,40 +120,18 @@
                   </table>
                 </div>
               </div>
-
               
-              <div class="col-lg-12 pt-3"><strong>Product List</strong></div>
-              
+              <div class="col-xl-6">
+                <label class="form-label">Total Items<span class="text-danger">*</span></label>
+                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'Quotation','totalitems')">
+              </div>
+              <div class="col-xl-6">
+                <label for="selectQuotationStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectQuotationStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'Quotation','status_id')"></select>
+              </div> 
               <div class="col-lg-12">
-                <div class="table-responsive">
-                  <table class="table table-borderles table-hover align-middle">
-                    <thead>
-                      <tr>
-                        <th>Product ID</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Brand</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>P001</td>
-                        <td><img src="/images/product/product.png" alt="" height="64px"></td>
-                        <td>Product Name 1</td>
-                        <td>Brand A</td>
-                        <td><button type="button" class="btn btn-outline-danger w-100">Remove</button></td>
-                      </tr>
-                      <tr>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><button type="button" class="btn btn-outline-primary w-100">Add</button></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <label for="inputAddress" class="form-label">Note</label>
+                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'Quotation','note')">
               </div>
 
             </form>
@@ -178,15 +152,6 @@
         </div>
       </div>
       </div>
-      <!-- Bottombar -->
-      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-         
-        <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-         
-      </ul>
   </div>
 
 

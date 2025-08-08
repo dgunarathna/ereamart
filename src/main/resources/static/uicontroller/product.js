@@ -15,6 +15,7 @@ const refreshProductTable = () => {
     // decimal >
 
     let propertyList = [
+        {propertyName: "code", dataType: "string"},
         {propertyName: "image", dataType: "image-array"},
         {propertyName: "name", dataType: "string"},
         {propertyName: "description", dataType: "string"},
@@ -23,7 +24,6 @@ const refreshProductTable = () => {
         {propertyName: "size", dataType: "string"},
         {propertyName: "discount_rate", dataType: "decimal"},
         {propertyName: "profit_rate", dataType: "decimal"},
-        {propertyName: "code", dataType: "string"},
         {propertyName: getManufacture, dataType: "function"},
         {propertyName: getCategory, dataType: "function"},
         {propertyName: getDepartment, dataType: "function"},
@@ -65,7 +65,7 @@ const refreshProductForm = () => {
 
     formProduct.reset();
 
-    setDefault([selectCategory, selectDepartment, productimage, textProductName, textDescription, textManufacture, textBrand, textWeight, textSize, textDiscountRate, textProfitRate, textBarcode, selectStatus]);
+    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textWeight, textSize, textDiscountRate, textProfitRate, textBarcode, selectStatus]);
 
     let category = getServiceRequest('/productcategory/alldata');
     fillDataIntoSelect(selectCategory,"Select Category",category,"name");
@@ -79,7 +79,7 @@ const refreshProductForm = () => {
     let status = getServiceRequest('/productstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select Status",status,"name");
     selectStatus.value = JSON.stringify(status[0]); // set default values
-    product.status = JSON.parse(selectStatus.value);
+    product.productstatus_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen"
 
     let manufactures = getServiceRequest('/productmanufacture/alldata');
@@ -132,7 +132,7 @@ const productFormRefill = (ob, index) => {
 
 const buttonProductDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.productname + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.name + "?");
     if (userConfirm == true) {
         let deleteResponce = getHTTPServiceRequest("/product/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
@@ -190,16 +190,16 @@ const buttonProductPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (product.category_id == null) {
+    if (product.productcategory_id == null) {
         errors = errors + "Please Enter category\n"
     }
     // if (product.department_id == null) {
     //     errors = errors + "Please Enter department\n"
     // }
-    if (product.manufacture_id == null) {
+    if (product.productmanufacture_id == null) {
         errors = errors + "Please select manufacture \n";
     }
-    if (product.brand == null) {
+    if (product.productbrand_id == null) {
         errors = errors + "Please Select brand \n";
     }
     if (product.weight == null) {
@@ -208,10 +208,10 @@ const checkFormError = ()=>{
     if (product.size == null) {
         errors = errors + "Please enter size \n";
     }
-    if (product.discountrate == null) {
+    if (product.discount_rate == null) {
         errors = errors + "Please enter discount rate \n";
     }
-    if (product.profitrate == null) {
+    if (product.profit_rate == null) {
         errors = errors + "Please enter profit rate \n";
     }
     if (product.barcode == null) {
@@ -223,10 +223,7 @@ const checkFormError = ()=>{
     if (product.name == null) {
         errors = errors + "Please Enter product name \n";
     }
-    // if (product.productimage == null) {
-    //     errors = errors + "Please Enter product image \n";
-    // }
-    if (product.productdescription == null) {
+    if (product.description == null) {
         errors = errors + "Please Enter description\n";
     }
     return errors;
@@ -237,7 +234,7 @@ const buttonProductSubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ product.productname +"?");
+        let userConfirm = window.confirm("Are you sure to add "+ product.name +"?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/product/insert", "POST", product);
             if (postResponce == "OK") {
@@ -308,7 +305,7 @@ const buttonProductUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ product.productname +"? \n");
+            let userConfirm = window.confirm("Are you sure to update "+ product.name +"? \n");
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/product/update", "PUT", product);
                 if (putResponce == "OK") {

@@ -1,8 +1,6 @@
-package com.ereamart.dao;
+package com.ereamart.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.ereamart.entity.SupplierStatus;
 
 public interface SupplierStatusDao extends JpaRepository<SupplierStatus, Integer>{
 

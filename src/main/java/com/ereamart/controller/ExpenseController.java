@@ -81,6 +81,7 @@ public class ExpenseController {
 				// set auto added data
 				expenses.setAdded_datetime(LocalDateTime.now());
 				expenses.setAdded_user_id(loggedUser.getId());
+				expenses.setBill_no(expensesDao.getNextCode()); 
 
 				// save oparator
 				expensesDao.save(expenses);

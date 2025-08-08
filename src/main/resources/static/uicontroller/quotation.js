@@ -21,14 +21,6 @@ const refreshQuotationTable = () => {
     ];
 
     fillDataIntoTable(tableQuotationBody, Quotations, propertyList, QuotationFormRefill);
-
-    new DataTable('#', {
-        info: false,
-        paging: false,
-        searching: false,
-        scrollCollapse: true,
-        scrollY: '100vh'
-    });
 }
 
 const getSupplier = (dataOb) => {
@@ -69,6 +61,30 @@ const refreshQuotationForm = () => {
     ];
 
     fillDataIntoSelect(selectQuotationStatus,"Select Status",QuotationStatus,"name");  
+
+    //set mix max date [YYYY - mm - DD]
+
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth() + 1; // [0-11]
+    if (currentMonth < 10) {
+        currentMonth = '0' + currentMonth;
+    }
+    let currentDay = currentDate.getDate(); // [1-31]
+    if (currentDay < 10) {
+        currentDay = '0' + currentDay;
+    }
+    selectrequireddate.min = currentDate.getFullYear() + "-" + currentMonth + "-" + currentDay;
+
+    currentDate.setDate(currentDate.getDate() + 1);
+    let maxCurrentMonth = currentDate.getMonth() + 1; // [0-11]
+    if (maxCurrentMonth < 10) {
+        maxCurrentMonth = '0' + maxCurrentMonth;
+    }
+    let maxCurrentDay = currentDate.getDate(); // [1-31]
+    if (maxCurrentDay < 10) {
+        maxCurrentDay = '0' + maxCurrentDay;
+    }
+    selectrequireddate.max = currentDate.getFullYear() + "-" + maxCurrentMonth + "-" + maxCurrentDay;
 
     //inner form ************************************
     refreshQutationInnerForm();

@@ -136,7 +136,7 @@ const fillDataIntoReportTable = (tableBodayId, dataList, propertyList)=>{
     });
 }
 // datatables jquery 
-new DataTable('#tablePrivilege, #tableEmployee, #tableUser, #tableProduct, #tableQuotation, #tableOrder, #tableProduct, #tableGRN, #tableInventory, #tableInvoice, #tableExpenses, #tableIncome, #tableSupplier, #tableCustomer ,  #tableOrderItem , #tabledahboard, #tablePayement' , {
+new DataTable('#tablePrivilege, #tableEmployee, #tableUser, #tableProduct, #tableQuotation, #tableOrder, #tableProduct, #tableGRN, #tableInventory, #tableInvoice, #tableExpenses, #tableIncome, #tableSupplier, #tableCustomer ,  #tableOrderItem , #tabledahboard, #tablePayement, #tableInvoiceItem' , {
     info: false,
     paging: false,
     searching: false,

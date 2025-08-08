@@ -12,13 +12,13 @@ const refreshGRNTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "grnno", dataType: "string"},
+        {propertyName: "grn_no", dataType: "string"},
         {propertyName: getOrder_id, dataType: "function"},
-        {propertyName: "invoiceno", dataType: "string"},
-        {propertyName: "receiveddate", dataType: "string"},
-        {propertyName: "totalamount", dataType: "string"},
-        {propertyName: "discountrate", dataType: "string"},
-        {propertyName: "netamount", dataType: "string"},
+        {propertyName: "supplier_invoice_number", dataType: "string"},
+        {propertyName: "recieved_date", dataType: "string"},
+        {propertyName: "total_amount", dataType: "string"},
+        {propertyName: "discount", dataType: "string"},
+        {propertyName: "net_amount", dataType: "string"},
         {propertyName: "note", dataType: "string"},
         {propertyName: getGRNStatus, dataType: "function"},
     ];
@@ -27,35 +27,41 @@ const refreshGRNTable = () => {
 }
 
 const getOrder_id = (dataOb) => {
-    return dataOb.order_id.orderno;
+    return dataOb.orders_id.orders_code;
 }
 
 const getGRNStatus = (dataOb) => {
-    if (dataOb.status_id.name == "Active") {
-        return "<p class='badge bg-warning text-dark w-100 my-auto'>" + dataOb.status_id.name + "</p>";
-    } if (dataOb.status_id.name == "Received") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.status_id.name + "</p>";
+    if (dataOb.grn_status_id.name == "Active") {
+        return "<p class='badge bg-warning text-dark w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
+    } if (dataOb.grn_status_id.name == "Received") {
+        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
     }
 }
 
 //form *********************************************************************************************************************************************************************************************
 const refreshGRNForm = () => {
     grn = new Object();
-    grn.grnHasItemList = new Array();
+    grn.grnHasProductList = new Array();
+
+    console.log(grn.grnHasProductList);
 
     formGRN.reset();
 
-    setDefault([textGRN, textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textNote, textReceivedDate, selectStatus]);
+    setDefault([ textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textNote, textReceivedDate, selectStatus]);
 
     let orders = getServiceRequest('/orders/alldata');
     fillDataIntoSelect(selectOrder,"Select order no",orders,"orders_code");
 
-    let grnStatus = [
-        {id:1, name:"Active"},
-        {id:2, name:"Received"},
-    ];
+    let status = getServiceRequest('/grnstatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]); // set default values
+    grn.grn_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen";
 
-    fillDataIntoSelect(selectStatus,"Select Status",grnStatus,"name");
+    let currentDate = new Date();
+    textReceivedDate.value = currentDate.toISOString().split('T')[0];
+    grn.recieved_date = textReceivedDate.value;
+    textReceivedDate.style.border = "1px solid lightgreen";
 
     //inner form ************************************
     refreshGRNInnerForm();
@@ -65,7 +71,6 @@ const grnFormRefill = (ob, index) => {
     refreshGRNForm();
     console.log("Edit", ob, index);
 
-    textGRN.value = ob.grnno;
     textInvoiceNo.value = ob.invoiceno;
     selectOrder.value = JSON.stringify(ob.order_id);
     textTotalAmount.value = ob.totalamount;
@@ -93,7 +98,7 @@ const buttonGRNDelete = (ob, index) => {
     console.log("Delete", ob, index);
     let userConfirm = window.confirm("Are you sure to delete " + ob.grnno + "?");
     if (userConfirm == true) {
-        let deleteResponce = "OK";
+        let deleteResponce = getHTTPServiceRequest("/grn/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshGRNTable();
@@ -116,7 +121,7 @@ const buttonGRNPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.fullname + " Details</h5>"
+            +"<h5 class='mb-4'>"+ ob.grnno + " Details</h5>"
             +"<table class='table'>"
             +"<tbody>"
                 +"<tr><th> GRN No </th><td>"+ ob.grnno +"</td></tr>" 
@@ -145,31 +150,25 @@ const buttonGRNPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (grn.grnno == null) {
-        errors = errors + "Please Enter GRN no\n"
-    }
-    if (grn.order_id == null) {
+    if (grn.orders_id == null) {
         errors = errors + "Please Select Order no\n"
     }
-    if (grn.invoiceno == null) {
+    if (grn.supplier_invoice_number == null) {
         errors = errors + "Please Enter Invoice No\n"
     }
-    if (grn.receiveddate == null) {
+    if (grn.recieved_date == null) {
         errors = errors + "Please Enter Received date\n"
     }
-    if (grn.totalamount == null) {
+    if (grn.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
-    if (grn.discountrate == null) {
+    if (grn.discount == null) {
         errors = errors + "Please Enter Discount Rate\n"
     }
-    if (grn.netamount == null) {
+    if (grn.net_amount == null) {
         errors = errors + "Please Enter Net amount\n"
     }
-    if (grn.note == null) {
-        errors = errors + "Please Enter Note\n"
-    }
-    if (grn.status_id == null) {
+    if (grn.grn_status_id == null) {
         errors = errors + "Please Select Status\n"
     }
     return errors;
@@ -182,7 +181,7 @@ const buttonGRNSubmit = () => {
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add "+ grn.grnno +"?");
         if (userConfirm == true) {
-            let postResponce = "OK";
+            let postResponce = getHTTPServiceRequest("/grn/insert", "POST", grn);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshGRNTable();
@@ -244,7 +243,7 @@ const buttonGRNUpdate = () => {
         } else {
             let userConfirm = window.confirm("Are you sure to update "+ grn.grnno +"?\n" + updates);
             if (userConfirm) {
-                let putResponce = "OK";
+                let putResponce = getHTTPServiceRequest("/grn/update", "PUT", grn);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
                     refreshGRNTable();
@@ -275,3 +274,159 @@ const buttonAddNew = () => {
 }
 
 // inner form ***************************************************************************************************************************************************************************************
+
+// function for check item ext in the inner table
+const checkProductExt = () => {
+    let selectedProduct = JSON.parse(selectItem.value);
+    let extIndex = grn.grnHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+
+    if (extIndex > -1) {
+        window.alert(" Product Added already");
+        refreshGRNInnerForm();
+    } else {
+        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
+        grnHasProduct.unitPrice = parseFloat(textUnitPrice.value).toFixed(2);
+        textUnitPrice.style.border = "1px solid lightgreen"
+    }
+}
+
+//define function for line price
+const calculateLinePrice = ()=> {
+    if (textQTY.value > 0) {
+        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        grnHasProduct.lineprice = lineprice;
+        textLinePrice.value = lineprice;
+        textLinePrice.style.border = "1px solid lightgreen"
+    } else {
+        grnHasProduct.unitPrice = null;
+        grnHasProduct.lineprice = null;
+        textQTY.style.border = "1px solid pink";
+        textLinePrice.style.border = "1px solid #ced4da";
+        textLinePrice.value = "";
+    }
+}
+
+
+// filter products by order dropdown
+const filterProductByOrder = () => {
+    let selectItems = getServiceRequest('/product/byorderscode/' + JSON.parse(selectOrder.value).id);
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name");   
+}
+
+
+const refreshGRNInnerForm = () =>{
+    grnHasProduct = new Object();
+
+    selectItem.disabled = "";
+
+    textUnitPrice.value = "";
+    textUnitPrice.disabled = "disabled";
+    textQTY.value = "";
+    textLinePrice.value = "";
+    textLinePrice.disabled = "disabled";
+
+
+    setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
+
+    let selectItems = [];
+    if (selectOrder.value != "") {
+        selectItems = getServiceRequest('/product/byorderscode/' + JSON.parse(selectOrder.value).id);
+    } else {
+        selectItems = getServiceRequest('/product/alldata');
+    }        
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name");
+
+
+    //refresh inner table ****************************************************************************************************************************************************************************   
+
+    // string > string, date, number
+    // function > object, array, boolean
+    let propertyList = [
+        {propertyName: getProductName, dataType: "function"},
+        {propertyName: "quantity", dataType: "string"},
+        {propertyName: "unitPrice", dataType: "decimal"},
+        {propertyName: "lineprice", dataType: "decimal"}
+    ];
+
+    fillDataIntoInnerTable(tableGRNItemBody, grn.grnHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
+
+
+    //auto load total amount
+    let totalAmount = 0.00;
+    for (const orderproduct of grn.grnHasProductList) {
+        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
+    };
+
+    if (totalAmount != 0.00) {
+        textTotalAmount.value = totalAmount.toFixed(2);
+        grn.total_amount = textTotalAmount.value;
+        textTotalAmount.style.border = "1px solid lightgreen"
+    };
+
+    $("#buttonItemSubmit").show();
+    $("#buttonItemUpdate").hide();
+
+}
+
+const getProductName = (dataOb) => {  
+    return dataOb.product_id.name;
+}
+
+const orderInnerFormRefill = (ob, index) =>{
+
+    refreshGRNInnerForm();
+    console.log("Edit", ob, index);
+    
+
+    innerFormIndex = index;
+
+    grnHasProduct = JSON.parse(JSON.stringify(ob));
+    oldgrnHasProduct = JSON.parse(JSON.stringify(ob));
+
+
+    selectItems = getServiceRequest('/product/alldata');
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+
+    selectItem.disabled = "disabled";
+    selectItem.value = JSON.stringify(grnHasProduct.product_id)
+    textUnitPrice.value = parseFloat(grnHasProduct.unitPrice);
+    textQTY.value = grnHasProduct.quantity;
+    textLinePrice.value = parseFloat(grnHasProduct.lineprice);
+
+    $("#buttonItemSubmit").hide();
+    $("#buttonItemUpdate").show();
+}
+
+const orderInnerFormDelete = (ob, index) => {
+    console.log(grnHasProduct);
+
+    let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
+    if (userConfirm) {
+        let extIndex = grn.grnHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        if (extIndex != -1) {
+            grn.grnHasProductList.splice(extIndex,1);
+        }
+        refreshGRNInnerForm();
+    }
+}
+
+const buttonInvoiceItemSubmit = () => {
+    console.log(grnHasProduct);
+
+    grn.grnHasProductList.push(grnHasProduct);
+    refreshGRNInnerForm();
+}
+
+const buttonInvoiceItemUpdate = () => {
+    console.log(grnHasProduct);
+
+    if (grnHasProduct.quantity != oldgrnHasProduct.quantity) {
+        grn.grnHasProductList[innerFormIndex] = grnHasProduct;
+        refreshGRNInnerForm();
+    }
+
+}
+
+
+
+

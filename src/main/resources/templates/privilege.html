@@ -10,35 +10,43 @@
         <nav class="navbar row py-0 mx-0">
             <div class="col-xl d-flex p-0 gap-1">
                 <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
-                <h5 class="my-auto" th:text="'Hi '+ ${loggedusername} + '👋'"></h5>
+                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
             </div>
-            <div class="col-xl-6 d-flex p-0">
-            <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page" href="/dashboard.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/report.html">Reports</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill active" href="/privilege.html">Privilege</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/employee.html">Employee</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/user.html">User</a></li>
-            </ul>
+            <div class="col-xl-6  d-flex p-0">
+                <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link active" href="/dashboard.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/product.html">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/expense.html">Wallet</i></a></li>
+                </ul>
             </div>
-            <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+            <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0">
+                <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">  <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/home.html">Buyer mode</a></li>
+                    <li><a class="dropdown-item" href="/profile.html">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class=" container-fluid row p-0 m-0">
+        <div class="col"></div>
+        <div class="col-xl-6 mt-1">
+                <ul class="nav nav-pills bg-transparent justify-content-center p-1 mx-auto" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/report.html">Reports</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/privilege.html">Privilege</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/employee.html">Employee</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user.html">User</a></li>
+                </ul>
+        </div>
+        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
                 <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
                 <button type="button" class="btn btn-icon btn-primary rounded-circle rounded-circle" onclick="buttonAddNew()" data-bs-toggle="modal"data-bs-target="#modalPrivilegeForm"><i class="fa-solid fa-plus"></i></button>
             </div>
-        </nav>
+    </div>
         
         <div class="row app p-0 m-0">
-            <!-- Sidebbar -->
-        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
-            <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
-                 
-                <li class="nav-item"><a class="nav-link btn-icon active" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-                <li class="nav-item"><a class="nav-link btn-icon" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-                <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-                <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-                 
-            </ul>
-          </div>
             <div class="col">
             <!-- Table -->
             <div class="table-responsive">
@@ -110,15 +118,6 @@
         </div>
         </div>
         </div>
-        <!-- Bottombar -->
-        <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-             
-            <li class="nav-item"><a class="nav-link btn-icon active" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-            <li class="nav-item"><a class="nav-link btn-icon" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-            <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-            <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-             
-        </ul>
     </div>
     
     <div th:replace="~{common :: scripts}"></div>

@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "grn_status_id") //table mapping
+@Table(name = "grn_status") //table mapping
 @Data // for settes getters
 @AllArgsConstructor// allconstructor
 @NoArgsConstructor // default constructor

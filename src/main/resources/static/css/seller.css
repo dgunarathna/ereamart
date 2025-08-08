@@ -69,6 +69,11 @@ body::-webkit-scrollbar {
     height: 48px;
 }
 
+.navbar.shrink {
+      width: 1320px;
+      margin: 0 auto;
+    }
+
 .card{
     border-radius: 12px;
     background-color: #efefef;
@@ -246,6 +251,9 @@ footer{
 
     .cursor{
         display: none;
+    }
+    body {
+        margin: 8px;
     }
  }
 

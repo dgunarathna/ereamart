@@ -85,6 +85,7 @@ public class GRNController {
 				// set auto added data
 				grn.setAdded_datetime(LocalDateTime.now());
 				grn.setAdded_user_id(loggedUser.getId());
+				grn.setGrn_no(grnDao.getNextOrderCode());
 
 				// save oparator
 				grnDao.save(grn);

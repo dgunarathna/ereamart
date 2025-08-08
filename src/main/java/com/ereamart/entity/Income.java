@@ -36,10 +36,6 @@ public class Income {
 
     private BigDecimal total_amount;
 
-    private BigDecimal paid_amount;
-
-    private BigDecimal balanced_amount;
-
     private String payment_methord;
     
     private LocalDate date;

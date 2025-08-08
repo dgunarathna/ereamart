@@ -12,35 +12,47 @@
       <nav class="navbar row py-0 mx-0">
           <div class="col-xl d-flex p-0 gap-1">
               <a href="/dashboard.html"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h5 class="my-auto" th:text="'Hi '+ ${loggedusername} + '👋'"></h5>
+              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
           </div>
           <div class="col-xl-6 d-flex p-0">
-          <ul class="nav nav-pills justify-content-center rounded-pill p-1 mx-auto" style="width: fit-content;">
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/product.html">Product</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation.html">Quotation</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/orders.html">Order</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill active" href="/grn.html">GRN</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory.html">Inventory</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice.html">Invoice</a></li>
-          </ul>
+            <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/product.html">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/expense.html">Wallet</i></a></li>
+                </ul>
           </div>
-          <div class="col-xl d-flex gap-1 text-end my-auto p-0">
+            <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0">
+                <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">  <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/home.html">Buyer mode</a></li>
+                    <li><a class="dropdown-item" href="/profile.html">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                </ul>
+            </div>
+          
+      </nav>
+
+      <div class=" container-fluid row p-0 m-0">
+        <div class="col"></div>
+        <div class="col-xl-6 mt-1">
+          <ul class="nav nav-pills bg-transparent justify-content-center p-1 mx-auto" style="width: fit-content;">
+            <li class="nav-item"><a class="nav-link" href="/product.html">Product</a></li>
+            <li class="nav-item"><a class="nav-link" href="/supplier.html">Supplier</a></li>
+            <li class="nav-item"><a class="nav-link" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="/orders.html">Order</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/grn.html">GRN</a></li>
+            <li class="nav-item"><a class="nav-link" href="/inventory.html">Inventory</a></li>
+            <li class="nav-item"><a class="nav-link" href="/customer.html">Customer</a></li>
+            <li class="nav-item"><a class="nav-link" href="/invoice.html">Invoice</a></li>
+          </ul>
+        </div>
+        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
               <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
               <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalGRNForm"><i class="fa-solid fa-plus"></i></button>
             </div>
-      </nav>
-      <div class="row app p-0 m-0">
-          <!-- Sidebbar -->
-        <div class="col-1 p-0 m-0 w-auto h-100 d-flex">
-          <ul class="nav nav-pills verticle_navbar my-auto list-group sidebarbody p-1" style="width: fit-content;">
+    </div>
 
-              <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-              <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-               
-          </ul>
-        </div>
+      <div class="row app p-0 m-0">
           <div class="col">
           <!-- Table -->
           <div class="table-responsive">
@@ -75,42 +87,80 @@
       
           <div class="modal-body">
             <form id="formGRN" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
-              <div class="col-lg-4">
-                <label class="form-label">GRN No<span class="text-danger">*</span></label>
-                <input id="textGRN" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','grnno')">
+              <div class="col-lg-6">
+                <label class="form-label">Order no</label>
+                <select id="selectOrder"  class="form-select" onchange="selectDynamicElementValidator(this,'grn','orders_id'); filterProductByOrder();"></select>
               </div>
-              <div class="col-lg-4">
-                <label class="form-label">Order no<span class="text-danger">*</span></label>
-                <select id="selectOrder" Required  class="form-select" onchange="selectDynamicElementValidator(this,'grn','order_id')"></select>
-              </div>
-              <div class="col-lg-4">
+              <div class="col-lg-6">
                 <label class="form-label">Supplier Invoice Number<span class="text-danger">*</span></label>
-                <input id="textInvoiceNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','invoiceno')">
+                <input id="textInvoiceNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','supplier_invoice_number')">
               </div>
+
+              <div class="col-xl-4">
+                <label class="form-label">Product<span class="text-danger">*</span></label>
+                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'grnHasProduct','product_id'); checkProductExt();"></select>
+              </div>
+              <div class="col-xl-2">
+                <label class="form-label">Quantity<span class="text-danger">*</span></label>
+                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','quantity'); calculateLinePrice();">
+              </div>
+              <div class="col-xl-2">
+                <label class="form-label">Unit Price<span class="text-danger">*</span></label>
+                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','unitprice')">
+              </div>
+              <div class="col-xl-2">
+                <label class="form-label">Line price<span class="text-danger">*</span></label>
+                <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','lineprice')">
+              </div>
+              <div class="col-xl-2 gap-1 d-flex align-items-end">
+                <button type="button" onclick="buttonInvoiceItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
+                <button type="button" onclick="buttonInvoiceItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
+              </div>
+
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle" id="tableOrderItem">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Line Price</th>
+                        <th>Modify</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableGRNItemBody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+
               <div class="col-lg-4">
                 <label class="form-label">Total Amount<span class="text-danger">*</span></label>
-                <input id="textTotalAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','totalamount')">
+                <input id="textTotalAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','total_amount')">
               </div>
               <div class="col-lg-4">
-                <label class="form-label">Discount Rate<span class="text-danger">*</span></label>
-                <input id="textDiscountRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','discountrate')">
+                <label class="form-label">Total Discount<span class="text-danger">*</span></label>
+                <input id="textDiscountRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','discount')">
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Net Amount<span class="text-danger">*</span></label>
-                <input id="textNetAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','netamount')">
+                <input id="textNetAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','net_amount')">
+              </div>  
+              <div class="col-lg-6">
+                <label class="form-label">Received Date<span class="text-danger">*</span></label>
+                <input id="textReceivedDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'grn','recieved_date')">
+              </div>
+              <div class="col-lg-6">
+                <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'grn','grn_status_id')"></select>
               </div>
               <div class="col-lg-12">
-                <label for="inputAddress" class="form-label">Note<span class="text-danger">*</span></label>
-                <input id="textNote" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','note')">
+                <label for="inputAddress" class="form-label">Note</label>
+                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','note')">
               </div>
-              <div class="col-lg-4">
-                <label class="form-label">Received Date<span class="text-danger">*</span></label>
-                <input id="textReceivedDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'grn','receiveddate')">
-              </div>
-              <div class="col-lg-4">
-                <label class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'grn','status_id')"></select>
-              </div>  
+
+
             </form>
           </div>
       
@@ -129,16 +179,6 @@
         </div>
       </div>
       </div>
-
-      <!-- Bottombar -->
-      <ul class="list-group nav nav-pills list-group-horizontal justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-         
-        <li class="nav-item"><a class="nav-link btn-icon" href="/dashboard.html"><i class="fa-solid fa-house"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon active" href="/product.html"><i class="fa-solid fa-store"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon" href="/expense.html"><i class="fa-solid fa-wallet"></i></a></li>
-        <li class="nav-item"><a class="nav-link btn-icon" href="/supplier.html"><i class="fa-solid fa-users"></i></a></li>
-         
-      </ul>
   </div>
 
       <div th:replace="~{common :: scripts}"></div>

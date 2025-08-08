@@ -21,6 +21,9 @@ public interface ProductDao extends JpaRepository<Product, Integer>{
     @Query(value = "select p from Product p where p.id in (select shp.product_id.id from SupplierHasProduct shp where shp.supplier_id.id=?1)")
     List<Product> findProductBySupplier(Integer supplierid);
 
-    
+    @Query(value = "select p from Product p where p.id in (select ohp.product_id.id from OrdersHasProduct ohp where ohp.orders_id.id=?1)")
+    List<Product> findProductByOrdersCode(Integer ordersid);
 
+    @Query(value = "select p from Product p where p.id in (select grnhp.product_id.id from GRNHasProduct grnhp where grnhp.grn_id.id=?1)")
+    List<Product> findProductByGRNCode(Integer grnid);
 }

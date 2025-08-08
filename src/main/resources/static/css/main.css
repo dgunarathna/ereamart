@@ -75,7 +75,7 @@ body::-webkit-scrollbar {
 
 .app{
     /* background-color: #3CD500; */
-    height: calc(100vh - 80px);
+    /* height: calc(100vh - 180px); */
     overflow: auto; 
     
 }
@@ -255,9 +255,6 @@ th, .form-label{
 
 /* // Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
-    .verticle_navbar {
-        display: none;
-    }
 
     body {
         margin: 8px;
@@ -324,17 +321,31 @@ th, .form-label{
     }
     .itembody{
         /* background-color: #ff00ff; */
-        height: calc(100vh - 360px);
+        height: calc(100vh - 60px);
         /* height: 100vh; */
     }
+    
+    /* #wordmark{
+        display: none;
+    } */
+
+    .horizontal_navbar{
+        position: fixed;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        z-index: 1000;
+    }
+    
        
 }
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    .horizontal_navbar {
+    /* .horizontal_navbar {
         display: none;
-    }
+    } */
     
 }
 

@@ -13,8 +13,8 @@ const refreshExpensesTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "bill_no", dataType: "string"},
-        {propertyName: "expensesreceipt", dataType: "string"},
         {propertyName: getSupplierName, dataType: "function"},
+        {propertyName: getGRNNO, dataType: "function"},
         {propertyName: "payment_method", dataType: "string"},
         {propertyName: "date", dataType: "string"},
         {propertyName: "total_due_amount", dataType: "string"},
@@ -25,8 +25,11 @@ const refreshExpensesTable = () => {
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
 }
 
+const getGRNNO = (dataOb) => {
+    return dataOb.supplier_id.reg_no;
+}
 const getSupplierName = (dataOb) => {
-    return dataOb.supplier_id.name;
+    return dataOb.supplier_id.reg_no;
 }
 
 //form *********************************************************************************************************************************************************************************************
@@ -36,10 +39,12 @@ const refreshExpensesForm = () => {
 
     formExpenses.reset();
 
-    setDefault([billNo, expensesReceipt, selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate]);
+    setDefault([ expensesReceipt, selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate]);
+
+    let grns = getServiceRequest('/grn/alldata');
+    fillDataIntoSelect(selectGRN,"Select Status",grns,"grn_no");
 
     let supliers = getServiceRequest('/supplier/alldata');
-
     fillDataIntoSelect(selectSupplier,"Select Status",supliers,"name");
 
 }
@@ -125,9 +130,6 @@ const buttonExpensesPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (expenses.bill_no == null) {
-        errors = errors + "Please Enter Bill no\n"
-    }
     if (expenses.supplier_id == null) {
         errors = errors + "Please Select Supplier\n"
     }

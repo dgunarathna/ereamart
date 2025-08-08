@@ -14,21 +14,23 @@ const setDefault = (elements) => {
 const fillDataIntoSelect = (parentId, message, dataList, displayProperty)=>{
     
     parentId.innerHTML = "";
+    
 
-    let optionMsg = document.createElement("option");
-
-    optionMsg.value = "";
-
-    optionMsg.selected = "selected";
-    optionMsg.disabled = "disabled";
-    optionMsg.innerText = message;
-    parentId.appendChild(optionMsg);
+    if (message != "") {
+        let optionMsg = document.createElement("option");
+        optionMsg.value = "";
+        optionMsg.selected = "selected";
+        optionMsg.disabled = "disabled";
+        optionMsg.innerText = message;
+        parentId.appendChild(optionMsg); 
+    }
 
     dataList.forEach(dataOb => {
         let option = document.createElement("option");
         option.value = JSON.stringify(dataOb);
         option.innerText = dataOb[displayProperty];
         parentId.appendChild(option);
+        
     });
 }
 

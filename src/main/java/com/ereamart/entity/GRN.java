@@ -1,5 +1,7 @@
 package com.ereamart.entity;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,19 +32,19 @@ public class GRN {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
-    private Integer grn_no;
+    private String grn_no;
 
-    private Integer supplier_invoice_number;
+    private String supplier_invoice_number;
 
-    private Integer recieved_date;
+    private Date recieved_date;
 
-    private Integer total_amount;
+    private BigDecimal total_amount;
 
     private Integer discount;
 
-    private Integer net_amount;
+    private BigDecimal net_amount;
 
-    private Integer note;
+    private String note;
 
     
     @NotNull
@@ -62,4 +64,8 @@ public class GRN {
     @ManyToOne()
     @JoinColumn(name = "grn_status_id", referencedColumnName = "id")
     private GRNStatus grn_status_id;
+    
+    @ManyToOne()
+    @JoinColumn(name = "orders_id", referencedColumnName = "id")
+    private Orders orders_id;
 }
