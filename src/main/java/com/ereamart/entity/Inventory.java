@@ -66,4 +66,8 @@ public class Inventory {
     @ManyToOne()
     @JoinColumn(name = "grn_id", referencedColumnName = "id")
     private GRN grn_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product_id;
 }

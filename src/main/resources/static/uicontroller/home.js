@@ -34,7 +34,7 @@ const fillDataIntoCards = (container, dataList, addFunction, viewFunction) => {
         cardDiv.classList.add("card", "bg-transparent");
 
         let img = document.createElement("img");
-        img.src = dataOb.productimage || "/images/product/product.png"; // Default image
+        img.src = dataOb.product_id.image || "/images/default.png"; // Default image
         img.classList.add("card-img-top");
         img.alt = dataOb.productname;
 
@@ -43,7 +43,7 @@ const fillDataIntoCards = (container, dataList, addFunction, viewFunction) => {
 
         let seller = document.createElement("small");
         seller.classList.add("card-text", "text-success");
-        seller.innerText = dataOb.supplier_id.name;
+        seller.innerText = dataOb.grn_id.orders_id.supplier_id.name;
 
         let title = document.createElement("h6");
         title.classList.add("card-title");
@@ -51,11 +51,11 @@ const fillDataIntoCards = (container, dataList, addFunction, viewFunction) => {
 
         let price = document.createElement("h5");
         price.classList.add("card-text");
-        price.innerText = dataOb.saleprice;
+        price.innerText = dataOb.sales_price;
         
         let avaibaleqty = document.createElement("p");
         avaibaleqty.classList.add("card-text");
-        // avaibaleqty.innerText = "Left " + dataOb.availableqty;
+        avaibaleqty.innerText = "Left " + dataOb.available_qty;
 
         let button = document.createElement("a");
         button.href = "#";

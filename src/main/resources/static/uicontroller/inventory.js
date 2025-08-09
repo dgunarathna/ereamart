@@ -32,7 +32,7 @@ const getGrnNo = (dataOb) => {
 }
 
 const getProductName = (dataOb) => {
-    return dataOb.name;
+    return dataOb.product_id.name;
 }
 
 const getStatus = (dataOb) => {
