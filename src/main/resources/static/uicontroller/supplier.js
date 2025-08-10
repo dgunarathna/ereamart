@@ -25,15 +25,13 @@ const refreshSupplierTable = () => {
     ];
 
     fillDataIntoTable(tableSupplierBody, suppliers, propertyList, supplierFormRefill);
-
-    
 }
 
 const getStatus = (dataOb) => {
-    if (dataOb.supplier_status_id == "Active") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.supplier_status_id + "</p>";
-    } if (dataOb.supplier_status_id == "Inactive") {
-        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.supplier_status_id + "</p>";
+    if (dataOb.supplier_status_id.name == "Active") {
+        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.supplier_status_id.name + "</p>";
+    } if (dataOb.supplier_status_id.name == "Inactive") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.supplier_status_id.name + "</p>";
     } 
 }
 

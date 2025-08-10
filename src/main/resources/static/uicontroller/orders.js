@@ -391,7 +391,7 @@ const refreshOrderInnerForm = () =>{
     let propertyList = [
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
-        {propertyName: "unitPrice", dataType: "decimal"},
+        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"}
     ];
 

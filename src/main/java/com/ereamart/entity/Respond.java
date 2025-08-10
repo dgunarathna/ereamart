@@ -1,5 +1,6 @@
 package com.ereamart.entity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
@@ -33,13 +34,13 @@ public class Respond {
 
     private String respond_code;
 
-    private Integer total_items;
+    private BigDecimal totalprice;
 
     private Date request_date;
     
     private String note;
 
-    private LocalDateTime added_datetime;
+    private LocalDateTime added_datetime; 
 
     private LocalDateTime update_datetime;
 
@@ -59,5 +60,9 @@ public class Respond {
     @ManyToOne()
     @JoinColumn(name = "quotation_id", referencedColumnName = "id")
     private Quotation quotation_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
+    private Supplier supplier_id;
 
 }

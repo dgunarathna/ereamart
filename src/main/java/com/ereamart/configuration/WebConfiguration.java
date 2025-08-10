@@ -33,15 +33,16 @@ public class WebConfiguration {
             .requestMatchers("/privilege/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/emoloyee/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/user/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
+            .requestMatchers("/product/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
+            .requestMatchers("/supplier/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/quotation/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
+            .requestMatchers("/respond/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/orders/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/grn/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
-            .requestMatchers("/product/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/inventory/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/invoice/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/expenses/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/income/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
-            .requestMatchers("/supplier/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant")
             .requestMatchers("/customer/**").hasAnyAuthority("Admin","Manager","Cashier","Accountant").anyRequest().authenticated();
          })
          //login details

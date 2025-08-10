@@ -18,20 +18,12 @@ const refreshCustomerTable = () => {
         {propertyName: "mobileno", dataType: "string"},
         {propertyName: "address", dataType: "string"},
         {propertyName: "note", dataType: "string"},
-        {propertyName: getCustomerStatus, dataType: "function"},
     ];
 
     fillDataIntoTable(tableCustomerBody, customers, propertyList, customerFormRefill);
     
 };
 
-const getCustomerStatus = (dataOb) => {
-    if (dataOb.status == "Active") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.status + "</p>";
-    } if (dataOb.status == "Inactive") {
-        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.status + "</p>";
-    }
-};
 
 //form *********************************************************************************************************************************************************************************************
 

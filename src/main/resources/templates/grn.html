@@ -39,7 +39,7 @@
             <li class="nav-item"><a class="nav-link" href="/product.html">Product</a></li>
             <li class="nav-item"><a class="nav-link" href="/supplier.html">Supplier</a></li>
             <li class="nav-item"><a class="nav-link" href="/quotation.html">Quotation</a></li>
-            <li class="nav-item"><a class="nav-link" href="/responds.html">Responds</a></li>
+            <li class="nav-item"><a class="nav-link" href="/respond.html">Respond</a></li>
             <li class="nav-item"><a class="nav-link" href="/orders.html">Order</a></li>
             <li class="nav-item"><a class="nav-link active" href="/grn.html">GRN</a></li>
             <li class="nav-item"><a class="nav-link" href="/inventory.html">Inventory</a></li>
@@ -103,7 +103,7 @@
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','quantity'); calculateLinePrice();">
+                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','quantity'); calculateLinePrice();">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Unit Price<span class="text-danger">*</span></label>
@@ -111,7 +111,7 @@
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
-                <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','lineprice')">
+                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','lineprice')">
               </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonInvoiceItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>

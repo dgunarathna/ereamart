@@ -22,7 +22,6 @@ import com.ereamart.dao.RespondDao;
 import com.ereamart.dao.RespondStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.Quotation;
 import com.ereamart.entity.Respond;
 import com.ereamart.entity.User;
 
@@ -41,7 +40,7 @@ public class RespondController {
 	@Autowired // genarate instance of Order status dao
 	private RespondStatusDao respondStatusDao;
 
-        // mapping for return quotation html page
+    // mapping for return quotation html page
     @RequestMapping(value =  {"/respond","/respond.html"})
     public ModelAndView uiEmployeePage(){
 
@@ -54,7 +53,7 @@ public class RespondController {
 		return respondPage;
 	} 
 
-	//request mapping for load quotation all data - /quotation/alldata
+	//request mapping for load respond all data - /respond/alldata
     @GetMapping(value = "/respond/alldata", produces = "application/json")
     public List<Respond> findAllData(){
 

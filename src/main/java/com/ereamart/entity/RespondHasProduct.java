@@ -32,15 +32,18 @@ public class RespondHasProduct {
     private Integer id;
 
     @ManyToOne()
-    @JoinColumn(name = "quotation_id", referencedColumnName = "id")
+    @JoinColumn(name = "respond_id", referencedColumnName = "id")
     @JsonIgnore // block reading 
-    private Quotation quotation_id;
+    private Respond respond_id;
 
     @NotNull
     private BigDecimal unitprice;
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private Integer discount;
 
     @NotNull
     private BigDecimal lineprice;

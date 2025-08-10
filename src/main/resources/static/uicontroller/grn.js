@@ -285,7 +285,7 @@ const checkProductExt = () => {
         refreshGRNInnerForm();
     } else {
         textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
-        grnHasProduct.unitPrice = parseFloat(textUnitPrice.value).toFixed(2);
+        grnHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
@@ -344,7 +344,7 @@ const refreshGRNInnerForm = () =>{
     let propertyList = [
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
-        {propertyName: "unitPrice", dataType: "decimal"},
+        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"}
     ];
 

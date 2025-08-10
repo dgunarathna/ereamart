@@ -1,102 +1,89 @@
 window.addEventListener("load", () => {
     console.log("browser load Event");
-    refreshQuotationTable();
-    refreshQuotationForm();
+    refreshRespondTable();
+    refreshRespondForm();
 });
 
 //table *********************************************************************************************************************************************************************************************
-const refreshQuotationTable = () => {
+const refreshRespondTable = () => {
 
-    let Quotations = getServiceRequest('/quotation/alldata');
+    let responds = getServiceRequest('/respond/alldata');
 
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "quotation_code", dataType: "string"},
+        {propertyName: "respond_code", dataType: "string"},
         {propertyName: getSupplier, dataType: "function"},
-        {propertyName: "totalitems", dataType: "string"},
+        {propertyName: "totalprice", dataType: "string"},
+        {propertyName: "request_date", dataType: "string"},
         {propertyName: "note", dataType: "string"},
-        {propertyName: "requestdate", dataType: "string"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
-    fillDataIntoTable(tableQuotationBody, Quotations, propertyList, QuotationFormRefill);
+    fillDataIntoTable(tableRespondBody, responds, propertyList, respondFormRefill);
 }
 
 const getSupplier = (dataOb) => {
-    return dataOb.supplier_id.name;
+    return dataOb.supplier_id.reg_no;
 }
 
 const getStatus = (dataOb) => {
-    if (dataOb.quotation_status_id.name == "Active") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
-    } if (dataOb.quotation_status_id.name == "Deactive") {
-        return "<p class='badge bg-dark w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
+    if (dataOb.respond_status_id.name == "Active") {
+        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.respond_status_id.name + "</p>";
+    } if (dataOb.respond_status_id.name == "Expired") {
+        return "<p class='badge bg-dark w-100 my-auto'>" + dataOb.respond_status_id.name + "</p>";
     } 
 }
 
 //form *********************************************************************************************************************************************************************************************
 
-const refreshQuotationForm = () => {
-    quotation = new Object();
-    quotation.quotationHasItemList = new Array();
+const refreshRespondForm = () => {
+    respond = new Object();
+    respond.respondHasItemList = new Array();
 
-    formQuotation.reset();
+    formRespond.reset();
 
-    setDefault([selectsupplier, textItems, selectrequireddate, selectQuotationStatus, textNote]);
+    setDefault([selectquotation, selectsupplier, selectrequireddate, selectRespondStatus, textNote, textdiscount, texttotalamount]);
     
+    let quotations = getServiceRequest('/quotation/alldata');
+    fillDataIntoSelect(selectquotation,"Select quotation",quotations,"quotation_code");
+
     let supliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",supliers,"name");
 
-    let QuotationStatus = getServiceRequest('/quotationstatus/alldata');
-    fillDataIntoSelect(selectQuotationStatus,"Select Status",QuotationStatus,"name");  
-
-    //set mix max date [YYYY - mm - DD]
+    let status = getServiceRequest('/respondstatus/alldata');
+    fillDataIntoSelect(selectRespondStatus,"Select status",status,"name");
+    selectRespondStatus.value = JSON.stringify(status[0]); // set default values
+    respond.respond_status_id = JSON.parse(selectRespondStatus.value);
+    selectRespondStatus.style.border = "1px solid lightgreen";
 
     let currentDate = new Date();
-    let currentMonth = currentDate.getMonth() + 1; // [0-11]
-    if (currentMonth < 10) {
-        currentMonth = '0' + currentMonth;
-    }
-    let currentDay = currentDate.getDate(); // [1-31]
-    if (currentDay < 10) {
-        currentDay = '0' + currentDay;
-    }
-    selectrequireddate.min = currentDate.getFullYear() + "-" + currentMonth + "-" + currentDay;
-
-    currentDate.setDate(currentDate.getDate() + 0);
-    let maxCurrentMonth = currentDate.getMonth() + 1; // [0-11]
-    if (maxCurrentMonth < 10) {
-        maxCurrentMonth = '0' + maxCurrentMonth;
-    }
-    let maxCurrentDay = currentDate.getDate(); // [1-31]
-    if (maxCurrentDay < 10) {
-        maxCurrentDay = '0' + maxCurrentDay;
-    }
-    selectrequireddate.max = currentDate.getFullYear() + "-" + maxCurrentMonth + "-" + maxCurrentDay;
+    selectrequireddate.value = currentDate.toISOString().split('T')[0];
+    respond.request_date = selectrequireddate.value;
+    selectrequireddate.style.border = "1px solid lightgreen";
 
     //inner form ************************************
-    refreshquotationInnerForm();
+    refreshRespondInnerForm();
 
 }
 
 
-const QuotationFormRefill = (ob, index) => {
-    refreshQuotationForm();
+const respondFormRefill = (ob, index) => {
+    refreshRespondForm();
     console.log("Edit", ob, index);
 
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     textItems.value = ob.totalitems;
     selectrequireddate.value = ob.requestdate;
     textNote.value = ob.note;
-    selectQuotationStatus.value = JSON.stringify(ob.status_id);
+    selectRespondStatus.value = JSON.stringify(ob.status_id);
 
 
-    quotation = JSON.parse(JSON.stringify(ob));
-    oldQuotation = JSON.parse(JSON.stringify(ob));
+    Respond = JSON.parse(JSON.stringify(ob));
+    oldRespond = JSON.parse(JSON.stringify(ob));
 
-    $("#modalQuotationForm").modal("show");
-    $("#modalQuotationFormLabel").text(ob.Quotationno);
+    $("#modalRespondForm").modal("show");
+    $("#modalRespondFormLabel").text(ob.Respondno);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 
@@ -106,22 +93,22 @@ const QuotationFormRefill = (ob, index) => {
 }
 
 
-const buttonQuotationDelete = (ob, index) => {
+const buttonRespondDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.Quotationno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.respondno + "?");
     if (userConfirm == true) {
-        let deleteResponce = getHTTPServiceRequest("/quotation/delete", "DELETE", ob);
+        let deleteResponce = getHTTPServiceRequest("/respond/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
-            refreshQuotationTable();
-            $("#modalQuotationForm").modal("hide"); 
+            refreshRespondTable();
+            $("#modalRespondForm").modal("hide"); 
         }else{
             window.alert("Faild to Delete\n" + errors)
         }
     }
 }
 
-const buttonQuotationPrint = (ob, index) => {
+const buttonRespondPrint = (ob, index) => {
     console.log("View", ob, index);
 
     let newWindow = window.open();
@@ -133,10 +120,10 @@ const buttonQuotationPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.Quotationno + " Details</h5>"
+            +"<h5 class='mb-4'>"+ ob.Respondno + " Details</h5>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Q	 </th><td>"+ ob.Quotationno +"</td></tr>" 
+                +"<tr><th> Q	 </th><td>"+ ob.Respondno +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Total Items  </th><td>"+ ob.totalitems +"</td></tr>"  
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
@@ -153,43 +140,43 @@ const buttonQuotationPrint = (ob, index) => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalQuotationForm").modal("hide"); 
+        $("#modalRespondForm").modal("hide"); 
     }, 500);
 }
 
 const checkFormError = ()=>{
     let errors = "";
-    if (quotation.supplier_id == null) {
+    if (respond.supplier_id == null) {
         errors = errors + "Please enter supplier\n"
     }
-    if (quotation.totalitems == null) {
+    if (respond.totalprice == null) {
         errors = errors + "Please enter total items\n"
     }
-    if (quotation.requestdate == null) {
+    if (respond.request_date == null) {
         errors = errors + "Please select Date \n";
     }
-    if (quotation.quotation_status_id == null) {
+    if (respond.respond_status_id == null) {
         errors = errors + "Please select Status \n";
     }
-    if (quotation.note == null) {
+    if (respond.note == null) {
         errors = errors + "Please select Note \n";
     }
     return errors;
 }
 
-const buttonQuotationSubmit = () => {
-    console.log(quotation);
+const buttonRespondSubmit = () => {
+    console.log(respond);
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ quotation.Quotationno +"?");
+        let userConfirm = window.confirm("Are you sure to add "+ respond.respondno +"?");
         if (userConfirm == true) {
-            let postResponce = getHTTPServiceRequest("/quotation/insert", "POST", quotation);
+            let postResponce = getHTTPServiceRequest("/respond/insert", "POST", respond);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
-                refreshQuotationTable();
-                refreshQuotationForm();
-                $("#modalQuotationForm").modal("hide");
+                refreshRespondTable();
+                refreshRespondForm();
+                $("#modalRespondForm").modal("hide");
             }else{
                 window.alert("Faild to submit\n" + postResponce);
             }
@@ -202,44 +189,44 @@ const buttonQuotationSubmit = () => {
 const checkFormUpdate = () => {
     let updates = "";
 
-    console.log(quotation);
-    console.log(oldQuotation);
+    console.log(respond);
+    console.log(oldRespond);
     
-    if (Quotation != null && oldQuotation !== null) {
-        if (quotation.supplier_id.name != oldQuotation.supplier_id.name) {
-            updates = updates + "Supplier - " + oldQuotation.supplier_id.name + " to " + Quotation.supplier_id.name + "\n";
+    if (Respond != null && oldRespond !== null) {
+        if (Respond.supplier_id.name != oldRespond.supplier_id.name) {
+            updates = updates + "Supplier - " + oldRespond.supplier_id.name + " to " + Respond.supplier_id.name + "\n";
         }
-        if (quotation.totalitems != oldQuotation.totalitems) {
-            updates = updates + "Totalitems - " + oldQuotation.totalitems + " to " + Quotation.totalitems + "\n";
+        if (Respond.totalitems != oldRespond.totalitems) {
+            updates = updates + "Totalitems - " + oldRespond.totalitems + " to " + Respond.totalitems + "\n";
         }
-        if (quotation.requestdate != oldQuotation.requestdate) {
-            updates = updates + "Requested Date - " + oldQuotation.requestdate + " to " + Quotation.requestdate + "\n";
+        if (Respond.requestdate != oldRespond.requestdate) {
+            updates = updates + "Requested Date - " + oldRespond.requestdate + " to " + Respond.requestdate + "\n";
         }
-        if (quotation.status_id.name != oldQuotation.status_id.name) {
-            updates = updates + "Status - " + oldQuotation.status_id.name + " to " + Quotation.status_id.name + "\n";
+        if (Respond.status_id.name != oldRespond.status_id.name) {
+            updates = updates + "Status - " + oldRespond.status_id.name + " to " + Respond.status_id.name + "\n";
         }
-        if (quotation.note != oldQuotation.note) {
-            updates = updates + "Note - " + oldQuotation.note + " to " + Quotation.note + "\n";
+        if (Respond.note != oldRespond.note) {
+            updates = updates + "Note - " + oldRespond.note + " to " + Respond.note + "\n";
         }
     }
     return updates;
 }
 
-const buttonQuotationUpdate = () => {
+const buttonRespondUpdate = () => {
     let errors = checkFormError();
     if (errors == "") {
         let updates = checkFormUpdate();
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ Quotation.Quotationno +"? \n" + updates);
+            let userConfirm = window.confirm("Are you sure to update "+ respond.respondno +"? \n" + updates);
             if (userConfirm) {
-                let putResponce = getHTTPServiceRequest("/quotation/update", "PUT", quotation);
+                let putResponce = getHTTPServiceRequest("/respond/update", "PUT", respond);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
-                    refreshQuotationTable();
-                    refreshQuotationForm();
-                    $("#modalQuotationForm").modal("hide");
+                    refreshRespondTable();
+                    refreshRespondForm();
+                    $("#modalRespondForm").modal("hide");
                 } else {
                     window.alert("Failed to update" + putResponce);
                 }
@@ -253,10 +240,10 @@ const buttonQuotationUpdate = () => {
 //Add new record ************************************************************************************************************************************************************************************
 
 const buttonrAddNew = () => {
-    refreshQuotationForm();
-    selectQuotationStatus.setDefault = "Active";
+    refreshRespondForm();
+    selectRespondStatus.setDefault = "Active";
 
-    $("#modalQuotationFormLabel").text("Add New Quotation");
+    $("#modalRespondFormLabel").text("Add New Respond");
 
     $("#buttonSubmit").show();
     $("#buttonClear").show();
@@ -271,15 +258,33 @@ const buttonrAddNew = () => {
 // function for check item ext in the inner table
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
-    let extIndex = quotation.quotationHasItemList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let extIndex = respond.respondHasItemList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
-        refreshquotationInnerForm();
+        refreshRespondInnerForm();
+    } else {
+        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
+        respondHasItem.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
+        textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
 
-
+//define function for line price
+const calculateLinePrice = ()=> {
+    if (textQTY.value > 0) {
+        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        respondHasItem.lineprice = lineprice;
+        textLinePrice.value = lineprice;
+        textLinePrice.style.border = "1px solid lightgreen"
+    } else {
+        respondHasItem.unitPrice = null;
+        respondHasItem.lineprice = null;
+        textQTY.style.border = "1px solid pink";
+        textLinePrice.style.border = "1px solid #ced4da";
+        textLinePrice.value = "";
+    }
+}
 
 // filter products by select supplier dropdown
 const filterProductBySupplier = () => {
@@ -287,15 +292,20 @@ const filterProductBySupplier = () => {
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 }
 
-const refreshquotationInnerForm = () =>{
-    quotationHasItem = new Object();
+const refreshRespondInnerForm = () =>{
+    respondHasItem = new Object();
 
     selectItem.disabled = "";
+
+    textUnitPrice.value = "";
+    textUnitPrice.disabled = "disabled";
     textQTY.value = "";
+    textLinePrice.value = "";
+    textLinePrice.disabled = "disabled";
     
 
 
-    setDefault([selectItem,  textQTY, ]);
+    setDefault([selectItem,  textQTY, textUnitPrice, textLinePrice]);
 
     let selectItems = [];
     if (selectsupplier.value != "") {
@@ -312,11 +322,24 @@ const refreshquotationInnerForm = () =>{
     // function > object, array, boolean
     let propertyList = [
         {propertyName: getProductName, dataType: "function"},
-        {propertyName: "quantity", dataType: "string"}
+        {propertyName: "quantity", dataType: "string"},
+        {propertyName: "unitprice", dataType: "decimal"},
+        {propertyName: "lineprice", dataType: "decimal"}
     ];
 
-    fillDataIntoInnerTable(tableQuotationItemBody, quotation.quotationHasItemList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
+    fillDataIntoInnerTable(tableRespondItemBody, respond.respondHasItemList, propertyList, respondInnerFormRefill, respondInnerFormDelete);
 
+    //auto load total amount
+    let totalAmount = 0.00;
+    for (const orderproduct of respond.respondHasItemList) {
+        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
+    };
+
+    if (totalAmount != 0.00) {
+        texttotalamount.value = totalAmount.toFixed(2);
+        respond.totalprice = texttotalamount.value;
+        texttotalamount.style.border = "1px solid lightgreen"
+    };
 
     $("#buttonItemSubmit").show();
     $("#buttonItemUpdate").hide();
@@ -336,56 +359,56 @@ const getItemName = (dataOb) => {
     return dataOb.productname;
 }
 
-const orderInnerFormRefill = (ob, index) =>{
+const respondInnerFormRefill = (ob, index) =>{
 
-    refreshquotationInnerForm();
+    refreshRespondInnerForm();
     console.log("Edit", ob, index);
     
     innerFormIndex = index;
 
-    quotationHasItem = JSON.parse(JSON.stringify(ob));
-    oldOlquotationHasItem = JSON.parse(JSON.stringify(ob));
+    respondHasItem = JSON.parse(JSON.stringify(ob));
+    oldOlrespondHasItem = JSON.parse(JSON.stringify(ob));
 
 
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
     selectItem.disabled = "disabled";
-    selectItem.value = JSON.stringify(quotationHasItem.product_id)
+    selectItem.value = JSON.stringify(respondHasItem.product_id)
 
-    textUnitPrice.value = parseFloat(quotationHasItem.unitprice);
-    textQTY.value = quotationHasItem.quantity;
-    textLinePrice.value = parseFloat(quotationHasItem.lineprice);
+    textUnitPrice.value = parseFloat(respondHasItem.unitprice);
+    textQTY.value = respondHasItem.quantity;
+    textLinePrice.value = parseFloat(respondHasItem.lineprice);
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
 }
 
-const orderInnerFormDelete = (ob, index) => {
-    console.log(quotationHasItem);
+const respondInnerFormDelete = (ob, index) => {
+    console.log(respondHasItem);
 
     let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
     if (userConfirm) {
-        let extIndex = quotation.quotationHasItemList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        let extIndex = respond.respondHasItemList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
         if (extIndex != -1) {
-            quotation.quotationHasItemList.splice(extIndex,1);
+            respond.respondHasItemList.splice(extIndex,1);
         }
-        refreshquotationInnerForm();
+        refreshRespondInnerForm();
     }
 }
 
-const buttonQuotationItemSubmit = () => {
-    console.log(quotationHasItem);
+const buttonRespondItemSubmit = () => {
+    console.log(respondHasItem);
 
-    quotation.quotationHasItemList.push(quotationHasItem);
-    refreshquotationInnerForm();
+    respond.respondHasItemList.push(respondHasItem);
+    refreshRespondInnerForm();
 }
 
-const buttonQuotationItemUpdate = () => {
-    console.log(quotationHasItem);
+const buttonRespondItemUpdate = () => {
+    console.log(respondHasItem);
 
-    if (quotationHasItem.quantity != oldOlquotationHasItem.quantity) {
-        quotation.quotationHasItemList[innerFormIndex] = quotationHasItem;
-        refreshquotationInnerForm();
+    if (respondHasItem.quantity != oldOlrespondHasItem.quantity) {
+        respond.respondHasItemList[innerFormIndex] = respondHasItem;
+        refreshRespondInnerForm();
     }
 
 }
