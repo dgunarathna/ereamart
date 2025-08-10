@@ -18,18 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ereamart.dao.QuotationDao;
-import com.ereamart.dao.QuotationStatusDao;
+import com.ereamart.dao.RespondDao;
+import com.ereamart.dao.RespondStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Quotation;
+import com.ereamart.entity.Respond;
 import com.ereamart.entity.User;
 
 @RestController
-public class QuotationController {
+public class RespondController {
 
-	@Autowired
-	private QuotationDao quotationDao;
+    @Autowired
+	private RespondDao respondDao;
 
 	@Autowired // genarate instance of user dao - interface
     private UserDao userDao;
@@ -38,57 +39,57 @@ public class QuotationController {
 	private UserPrivilegeController userPrivilegeController;
 
 	@Autowired // genarate instance of Order status dao
-	private QuotationStatusDao quotationStatusDao;
+	private RespondStatusDao respondStatusDao;
 
-    // mapping for return quotation html page
-    @RequestMapping(value =  {"/quotation","/quotation.html"})
+        // mapping for return quotation html page
+    @RequestMapping(value =  {"/respond","/respond.html"})
     public ModelAndView uiEmployeePage(){
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		ModelAndView quotationPage = new ModelAndView();
-		quotationPage.setViewName("quotation.html");
-		quotationPage.addObject("loggedusername", auth.getName());
-		return quotationPage;
+		ModelAndView respondPage = new ModelAndView();
+		respondPage.setViewName("respond.html");
+		respondPage.addObject("loggedusername", auth.getName());
+		return respondPage;
 	} 
 
 	//request mapping for load quotation all data - /quotation/alldata
-    @GetMapping(value = "/quotation/alldata", produces = "application/json")
-    public List<Quotation> findAllData(){
+    @GetMapping(value = "/respond/alldata", produces = "application/json")
+    public List<Respond> findAllData(){
 
         //check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Quotation");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Respond");
 
         if (userPrivilege.getPrivi_select()) {
-            return quotationDao.findAll(Sort.by(Direction.DESC, "id"));
+            return respondDao.findAll(Sort.by(Direction.DESC, "id"));
         } else {
             return new ArrayList<>();
         }
         
     }
 
-	// mapping for insert quotation data
-	@PostMapping(value = "/quotation/insert")
-	public String saveUserData(@RequestBody Quotation quotation) {
+	// mapping for insert respond data
+	@PostMapping(value = "/respond/insert")
+	public String saveUserData(@RequestBody Respond respond) {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User loggedUser = userDao.getByUsename(auth.getName());
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Quotation");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Respond");
 
 		if (userPrivilege.getPrivi_insert()) {
 			//duplicate check
 	
 			try {
 				// set auto added data
-				quotation.setAdded_datetime(LocalDateTime.now());
-				quotation.setAdded_user_id(loggedUser.getId());
-				quotation.setQuotation_code(quotationDao.getNextCode());
+				respond.setAdded_datetime(LocalDateTime.now());
+				respond.setAdded_user_id(loggedUser.getId());
+				respond.setRespond_code(respondDao.getNextCode());
 
 				// save oparator
-				quotationDao.save(quotation);
+				respondDao.save(respond);
 
 				// dependances
 				return "OK";
@@ -102,20 +103,20 @@ public class QuotationController {
 
 	} 
 
-	// mapping for update quotation data
-	@PutMapping(value = "/quotation/update")
-	public String updateUserData(@RequestBody Quotation quotation) {
+	// mapping for update respond data
+	@PutMapping(value = "/respond/update")
+	public String updateUserData(@RequestBody Respond respond) {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User loggedUser = userDao.getByUsename(auth.getName());
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Quotation");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Respond");
 		
 		if (userPrivilege.getPrivi_update()) {
 
 			//check ext pk - update / delete only
-			if (quotation.getId() == null) { // no employee id - with link access
-				return "Update not completed, quotation already exists" ;
+			if (respond.getId() == null) { // no employee id - with link access
+				return "Update not completed, respond already exists" ;
 			}
 
 			//duplicate check
@@ -123,11 +124,11 @@ public class QuotationController {
 
 			try {
 				// set auto added data
-				quotation.setUpdate_datetime(LocalDateTime.now());
-				quotation.setUpdate_user_id(loggedUser.getId());
+				respond.setUpdate_datetime(LocalDateTime.now());
+				respond.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
-				quotationDao.save(quotation);
+				respondDao.save(respond);
 
 				// dependances
 				return "OK";
@@ -140,31 +141,31 @@ public class QuotationController {
 	
 	}
 
-	// mapping for delete product data
-	@DeleteMapping(value = "/quotation/delete") 
-	public String deleteEmployeeData(@RequestBody Quotation quotation) {
+	// mapping for delete respond data
+	@DeleteMapping(value = "/respond/delete") 
+	public String deleteEmployeeData(@RequestBody Respond respond) {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Quotation");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Respond");
         
 
 		//check ext pk - update / delete only
-		if (quotation.getId() == null) { // no employee id - with link access
+		if (respond.getId() == null) { // no employee id - with link access
 			return "Delete not completed, quotation not exist" ;
 		}
-		Quotation extProductById = quotationDao.getReferenceById(quotation.getId()); // check id with db
+		Respond extProductById = respondDao.getReferenceById(respond.getId()); // check id with db
 		if (extProductById == null) {
-			return "Delete not completed, quotation not exist in the database" ;
+			return "Delete not completed, respond not exist in the database" ;
 		}
 		 
 		try {
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
 			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
-			extProductById.setQuotation_status_id(quotationStatusDao.getReferenceById(2));
+			extProductById.setRespond_status_id(respondStatusDao.getReferenceById(2));
 
 			// delete oparator
-			quotationDao.save(extProductById);
+			respondDao.save(extProductById);
 
 			// dependances
 			return "OK";

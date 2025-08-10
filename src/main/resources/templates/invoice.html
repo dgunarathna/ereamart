@@ -39,6 +39,7 @@
             <li class="nav-item"><a class="nav-link" href="/product.html">Product</a></li>
             <li class="nav-item"><a class="nav-link" href="/supplier.html">Supplier</a></li>
             <li class="nav-item"><a class="nav-link" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="/responds.html">Responds</a></li>
             <li class="nav-item"><a class="nav-link" href="/orders.html">Order</a></li>
             <li class="nav-item"><a class="nav-link" href="/grn.html">GRN</a></li>
             <li class="nav-item"><a class="nav-link" href="/inventory.html">Inventory</a></li>
@@ -87,12 +88,12 @@
                   <label class="form-label">Customer<span class="text-danger">*</span></label>
                   <div class="input-group">
                     <select id="selectCustomer" Required  class="form-select" onchange="selectDynamicElementValidator(this,'invoice','customer_id')"></select>
-                    <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i></button>
+                    <button class="btn btn-outline-primary" type="button"><i class="fa-solid fa-plus"></i></button>
                   </div>
                 </div>
 
                 
-              <div class="col-xl-4">
+              <div class="col-xl-5">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'invoiceHasProduct','product_id'); checkProductExt();"></select>
               </div>
@@ -108,7 +109,7 @@
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
                 <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoiceHasProduct','lineprice')">
               </div>
-              <div class="col-xl-2 gap-1 d-flex align-items-end">
+              <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonInvoiceItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
                 <button type="button" onclick="buttonInvoiceItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
               </div>

@@ -37,8 +37,8 @@
           <ul class="nav nav-pills bg-transparent justify-content-center p-1 mx-auto" style="width: fit-content;">
             <li class="nav-item"><a class="nav-link" href="/product.html">Product</a></li>
             <li class="nav-item"><a class="nav-link" href="/supplier.html">Supplier</a></li>
-            <li class="nav-item"><a class="nav-link active" href="/quotation.html">Quotation</a></li>
-            <li class="nav-item"><a class="nav-link" href="/responds.html">Responds</a></li>
+            <li class="nav-item"><a class="nav-link" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/respond.html">Responds</a></li>
             <li class="nav-item"><a class="nav-link" href="/orders.html">Order</a></li>
             <li class="nav-item"><a class="nav-link" href="/grn.html">GRN</a></li>
             <li class="nav-item"><a class="nav-link" href="/inventory.html">Inventory</a></li>
@@ -48,7 +48,7 @@
         </div>
         <div class="col-xl d-flex gap-1 text-end my-auto p-0">
               <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
-                        <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonrAddNew()" data-bs-toggle="modal" data-bs-target="#modalQuotationForm"><i class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonrAddNew()" data-bs-toggle="modal" data-bs-target="#modalRespondForm"><i class="fa-solid fa-plus"></i></button>
           </div>
     </div>
       
@@ -56,10 +56,10 @@
           <div class="col">
           <!-- Table -->
           <div class="table-responsive">
-            <table class="table table-hover" id="tableQuotation">
+            <table class="table table-hover" id="tableRespond">
               <thead>
                 <tr>
-                  <th>Quotation no</th>
+                  <th>Respond no</th>
                   <th>Supplier</th>
                   <th>Total Items</th>
                   <th>Note</th>
@@ -67,73 +67,84 @@
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody id="tableQuotationBody"></tbody>
+              <tbody id="tableRespondBody"></tbody>
             </table>
           </div>
           </div>
       </div>
       <!-- Modal -->
-    <div class="modal fade" id="modalQuotationForm" tabindex="-1" aria-labelledby="modalQuotationFormLabel" aria-hidden="true">
+    <div class="modal fade" id="modalRespondForm" tabindex="-1" aria-labelledby="modalRespondFormLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
       
           <div class="modal-header">
-            <h6 class="modal-title" id="modalQuotationFormLabel">Add New</h6>
+            <h6 class="modal-title" id="modalRespondFormLabel">Add New</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
       
           <div class="modal-body">
-            <form id="formQuotation" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+            <form id="formRespond" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
+
               <div class="col-xl-6">
-                <label class="form-label">Request Date<span class="text-danger">*</span></label>
-                <input id="selectrequireddate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'quotation','requestdate' )">
+                <label class="form-label">Received Date<span class="text-danger">*</span></label>
+                <input id="selectrequireddate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'Respond','receiveddate' )">
               </div>
               <div class="col-xl-6">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotation','supplier_id'); filterProductBySupplier();" ></select>
+                  <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'Respond','supplier_id'); filterProductBySupplier();" ></select>
                   <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
               <div class="col-xl-9">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
-                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotationHasItem','product_id'); checkProductExt();"></select>
+                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'respondHasItem','product_id'); checkProductExt();"></select>
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'quotationHasItem','quantity');">
+                <input id="textQTY" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasItem','quantity');">
+              </div>
+              <div class="col-xl-2">
+                <label class="form-label">Unit Price<span class="text-danger">*</span></label>
+                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasItem','unitprice')">
+              </div>
+              <div class="col-xl-2">
+                <label class="form-label">Line price<span class="text-danger">*</span></label>
+                <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasItem','lineprice')">
               </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
-                <button type="button" onclick="buttonQuotationItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
-                <button type="button" onclick="buttonQuotationItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
+                <button type="button" onclick="buttonRespondItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
+                <button type="button" onclick="buttonRespondItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
               </div>
               
               <div class="col-lg-12">
                 <div class="table-responsive">
-                  <table class="table table-hover align-middle" id="tableQuotationItem">
+                  <table class="table table-hover align-middle" id="tableRespondItem">
                     <thead>
                       <tr>
                         <th>Name</th>
                         <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Line Price</th>
                         <th>Modify</th>
                       </tr>
                     </thead>
-                    <tbody id="tableQuotationItemBody"></tbody>
+                    <tbody id="tableRespondItemBody"></tbody>
                   </table>
                 </div>
               </div>
               
               <div class="col-xl-6">
-                <label class="form-label">Total Items<span class="text-danger">*</span></label>
-                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'quotation','totalitems')">
+                <label class="form-label">Total<span class="text-danger">*</span></label>
+                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'Respond','totalitems')">
               </div>
               <div class="col-xl-6">
-                <label for="selectQuotationStatus" class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectQuotationStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotation','quotation_status_id')"></select>
+                <label for="selectRespondStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectRespondStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'Respond','Respond_status_id')"></select>
               </div> 
               <div class="col-lg-12">
                 <label for="inputAddress" class="form-label">Note</label>
-                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'quotation','note')">
+                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'Respond','note')">
               </div>
 
             </form>
@@ -141,13 +152,13 @@
       
           <div class="modal-footer">
             <div class="col">
-              <button type="button" onclick="buttonQuotationDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
-              <button type="button" onclick="refreshQuotationForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
+              <button type="button" onclick="buttonRespondDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshRespondForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
             </div> 
             <div class="col text-end">
-              <button type="button" onclick="buttonQuotationPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
-              <button type="button" onclick="buttonQuotationUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
-              <button type="button" onclick="buttonQuotationSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+              <button type="button" onclick="buttonRespondPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
+              <button type="button" onclick="buttonRespondUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
+              <button type="button" onclick="buttonRespondSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
           </div>
           </div>
       
@@ -160,6 +171,6 @@
     
 
     <div th:replace="~{common :: scripts}"></div>
-    <script src="/uicontroller/quotation.js"></script>
+    <script src="/uicontroller/respond.js"></script>
 </body>
 </html>

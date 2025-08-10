@@ -39,6 +39,7 @@
             <li class="nav-item"><a class="nav-link" href="/product.html">Product</a></li>
             <li class="nav-item"><a class="nav-link" href="/supplier.html">Supplier</a></li>
             <li class="nav-item"><a class="nav-link" href="/quotation.html">Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="/responds.html">Responds</a></li>
             <li class="nav-item"><a class="nav-link" href="/orders.html">Order</a></li>
             <li class="nav-item"><a class="nav-link active" href="/grn.html">GRN</a></li>
             <li class="nav-item"><a class="nav-link" href="/inventory.html">Inventory</a></li>
@@ -96,7 +97,7 @@
                 <input id="textInvoiceNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','supplier_invoice_number')">
               </div>
 
-              <div class="col-xl-4">
+              <div class="col-xl-5">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'grnHasProduct','product_id'); checkProductExt();"></select>
               </div>
@@ -112,7 +113,7 @@
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
                 <input id="textLinePrice" type="number" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','lineprice')">
               </div>
-              <div class="col-xl-2 gap-1 d-flex align-items-end">
+              <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonInvoiceItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
                 <button type="button" onclick="buttonInvoiceItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
               </div>

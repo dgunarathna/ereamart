@@ -31,7 +31,7 @@ const fillDataIntoCards = (container, dataList, addFunction, viewFunction) => {
         colDiv.classList.add("col-lg-2", "col-md-4", "col-sm-6");
 
         let cardDiv = document.createElement("div");
-        cardDiv.classList.add("card", "bg-transparent");
+        cardDiv.classList.add("card", "bg-transparen");
 
         let img = document.createElement("img");
         img.src = dataOb.product_id.image || "/images/default.png"; // Default image
@@ -43,7 +43,7 @@ const fillDataIntoCards = (container, dataList, addFunction, viewFunction) => {
 
         let seller = document.createElement("small");
         seller.classList.add("card-text", "text-success");
-        seller.innerText = dataOb.grn_id.orders_id.supplier_id.name;
+        seller.innerText = "By " + dataOb.grn_id.orders_id.supplier_id.name;
 
         let title = document.createElement("h6");
         title.classList.add("card-title");
