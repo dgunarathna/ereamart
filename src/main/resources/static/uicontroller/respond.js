@@ -43,7 +43,7 @@ const refreshRespondForm = () => {
 
     formRespond.reset();
 
-    setDefault([selectquotation, selectsupplier, selectrequireddate, selectRespondStatus, textNote, textdiscount, texttotalamount]);
+    setDefault([selectquotation, selectsupplier, selectrequireddate, selectStatus, textNote, textdiscount, texttotalamount]);
     
     let quotations = getServiceRequest('/quotation/alldata');
     fillDataIntoSelect(selectquotation,"Select quotation",quotations,"quotation_code");
@@ -52,10 +52,10 @@ const refreshRespondForm = () => {
     fillDataIntoSelect(selectsupplier,"Select supplier",supliers,"name");
 
     let status = getServiceRequest('/respondstatus/alldata');
-    fillDataIntoSelect(selectRespondStatus,"Select status",status,"name");
-    selectRespondStatus.value = JSON.stringify(status[0]); // set default values
-    respond.respond_status_id = JSON.parse(selectRespondStatus.value);
-    selectRespondStatus.style.border = "1px solid lightgreen";
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]); // set default values
+    respond.respond_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen";
 
     let currentDate = new Date();
     selectrequireddate.value = currentDate.toISOString().split('T')[0];
@@ -72,11 +72,13 @@ const respondFormRefill = (ob, index) => {
     refreshRespondForm();
     console.log("Edit", ob, index);
 
+    selectquotation.value = JSON.stringify(ob.quotation_id);
     selectsupplier.value = JSON.stringify(ob.supplier_id);
-    textItems.value = ob.totalitems;
-    selectrequireddate.value = ob.requestdate;
+    texttotalamount.value = ob.totalprice;
+    selectrequireddate.value = ob.request_date;
     textNote.value = ob.note;
-    selectRespondStatus.value = JSON.stringify(ob.status_id);
+    textdiscount.value = ob.discount;
+    selectStatus.value = JSON.stringify(ob.respond_status_id);
 
 
     Respond = JSON.parse(JSON.stringify(ob));
@@ -241,7 +243,7 @@ const buttonRespondUpdate = () => {
 
 const buttonrAddNew = () => {
     refreshRespondForm();
-    selectRespondStatus.setDefault = "Active";
+    selectStatus.setDefault = "Active";
 
     $("#modalRespondFormLabel").text("Add New Respond");
 

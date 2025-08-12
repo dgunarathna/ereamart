@@ -16,17 +16,17 @@ const refreshProductTable = () => {
 
     let propertyList = [
         {propertyName: "code", dataType: "string"},
+        {propertyName: getDepartment, dataType: "function"},
+        {propertyName: getCategory, dataType: "function"},
         {propertyName: "image", dataType: "image-array"},
         {propertyName: "name", dataType: "string"},
         {propertyName: "description", dataType: "string"},
-        {propertyName: getBrand, dataType: "string"},
+        {propertyName: getBrand, dataType: "function"},
         {propertyName: "weight", dataType: "string"},
         {propertyName: "size", dataType: "string"},
         {propertyName: "discount_rate", dataType: "decimal"},
         {propertyName: "profit_rate", dataType: "decimal"},
         {propertyName: getManufacture, dataType: "function"},
-        {propertyName: getCategory, dataType: "function"},
-        {propertyName: getDepartment, dataType: "function"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -98,14 +98,13 @@ const productFormRefill = (ob, index) => {
 
     // set photo 
     if (ob.image != null) {
-        imgEmpPhotoPreview.src = atob(ob.image);
+        imgproductPhotoPreview.src = atob(ob.image);
     } else {
-        imgEmpPhotoPreview.src = "/images/default.png";
+        imgproductPhotoPreview.src = "/images/default.png";
     }
 
     selectCategory.value = JSON.stringify(ob.productcategory_id);
     selectDepartment.value = JSON.stringify(ob.productcategory_id.productdepartment_id);
-    productimage.value = ob.image;
     textProductName.value = ob.name;
     textDescription.value = ob.description;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
@@ -115,6 +114,7 @@ const productFormRefill = (ob, index) => {
     textDiscountRate.value = ob.discount_rate;
     textProfitRate.value = ob.profit_rate;
     textBarcode.value = ob.code;
+    textPrice.value = ob.price;
     selectStatus.value = JSON.stringify(ob.productstatus_id);
 
     product = JSON.parse(JSON.stringify(ob));

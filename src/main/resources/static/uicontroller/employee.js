@@ -58,13 +58,13 @@ const refreshEmployeeForm = () => {
     fileEmployeePhoto.value = "";
     imgEmpPhotoPreview.src = "/images/default.png";
 
-    setDefault([ textFullName, textNic, radioMale, radioFemale, textAddress, dteDOB, textEmail, selectCivilStatus, textMobile, selectDesignation, selectEmployeeStatus, textNote]);
+    setDefault([ textFullName, textNic, radioMale, radioFemale, textAddress, dteDOB, textEmail, selectCivilStatus, textMobile, selectDesignation, selectStatus, textNote]);
 
     let designations = getServiceRequest('/designation/alldata');
     fillDataIntoSelect(selectDesignation,"Select Designation",designations,"name");
 
     let employeeStatus = getServiceRequest('/employeestatus/alldata');
-    fillDataIntoSelect(selectEmployeeStatus,"Select Status",employeeStatus,"name");
+    fillDataIntoSelect(selectStatus,"Select Status",employeeStatus,"name");
 };
 
 const employeeFormRefill = (ob, index) => {
@@ -94,7 +94,7 @@ const employeeFormRefill = (ob, index) => {
     textNote.value = ob.note;
     selectCivilStatus.value = ob.civilstatus;
     selectDesignation.value = JSON.stringify(ob.designation_id);
-    selectEmployeeStatus.value = JSON.stringify(ob.employeestatus_id);
+    selectStatus.value = JSON.stringify(ob.employeestatus_id);
 
     employee = JSON.parse(JSON.stringify(ob));
     oldEmployee = JSON.parse(JSON.stringify(ob));

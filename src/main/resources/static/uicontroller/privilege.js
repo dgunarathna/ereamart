@@ -36,7 +36,7 @@ const getSelet = (ob)=>{
     if (ob.privi_select) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
-        return "<p class='badge bg-danger  w-100 my-auto'>Not Granted</p>";
+        return "<p class='badge bg-danger  w-100 my-auto'>Denied</p>";
     }
 };
 
@@ -44,7 +44,7 @@ const getInsert = (ob)=>{
     if (ob.privi_insert) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
-        return "<p class='badge bg-danger w-100 my-auto'>Not Granted</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>Denied</p>";
     }
 };
 
@@ -52,7 +52,7 @@ const getUpdate = (ob)=>{
     if (ob.privi_update) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
-        return "<p class='badge bg-danger w-100 my-auto'>Not Granted</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>Denied</p>";
     }
 };
 
@@ -60,7 +60,7 @@ const getDelete = (ob)=>{
     if (ob.privi_delete) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
-        return "<p class='badge bg-danger w-100 my-auto'>Not Granted</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>Denied</p>";
     }
 };
 

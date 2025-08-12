@@ -58,6 +58,7 @@
                     <th>Payment Method</th>
                     <th>Date</th>
                     <th>Total Amount</th>
+                    <th>Status</th>
                 </tr>
               </thead>
               <tbody id="tableIncomeBody"></tbody>
@@ -105,6 +106,10 @@
                 <div class="col-xl-4">
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
                   <input id="textTotal" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','total_amount')">
+                </div>
+                <div class="col-xl-4">
+                  <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                  <select id="selectStatus" class="form-select" Required  onchange="selectStaticElementValidator(this,'expenses','status')"></select>
                 </div>
   
               </form>

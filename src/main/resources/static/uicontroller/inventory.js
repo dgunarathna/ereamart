@@ -81,14 +81,14 @@ const inventoryFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
     selectProduct.value = JSON.stringify(ob.product_id);
-    textSalePrice.value = ob.saleprice;
-    textAvailableQty.value = ob.availableqty;
-    textTotalQty.value = ob.totalqty;
-    textExpireDate.value = ob.expiredate;
-    textManufactureDate.value = ob.manufacturedate;
-    textBatchNo.value = ob.batchno;
+    textSalePrice.value = ob.sales_price;
+    textAvailableQty.value = ob.available_qty;
+    textTotalQty.value = ob.total_qty;
+    textExpireDate.value = ob.expire_date;
+    textManufactureDate.value = ob.manufacture_date;
+    textBatchNo.value = ob.batch_number;
     selectGRN.value = JSON.stringify(ob.grn_id);
-    selectStatus.value = JSON.stringify(ob.status_id);
+    selectStatus.value = JSON.stringify(ob.inventory_status_id);
 
     inventory = JSON.parse(JSON.stringify(ob));
     oldInventory = JSON.parse(JSON.stringify(ob));

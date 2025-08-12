@@ -18,6 +18,7 @@ const refreshIncomeTable = () => {
         {propertyName: "payment_methord", dataType: "string"},
         {propertyName: "date", dataType: "string"},
         {propertyName: "total_amount", dataType: "string"},
+        {propertyName: getStatus, dataType: "function"},
     ];
 
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
@@ -29,6 +30,14 @@ const getCustomer = (dataOb) => {
 
 const getInvoice = (dataOb) => {
     return dataOb.invoice_id.invoice_code;
+}
+
+const getStatus = (dataOb) => {
+    if (dataOb.income_status_id.name == "Complete") {
+        return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.income_status_id.name + "</p>";
+    } if (dataOb.income_status_id.name == "Deleted") {
+        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.income_status_id.name + "</p>";
+    }
 }
 
 //form *********************************************************************************************************************************************************************************************
@@ -45,19 +54,22 @@ const refreshIncomeForm = () => {
 
     let customers = getServiceRequest('/customer/alldata');
     fillDataIntoSelect(selectCustomer,"Select customer",customers,"fullname");
+
+    let status = getServiceRequest('/incomestatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
 }
 
 const incomeFormRefill = (ob, index) => {
     refreshIncomeForm();
     console.log("Edit", ob, index);
 
-    textIncomeNo.value = ob.income_number;
     incomeReceipt.value = ob.incomereceipt;
     selectInvoiceNo.value = JSON.stringify(ob.invoice_id);
     selectCustomer.value = JSON.stringify(ob.customer_id);
     selectPaymentMethord.value = ob.payment_methord;
     incomeDate.value = ob.date;
     textTotal.value = ob.total_amount;
+    selectStatus.value = JSON.stringify(ob.income_status_id);
 
     income = JSON.parse(JSON.stringify(ob));
     oldIncome = JSON.parse(JSON.stringify(ob));

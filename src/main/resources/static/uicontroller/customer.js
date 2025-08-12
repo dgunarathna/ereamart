@@ -18,13 +18,20 @@ const refreshCustomerTable = () => {
         {propertyName: "mobileno", dataType: "string"},
         {propertyName: "address", dataType: "string"},
         {propertyName: "note", dataType: "string"},
+        {propertyName: getStatus, dataType: "function"},
     ];
 
     fillDataIntoTable(tableCustomerBody, customers, propertyList, customerFormRefill);
     
 };
 
-
+const getStatus = (dataOb) => {
+    if (dataOb.customer_status_id.name == "Active") {
+        return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.customer_status_id.name + "</p>";
+    } if (dataOb.customer_status_id.name == "Inactive") {
+        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.customer_status_id.name + "</p>";
+    }
+}
 //form *********************************************************************************************************************************************************************************************
 
 const refreshCustomerForm = () => {
@@ -32,7 +39,10 @@ const refreshCustomerForm = () => {
 
     formCustomer.reset();
 
-    setDefault([textRegNo, textName, textEmail, textMobileNo, textAddress, textNote, selectState]);
+    setDefault([textRegNo, textName, textEmail, textMobileNo, textAddress, textNote, selectStatus]);
+
+    let customers = getServiceRequest('/customerstatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select status",customers,"name");
 
 };
 
@@ -46,7 +56,7 @@ const customerFormRefill = (ob, index) => {
     textMobileNo.value = ob.mobileno;
     textAddress.value = ob.address;
     textNote.value = ob.note;
-    selectState.value = ob.status;
+    selectStatus.value = JSON.stringify(ob.customer_status_id);
 
     customer = JSON.parse(JSON.stringify(ob));
     oldCustomer = JSON.parse(JSON.stringify(ob));

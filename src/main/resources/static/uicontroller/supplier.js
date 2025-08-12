@@ -43,13 +43,13 @@ const refreshSupplierForm = () => {
 
     formSupplier.reset();
 
-    setDefault([textRegNo, textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectState]);
+    setDefault([textRegNo, textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectStatus]);
 
     let supplierStatus = getServiceRequest('/supplierstatus/alldata');
-    fillDataIntoSelect(selectState,"Select Status",supplierStatus,"name");
-    selectState.value = JSON.stringify(supplierStatus[0]);
+    fillDataIntoSelect(selectStatus,"Select Status",supplierStatus,"name");
+    selectStatus.value = JSON.stringify(supplierStatus[0]);
     supplier.supplier_status_id = supplierStatus[0];
-    selectState.style.border = "1px solid lightgreen"
+    selectStatus.style.border = "1px solid lightgreen"
 
 
     allProducts = getServiceRequest('/product/alldata');
@@ -73,7 +73,7 @@ const supplierFormRefill = (ob, index) => {
     textBank.value = ob.bank;
     textBranch.value = ob.branch;
     textAccountNo.value = ob.account_no;
-    selectState.value = ob.supplier_status_id;
+    selectStatus.value = JSON.stringify(ob.supplier_status_id);
 
     supplier = JSON.parse(JSON.stringify(ob));
     oldSupplier = JSON.parse(JSON.stringify(ob));

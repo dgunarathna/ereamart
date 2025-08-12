@@ -57,16 +57,16 @@ const refreshOrderForm = () => {
 
     formOrder.reset();
 
-    setDefault([ selectrequireddate, texttotalamount, selectsupplier, selectorderstate, textnote]);
+    setDefault([ selectrequireddate, texttotalamount, selectsupplier, selectStatus, textnote]);
 
     let suppliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",suppliers,"name");
 
     let status = getServiceRequest('/ordersstatus/alldata');
-    fillDataIntoSelect(selectorderstate,"Select status",status,"name");
-    selectorderstate.value = JSON.stringify(status[0]); // set default values
-    order.orders_status_id = JSON.parse(selectorderstate.value);
-    selectorderstate.style.border = "1px solid lightgreen"
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]); // set default values
+    order.orders_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen"
     
 
     //set mix max date [YYYY - mm - DD]
@@ -105,7 +105,7 @@ const orderFormRefill = (ob, index) => {
     texttotalamount.value = ob.total_amount;
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     selectsupplier.disabled = "disabled";
-    selectorderstate.value = JSON.stringify(ob.orders_status_id);
+    selectStatus.value = JSON.stringify(ob.orders_status_id);
     textnote.value = ob.note;
 
     order = JSON.parse(JSON.stringify(ob));

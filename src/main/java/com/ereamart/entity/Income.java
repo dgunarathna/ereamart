@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -62,4 +63,8 @@ public class Income {
     @OneToOne()
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "income_status_id", referencedColumnName = "id")
+    private IncomeStatus income_status_id;
 }

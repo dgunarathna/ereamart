@@ -57,4 +57,8 @@ public class Invoice {
     @ManyToOne()
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "invoice_status_id", referencedColumnName = "id")
+    private InvoiceStatus invoice_status_id;
 }

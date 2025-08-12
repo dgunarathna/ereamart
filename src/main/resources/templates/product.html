@@ -62,6 +62,8 @@
               <thead>
                 <tr>
                   <th>Code</th>
+                  <th>Department</th>
+                  <th>Category</th>
                   <th>Image</th>
                   <th>Name</th>
                   <th>Description</th>
@@ -71,8 +73,6 @@
                   <th>Discount</th>
                   <th>Profit</th>
                   <th>Manufacture</th>
-                  <th>Category</th>
-                  <th>Department</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -104,7 +104,7 @@
                   <div>
                     <button onclick="fileProductPhoto.click()" type="button" class="btn btn-outline-primary">select photo</button>
                     <button type="button" class="btn btn-outline-secondary">clear</button>
-                    <input onchange="fileValidator(this, 'product', 'productimage', imgEmpPhotoPreview)" type="file" class="d-none" id="fileProductPhoto">
+                    <input onchange="fileValidator(this, 'product', 'productimage', imgproductPhotoPreview)" type="file" class="d-none" id="fileProductPhoto">
                   </div>
                 </div>
               </div>

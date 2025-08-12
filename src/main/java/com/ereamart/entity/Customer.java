@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -54,4 +56,8 @@ public class Customer {
     private Integer update_user_id;
 
     private Integer delete_user_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "customer_status_id", referencedColumnName = "id")
+    private CustomerStatus customer_status_id;
 }

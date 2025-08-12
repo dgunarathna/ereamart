@@ -30,8 +30,8 @@ const getSupplier = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.quotation_status_id.name == "Active") {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
-    } if (dataOb.quotation_status_id.name == "Deactive") {
-        return "<p class='badge bg-dark w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
+    } if (dataOb.quotation_status_id.name == "Deleted") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
     } 
 }
 
@@ -43,13 +43,13 @@ const refreshQuotationForm = () => {
 
     formQuotation.reset();
 
-    setDefault([selectsupplier, textItems, selectrequireddate, selectQuotationStatus, textNote]);
+    setDefault([selectsupplier, textItems, selectrequireddate, selectStatus, textNote]);
     
     let supliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",supliers,"name");
 
     let QuotationStatus = getServiceRequest('/quotationstatus/alldata');
-    fillDataIntoSelect(selectQuotationStatus,"Select Status",QuotationStatus,"name");  
+    fillDataIntoSelect(selectStatus,"Select Status",QuotationStatus,"name");  
 
     //set mix max date [YYYY - mm - DD]
 
@@ -89,7 +89,7 @@ const QuotationFormRefill = (ob, index) => {
     textItems.value = ob.totalitems;
     selectrequireddate.value = ob.requestdate;
     textNote.value = ob.note;
-    selectQuotationStatus.value = JSON.stringify(ob.status_id);
+    selectStatus.value = JSON.stringify(ob.quotation_status_id);
 
 
     quotation = JSON.parse(JSON.stringify(ob));
@@ -254,7 +254,7 @@ const buttonQuotationUpdate = () => {
 
 const buttonrAddNew = () => {
     refreshQuotationForm();
-    selectQuotationStatus.setDefault = "Active";
+    selectStatus.setDefault = "Active";
 
     $("#modalQuotationFormLabel").text("Add New Quotation");
 

@@ -32,9 +32,9 @@ const getOrder_id = (dataOb) => {
 
 const getGRNStatus = (dataOb) => {
     if (dataOb.grn_status_id.name == "Active") {
-        return "<p class='badge bg-warning text-dark w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
+        return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
     } if (dataOb.grn_status_id.name == "Received") {
-        return "<p class='badge bg-success w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
+        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
     }
 }
 
@@ -71,14 +71,14 @@ const grnFormRefill = (ob, index) => {
     refreshGRNForm();
     console.log("Edit", ob, index);
 
-    textInvoiceNo.value = ob.invoiceno;
-    selectOrder.value = JSON.stringify(ob.order_id);
-    textTotalAmount.value = ob.totalamount;
-    textDiscountRate.value = ob.discountrate;
-    textNetAmount.value = ob.netamount;
+    textInvoiceNo.value = ob.supplier_invoice_number;
+    selectOrder.value = JSON.stringify(ob.orders_id);
+    textTotalAmount.value = ob.total_amount;
+    textDiscountRate.value = ob.discount;
+    textNetAmount.value = ob.net_amount;
     textNote.value = ob.note;
-    textReceivedDate.value = ob.receiveddate;
-    selectStatus.value = JSON.stringify(ob.status_id);
+    textReceivedDate.value = ob.recieved_date;
+    selectStatus.value = JSON.stringify(ob.grn_status_id);
 
     grn = JSON.parse(JSON.stringify(ob));
     oldGrn = JSON.parse(JSON.stringify(ob));

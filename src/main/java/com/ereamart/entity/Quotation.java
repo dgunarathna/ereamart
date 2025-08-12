@@ -36,6 +36,8 @@ public class Quotation {
     private String quotation_code;
 
     private LocalDate requestdate; 
+    
+    private Integer totalitems; 
 
     private String note;
 

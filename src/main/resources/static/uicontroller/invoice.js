@@ -17,6 +17,7 @@ const refreshInvoiceTable = () => {
         {propertyName: "total_amount", dataType: "decimal"},
         {propertyName: "discount_amount", dataType: "string"},
         {propertyName: "net_amount", dataType: "decimal"},
+        {propertyName: getStatus, dataType: "function"},
     ];
 
     fillDataIntoTable(tableInvoiceBody, invoices, propertyList, invoiceFormRefill);
@@ -24,6 +25,14 @@ const refreshInvoiceTable = () => {
 
 const getCustomer = (dataOb) => {
     return dataOb.customer_id.fullname;
+}
+
+const getStatus = (dataOb) => {
+    if (dataOb.invoice_status_id.name == "Complete") {
+        return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.invoice_status_id.name + "</p>";
+    } if (dataOb.invoice_status_id.name == "Deleted") {
+        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.invoice_status_id.name + "</p>";
+    }
 }
 
 //form *********************************************************************************************************************************************************************************************
@@ -34,10 +43,13 @@ const refreshInvoiceForm = () => {
 
     formInvoice.reset();
 
-    setDefault([ selectCustomer, textTotalAmount, textDisountAmount, textNetAmount]);
+    setDefault([ selectCustomer, textTotalAmount, textDisountAmount, textNetAmount, selectStatus]);
 
     let customers = getServiceRequest('/customer/alldata');
     fillDataIntoSelect(selectCustomer,"Select customer",customers,"fullname");
+
+    let status = getServiceRequest('/invoicestatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
     
 
     //inner form ************************************
@@ -49,11 +61,11 @@ const invoiceFormRefill = (ob, index) => {
     refreshInvoiceForm();
     console.log("Edit", ob, index);
 
-    textInvoiceNo.value = ob.invoiceno;
     selectCustomer.value = JSON.stringify(ob.customer_id);
-    textTotalAmount.value = ob.totalamount;
-    textDisountAmount.value = ob.discountamount;
-    textNetAmount.value = ob.netamount;
+    selectStatus.value = JSON.stringify(ob.invoice_status_id);
+    textTotalAmount.value = ob.total_amount;
+    textDisountAmount.value = ob.discount_amount;
+    textNetAmount.value = ob.net_amount;
 
     invoice = JSON.parse(JSON.stringify(ob));
     oldInvoice = JSON.parse(JSON.stringify(ob));

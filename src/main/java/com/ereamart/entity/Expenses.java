@@ -66,4 +66,8 @@ public class Expenses {
     @ManyToOne()
     @JoinColumn(name = "grn_id", referencedColumnName = "id")
     private GRN grn_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "expense_status_id", referencedColumnName = "id")
+    private ExpensesStatus expense_status_id;
 }

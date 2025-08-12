@@ -13,25 +13,33 @@ const refreshExpensesTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "bill_no", dataType: "string"},
-        {propertyName: getSupplierName, dataType: "function"},
         {propertyName: getGRNNO, dataType: "function"},
+        {propertyName: getSupplierName, dataType: "function"},
         {propertyName: "payment_method", dataType: "string"},
         {propertyName: "date", dataType: "string"},
         {propertyName: "total_due_amount", dataType: "string"},
         {propertyName: "paid_amount", dataType: "string"},
         {propertyName: "balance_amount", dataType: "string"},
+        {propertyName: getStatus, dataType: "function"},
     ];
 
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
 }
 
 const getGRNNO = (dataOb) => {
-    return dataOb.supplier_id.reg_no;
+    return dataOb.grn_id.grn_no;
 }
 const getSupplierName = (dataOb) => {
     return dataOb.supplier_id.reg_no;
 }
 
+const getStatus = (dataOb) => {
+    if (dataOb.expense_status_id.name == "Complete") {
+        return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.expense_status_id.name + "</p>";
+    } if (dataOb.expense_status_id.name == "Deleted") {
+        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.expense_status_id.name + "</p>";
+    }
+}
 //form *********************************************************************************************************************************************************************************************
 
 const refreshExpensesForm = () => {
@@ -47,20 +55,24 @@ const refreshExpensesForm = () => {
     let supliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectSupplier,"Select Status",supliers,"name");
 
+    let status = getServiceRequest('/expensesstatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+
 }
 
 const expensesFormRefill = (ob, index) => {
     refreshExpensesForm();
     console.log("Edit", ob, index);
 
-    billNo.value = ob.bill_no;
     expensesReceipt.value = ob.expensesreceipt;
     selectSupplier.value = JSON.stringify(ob.supplier_id);
+    selectGRN.value = JSON.stringify(ob.grn_id);
     selectPaymentMethord.value = ob.payment_method;
     textTotalDue.value = ob.total_due_amount;
     textTotalPaid.value = ob.paid_amount;
     textTotalBalance.value = ob.balance_amount;
     expensesDate.value = ob.date;
+    selectStatus.value = JSON.stringify(ob.expense_status_id);
 
     expenses = JSON.parse(JSON.stringify(ob));
     oldExpenses = JSON.parse(JSON.stringify(ob));
@@ -77,7 +89,7 @@ const expensesFormRefill = (ob, index) => {
 
 const buttonExpensesDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.billno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.bill_no + "?");
     if (userConfirm == true) {
         let deleteResponce = getHTTPServiceRequest("/expenses/delete", "DELETE", ob);
         if (deleteResponce == "OK") {

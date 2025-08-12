@@ -73,12 +73,12 @@ const refreshUserForm = () => {
 
     formUser.reset();
 
-    setDefault([selectEmployee, textUsername, textPassword, textRetypePassword, selectAccountStatus]);
+    setDefault([selectEmployee, textUsername, textPassword, textRetypePassword, selectStatus]);
 
     let employees = getServiceRequest('/employee/withoutuseraccount');
     fillDataIntoSelect(selectEmployee, "Select Employee", employees, "fullname");
 
-    selectAccountStatus.checked = "checked";
+    selectStatus.checked = "checked";
     user.status = true;
 
     textPassword.disabled = false;
@@ -136,9 +136,9 @@ const UserFormRefill = (ob, index) => {
     textRetypePassword.disabled = true;
 
     if (ob.status) {
-        selectAccountStatus.checked = "checked";
+        selectStatus.checked = "checked";
     } else {
-        selectAccountStatus.checked = "";
+        selectStatus.checked = "";
     }
 
     let roles = getServiceRequest('/role/withoutadmin');

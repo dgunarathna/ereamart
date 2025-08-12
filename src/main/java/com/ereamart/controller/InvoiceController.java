@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.InvoiceDao;
+import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Invoice;
 import com.ereamart.entity.Privilege;
@@ -29,6 +30,9 @@ public class InvoiceController {
 
 	@Autowired // genarate instance of user dao - interface
     private InvoiceDao invoiceDao;
+
+	@Autowired // genarate instance of user dao - interface
+    private InvoiceStatusDao invoiceStatusDao;
 
 	@Autowired // genarate instance of user dao - interface
     private UserDao userDao;

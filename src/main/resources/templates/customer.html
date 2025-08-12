@@ -66,6 +66,7 @@
                     <th>Mobile</th>
                     <th>Address</th>
                     <th>Note</th>
+                    <th>Status</th>
                 </tr>
               </thead>
               <tbody id="tableCustomerBody"></tbody>
@@ -94,12 +95,8 @@
                   <input id="textName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','customer','fullname')">
                 </div>    
                 <div class="col-xl-4">
-                  <label for="selecStatus" class="form-label">Status<span class="text-danger">*</span></label>
-                  <select id="selectState" class="form-select" Required  onchange="selectStaticElementValidator(this,'customer','status')">
-                    <option value="Select Civil Status" selected disabled>Select Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option> 
-                  </select>
+                  <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                  <select id="selectStatus" class="form-select" Required  onchange="selectStaticElementValidator(this,'customer','status')"></select>
                 </div>
                 <div class="col-xl-6">
                   <label for="textEmail" class="form-label">Email<span class="text-danger">*</span></label>

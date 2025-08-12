@@ -52,13 +52,14 @@
               <thead>
                 <tr>
                     <th>Expenses No</th>
-                    <th>Supplier</th>
                     <th>GRN No</th>
+                    <th>Supplier</th>
                     <th>Payment Method</th>
                     <th>Date</th>
                     <th>Total Due Amount</th>
                     <th>Paid Amount</th>
                     <th>Balance Amount</th>
+                    <th>Status</th>
                 </tr>
               </thead>
               <tbody id="tableExpensesBody"></tbody>
@@ -115,6 +116,10 @@
                 <label class="form-label">Date<span class="text-danger">*</span></label>
                 <input id="expensesDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'expenses','date' )">
               </div>
+              <div class="col-xl-4">
+                  <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                  <select id="selectStatus" class="form-select" Required  onchange="selectStaticElementValidator(this,'expenses','status')"></select>
+                </div>
             </form>
           </div>
       
