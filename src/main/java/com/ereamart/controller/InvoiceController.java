@@ -144,8 +144,8 @@ public class InvoiceController {
 	
 	}
 
-	// mapping for delete invoiceDao data
-	@DeleteMapping(value = "/invoiceDao/delete") 
+	// mapping for delete invoice data
+	@DeleteMapping(value = "/invoice/delete") 
 	public String deleteEmployeeData(@RequestBody Invoice invoice) {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -165,6 +165,7 @@ public class InvoiceController {
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
 			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
+			extProductById.setInvoice_status_id(invoiceStatusDao.getReferenceById(2));
 
 			// delete oparator
 			invoiceDao.save(extProductById);

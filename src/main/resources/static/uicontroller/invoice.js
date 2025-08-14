@@ -30,8 +30,8 @@ const getCustomer = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.invoice_status_id.name == "Complete") {
         return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.invoice_status_id.name + "</p>";
-    } if (dataOb.invoice_status_id.name == "Deleted") {
-        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.invoice_status_id.name + "</p>";
+    } if (dataOb.invoice_status_id.name == "Delete") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.invoice_status_id.name + "</p>";
     }
 }
 
@@ -71,7 +71,7 @@ const invoiceFormRefill = (ob, index) => {
     oldInvoice = JSON.parse(JSON.stringify(ob));
 
     $("#modalInvoiceForm").modal("show");
-    $("#modalInvoiceFormLabel").text(ob.invoiceno);
+    $("#modalInvoiceFormLabel").text(ob.invoice_code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

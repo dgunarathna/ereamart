@@ -41,7 +41,7 @@ const getStatus = (dataOb) => {
     if (dataOb.productstatus_id.name == "Available") {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.productstatus_id.name + "</p>";
     } if (dataOb.productstatus_id.name == "Unavailable") {
-        return "<p class='badge bg-warning w-100 my-auto'>" + dataOb.productstatus_id.name + "</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.productstatus_id.name + "</p>";
     }
 }
 
@@ -121,7 +121,7 @@ const productFormRefill = (ob, index) => {
     oldProduct = JSON.parse(JSON.stringify(ob));
 
     $("#modalProductForm").modal("show");
-    $("#modalProductFormLabel").text(ob.productname);
+    $("#modalProductFormLabel").text(ob.code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

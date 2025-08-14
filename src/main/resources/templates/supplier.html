@@ -56,7 +56,7 @@
           <div class="col">
           <!-- Table -->
           <div class="table-responsive">
-            <table class="table  table-hover" id="tableSupplier">
+            <table class="table table-hover align-middle" id="tableSupplier">
               <thead>
                 <tr>
                     <th>Reg No</th>
@@ -89,27 +89,20 @@
       
           <div class="modal-body">
             <form id="formSupplier" class="row g-3 col-xl-12 col-xl-4 col-md-12 mx-auto" onsubmit="return false">
-              <div class="col-xl-4">
-                <label class="form-label">Reg No<span class="text-danger">*</span></label>
-                <input id="textRegNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','supplier','reg_no')">
-              </div>
-              <div class="col-xl-4">
+
+              <div class="col-xl-6">
                 <label class="form-label">Name<span class="text-danger">*</span></label>
                 <input id="textName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','supplier','name')">
               </div>
-              <div class="col-xl-4">
-                <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" class="form-select" Required onchange="selectStaticElementValidator(this,'supplier','supplier_status_id')"></select>
+              <div class="col-xl-6">
+                <label for="textEmail" class="form-label">Email<span class="text-danger">*</span></label>
+                <input id="textEmail" type="email" Required  class="form-control" onkeyup="textValidator(this,'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$', 'supplier','email')">
               </div> 
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <label class="form-label">BRN<span class="text-danger">*</span></label>
                 <input id="textBRN" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','supplier','supplier_brn')">
               </div>
-              <div class="col-xl-4">
-                <label for="textEmail" class="form-label">Email<span class="text-danger">*</span></label>
-                <input id="textEmail" type="email" Required  class="form-control" onkeyup="textValidator(this,'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$', 'supplier','email')">
-              </div>
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <label class="form-label">Mobile Number<span class="text-danger">*</span></label>
                 <input id="textMobileNo" type="text" Required  class="form-control"  onkeyup="textValidator(this,'^[0][7][01245678][0-9]{7}$','supplier','mobile_no')">
               </div>
@@ -141,10 +134,14 @@
                 <label class="form-label">Selected Products<span class="text-danger">*</span></label>
                 <select id="selectSelectedProducts" class="form-select" multiple></select>
               </div>
-              <div class="col-xl-12">
+              <div class="col-xl-6">
                 <label for="inputAddress" class="form-label">Note</label>
                 <input id="textNote" type="text"  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','supplier','note')">
-              </div>    
+              </div>  
+              <div class="col-xl-6">
+                <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectStatus" class="form-select" Required onchange="selectDynamicElementValidator(this,'supplier','supplier_status_id')"></select>
+              </div>  
             </form>
           </div>
       

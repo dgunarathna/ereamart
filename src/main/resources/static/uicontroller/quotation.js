@@ -30,7 +30,7 @@ const getSupplier = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.quotation_status_id.name == "Active") {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
-    } if (dataOb.quotation_status_id.name == "Deleted") {
+    } if (dataOb.quotation_status_id.name == "Delete") {
         return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.quotation_status_id.name + "</p>";
     } 
 }
@@ -96,7 +96,7 @@ const QuotationFormRefill = (ob, index) => {
     oldQuotation = JSON.parse(JSON.stringify(ob));
 
     $("#modalQuotationForm").modal("show");
-    $("#modalQuotationFormLabel").text(ob.Quotationno);
+    $("#modalQuotationFormLabel").text(ob.quotation_code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

@@ -86,6 +86,7 @@ public class InventoryController {
 				// set auto added data
 				inventory.setAdded_datetime(LocalDateTime.now());
 				inventory.setAdded_user_id(loggedUser.getId());
+				inventory.setInventory_code(inventoryDao.getNextCode());
 
 				// save oparator
 				inventoryDao.save(inventory);

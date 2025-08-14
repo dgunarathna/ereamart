@@ -233,6 +233,23 @@ public class ProductController {
 			}
     }
 
+
+
+	//  request mapping for load productbrand all data - /product/bysupplier
+    @GetMapping(value = "/product/withoutsupply/{supplierid}", produces = "application/json")
+    public List<Product> findProductWithoutSupplyID(@PathVariable("supplierid") Integer supplierid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductWithoutSupply(supplierid);
+			} else {
+				return new ArrayList<>();
+			}
+    }
+
 	
 
 }

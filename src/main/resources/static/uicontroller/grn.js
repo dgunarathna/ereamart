@@ -33,8 +33,8 @@ const getOrder_id = (dataOb) => {
 const getGRNStatus = (dataOb) => {
     if (dataOb.grn_status_id.name == "Active") {
         return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
-    } if (dataOb.grn_status_id.name == "Received") {
-        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
+    } if (dataOb.grn_status_id.name == "Delete") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.grn_status_id.name + "</p>";
     }
 }
 
@@ -84,7 +84,7 @@ const grnFormRefill = (ob, index) => {
     oldGrn = JSON.parse(JSON.stringify(ob));
 
     $("#modalGRNForm").modal("show");
-    $("#modalGRNFormLabel").text(ob.grnno);
+    $("#modalGRNFormLabel").text(ob.grn_no);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

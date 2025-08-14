@@ -4,6 +4,7 @@ window.addEventListener("load", () => {
     refreshSupplierForm();
 });
 
+
 //table *********************************************************************************************************************************************************************************************
 const refreshSupplierTable = () => {
     let suppliers = getServiceRequest('/supplier/alldata');
@@ -40,10 +41,11 @@ const getStatus = (dataOb) => {
 const refreshSupplierForm = () => {
     supplier = new Object();
     supplier.supplierItemList = new Array();
+    
 
     formSupplier.reset();
 
-    setDefault([textRegNo, textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectStatus]);
+    setDefault([textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectStatus]);
 
     let supplierStatus = getServiceRequest('/supplierstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select Status",supplierStatus,"name");
@@ -63,23 +65,30 @@ const supplierFormRefill = (ob, index) => {
     refreshSupplierForm();
     console.log("Edit", ob, index);
 
-    textRegNo.value = ob.reg_no;
-    textBRN.value = ob.supplier_brn;
-    textName.value = ob.name;
-    textEmail.value = ob.email;
-    textMobileNo.value = ob.mobile_no;
-    textAddress.value = ob.address;
-    textNote.value = ob.note;
-    textBank.value = ob.bank;
-    textBranch.value = ob.branch;
-    textAccountNo.value = ob.account_no;
-    selectStatus.value = JSON.stringify(ob.supplier_status_id);
+    supplier = getServiceRequest('/supplier/getbyid?id=' + ob.id);
+    oldSupplier = getServiceRequest('/supplier/getbyid?id=' + ob.id);
 
-    supplier = JSON.parse(JSON.stringify(ob));
-    oldSupplier = JSON.parse(JSON.stringify(ob));
+    textBRN.value = supplier.supplier_brn;
+    textName.value = supplier.name;
+    textEmail.value = supplier.email;
+    textMobileNo.value = supplier.mobile_no;
+    textAddress.value = supplier.address;
+    textNote.value = supplier.note;
+    textBank.value = supplier.bank;
+    textBranch.value = supplier.branch;
+    textAccountNo.value = supplier.account_no;
+    selectStatus.value = JSON.stringify(supplier.supplier_status_id);
+
+    allProducts = getServiceRequest('/product/withoutsupply/' + supplier.id);
+    fillDataIntoSelect(selectAllProducts, "" ,allProducts,"name");
+
+    fillDataIntoSelect(selectSelectedProducts, "" ,supplier.supplierItemList,"name");
+
+    // supplier = JSON.parse(JSON.stringify(ob));
+    // oldSupplier = JSON.parse(JSON.stringify(ob));
 
     $("#modalSupplierForm").modal("show");
-    $("#modalSupplierFormLabel").text(ob.fullname);
+    $("#modalSupplierFormLabel").text(ob.reg_no);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 
@@ -241,8 +250,8 @@ const checkFormUpdate = () => {
         if (supplier.account_no != oldSupplier.account_no) {
             updates = updates + "Account No - " + oldSupplier.account_no + " to " + supplier.account_no + "\n";
         }
-        if (supplier.supplier_status_id != oldSupplier.supplier_status_id) {
-            updates = updates + "Supplier Status - " + oldSupplier.supplier_status_id + " to " + supplier.supplier_status_id + "\n";
+        if (supplier.supplier_status_id.name != oldSupplier.supplier_status_id.name) {
+            updates = updates + "Supplier Status - " + oldSupplier.supplier_status_id.name + " to " + supplier.supplier_status_id.name + "\n";
         }
     }
     return updates;

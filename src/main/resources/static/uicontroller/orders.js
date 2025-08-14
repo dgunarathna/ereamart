@@ -113,7 +113,7 @@ const orderFormRefill = (ob, index) => {
 
     
     $("#modalOrderForm").modal("show");
-    $("#modalOrderFormLabel").text(ob.orderno);
+    $("#modalOrderFormLabel").text(ob.orders_code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
     

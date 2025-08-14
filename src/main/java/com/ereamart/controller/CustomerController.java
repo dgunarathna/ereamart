@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.CustomerDao;
+import com.ereamart.dao.CustomerStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Customer;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.Product;
+import com.ereamart.entity.SupplierStatusDao;
 import com.ereamart.entity.User;
 
 @RestController
@@ -33,6 +34,9 @@ public class CustomerController {
 
 	@Autowired // genarate instance of user dao - interface
     private UserDao userDao;
+
+	@Autowired // genarate instance of supplier dao
+    private CustomerStatusDao customerStatusDao;
 
 	@Autowired // genarate instance of user privilege dao
 	private UserPrivilegeController userPrivilegeController;
@@ -82,6 +86,7 @@ public class CustomerController {
 				// set auto added data
 				customer.setAdded_datetime(LocalDateTime.now());
 				customer.setAdded_user_id(loggedUser.getId());
+				customer.setRegno(customerDao.getNextRegNo());
 
 				// save oparator
 				customerDao.save(customer);
@@ -161,6 +166,7 @@ public class CustomerController {
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
 			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
+			extProductById.setCustomer_status_id(customerStatusDao.getReferenceById(2));
 
 			// delete oparator
 			customerDao.save(extProductById);

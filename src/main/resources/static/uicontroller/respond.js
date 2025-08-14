@@ -30,8 +30,8 @@ const getSupplier = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.respond_status_id.name == "Active") {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.respond_status_id.name + "</p>";
-    } if (dataOb.respond_status_id.name == "Expired") {
-        return "<p class='badge bg-dark w-100 my-auto'>" + dataOb.respond_status_id.name + "</p>";
+    } if (dataOb.respond_status_id.name == "Delete") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.respond_status_id.name + "</p>";
     } 
 }
 
@@ -85,7 +85,7 @@ const respondFormRefill = (ob, index) => {
     oldRespond = JSON.parse(JSON.stringify(ob));
 
     $("#modalRespondForm").modal("show");
-    $("#modalRespondFormLabel").text(ob.Respondno);
+    $("#modalRespondFormLabel").text(ob.respond_code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

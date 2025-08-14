@@ -44,6 +44,8 @@ public class Inventory {
 
     private String batch_number;
 
+    private String inventory_code;
+
     
     @NotNull
     private LocalDateTime added_datetime;

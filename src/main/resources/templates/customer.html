@@ -57,7 +57,7 @@
           <div class="col">
           <!-- Table -->
           <div class="table-responsive">
-            <table class="table   table-hover" id="tableCustomer">
+            <table class="table table-hover align-middle" id="tableCustomer">
               <thead>
                 <tr>
                     <th>Reg No</th>
@@ -86,15 +86,11 @@
         
             <div class="modal-body">
               <form id="formCustomer" class="row g-3 col-xl-12 col-xl-6 col-md-12 mx-auto" onsubmit="return false">
-                <div class="col-xl-4">
-                  <label class="form-label">Reg No<span class="text-danger">*</span></label>
-                  <input id="textRegNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','customer','regno')">
-                </div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <label class="form-label">Name<span class="text-danger">*</span></label>
                   <input id="textName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','customer','fullname')">
                 </div>    
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
                   <select id="selectStatus" class="form-select" Required  onchange="selectStaticElementValidator(this,'customer','status')"></select>
                 </div>

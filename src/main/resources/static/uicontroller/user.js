@@ -58,7 +58,7 @@ const getStatus = (dataOb) => {
     if (dataOb.status == "1") {
         return "<p class='badge bg-success w-100 my-auto'>" + "Active" + "</p>";
     } if (dataOb.status == "0") {
-        return "<p class='badge bg-danger w-100 my-auto'>" + "Inactive" + "</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>" + "Delete" + "</p>";
     }
 }
 
@@ -186,7 +186,7 @@ const UserFormRefill = (ob, index) => {
     oldUser = JSON.parse(JSON.stringify(ob));
 
     $("#modalUserForm").modal("show");
-    $("#modalUserFormLabel").text(ob.employee_id.fullname);
+    $("#modalUserFormLabel").text(ob.employee_id.empno);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

@@ -13,6 +13,7 @@ const refreshInventoryTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
+        {propertyName: "inventory_code", dataType: "string"},
         {propertyName: getProductName, dataType: "function"},
         {propertyName: getGrnNo, dataType: "function"},
         {propertyName: "sales_price", dataType: "string"},
@@ -39,7 +40,7 @@ const getStatus = (dataOb) => {
     if (dataOb.inventory_status_id.name == "In stock") {
         return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
     } if (dataOb.inventory_status_id.name == "Out of stock") {
-        return "<p class='badge bg-warning w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.inventory_status_id.name + "</p>";
     }
 }
 
@@ -94,7 +95,7 @@ const inventoryFormRefill = (ob, index) => {
     oldInventory = JSON.parse(JSON.stringify(ob));
 
     $("#modalInventoryForm").modal("show");
-    $("#modalInventoryFormLabel").text(ob.product_id.name);
+    $("#modalInventoryFormLabel").text(ob.inventory_code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

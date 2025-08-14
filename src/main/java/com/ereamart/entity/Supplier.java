@@ -72,7 +72,7 @@ public class Supplier {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "supplier_has_product", joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name= "product_id"))
-    private Set<Product>supplyProducts;
+    private Set<Product> supplierItemList;
 
     @ManyToOne()
     @JoinColumn(name = "supplier_status_id", referencedColumnName = "id")

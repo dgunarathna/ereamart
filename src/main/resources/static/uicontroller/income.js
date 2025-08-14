@@ -13,6 +13,7 @@ const refreshIncomeTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "income_number", dataType: "string"},
+        {propertyName: "receiptimage", dataType: "image-array" },
         {propertyName: getInvoice, dataType: "function"},
         {propertyName: getCustomer, dataType: "function"},
         {propertyName: "payment_methord", dataType: "string"},
@@ -35,8 +36,8 @@ const getInvoice = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.income_status_id.name == "Complete") {
         return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.income_status_id.name + "</p>";
-    } if (dataOb.income_status_id.name == "Deleted") {
-        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.income_status_id.name + "</p>";
+    } if (dataOb.income_status_id.name == "Delete") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.income_status_id.name + "</p>";
     }
 }
 
@@ -47,7 +48,7 @@ const refreshIncomeForm = () => {
 
     formIncome.reset();
 
-    setDefault([ incomeReceipt, selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal,]);
+    setDefault([ selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal,]);
 
     let invoices = getServiceRequest('/invoice/alldata');
     fillDataIntoSelect(selectInvoiceNo,"Select invoice",invoices,"invoice_code");
@@ -63,7 +64,13 @@ const incomeFormRefill = (ob, index) => {
     refreshIncomeForm();
     console.log("Edit", ob, index);
 
-    incomeReceipt.value = ob.incomereceipt;
+    // set photo 
+    if (ob.image != null) {
+        imgReceiptPhotoPreview.src = atob(ob.image);
+    } else {
+        imgReceiptPhotoPreview.src = "/images/default.png";
+    }
+
     selectInvoiceNo.value = JSON.stringify(ob.invoice_id);
     selectCustomer.value = JSON.stringify(ob.customer_id);
     selectPaymentMethord.value = ob.payment_methord;

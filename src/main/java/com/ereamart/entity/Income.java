@@ -42,6 +42,9 @@ public class Income {
     private LocalDate date;
 
     
+    private Byte receiptimage;
+
+    
     @NotNull
     private LocalDateTime added_datetime;
 

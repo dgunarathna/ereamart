@@ -43,6 +43,8 @@ public class Expenses {
     private BigDecimal balance_amount;
 
     private LocalDate date;
+    
+    private Byte receiptimage;
 
     
     @NotNull

@@ -11,11 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -179,5 +179,21 @@ public class SupplierController {
 			return "Delete not completed" + e.getMessage();
 		}
 	}
+
+
+	//request mapping for load productdepartment all data - /reportpayment/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/supplier/getbyid", params = {"id"} , produces = "application/json")
+    public Supplier getProductById(@RequestParam("id") Integer id){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Supplier");
+        
+        if (userPrivilege.getPrivi_select()) {
+			return supplierDao.getReferenceById(id);
+		} else {
+			return new Supplier();
+		}
+    } 
 
 }

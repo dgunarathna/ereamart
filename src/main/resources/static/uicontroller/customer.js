@@ -29,7 +29,7 @@ const getStatus = (dataOb) => {
     if (dataOb.customer_status_id.name == "Active") {
         return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.customer_status_id.name + "</p>";
     } if (dataOb.customer_status_id.name == "Inactive") {
-        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.customer_status_id.name + "</p>";
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.customer_status_id.name + "</p>";
     }
 }
 //form *********************************************************************************************************************************************************************************************
@@ -39,7 +39,7 @@ const refreshCustomerForm = () => {
 
     formCustomer.reset();
 
-    setDefault([textRegNo, textName, textEmail, textMobileNo, textAddress, textNote, selectStatus]);
+    setDefault([ textName, textEmail, textMobileNo, textAddress, textNote, selectStatus]);
 
     let customers = getServiceRequest('/customerstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",customers,"name");
@@ -50,7 +50,6 @@ const customerFormRefill = (ob, index) => {
     refreshCustomerForm();
     console.log("Edit", ob, index);
 
-    textRegNo.value = ob.regno;
     textName.value = ob.fullname;
     textEmail.value = ob.email;
     textMobileNo.value = ob.mobileno;
@@ -62,7 +61,7 @@ const customerFormRefill = (ob, index) => {
     oldCustomer = JSON.parse(JSON.stringify(ob));
 
     $("#modalCustomerForm").modal("show");
-    $("#modalCustomerFormLabel").text(ob.fullname);
+    $("#modalCustomerFormLabel").text(ob.regno);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

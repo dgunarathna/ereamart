@@ -100,7 +100,7 @@ const employeeFormRefill = (ob, index) => {
     oldEmployee = JSON.parse(JSON.stringify(ob));
 
     $("#modalEmployeeForm").modal("show");
-    $("#modalEmployeeFormLabel").text(ob.fullname);
+    $("#modalEmployeeFormLabel").text(ob.empno);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

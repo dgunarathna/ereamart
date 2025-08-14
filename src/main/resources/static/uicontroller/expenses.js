@@ -13,6 +13,7 @@ const refreshExpensesTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "bill_no", dataType: "string"},
+        {propertyName: "receiptimage", dataType: "image-array" },
         {propertyName: getGRNNO, dataType: "function"},
         {propertyName: getSupplierName, dataType: "function"},
         {propertyName: "payment_method", dataType: "string"},
@@ -36,8 +37,8 @@ const getSupplierName = (dataOb) => {
 const getStatus = (dataOb) => {
     if (dataOb.expense_status_id.name == "Complete") {
         return "<p class='badge bg-success text-light w-100 my-auto'>" + dataOb.expense_status_id.name + "</p>";
-    } if (dataOb.expense_status_id.name == "Deleted") {
-        return "<p class='badge bg-info w-100 my-auto'>" + dataOb.expense_status_id.name + "</p>";
+    } if (dataOb.expense_status_id.name == "Delete") {
+        return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.expense_status_id.name + "</p>";
     }
 }
 //form *********************************************************************************************************************************************************************************************
@@ -47,7 +48,7 @@ const refreshExpensesForm = () => {
 
     formExpenses.reset();
 
-    setDefault([ expensesReceipt, selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate]);
+    setDefault([ selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate, ]);
 
     let grns = getServiceRequest('/grn/alldata');
     fillDataIntoSelect(selectGRN,"Select Status",grns,"grn_no");
@@ -64,7 +65,13 @@ const expensesFormRefill = (ob, index) => {
     refreshExpensesForm();
     console.log("Edit", ob, index);
 
-    expensesReceipt.value = ob.expensesreceipt;
+    // set photo 
+    if (ob.image != null) {
+        imgReceiptPhotoPreview.src = atob(ob.image);
+    } else {
+        imgReceiptPhotoPreview.src = "/images/default.png";
+    }
+
     selectSupplier.value = JSON.stringify(ob.supplier_id);
     selectGRN.value = JSON.stringify(ob.grn_id);
     selectPaymentMethord.value = ob.payment_method;
@@ -78,7 +85,7 @@ const expensesFormRefill = (ob, index) => {
     oldExpenses = JSON.parse(JSON.stringify(ob));
 
     $("#modalExpensesForm").modal("show");
-    $("#modalExpensesFormLabel").text(ob.billno);
+    $("#modalExpensesFormLabel").text(ob.bill_no);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

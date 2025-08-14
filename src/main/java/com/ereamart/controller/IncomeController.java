@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.IncomeDao;
+import com.ereamart.dao.IncomeStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Income;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.Product;
 import com.ereamart.entity.User;
 
 @RestController
@@ -30,6 +30,9 @@ public class IncomeController {
 
 	@Autowired // genarate instance of user dao - interface
     private IncomeDao incomeDao;
+
+	@Autowired // genarate instance of user dao - interface
+    private IncomeStatusDao incomeStatusDao;
 
 	@Autowired // genarate instance of user dao - interface
     private UserDao userDao;
@@ -163,6 +166,7 @@ public class IncomeController {
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
 			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
+			extProductById.setIncome_status_id(incomeStatusDao.getReferenceById(2));
 
 			// delete oparator
 			incomeDao.save(extProductById);
