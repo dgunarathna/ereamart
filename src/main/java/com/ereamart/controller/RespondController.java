@@ -21,8 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.RespondDao;
 import com.ereamart.dao.RespondStatusDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Respond;
+import com.ereamart.entity.RespondHasProduct;
 import com.ereamart.entity.User;
 
 @RestController
@@ -88,6 +90,9 @@ public class RespondController {
 				respond.setRespond_code(respondDao.getNextCode());
 
 				// save oparator
+				for (RespondHasProduct rhp : respond.getRespondHasProductList()) { //due to block inner form 
+					rhp.setRespond_id(respond);
+				}
 				respondDao.save(respond);
 
 				// dependances
@@ -127,6 +132,9 @@ public class RespondController {
 				respond.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
+				for (RespondHasProduct rhp : respond.getRespondHasProductList()) { //due to block inner form 
+					rhp.setRespond_id(respond);
+				}
 				respondDao.save(respond);
 
 				// dependances

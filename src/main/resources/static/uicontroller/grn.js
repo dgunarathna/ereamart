@@ -42,9 +42,7 @@ const getGRNStatus = (dataOb) => {
 const refreshGRNForm = () => {
     grn = new Object();
     grn.grnHasProductList = new Array();
-
-    console.log(grn.grnHasProductList);
-
+    
     formGRN.reset();
 
     setDefault([ textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textNote, textReceivedDate, selectStatus]);
@@ -91,8 +89,9 @@ const grnFormRefill = (ob, index) => {
     $("#buttonDelete").show();
     $("#buttonPrint").show();
     $("#buttonUpdate").show();
-}
 
+    refreshGRNInnerForm();
+}
 
 const buttonGRNDelete = (ob, index) => {
     console.log("Delete", ob, index);
@@ -315,6 +314,7 @@ const filterProductByOrder = () => {
 
 
 const refreshGRNInnerForm = () =>{
+    
     grnHasProduct = new Object();
 
     selectItem.disabled = "";
@@ -350,7 +350,6 @@ const refreshGRNInnerForm = () =>{
 
     fillDataIntoInnerTable(tableGRNItemBody, grn.grnHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
 
-
     //auto load total amount
     let totalAmount = 0.00;
     for (const orderproduct of grn.grnHasProductList) {
@@ -381,7 +380,7 @@ const orderInnerFormRefill = (ob, index) =>{
     innerFormIndex = index;
 
     grnHasProduct = JSON.parse(JSON.stringify(ob));
-    oldgrnHasProduct = JSON.parse(JSON.stringify(ob));
+    oldGRNHasProduct = JSON.parse(JSON.stringify(ob));
 
 
     selectItems = getServiceRequest('/product/alldata');
@@ -420,7 +419,7 @@ const buttonInvoiceItemSubmit = () => {
 const buttonInvoiceItemUpdate = () => {
     console.log(grnHasProduct);
 
-    if (grnHasProduct.quantity != oldgrnHasProduct.quantity) {
+    if (grnHasProduct.quantity != oldGRNHasProduct.quantity) {
         grn.grnHasProductList[innerFormIndex] = grnHasProduct;
         refreshGRNInnerForm();
     }

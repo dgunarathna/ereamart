@@ -223,6 +223,7 @@ caption,th,.form-label, .label, .badge {
 
 th, .form-label{
     font-weight: 500 !important;
+    color: gray
 }
 
 

@@ -39,7 +39,7 @@ const getStatus = (dataOb) => {
 
 const refreshInvoiceForm = () => {
     invoice = new Object();
-    invoice.invoiceHasItemList = new Array();
+    invoice.invoiceHasProductList = new Array();
 
     formInvoice.reset();
 
@@ -78,6 +78,8 @@ const invoiceFormRefill = (ob, index) => {
     $("#buttonDelete").show();
     $("#buttonPrint").show();
     $("#buttonUpdate").show();
+
+    refreshinvoiceInnerForm();
 }
 
 
@@ -139,10 +141,10 @@ const checkFormError = ()=>{
     if (invoice.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
-    if (invoice.discountamount == null) {
+    if (invoice.discount_amount == null) {
         errors = errors + "Please Enter Discount Amount\n"
     }
-    if (invoice.netamount == null) {
+    if (invoice.net_amount == null) {
         errors = errors + "Please Enter Net Amount\n"
     }
     return errors;
@@ -240,14 +242,14 @@ const buttonAddNew = () => {
 // function for check item ext in the inner table
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
-    let extIndex = invoice.invoiceHasItemList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let extIndex = invoice.invoiceHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshinvoiceInnerForm();
     } else {
         textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
-        orderHasProduct.unitPrice = parseFloat(textUnitPrice.value).toFixed(2);
+        invoiceHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
@@ -256,12 +258,12 @@ const checkProductExt = () => {
 const calculateLinePrice = ()=> {
     if (textQTY.value > 0) {
         let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
-        orderHasProduct.lineprice = lineprice;
+        invoiceHasProduct.lineprice = lineprice;
         textLinePrice.value = lineprice;
         textLinePrice.style.border = "1px solid lightgreen"
     } else {
-        orderHasProduct.unitPrice = null;
-        orderHasProduct.lineprice = null;
+        invoiceHasProduct.unitprice = null;
+        invoiceHasProduct.lineprice = null;
         textQTY.style.border = "1px solid pink";
         textLinePrice.style.border = "1px solid #ced4da";
         textLinePrice.value = "";
@@ -270,7 +272,7 @@ const calculateLinePrice = ()=> {
 
 
 const refreshinvoiceInnerForm = () =>{
-    orderHasProduct = new Object();
+    invoiceHasProduct = new Object();
 
     selectItem.disabled = "";
 
@@ -294,16 +296,16 @@ const refreshinvoiceInnerForm = () =>{
     let propertyList = [
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
-        {propertyName: "unitPrice", dataType: "decimal"},
+        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"}
     ];
 
-    fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasItemList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
+    fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
 
 
     //auto load total amount
     let totalAmount = 0.00;
-    for (const orderproduct of invoice.invoiceHasItemList) {
+    for (const orderproduct of invoice.invoiceHasProductList) {
         totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
     };
 
@@ -330,48 +332,48 @@ const orderInnerFormRefill = (ob, index) =>{
 
     innerFormIndex = index;
 
-    orderHasProduct = JSON.parse(JSON.stringify(ob));
-    oldOlorderHasProduct = JSON.parse(JSON.stringify(ob));
+    invoiceHasProduct = JSON.parse(JSON.stringify(ob));
+    oldOlinvoiceHasProduct = JSON.parse(JSON.stringify(ob));
 
 
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 
     selectItem.disabled = "disabled";
-    selectItem.value = JSON.stringify(orderHasProduct.product_id)
-    textUnitPrice.value = parseFloat(orderHasProduct.unitPrice);
-    textQTY.value = orderHasProduct.quantity;
-    textLinePrice.value = parseFloat(orderHasProduct.lineprice);
+    selectItem.value = JSON.stringify(invoiceHasProduct.product_id)
+    textUnitPrice.value = parseFloat(invoiceHasProduct.unitprice);
+    textQTY.value = invoiceHasProduct.quantity;
+    textLinePrice.value = parseFloat(invoiceHasProduct.lineprice);
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
 }
 
 const orderInnerFormDelete = (ob, index) => {
-    console.log(orderHasProduct);
+    console.log(invoiceHasProduct);
 
     let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
     if (userConfirm) {
-        let extIndex = invoice.invoiceHasItemList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        let extIndex = invoice.invoiceHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
         if (extIndex != -1) {
-            invoice.invoiceHasItemList.splice(extIndex,1);
+            invoice.invoiceHasProductList.splice(extIndex,1);
         }
         refreshinvoiceInnerForm();
     }
 }
 
 const buttonInvoiceItemSubmit = () => {
-    console.log(orderHasProduct);
+    console.log(invoiceHasProduct);
 
-    invoice.invoiceHasItemList.push(orderHasProduct);
+    invoice.invoiceHasProductList.push(invoiceHasProduct);
     refreshinvoiceInnerForm();
 }
 
 const buttonInvoiceItemUpdate = () => {
-    console.log(orderHasProduct);
+    console.log(invoiceHasProduct);
 
-    if (orderHasProduct.quantity != oldOlorderHasProduct.quantity) {
-        invoice.invoiceHasItemList[innerFormIndex] = orderHasProduct;
+    if (invoiceHasProduct.quantity != oldOlinvoiceHasProduct.quantity) {
+        invoice.invoiceHasProductList[innerFormIndex] = invoiceHasProduct;
         refreshinvoiceInnerForm();
     }
 

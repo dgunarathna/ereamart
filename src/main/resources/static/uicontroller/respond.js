@@ -39,8 +39,8 @@ const getStatus = (dataOb) => {
 
 const refreshRespondForm = () => {
     respond = new Object();
-    respond.respondHasItemList = new Array();
-
+    respond.respondHasProductList = new Array();
+    
     formRespond.reset();
 
     setDefault([selectquotation, selectsupplier, selectrequireddate, selectStatus, textNote, textdiscount, texttotalamount]);
@@ -72,16 +72,15 @@ const respondFormRefill = (ob, index) => {
     refreshRespondForm();
     console.log("Edit", ob, index);
 
+    selectrequireddate.value = ob.request_date;
     selectquotation.value = JSON.stringify(ob.quotation_id);
     selectsupplier.value = JSON.stringify(ob.supplier_id);
-    texttotalamount.value = ob.totalprice;
-    selectrequireddate.value = ob.request_date;
-    textNote.value = ob.note;
     textdiscount.value = ob.discount;
+    texttotalamount.value = ob.totalprice;
     selectStatus.value = JSON.stringify(ob.respond_status_id);
+    textNote.value = ob.note;
 
-
-    Respond = JSON.parse(JSON.stringify(ob));
+    respond = JSON.parse(JSON.stringify(ob));
     oldRespond = JSON.parse(JSON.stringify(ob));
 
     $("#modalRespondForm").modal("show");
@@ -92,12 +91,16 @@ const respondFormRefill = (ob, index) => {
     $("#buttonDelete").show();
     $("#buttonPrint").show();
     $("#buttonUpdate").show();
+
+    refreshRespondInnerForm();
+    console.log(respond.respondHasProductList);
+    
 }
 
 
 const buttonRespondDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.respondno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.respond_code + "?");
     if (userConfirm == true) {
         let deleteResponce = getHTTPServiceRequest("/respond/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
@@ -122,10 +125,10 @@ const buttonRespondPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.Respondno + " Details</h5>"
+            +"<h5 class='mb-4'>"+ ob.respond_code + " Details</h5>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Q	 </th><td>"+ ob.Respondno +"</td></tr>" 
+                +"<tr><th> Q	 </th><td>"+ ob.respond_code +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Total Items  </th><td>"+ ob.totalitems +"</td></tr>"  
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
@@ -171,7 +174,7 @@ const buttonRespondSubmit = () => {
     
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ respond.respondno +"?");
+        let userConfirm = window.confirm("Are you sure to add "+ respond.respond_code +"?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/respond/insert", "POST", respond);
             if (postResponce == "OK") {
@@ -194,21 +197,21 @@ const checkFormUpdate = () => {
     console.log(respond);
     console.log(oldRespond);
     
-    if (Respond != null && oldRespond !== null) {
-        if (Respond.supplier_id.name != oldRespond.supplier_id.name) {
-            updates = updates + "Supplier - " + oldRespond.supplier_id.name + " to " + Respond.supplier_id.name + "\n";
+    if (respond != null && oldRespond !== null) {
+        if (respond.supplier_id.name != oldRespond.supplier_id.name) {
+            updates = updates + "Supplier - " + oldRespond.supplier_id.name + " to " + respond.supplier_id.name + "\n";
         }
-        if (Respond.totalitems != oldRespond.totalitems) {
-            updates = updates + "Totalitems - " + oldRespond.totalitems + " to " + Respond.totalitems + "\n";
+        if (respond.totalitems != oldRespond.totalitems) {
+            updates = updates + "Totalitems - " + oldRespond.totalitems + " to " + respond.totalitems + "\n";
         }
-        if (Respond.requestdate != oldRespond.requestdate) {
-            updates = updates + "Requested Date - " + oldRespond.requestdate + " to " + Respond.requestdate + "\n";
+        if (respond.requestdate != oldRespond.requestdate) {
+            updates = updates + "Requested Date - " + oldRespond.requestdate + " to " + respond.requestdate + "\n";
         }
-        if (Respond.status_id.name != oldRespond.status_id.name) {
-            updates = updates + "Status - " + oldRespond.status_id.name + " to " + Respond.status_id.name + "\n";
+        if (respond.status_id.name != oldRespond.status_id.name) {
+            updates = updates + "Status - " + oldRespond.status_id.name + " to " + respond.status_id.name + "\n";
         }
-        if (Respond.note != oldRespond.note) {
-            updates = updates + "Note - " + oldRespond.note + " to " + Respond.note + "\n";
+        if (respond.note != oldRespond.note) {
+            updates = updates + "Note - " + oldRespond.note + " to " + respond.note + "\n";
         }
     }
     return updates;
@@ -221,7 +224,7 @@ const buttonRespondUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ respond.respondno +"? \n" + updates);
+            let userConfirm = window.confirm("Are you sure to update "+ respond.respond_code +"? \n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/respond/update", "PUT", respond);
                 if (putResponce == "OK") {
@@ -243,8 +246,6 @@ const buttonRespondUpdate = () => {
 
 const buttonrAddNew = () => {
     refreshRespondForm();
-    selectStatus.setDefault = "Active";
-
     $("#modalRespondFormLabel").text("Add New Respond");
 
     $("#buttonSubmit").show();
@@ -260,14 +261,14 @@ const buttonrAddNew = () => {
 // function for check item ext in the inner table
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
-    let extIndex = respond.respondHasItemList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let extIndex = respond.respondHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshRespondInnerForm();
     } else {
         textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
-        respondHasItem.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
+        respondHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
@@ -276,12 +277,12 @@ const checkProductExt = () => {
 const calculateLinePrice = ()=> {
     if (textQTY.value > 0) {
         let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
-        respondHasItem.lineprice = lineprice;
+        respondHasProduct.lineprice = lineprice;
         textLinePrice.value = lineprice;
         textLinePrice.style.border = "1px solid lightgreen"
     } else {
-        respondHasItem.unitPrice = null;
-        respondHasItem.lineprice = null;
+        respondHasProduct.unitprice = null;
+        respondHasProduct.lineprice = null;
         textQTY.style.border = "1px solid pink";
         textLinePrice.style.border = "1px solid #ced4da";
         textLinePrice.value = "";
@@ -295,7 +296,7 @@ const filterProductBySupplier = () => {
 }
 
 const refreshRespondInnerForm = () =>{
-    respondHasItem = new Object();
+    respondHasProduct = new Object();
 
     selectItem.disabled = "";
 
@@ -329,11 +330,12 @@ const refreshRespondInnerForm = () =>{
         {propertyName: "lineprice", dataType: "decimal"}
     ];
 
-    fillDataIntoInnerTable(tableRespondItemBody, respond.respondHasItemList, propertyList, respondInnerFormRefill, respondInnerFormDelete);
+    fillDataIntoInnerTable(tableRespondItemBody, respond.respondHasProductList, propertyList, respondInnerFormRefill, respondInnerFormDelete);
+
 
     //auto load total amount
     let totalAmount = 0.00;
-    for (const orderproduct of respond.respondHasItemList) {
+    for (const orderproduct of respond.respondHasProductList) {
         totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
     };
 
@@ -353,14 +355,6 @@ const getProductName = (dataOb) => {
     return dataOb.product_id.name;
 }
 
-const getItemImage = (dataOb) => {
-    return dataOb.productimage;
-}
-
-const getItemName = (dataOb) => {
-    return dataOb.productname;
-}
-
 const respondInnerFormRefill = (ob, index) =>{
 
     refreshRespondInnerForm();
@@ -368,48 +362,48 @@ const respondInnerFormRefill = (ob, index) =>{
     
     innerFormIndex = index;
 
-    respondHasItem = JSON.parse(JSON.stringify(ob));
-    oldOlrespondHasItem = JSON.parse(JSON.stringify(ob));
+    respondHasProduct = JSON.parse(JSON.stringify(ob));
+    oldRespondHasProduct = JSON.parse(JSON.stringify(ob));
 
 
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
-    selectItem.disabled = "disabled";
-    selectItem.value = JSON.stringify(respondHasItem.product_id)
 
-    textUnitPrice.value = parseFloat(respondHasItem.unitprice);
-    textQTY.value = respondHasItem.quantity;
-    textLinePrice.value = parseFloat(respondHasItem.lineprice);
+    selectItem.disabled = "disabled";
+    selectItem.value = JSON.stringify(respondHasProduct.product_id);
+    textUnitPrice.value = parseFloat(respondHasProduct.unitprice);
+    textQTY.value = respondHasProduct.quantity;
+    textLinePrice.value = parseFloat(respondHasProduct.lineprice);
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
 }
 
 const respondInnerFormDelete = (ob, index) => {
-    console.log(respondHasItem);
+    console.log(respondHasProduct);
 
     let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
     if (userConfirm) {
-        let extIndex = respond.respondHasItemList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        let extIndex = respond.respondHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
         if (extIndex != -1) {
-            respond.respondHasItemList.splice(extIndex,1);
+            respond.respondHasProductList.splice(extIndex,1);
         }
         refreshRespondInnerForm();
     }
 }
 
 const buttonRespondItemSubmit = () => {
-    console.log(respondHasItem);
+    console.log(respondHasProduct);
 
-    respond.respondHasItemList.push(respondHasItem);
+    respond.respondHasProductList.push(respondHasProduct);
     refreshRespondInnerForm();
 }
 
 const buttonRespondItemUpdate = () => {
-    console.log(respondHasItem);
+    console.log(respondHasProduct);
 
-    if (respondHasItem.quantity != oldOlrespondHasItem.quantity) {
-        respond.respondHasItemList[innerFormIndex] = respondHasItem;
+    if (respondHasProduct.quantity != oldRespondHasProduct.quantity) {
+        respond.respondHasProductList[innerFormIndex] = respondHasProduct;
         refreshRespondInnerForm();
     }
 

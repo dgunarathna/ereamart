@@ -89,8 +89,8 @@ public class OrdersController {
 				orders.setOrders_code(ordersDao.getNextOrderCode());
 
 				// save oparator
-				for (OrdersHasProduct ohi : orders.getOrderHasProductList()) { //due to block inner form 
-					ohi.setOrders_id(orders);
+				for (OrdersHasProduct ohp : orders.getOrderHasProductList()) { //due to block inner form 
+					ohp.setOrders_id(orders);
 				}
 				ordersDao.save(orders);
 
@@ -127,8 +127,8 @@ public class OrdersController {
 				orders.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
-				for (OrdersHasProduct ohi : orders.getOrderHasProductList()) { //due to block inner form 
-					ohi.setOrders_id(orders);
+				for (OrdersHasProduct ohp : orders.getOrderHasProductList()) { //due to block inner form 
+					ohp.setOrders_id(orders);
 				}
 				ordersDao.save(orders);
 

@@ -2,16 +2,19 @@ package com.ereamart.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -61,4 +64,7 @@ public class Invoice {
     @ManyToOne()
     @JoinColumn(name = "invoice_status_id", referencedColumnName = "id")
     private InvoiceStatus invoice_status_id;
+
+    @OneToMany(mappedBy = "invoice_id", cascade = CascadeType.ALL ,orphanRemoval = true)
+    private List<InvoiceHasProduct> invoiceHasProductList;
 }

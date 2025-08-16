@@ -21,8 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.QuotationDao;
 import com.ereamart.dao.QuotationStatusDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Quotation;
+import com.ereamart.entity.QuotationHasProduct;
 import com.ereamart.entity.User;
 
 @RestController
@@ -88,6 +90,9 @@ public class QuotationController {
 				quotation.setQuotation_code(quotationDao.getNextCode());
 
 				// save oparator
+				for (QuotationHasProduct qhp : quotation.getQuotationHasProductList()) { //due to block inner form 
+					qhp.setQuotation_id(quotation);
+				}
 				quotationDao.save(quotation);
 
 				// dependances
@@ -127,6 +132,9 @@ public class QuotationController {
 				quotation.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
+				for (QuotationHasProduct qhp : quotation.getQuotationHasProductList()) { //due to block inner form 
+					qhp.setQuotation_id(quotation);
+				}
 				quotationDao.save(quotation);
 
 				// dependances

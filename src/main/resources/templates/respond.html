@@ -85,6 +85,10 @@
           <div class="modal-body">
             <form id="formRespond" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
               <div class="col-xl-4">
+                <label class="form-label">Received Date<span class="text-danger">*</span></label>
+                <input id="selectrequireddate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'respond','request_date' )">
+              </div>
+              <div class="col-xl-4">
                 <label class="form-label">Qutation<span class="text-danger">*</span></label>
                 <select id="selectquotation" Required class="form-select" onchange="selectDynamicElementValidator(this,'respond','quotation_id');"></select>
               </div>
@@ -92,26 +96,22 @@
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
                 <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'respond','supplier_id'); filterProductBySupplier();" ></select>
               </div>
-              <div class="col-xl-4">
-                <label class="form-label">Received Date<span class="text-danger">*</span></label>
-                <input id="selectrequireddate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'respond','request_date' )">
-              </div>
               
               <div class="col-xl-5">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
-                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'respondHasItem','product_id'); checkProductExt();"></select>
+                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'respondHasProduct','product_id'); checkProductExt();"></select>
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasItem','quantity'); calculateLinePrice();">
+                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasProduct','quantity'); calculateLinePrice();">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Unit Price<span class="text-danger">*</span></label>
-                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasItem','unitprice')">
+                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasProduct','unitprice')">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
-                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasItem','lineprice')">
+                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'respondHasProduct','lineprice')">
               </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonRespondItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
@@ -151,7 +151,6 @@
                 <label for="inputAddress" class="form-label">Note</label>
                 <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'respond','note')">
               </div>
-
             </form>
           </div>
       

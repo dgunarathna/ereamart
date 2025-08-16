@@ -43,9 +43,6 @@ public class RespondHasProduct {
     private Integer quantity;
 
     @NotNull
-    private Integer discount;
-
-    @NotNull
     private BigDecimal lineprice;
 
     @ManyToOne()

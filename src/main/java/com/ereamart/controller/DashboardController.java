@@ -51,7 +51,7 @@ public class DashboardController {
 	}
 
 	// mapping for return home page
-    @RequestMapping(value =  {"/home","/home.html","/index.html"})
+    @RequestMapping(value =  {"/home","/home.html"})
     public ModelAndView uiHomePage(){
 		
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();

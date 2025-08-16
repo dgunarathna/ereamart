@@ -22,6 +22,8 @@ import com.ereamart.dao.InvoiceDao;
 import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Invoice;
+import com.ereamart.entity.InvoiceHasProduct;
+import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 
@@ -88,6 +90,9 @@ public class InvoiceController {
 				invoice.setInvoice_code(invoiceDao.getNextCode());
 
 				// save oparator
+				for (InvoiceHasProduct ihp : invoice.getInvoiceHasProductList()) { //due to block inner form 
+					ihp.setInvoice_id(invoice);
+				}
 				invoiceDao.save(invoice);
 
 				// dependances
@@ -131,6 +136,9 @@ public class InvoiceController {
 				invoice.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
+				for (InvoiceHasProduct ihp : invoice.getInvoiceHasProductList()) { //due to block inner form 
+					ihp.setInvoice_id(invoice);
+				}
 				invoiceDao.save(invoice);
 
 				// dependances

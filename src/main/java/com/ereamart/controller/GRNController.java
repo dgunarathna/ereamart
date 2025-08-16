@@ -22,6 +22,8 @@ import com.ereamart.dao.GRNDao;
 import com.ereamart.dao.GRNStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.GRN;
+import com.ereamart.entity.GRNHasProduct;
+import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 
@@ -88,6 +90,9 @@ public class GRNController {
 				grn.setGrn_no(grnDao.getNextOrderCode());
 
 				// save oparator
+				for (GRNHasProduct grnhp : grn.getGrnHasProductList()) { //due to block inner form 
+					grnhp.setGrn_id(grn);
+				}
 				grnDao.save(grn);
 
 				// dependances
@@ -130,6 +135,9 @@ public class GRNController {
 				grn.setUpdate_user_id(loggedUser.getId());
 
 				// update oparator
+				for (GRNHasProduct grnhp : grn.getGrnHasProductList()) { //due to block inner form 
+					grnhp.setGrn_id(grn);
+				}
 				grnDao.save(grn);
 
 				// dependances

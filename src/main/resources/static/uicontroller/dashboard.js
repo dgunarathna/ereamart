@@ -2,7 +2,7 @@ window.addEventListener("load", () => {
   console.log("browser load Event");
   genearateOrderReport('orderReport', 'bar');
   genearateOrderReport('salesReport', 'polarArea');
-  genearateOrderReport('topCategories', 'doughnut');
+  genearateOrderReport('topCategories', 'pie');
   genearateOrderReport('topProducts', 'line');
   
 

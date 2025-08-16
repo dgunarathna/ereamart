@@ -39,7 +39,7 @@ const getStatus = (dataOb) => {
 
 const refreshQuotationForm = () => {
     quotation = new Object();
-    quotation.quotationHasItemList = new Array();
+    quotation.quotationHasProductList = new Array();
 
     formQuotation.reset();
 
@@ -48,35 +48,21 @@ const refreshQuotationForm = () => {
     let supliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",supliers,"name");
 
-    let QuotationStatus = getServiceRequest('/quotationstatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select Status",QuotationStatus,"name");  
-
-    //set mix max date [YYYY - mm - DD]
+    let status = getServiceRequest('/quotationstatus/alldata');
+    fillDataIntoSelect(selectStatus,"Select Status",status,"name");  
+    selectStatus.value = JSON.stringify(status[0]); // set default values
+    quotation.quotation_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen"
 
     let currentDate = new Date();
-    let currentMonth = currentDate.getMonth() + 1; // [0-11]
-    if (currentMonth < 10) {
-        currentMonth = '0' + currentMonth;
-    }
-    let currentDay = currentDate.getDate(); // [1-31]
-    if (currentDay < 10) {
-        currentDay = '0' + currentDay;
-    }
-    selectrequireddate.min = currentDate.getFullYear() + "-" + currentMonth + "-" + currentDay;
+    selectrequireddate.value = currentDate.toISOString().split('T')[0];
+    quotation.requestdate = selectrequireddate.value;
+    selectrequireddate.style.border = "1px solid lightgreen";
+    selectrequireddate.disabled = "disabled"
 
-    currentDate.setDate(currentDate.getDate() + 0);
-    let maxCurrentMonth = currentDate.getMonth() + 1; // [0-11]
-    if (maxCurrentMonth < 10) {
-        maxCurrentMonth = '0' + maxCurrentMonth;
-    }
-    let maxCurrentDay = currentDate.getDate(); // [1-31]
-    if (maxCurrentDay < 10) {
-        maxCurrentDay = '0' + maxCurrentDay;
-    }
-    selectrequireddate.max = currentDate.getFullYear() + "-" + maxCurrentMonth + "-" + maxCurrentDay;
 
     //inner form ************************************
-    refreshquotationInnerForm();
+    refreshQuotationInnerForm();
 
 }
 
@@ -103,6 +89,8 @@ const QuotationFormRefill = (ob, index) => {
     $("#buttonDelete").show();
     $("#buttonPrint").show();
     $("#buttonUpdate").show();
+
+    refreshQuotationInnerForm();
 }
 
 
@@ -205,21 +193,21 @@ const checkFormUpdate = () => {
     console.log(quotation);
     console.log(oldQuotation);
     
-    if (Quotation != null && oldQuotation !== null) {
+    if (quotation != null && oldQuotation !== null) {
         if (quotation.supplier_id.name != oldQuotation.supplier_id.name) {
-            updates = updates + "Supplier - " + oldQuotation.supplier_id.name + " to " + Quotation.supplier_id.name + "\n";
+            updates = updates + "Supplier - " + oldQuotation.supplier_id.name + " to " + quotation.supplier_id.name + "\n";
         }
         if (quotation.totalitems != oldQuotation.totalitems) {
-            updates = updates + "Totalitems - " + oldQuotation.totalitems + " to " + Quotation.totalitems + "\n";
+            updates = updates + "Totalitems - " + oldQuotation.totalitems + " to " + quotation.totalitems + "\n";
         }
         if (quotation.requestdate != oldQuotation.requestdate) {
-            updates = updates + "Requested Date - " + oldQuotation.requestdate + " to " + Quotation.requestdate + "\n";
+            updates = updates + "Requested Date - " + oldQuotation.requestdate + " to " + quotation.requestdate + "\n";
         }
-        if (quotation.status_id.name != oldQuotation.status_id.name) {
-            updates = updates + "Status - " + oldQuotation.status_id.name + " to " + Quotation.status_id.name + "\n";
+        if (quotation.quotation_status_id.name != oldQuotation.quotation_status_id.name) {
+            updates = updates + "Status - " + oldQuotation.quotation_status_id.name + " to " + quotation.quotation_status_id.name + "\n";
         }
         if (quotation.note != oldQuotation.note) {
-            updates = updates + "Note - " + oldQuotation.note + " to " + Quotation.note + "\n";
+            updates = updates + "Note - " + oldQuotation.note + " to " + quotation.note + "\n";
         }
     }
     return updates;
@@ -232,7 +220,7 @@ const buttonQuotationUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ Quotation.Quotationno +"? \n" + updates);
+            let userConfirm = window.confirm("Are you sure to update "+ quotation.quotation_code +"? \n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/quotation/update", "PUT", quotation);
                 if (putResponce == "OK") {
@@ -271,11 +259,11 @@ const buttonrAddNew = () => {
 // function for check item ext in the inner table
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
-    let extIndex = quotation.quotationHasItemList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let extIndex = quotation.quotationHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
-        refreshquotationInnerForm();
+        refreshQuotationInnerForm();
     }
 }
 
@@ -287,7 +275,7 @@ const filterProductBySupplier = () => {
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 }
 
-const refreshquotationInnerForm = () =>{
+const refreshQuotationInnerForm = () =>{
     quotationHasItem = new Object();
 
     selectItem.disabled = "";
@@ -315,12 +303,23 @@ const refreshquotationInnerForm = () =>{
         {propertyName: "quantity", dataType: "string"}
     ];
 
-    fillDataIntoInnerTable(tableQuotationItemBody, quotation.quotationHasItemList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
+    fillDataIntoInnerTable(tableQuotationItemBody, quotation.quotationHasProductList, propertyList, quotationInnerFormRefill, quotationInnerFormDelete);
 
+    //auto load totalqty
+    let totalqty = 0;
+    for (const orderproduct of quotation.quotationHasProductList) {
+        totalqty = parseFloat (totalqty) + parseFloat(orderproduct.quantity);
+    };
+
+    if (totalqty != 0) {
+        textItems.value = totalqty;
+        quotation.totalitems = textItems.value;
+        textItems.style.border = "1px solid lightgreen"
+        
+    };
 
     $("#buttonItemSubmit").show();
     $("#buttonItemUpdate").hide();
-
 }
 
 
@@ -328,23 +327,15 @@ const getProductName = (dataOb) => {
     return dataOb.product_id.name;
 }
 
-const getItemImage = (dataOb) => {
-    return dataOb.productimage;
-}
+const quotationInnerFormRefill = (ob, index) =>{
 
-const getItemName = (dataOb) => {
-    return dataOb.productname;
-}
-
-const orderInnerFormRefill = (ob, index) =>{
-
-    refreshquotationInnerForm();
+    refreshQuotationInnerForm();
     console.log("Edit", ob, index);
     
     innerFormIndex = index;
 
     quotationHasItem = JSON.parse(JSON.stringify(ob));
-    oldOlquotationHasItem = JSON.parse(JSON.stringify(ob));
+    oldQuotationHasItem = JSON.parse(JSON.stringify(ob));
 
 
     selectItems = getServiceRequest('/product/alldata');
@@ -352,40 +343,38 @@ const orderInnerFormRefill = (ob, index) =>{
     selectItem.disabled = "disabled";
     selectItem.value = JSON.stringify(quotationHasItem.product_id)
 
-    textUnitPrice.value = parseFloat(quotationHasItem.unitprice);
     textQTY.value = quotationHasItem.quantity;
-    textLinePrice.value = parseFloat(quotationHasItem.lineprice);
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
 }
 
-const orderInnerFormDelete = (ob, index) => {
+const quotationInnerFormDelete = (ob, index) => {
     console.log(quotationHasItem);
 
     let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
     if (userConfirm) {
-        let extIndex = quotation.quotationHasItemList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        let extIndex = quotation.quotationHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
         if (extIndex != -1) {
-            quotation.quotationHasItemList.splice(extIndex,1);
+            quotation.quotationHasProductList.splice(extIndex,1);
         }
-        refreshquotationInnerForm();
+        refreshQuotationInnerForm();
     }
 }
 
 const buttonQuotationItemSubmit = () => {
     console.log(quotationHasItem);
-
-    quotation.quotationHasItemList.push(quotationHasItem);
-    refreshquotationInnerForm();
+    
+    quotation.quotationHasProductList.push(quotationHasItem);
+    refreshQuotationInnerForm();
 }
 
 const buttonQuotationItemUpdate = () => {
     console.log(quotationHasItem);
 
-    if (quotationHasItem.quantity != oldOlquotationHasItem.quantity) {
-        quotation.quotationHasItemList[innerFormIndex] = quotationHasItem;
-        refreshquotationInnerForm();
+    if (quotationHasItem.quantity != oldQuotationHasItem.quantity) {
+        quotation.quotationHasProductList[innerFormIndex] = quotationHasItem;
+        refreshQuotationInnerForm();
     }
 
 }

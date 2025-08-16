@@ -122,6 +122,8 @@ const orderFormRefill = (ob, index) => {
     $("#buttonUpdate").show();
     
     refreshOrderInnerForm();
+    console.log(order.orderHasProductList);
+    
 }
 
 const buttonOrderDelete = (ob, index) => {
@@ -420,24 +422,15 @@ const getProductName = (dataOb) => {
     return dataOb.product_id.name;
 }
 
-const getItemImage = (dataOb) => {
-    return dataOb.productimage;
-}
-
-const getItemName = (dataOb) => {
-    return dataOb.productname;
-}
-
 const orderInnerFormRefill = (ob, index) =>{
 
     refreshOrderInnerForm();
     console.log("Edit", ob, index);
     
-
     innerFormIndex = index;
 
     orderHasProduct = JSON.parse(JSON.stringify(ob));
-    oldOlorderHasProduct = JSON.parse(JSON.stringify(ob));
+    oldOrderHasProduct = JSON.parse(JSON.stringify(ob));
 
 
     selectItems = getServiceRequest('/product/alldata');
@@ -476,7 +469,7 @@ const buttonOrderItemSubmit = () => {
 const buttonOrderItemUpdate = () => {
     console.log(orderHasProduct);
 
-    if (orderHasProduct.quantity != oldOlorderHasProduct.quantity) {
+    if (orderHasProduct.quantity != oldOrderHasProduct.quantity) {
         order.orderHasProductList[innerFormIndex] = orderHasProduct;
         refreshOrderInnerForm();
     }

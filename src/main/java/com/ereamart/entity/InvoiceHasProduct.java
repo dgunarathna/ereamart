@@ -20,22 +20,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "grn_has_product") //table mapping
+@Table(name = "invoice_has_product") //table mapping
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
 @JsonInclude(value = Include.NON_NULL)
 
-public class GRNHasProduct { 
+public class InvoiceHasProduct { 
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
     @ManyToOne()
-    @JoinColumn(name = "grn_id", referencedColumnName = "id")
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     @JsonIgnore // block reading 
-    private GRN grn_id;
+    private Invoice invoice_id;
 
     @NotNull
     private BigDecimal unitprice;
