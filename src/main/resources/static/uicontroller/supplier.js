@@ -124,22 +124,27 @@ const buttonSupplierPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.fullname + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Reg No </th><td>"+ ob.regno +"</td></tr>" 
-                +"<tr><th> BRN </th><td>"+ ob.fullname +"</td></tr>" 
-                +"<tr><th> Name </th><td>"+ ob.brn +"</td></tr>" 
+                +"<tr><th> Reg No </th><td>"+ ob.reg_no +"</td></tr>" 
+                +"<tr><th> BRN </th><td>"+ ob.name +"</td></tr>" 
+                +"<tr><th> Name </th><td>"+ ob.supplier_brn +"</td></tr>" 
                 +"<tr><th> Email </th><td>"+ ob.email +"</td></tr>" 
-                +"<tr><th> Mobile Number </th><td>"+ ob.mobileno +"</td></tr>" 
+                +"<tr><th> Mobile Number </th><td>"+ ob.mobile_no +"</td></tr>" 
                 +"<tr><th> Address </th><td>"+ ob.address +"</td></tr>" 
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Bank </th><td>"+ ob.bank +"</td></tr>" 
                 +"<tr><th> Branch </th><td>"+ ob.branch +"</td></tr>" 
                 +"<tr><th> Account No </th><td>"+ ob.account_no +"</td></tr>" 
-                +"<tr><th> Supplier Status </th><td>"+ ob.status +"</td></tr>" 
+                +"<tr><th> Supplier Status </th><td>"+ ob.supplier_status_id.name +"</td></tr>" 
             +"</tbody>" 
-            +"</table>" 
+            +"</table>"  
+            + "<h6 class='mt-4'>Products</h6>"
+            +"<table class='table'>"
+            +"<tbody>"
+                +"<tr><th> Supply Products </th><td>"+ selectSelectedProducts.innerHTML +"</td></tr>" 
+            +"</tbody>"
         +"</div>" 
     +"</body>";
 
@@ -223,8 +228,8 @@ const checkFormUpdate = () => {
         if (supplier.regno != oldSupplier.regno) {
             updates = updates + "Reg No - " + oldSupplier.regno + " to " + supplier.regno + "\n";
         }
-        if (supplier.fullname != oldSupplier.fullname) {
-            updates = updates + "Name - " + oldSupplier.fullname + " to " + supplier.fullname + "\n";
+        if (supplier.name != oldSupplier.name) {
+            updates = updates + "Name - " + oldSupplier.name + " to " + supplier.name + "\n";
         }
         if (supplier.brn != oldSupplier.brn) {
             updates = updates + "BRN - " + oldSupplier.brn + " to " + supplier.brn + "\n";

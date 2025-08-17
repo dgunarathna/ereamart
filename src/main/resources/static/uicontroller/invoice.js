@@ -101,6 +101,10 @@ const buttonInvoiceDelete = (ob, index) => {
 const buttonInvoicePrint = (ob, index) => {
     console.log("View", ob, index);
 
+    let printTable = tableInvoiceItem.cloneNode(true);
+    printTable.querySelector('thead tr th:last-child').remove();
+    printTable.querySelectorAll('tbody tr td:last-child').forEach(td => td.remove());
+
     let newWindow = window.open();
     let printView =
     "<head>"
@@ -110,16 +114,19 @@ const buttonInvoicePrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.invoiceno + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Invoice no </th><td>"+ ob.invoiceno +"</td></tr>" 
+                +"<tr><th> Invoice code </th><td>"+ ob.invoice_code +"</td></tr>" 
                 +"<tr><th> Customer </th><td>"+ ob.customer_id.fullname +"</td></tr>" 
-                +"<tr><th> Total Amount </th><td>"+ ob.totalamount +"</td></tr>" 
-                +"<tr><th> Discount Amount </th><td>"+ ob.discountamount +"</td></tr>" 
-                +"<tr><th> Net Amount </th><td>"+ ob.netamount +"</td></tr>" 
+                +"<tr><th> Total Amount </th><td>"+ ob.total_amount +"</td></tr>" 
+                +"<tr><th> Discount Amount </th><td>"+ ob.discount_amount +"</td></tr>" 
+                +"<tr><th> Net Amount </th><td>"+ ob.net_amount +"</td></tr>" 
+                +"<tr><th> Status </th><td>"+ ob.invoice_status_id.name +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
+            + "<h6 class='mt-4'>Products</h6>"
+            + "<div class='mt-3'> "+ printTable.outerHTML +"</div>"
         +"</div>" 
     +"</body>";
 

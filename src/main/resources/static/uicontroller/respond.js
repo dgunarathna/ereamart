@@ -116,6 +116,10 @@ const buttonRespondDelete = (ob, index) => {
 const buttonRespondPrint = (ob, index) => {
     console.log("View", ob, index);
 
+    let printTable = tableRespondItem.cloneNode(true);
+    printTable.querySelector('thead tr th:last-child').remove();
+    printTable.querySelectorAll('tbody tr td:last-child').forEach(td => td.remove());
+
     let newWindow = window.open();
     let printView =
     "<head>"
@@ -125,17 +129,20 @@ const buttonRespondPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.respond_code + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Q	 </th><td>"+ ob.respond_code +"</td></tr>" 
+                +"<tr><th> Respond code </th><td>"+ ob.respond_code +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
-                +"<tr><th> Total Items  </th><td>"+ ob.totalitems +"</td></tr>"  
+                +"<tr><th> Discount  </th><td>"+ ob.discount +"</td></tr>"  
+                +"<tr><th> Total Items  </th><td>"+ ob.totalprice +"</td></tr>"  
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
-                +"<tr><th> Request Date </th><td>"+ ob.requestdate +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.status_id.name +"</td></tr>" 
+                +"<tr><th> Request Date </th><td>"+ ob.request_date +"</td></tr>" 
+                +"<tr><th> Status </th><td>"+ ob.respond_status_id.name +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
+            + "<h6 class='mt-4'>Products</h6>"
+            + "<div class='mt-3'> "+ printTable.outerHTML +"</div>"
         +"</div>" 
     +"</body>";
 

@@ -113,7 +113,6 @@ const productFormRefill = (ob, index) => {
     textSize.value = ob.size;
     textDiscountRate.value = ob.discount_rate;
     textProfitRate.value = ob.profit_rate;
-    textBarcode.value = ob.code;
     textPrice.value = ob.price;
     selectStatus.value = JSON.stringify(ob.productstatus_id);
 
@@ -157,22 +156,24 @@ const buttonProductPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.name + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Image </th><td>"+ ob.productimage +"</td></tr>" 
-                +"<tr><th> Name </th><td>"+ ob.productname +"</td></tr>" 
-                +"<tr><th> Description </th><td>"+ ob.productdescription +"</td></tr>" 
-                +"<tr><th> Brand </th><td>"+ ob.brand +"</td></tr>" 
+                +"<tr><th> Product code </th><td>"+ ob.code +"</td></tr>" 
+                +"<tr><th> Image </th><td>"+ ob.image +"</td></tr>" 
+                +"<tr><th> Name </th><td>"+ ob.name +"</td></tr>" 
+                +"<tr><th> Description </th><td>"+ ob.description +"</td></tr>" 
+                +"<tr><th> Brand </th><td>"+ ob.productbrand_id.name +"</td></tr>" 
                 +"<tr><th> Weight </th><td>"+ ob.weight +"</td></tr>" 
                 +"<tr><th> Size </th><td>"+ ob.size +"</td></tr>" 
-                +"<tr><th> Discount </th><td>"+ ob.discountrate +"</td></tr>" 
-                +"<tr><th> Profit </th><td>"+ ob.profitrate +"</td></tr>" 
+                +"<tr><th> Price </th><td>"+ ob.price +"</td></tr>" 
+                +"<tr><th> Discount </th><td>"+ ob.discount_rate +"</td></tr>" 
+                +"<tr><th> Profit </th><td>"+ ob.profit_rate +"</td></tr>" 
                 +"<tr><th> Barcode </th><td>"+ ob.barcode +"</td></tr>" 
-                +"<tr><th> Manufacture </th><td>"+ ob.manufacture_id.name +"</td></tr>" 
-                +"<tr><th> Category </th><td>"+ ob.category_id.name +"</td></tr>" 
-                +"<tr><th> Department </th><td>"+ ob.department_id.name +"</td></tr> "
-                +"<tr><th> Status </th><td>"+ ob.status_id.name +"</td></tr> "
+                +"<tr><th> Manufacture </th><td>"+ ob.productmanufacture_id.name +"</td></tr>" 
+                +"<tr><th> Category </th><td>"+ ob.productcategory_id.name +"</td></tr>" 
+                +"<tr><th> Department </th><td>"+ ob.productcategory_id.productdepartment_id.name +"</td></tr> "
+                +"<tr><th> Status </th><td>"+ ob.productstatus_id.name +"</td></tr> "
             +"</tbody>" 
             +"</table>" 
         +"</div>" 
@@ -214,7 +215,7 @@ const checkFormError = ()=>{
     if (product.profit_rate == null) {
         errors = errors + "Please enter profit rate \n";
     }
-    if (product.barcode == null) {
+    if (product.code == null) {
         errors = errors + "Please Select barcode \n";
     }
     if (product.productstatus_id == null) {
@@ -258,14 +259,14 @@ const checkFormUpdate = () => {
     console.log(oldProduct);
     
     if (product != null && oldProduct !== null) {
-        if (product.category_id.name != oldProduct.category_id.name) {
-            updates = updates + "Category - " + oldProduct.category_id.name + " to " + product.category_id.name + "\n";
+        if (product.productcategory_id.name != oldProduct.productcategory_id.name) {
+            updates = updates + "Category - " + oldProduct.productcategory_id.name + " to " + product.productcategory_id.name + "\n";
         }
-        if (product.manufacture_id.name != oldProduct.manufacture_id.name) {
-            updates = updates + "Manufacture - " + oldProduct.manufacture_id.name + " to " + product.manufacture_id.name + "\n";
+        if (product.productmanufacture_id.name != oldProduct.productmanufacture_id.name) {
+            updates = updates + "Manufacture - " + oldProduct.productmanufacture_id.name + " to " + product.productmanufacture_id.name + "\n";
         }
-        if (product.brand != oldProduct.brand) {
-            updates = updates + "Brand - " + oldProduct.brand + " to " + product.brand + "\n";
+        if (product.productbrand_id.name != oldProduct.productbrand_id.name) {
+            updates = updates + "Brand - " + oldProduct.productbrand_id.name + " to " + product.productbrand_id.name + "\n";
         }
         if (product.weight != oldProduct.weight) {
             updates = updates + "Weight - " + oldProduct.weight + " to " + product.weight + "\n";
@@ -282,8 +283,8 @@ const checkFormUpdate = () => {
         if (product.barcode != oldProduct.barcode) {
             updates = updates + "Barcode - " + oldProduct.barcode + " to " + product.barcode + "\n";
         }
-        if (product.status_id.name != oldProduct.status_id.name) {
-            updates = updates + "Status - " + oldProduct.status_id.name + " to " + product.status_id.name + "\n";
+        if (product.productstatus_id.name != oldProduct.productstatus_id.name) {
+            updates = updates + "Status - " + oldProduct.productstatus_id.name + " to " + product.productstatus_id.name + "\n";
         }
         if (product.productname != oldProduct.productname) {
             updates = updates + "Product name - " + oldProduct.productname + " to " + product.productname + "\n";

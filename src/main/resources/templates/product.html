@@ -102,7 +102,7 @@
                   <div>
                     <button onclick="fileProductPhoto.click()" type="button" class="btn btn-outline-primary">select photo</button>
                     <button type="button" class="btn btn-outline-secondary">clear</button>
-                    <input onchange="fileValidator(this, 'product', 'productimage', imgproductPhotoPreview)" type="file" class="d-none" id="fileProductPhoto">
+                    <input onchange="fileValidator(this, 'product', 'image', imgproductPhotoPreview)" type="file" class="d-none" id="fileProductPhoto">
                   </div>
                 </div>
               </div>
@@ -153,8 +153,8 @@
                 <input id="textProfitRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','profit_rate')">
               </div>
               <div class="col-lg-3">
-                <label class="form-label">Code<span class="text-danger">*</span></label>
-                <input id="textBarcode" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','barcode')">
+                <label class="form-label">Barcode<span class="text-danger">*</span></label>
+                <input id="textBarcode" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','code')">
               </div>
               <div class="col-lg-3">
                 <label class="form-label">Status<span class="text-danger">*</span></label>

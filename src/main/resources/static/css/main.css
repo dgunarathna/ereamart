@@ -75,7 +75,7 @@ body::-webkit-scrollbar {
 
 .app{
     /* background-color: #3CD500; */
-    /* height: calc(100vh - 180px); */
+    height: calc(100vh - 136px);
     overflow: auto; 
     
 }
@@ -113,11 +113,9 @@ body::-webkit-scrollbar {
 .card, .card-header{
     border: 0;
     background-color: #EFEFEF;
+    background: transparent;
 }
 
-.card{
-    /* background: transparent; */
-}
 
 .btn-icon {
     display: flex;

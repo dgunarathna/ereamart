@@ -144,6 +144,10 @@ const buttonOrderDelete = (ob, index) => {
 const buttonOrderPrint = (ob, index) => {
     console.log("View", ob, index);
 
+    let printTable = tableOrderItem.cloneNode(true);
+    printTable.querySelector('thead tr th:last-child').remove();
+    printTable.querySelectorAll('tbody tr td:last-child').forEach(td => td.remove());
+
     let newWindow = window.open();
     let printView =
     "<head>"
@@ -153,8 +157,8 @@ const buttonOrderPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.orders_code + " Details</h5>"
-            +"<table class='table'>"
+            +"<h6 class='mb-4'>Details</h6>"
+            +"<table class='table mb-4'>"
             +"<tbody>"
                 +"<tr><th> Order no	 </th><td>"+ ob.orders_code +"</td></tr>" 
                 +"<tr><th> Required Date	 </th><td>"+ ob.required_date +"</td></tr>" 
@@ -163,7 +167,9 @@ const buttonOrderPrint = (ob, index) => {
                 +"<tr><th> Supplier	 </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.orders_status_id.name +"</td></tr>" 
             +"</tbody>" 
-            +"</table>" // dhanushka - inner table
+            +"</table>"
+            + "<h6 class='mt-4'>Products</h6>"
+            + "<div class='mt-3'> "+ printTable.outerHTML +"</div>"
         +"</div>" 
     +"</body>";
 

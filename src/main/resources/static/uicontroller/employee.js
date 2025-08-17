@@ -136,7 +136,7 @@ const buttonEmployeePrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.fullname + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
                 +"<tr><th> Emp No </th><td>"+ ob.empno +"</td></tr>" 

@@ -50,21 +50,7 @@ public class DashboardController {
 	return profilePage;
 	}
 
-	// mapping for return home page
-    @RequestMapping(value =  {"/home","/home.html"})
-    public ModelAndView uiHomePage(){
-		
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	User loggedUser = userDao.getByUsename(auth.getName());
-
-
-	ModelAndView homePage = new ModelAndView();   
-	homePage.setViewName("home.html");
-	homePage.addObject("loggedusername", auth.getName());
-	homePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
-
-	return homePage;
-	}
+	
 
 
 }

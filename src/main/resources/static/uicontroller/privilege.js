@@ -168,7 +168,7 @@ const buttonPrivilegePrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.role_id.name + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
                 +"<tbody>"
                     +"<tr><th> Role </th><td>"+ ob.role_id.name +"</td></tr>" 

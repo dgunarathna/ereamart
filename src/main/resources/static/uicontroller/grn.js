@@ -111,6 +111,10 @@ const buttonGRNDelete = (ob, index) => {
 const buttonGRNPrint = (ob, index) => {
     console.log("View", ob, index);
 
+    let printTable = tableGRNItem.cloneNode(true);
+    printTable.querySelector('thead tr th:last-child').remove();
+    printTable.querySelectorAll('tbody tr td:last-child').forEach(td => td.remove());
+
     let newWindow = window.open();
     let printView =
     "<head>"
@@ -120,20 +124,22 @@ const buttonGRNPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.grnno + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> GRN No </th><td>"+ ob.grnno +"</td></tr>" 
-                +"<tr><th> Order no </th><td>"+ ob.order_id.orderno +"</td></tr>" 
-                +"<tr><th> Supplier Invoice Number </th><td>"+ ob.invoiceno +"</td></tr>" 
-                +"<tr><th> Total Amount </th><td>"+ ob.totalamount +"</td></tr>" 
-                +"<tr><th> Discount Rate </th><td>"+ ob.discountrate +"</td></tr>" 
-                +"<tr><th> Net Amount</th><td>"+ ob.netamount +"</td></tr>" 
+                +"<tr><th> GRN code </th><td>"+ ob.grn_no +"</td></tr>" 
+                +"<tr><th> Order code </th><td>"+ ob.orders_id.orders_code +"</td></tr>" 
+                +"<tr><th> Supplier Invoice Number </th><td>"+ ob.supplier_invoice_number +"</td></tr>" 
+                +"<tr><th> Total Amount </th><td>"+ ob.total_amount +"</td></tr>" 
+                +"<tr><th> Discount Rate </th><td>"+ ob.discount +"</td></tr>" 
+                +"<tr><th> Net Amount</th><td>"+ ob.net_amount +"</td></tr>" 
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
-                +"<tr><th> Received Date </th><td>"+ ob.receiveddate +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.status_id.name +"</td></tr>" 
+                +"<tr><th> Received Date </th><td>"+ ob.recieved_date +"</td></tr>" 
+                +"<tr><th> Status </th><td>"+ ob.grn_status_id.name +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
+            + "<h6 class='mt-4'>Products</h6>"
+            + "<div class='mt-3'> "+ printTable.outerHTML +"</div>"
         +"</div>" 
     +"</body>";
 

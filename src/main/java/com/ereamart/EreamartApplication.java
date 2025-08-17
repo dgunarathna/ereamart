@@ -22,7 +22,7 @@ public class EreamartApplication {
 	}
 
 	// mapping for return index page
-	@RequestMapping(value = {"/index","/"})
+	@RequestMapping(value = {"/index","/index.html"})
 	public ModelAndView uiIndexPage(){
 		ModelAndView indexPage = new ModelAndView();
 		indexPage.setViewName("index.html");

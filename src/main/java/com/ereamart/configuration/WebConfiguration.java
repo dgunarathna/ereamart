@@ -23,6 +23,8 @@ public class WebConfiguration {
             .requestMatchers("/fontawesome-free-6.6.0/**").permitAll()
             .requestMatchers("/index/**").permitAll()
             .requestMatchers("/script/seller.js").permitAll()
+            .requestMatchers("/home/**").permitAll()
+            .requestMatchers("/uicontroller/home.js").permitAll()
             .requestMatchers("/login").permitAll()
             .requestMatchers("/register").permitAll() 
             .requestMatchers("/error").permitAll() 

@@ -112,6 +112,10 @@ const buttonQuotationDelete = (ob, index) => {
 const buttonQuotationPrint = (ob, index) => {
     console.log("View", ob, index);
 
+    let printTable = tableQuotationItem.cloneNode(true);
+    printTable.querySelector('thead tr th:last-child').remove();
+    printTable.querySelectorAll('tbody tr td:last-child').forEach(td => td.remove());
+
     let newWindow = window.open();
     let printView =
     "<head>"
@@ -121,17 +125,19 @@ const buttonQuotationPrint = (ob, index) => {
     +"</head>"
     +"<body>"
         +"<div class='container m-0 mt-4'>"
-            +"<h5 class='mb-4'>"+ ob.Quotationno + " Details</h5>"
+            +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
-                +"<tr><th> Q	 </th><td>"+ ob.Quotationno +"</td></tr>" 
+                +"<tr><th> Quotation code </th><td>"+ ob.quotation_code +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Total Items  </th><td>"+ ob.totalitems +"</td></tr>"  
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Request Date </th><td>"+ ob.requestdate +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.status_id.name +"</td></tr>" 
+                +"<tr><th> Status </th><td>"+ ob.quotation_status_id.name +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
+            + "<h6 class='mt-4'>Products</h6>"
+            + "<div class='mt-3'> "+ printTable.outerHTML +"</div>"
         +"</div>" 
     +"</body>";
 
