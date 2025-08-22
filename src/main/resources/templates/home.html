@@ -17,7 +17,7 @@
             </div>
             <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0 col">
 
-              <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"data-bs-auto-close="outside">Kiribathgoda </button>
+              <button type="button" class="btn btn-outline-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown" aria-expanded="false"data-bs-auto-close="outside">Kiribathgoda </button>
               <form class="dropdown-menu dropdown-menu-end p-3 border-0">
                 <div class="form-group">
                   <input type="text" class="form-control" id="exampleDropdownFormEmail2" placeholder="Location" value="Kiribathgoda Sri Lanka">
@@ -29,18 +29,21 @@
                   <input type="range" class="form-range" id="customRange1">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Apply</button>
-              </form> -->
+              </form>
             
-              <button class="btn btn-icon btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"aria-controls="offcanvasRight"><i class="fa-solid fa-filter"></i></button>
+              <button class="btn btn-icon btn-outline-primary rounded-circle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"aria-controls="offcanvasRight"><i class="fa-solid fa-filter"></i></button>
               
-              <button type="button" class="btn btn-icon btn-primary" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i></button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="/dashboard">Orders</a></li>
-                <li><a class="dropdown-item" href="/dashboard">Seller mode</a></li>
-                <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                <li><a class="dropdown-item" href="/login">Log out</a></li>
-              </ul>
-              <button onclick="location.href='/cart';" class="btn btn-icon btn-primary" type="button"><i class="fa-solid fa-cart-shopping"></i></button>
+              <button onclick="location.href='/cart';" class="btn btn-icon btn-outline-primary rounded-circle" type="button"><i class="fa-solid fa-cart-shopping"></i></button>
+              
+              <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">  <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-gauge me-3"></i>Dashbaord</a></li>
+                  <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-file me-3"></i>Quotation</a></li>
+                  <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-file-invoice me-3"></i>Respond</a></li>
+                  <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-money-bill me-3"></i>Orders</a></li>
+                  <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-user me-3"></i>Profile</a></li>
+                  <li><a class="dropdown-item" href="/login"><i class="fa-solid fa-arrow-right-from-bracket me-3"></i>Log out</a></li>
+                </ul>
               
             </div>
       </nav>

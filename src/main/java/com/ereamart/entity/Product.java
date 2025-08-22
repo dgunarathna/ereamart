@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -86,5 +87,9 @@ public class Product {
     @ManyToOne()
     @JoinColumn(name = "productbrand_id", referencedColumnName = "id")
     private ProductBrand productbrand_id;
+
+    @OneToOne()
+    @JoinColumn(name = "productitem_id", referencedColumnName = "id")
+    private ProductItem productitem_id;
 
 }

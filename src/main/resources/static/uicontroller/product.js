@@ -16,17 +16,18 @@ const refreshProductTable = () => {
 
     let propertyList = [
         {propertyName: "code", dataType: "string"},
-        {propertyName: getDepartment, dataType: "function"},
-        {propertyName: getCategory, dataType: "function"},
         {propertyName: "image", dataType: "image-array"},
+        {propertyName: getManufacture, dataType: "function"},
+        {propertyName: getBrand, dataType: "function"},
+        {propertyName: getProduct, dataType: "function"},
+        {propertyName: "size", dataType: "string"},
         {propertyName: "name", dataType: "string"},
         {propertyName: "description", dataType: "string"},
-        {propertyName: getBrand, dataType: "function"},
         {propertyName: "weight", dataType: "string"},
-        {propertyName: "size", dataType: "string"},
         {propertyName: "discount_rate", dataType: "decimal"},
         {propertyName: "profit_rate", dataType: "decimal"},
-        {propertyName: getManufacture, dataType: "function"},
+        {propertyName: getCategory, dataType: "function"},
+        {propertyName: getDepartment, dataType: "function"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -35,6 +36,9 @@ const refreshProductTable = () => {
 
 const getManufacture = (dataOb) => {
     return dataOb.productmanufacture_id.name;
+}
+const getProduct = (dataOb) => {
+    return dataOb.productbrand_id.name;
 }
 
 const getStatus = (dataOb) => {
@@ -88,8 +92,13 @@ const refreshProductForm = () => {
     let brands = getServiceRequest('/productbrand/alldata');
     fillDataIntoSelect(textBrand,"Select Brand",brands,"name");
 
+    let items = getServiceRequest('/productitem/alldata');
+    fillDataIntoSelect(selectProduct,"Select product",items,"name");
+
     // let brandsbycategory = getServiceRequest('/productbrands/bycategory/'+ category.id);
     // fillDataIntoSelect(textBrand,"Select Brand",brandsbycategory,"name");
+
+    textProductName.disabled = "disabled"
 }
 
 const productFormRefill = (ob, index) => {

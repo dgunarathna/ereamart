@@ -106,7 +106,7 @@ const buttonCustomerPrint = (ob, index) => {
                 +"<tr><th> Mobile </th><td>"+ ob.mobileno +"</td></tr>" 
                 +"<tr><th> Address </th><td>"+ ob.address +"</td></tr>" 
                 +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.status +"</td></tr>"
+                +"<tr><th> Status </th><td>"+ ob.customer_status_id.name +"</td></tr>"
             +"</tbody>" 
             +"</table>" 
         +"</div>" 

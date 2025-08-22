@@ -132,8 +132,6 @@ const UserFormRefill = (ob, index) => {
     selectEmployee.disabled = true;
 
     textUsername.value = ob.username;
-    textPassword.disabled = true;
-    textRetypePassword.disabled = true;
 
     if (ob.status) {
         selectStatus.checked = "checked";

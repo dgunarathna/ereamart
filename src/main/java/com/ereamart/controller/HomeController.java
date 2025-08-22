@@ -31,4 +31,20 @@ public class HomeController {
 
 	return homePage;
 	}
+
+	// mapping for return home page
+    @RequestMapping(value =  {"/cart","/cart.html"})
+    public ModelAndView uiCartPage(){
+		
+	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
+
+
+	ModelAndView cartPage = new ModelAndView();   
+	cartPage.setViewName("cart.html");
+	cartPage.addObject("loggedusername", auth.getName());
+	cartPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
+
+	return cartPage;
+	}
 }

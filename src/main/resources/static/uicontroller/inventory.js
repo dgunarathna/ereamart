@@ -134,15 +134,16 @@ const buttonInventoryPrint = (ob, index) => {
             +"<h6 class='mb-4'>Details</h6>"
             +"<table class='table'>"
             +"<tbody>"
+                +"<tr><th> Inventory code </th><td>"+ ob.inventory_code +"</td></tr>" 
                 +"<tr><th> Product </th><td>"+ ob.product_id.name +"</td></tr>" 
-                +"<tr><th> Sale Price </th><td>"+ ob.saleprice +"</td></tr>" 
-                +"<tr><th> Available QTY </th><td>"+ ob.availableqty +"</td></tr>" 
-                +"<tr><th> Total QTY </th><td>"+ ob.totalqty +"</td></tr>" 
-                +"<tr><th> Expire Date </th><td>"+ ob.expiredate +"</td></tr>" 
-                +"<tr><th> Manufacture Date </th><td>"+ ob.manufacturedate +"</td></tr>" 
-                +"<tr><th> Batch Number </th><td>"+ ob.batchno +"</td></tr>" 
-                +"<tr><th> GRN No </th><td>"+ ob.grn_id.grnno +"</td></tr>" 
-                +"<tr><th> Status ID </th><td>"+ ob.status_id.name +"</td></tr>" 
+                +"<tr><th> Sale Price </th><td>"+ ob.sales_price +"</td></tr>" 
+                +"<tr><th> Available QTY </th><td>"+ ob.available_qty +"</td></tr>" 
+                +"<tr><th> Total QTY </th><td>"+ ob.total_qty +"</td></tr>" 
+                +"<tr><th> Expire Date </th><td>"+ ob.expire_date +"</td></tr>" 
+                +"<tr><th> Manufacture Date </th><td>"+ ob.manufacture_date +"</td></tr>" 
+                +"<tr><th> Batch Number </th><td>"+ ob.batch_number +"</td></tr>" 
+                +"<tr><th> GRN No </th><td>"+ ob.grn_id.grn_no +"</td></tr>" 
+                +"<tr><th> Status ID </th><td>"+ ob.inventory_status_id.name +"</td></tr>" 
             +"</tbody>" 
             +"</table>" 
         +"</div>" 
@@ -237,8 +238,8 @@ const checkFormUpdate = () => {
         if (inventory.grn_id.grnno != oldInventory.grn_id.grnno) {
             updates = updates + "GRN No - " + oldInventory.grn_id.grnno + " to " + inventory.grn_id.grnno + "\n";
         }
-        if (inventory.status_id.name != oldInventory.status_id.name) {
-            updates = updates + "Status ID - " + oldInventory.status_id.name + " to " + inventory.status_id.name + "\n";
+        if (inventory.inventory_status_id.name != oldInventory.inventory_status_id.name) {
+            updates = updates + "Status ID - " + oldInventory.inventory_status_id.name + " to " + inventory.inventory_status_id.name + "\n";
         }
     }
     return updates;

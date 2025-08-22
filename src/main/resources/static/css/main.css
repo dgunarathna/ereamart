@@ -113,7 +113,7 @@ body::-webkit-scrollbar {
 .card, .card-header{
     border: 0;
     background-color: #EFEFEF;
-    background: transparent;
+    /* background: transparent; */
 }
 
 
