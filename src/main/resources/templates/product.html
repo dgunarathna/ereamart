@@ -69,7 +69,6 @@
                   <th>Size</th>
                   <th>Name</th>
                   <th>Description</th>
-                  <th>Weight</th>
                   <th>Discount</th>
                   <th>Profit</th>
                   <th>Category</th>
@@ -107,16 +106,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-xl-4 col-lg-6">
-                <label class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productstatus_id')"></select>
-              </div>
 
-              <div class="col-xl-4 col-lg-6">
+              <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Department<span class="text-danger">*</span></label>
                 <select id="selectDepartment" class="form-select" onchange="selectDynamicElementValidator(this,'product','department_id')"></select>
               </div>
-              <div class="col-xl-4 col-lg-6">
+              <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Category<span class="text-danger">*</span></label>
                 <div class="input-group">
                   <select id="selectCategory" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productcategory_id')"></select>
@@ -136,14 +131,6 @@
                 <select id="selectProduct" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productitem_id')"></select>
               </div>
               <div class="col-xl-4 col-lg-6">
-                <label class="form-label">Weight<span class="text-danger">*</span></label>
-                <input id="textWeight" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','weight')">
-              </div>
-              <div class="col-xl-4 col-lg-6">
-                <label class="form-label">Size<span class="text-danger">*</span></label>
-                <input id="textSize" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','size')">
-              </div>
-              <div class="col-xl-4 col-lg-6">
                 <label class="form-label">Price<span class="text-danger">*</span></label>
                 <input id="textPrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','price')">
               </div>
@@ -156,8 +143,16 @@
                 <input id="textProfitRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','profit_rate')">
               </div>
               <div class="col-xl-4 col-lg-6">
+                <label class="form-label">Size<span class="text-danger">*</span></label>
+                <input id="textSize" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','size')">
+              </div>
+              <div class="col-xl-4 col-lg-6">
                 <label class="form-label">Barcode<span class="text-danger">*</span></label>
                 <input id="textBarcode" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','code')">
+              </div>
+              <div class="col-xl-4 col-lg-6">
+                <label class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectStatus" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productstatus_id')"></select>
               </div>
               <div class="col-lg-12">
                 <label class="form-label">Product name<span class="text-danger">*</span></label>

@@ -23,7 +23,6 @@ const refreshProductTable = () => {
         {propertyName: "size", dataType: "string"},
         {propertyName: "name", dataType: "string"},
         {propertyName: "description", dataType: "string"},
-        {propertyName: "weight", dataType: "string"},
         {propertyName: "discount_rate", dataType: "decimal"},
         {propertyName: "profit_rate", dataType: "decimal"},
         {propertyName: getCategory, dataType: "function"},
@@ -69,7 +68,7 @@ const refreshProductForm = () => {
 
     formProduct.reset();
 
-    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textWeight, textSize, textDiscountRate, textProfitRate, textBarcode, selectStatus]);
+    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, textDiscountRate, textProfitRate, textBarcode, selectStatus]);
 
     let category = getServiceRequest('/productcategory/alldata');
     fillDataIntoSelect(selectCategory,"Select Category",category,"name");
@@ -118,7 +117,6 @@ const productFormRefill = (ob, index) => {
     textDescription.value = ob.description;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);
-    textWeight.value = ob.weight;
     textSize.value = ob.size;
     textDiscountRate.value = ob.discount_rate;
     textProfitRate.value = ob.profit_rate;
@@ -173,7 +171,6 @@ const buttonProductPrint = (ob, index) => {
                 +"<tr><th> Name </th><td>"+ ob.name +"</td></tr>" 
                 +"<tr><th> Description </th><td>"+ ob.description +"</td></tr>" 
                 +"<tr><th> Brand </th><td>"+ ob.productbrand_id.name +"</td></tr>" 
-                +"<tr><th> Weight </th><td>"+ ob.weight +"</td></tr>" 
                 +"<tr><th> Size </th><td>"+ ob.size +"</td></tr>" 
                 +"<tr><th> Price </th><td>"+ ob.price +"</td></tr>" 
                 +"<tr><th> Discount </th><td>"+ ob.discount_rate +"</td></tr>" 
@@ -211,9 +208,6 @@ const checkFormError = ()=>{
     }
     if (product.productbrand_id == null) {
         errors = errors + "Please Select brand \n";
-    }
-    if (product.weight == null) {
-        errors = errors + "Please select weight \n";
     }
     if (product.size == null) {
         errors = errors + "Please enter size \n";
@@ -276,9 +270,6 @@ const checkFormUpdate = () => {
         }
         if (product.productbrand_id.name != oldProduct.productbrand_id.name) {
             updates = updates + "Brand - " + oldProduct.productbrand_id.name + " to " + product.productbrand_id.name + "\n";
-        }
-        if (product.weight != oldProduct.weight) {
-            updates = updates + "Weight - " + oldProduct.weight + " to " + product.weight + "\n";
         }
         if (product.size != oldProduct.size) {
             updates = updates + "Size - " + oldProduct.size + " to " + product.size + "\n";

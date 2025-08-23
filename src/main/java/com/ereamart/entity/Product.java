@@ -44,9 +44,6 @@ public class Product {
     private String description;
 
     @NotNull
-    private BigDecimal weight;
-
-    @NotNull
     private BigDecimal size;
 
     @NotNull
