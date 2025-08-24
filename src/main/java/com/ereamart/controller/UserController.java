@@ -120,7 +120,8 @@ public class UserController {
 				// update oparator
 				userDao.save(user);
 
-				// dependances
+				// dependances  dhanushkka - auto update emp photo 
+
 				return "OK";
 			} catch (Exception e) {
 				return "Update not completed" + e.getMessage();

@@ -32,7 +32,7 @@ public class Product {
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
-    private Byte image;
+    private byte[] image;
 
     @NotNull
     private String name;
@@ -44,7 +44,7 @@ public class Product {
     private String description;
 
     @NotNull
-    private BigDecimal size;
+    private String size;
 
     @NotNull
     private BigDecimal price; 

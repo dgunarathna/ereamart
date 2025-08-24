@@ -37,7 +37,7 @@ const getManufacture = (dataOb) => {
     return dataOb.productmanufacture_id.name;
 }
 const getProduct = (dataOb) => {
-    return dataOb.productbrand_id.name;
+    return dataOb.productitem_id.name;
 }
 
 const getStatus = (dataOb) => {
@@ -97,8 +97,23 @@ const refreshProductForm = () => {
     // let brandsbycategory = getServiceRequest('/productbrands/bycategory/'+ category.id);
     // fillDataIntoSelect(textBrand,"Select Brand",brandsbycategory,"name");
 
-    textProductName.disabled = "disabled"
+    textProductName.disabled = "disabled";
+    selectDepartment.disabled = "disabled";
 }
+
+
+let textSizeElement = document.querySelector("#textSize");
+textSizeElement.addEventListener("input", () => {
+    let brand = JSON.parse(textBrand.value);
+    let product = JSON.parse(selectProduct.value);
+    let size = textSize.value
+
+    textProductName.value = brand.name +" "+ product.name +" "+ size;
+    textProductName.style.border = "1px solid lightgreen"
+    product.name = textProductName;
+});
+
+
 
 const productFormRefill = (ob, index) => {
     refreshProductForm();
@@ -117,6 +132,7 @@ const productFormRefill = (ob, index) => {
     textDescription.value = ob.description;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);
+    selectProduct.value = JSON.stringify(ob.productitem_id);
     textSize.value = ob.size;
     textDiscountRate.value = ob.discount_rate;
     textProfitRate.value = ob.profit_rate;
@@ -263,37 +279,43 @@ const checkFormUpdate = () => {
     
     if (product != null && oldProduct !== null) {
         if (product.productcategory_id.name != oldProduct.productcategory_id.name) {
-            updates = updates + "Category - " + oldProduct.productcategory_id.name + " to " + product.productcategory_id.name + "\n";
+            updates = updates + "Category \n";
+        }
+        if (product.name != oldProduct.name) {
+            updates = updates + "Name \n";
         }
         if (product.productmanufacture_id.name != oldProduct.productmanufacture_id.name) {
-            updates = updates + "Manufacture - " + oldProduct.productmanufacture_id.name + " to " + product.productmanufacture_id.name + "\n";
+            updates = updates + "Manufacture \n";
         }
         if (product.productbrand_id.name != oldProduct.productbrand_id.name) {
-            updates = updates + "Brand - " + oldProduct.productbrand_id.name + " to " + product.productbrand_id.name + "\n";
+            updates = updates + "Brand \n";
         }
         if (product.size != oldProduct.size) {
-            updates = updates + "Size - " + oldProduct.size + " to " + product.size + "\n";
+            updates = updates + "Size \n";
         }
         if (product.discountrate != oldProduct.discountrate) {
-            updates = updates + "Discount Rate - " + oldProduct.discountrate + " to " + product.discountrate + "\n";
+            updates = updates + "Discount Rate \n";
         }
         if (product.profitrate != oldProduct.profitrate) {
-            updates = updates + "Profit Rate - " + oldProduct.profitrate + " to " + product.profitrate + "\n";
+            updates = updates + "Profit Rate \n";
         }
         if (product.barcode != oldProduct.barcode) {
-            updates = updates + "Barcode - " + oldProduct.barcode + " to " + product.barcode + "\n";
+            updates = updates + "Barcode \n";
         }
         if (product.productstatus_id.name != oldProduct.productstatus_id.name) {
-            updates = updates + "Status - " + oldProduct.productstatus_id.name + " to " + product.productstatus_id.name + "\n";
+            updates = updates + "Status \n";
         }
         if (product.productname != oldProduct.productname) {
-            updates = updates + "Product name - " + oldProduct.productname + " to " + product.productname + "\n";
+            updates = updates + "Product name \n";
         }
         if (product.productimage != oldProduct.productimage) {
-            updates = updates + "Product image - " + oldProduct.productimage + " to " + product.productimage + "\n";
+            updates = updates + "Product image \n";
         }
-        if (product.productdescription != oldProduct.productdescription) {
-            updates = updates + "Product description - " + oldProduct.productdescription + " to " + product.productdescription + "\n";
+        if (product.description != oldProduct.description) {
+            updates = updates + "Product description \n";
+        }
+        if (product.image != oldProduct.image) {
+            updates = updates + "Product image \n";
         }
     }
     return updates;
@@ -306,7 +328,7 @@ const buttonProductUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ product.name +"? \n");
+            let userConfirm = window.confirm("Are you sure to update ? \n"+ updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/product/update", "PUT", product);
                 if (putResponce == "OK") {
