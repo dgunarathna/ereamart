@@ -120,7 +120,7 @@ public class EmployeeController {
 
 				if (employee.getDesignation_id().getUseraccount()) {
 					User user = new User();
-					user.setUsername(employee.getDesignation_id().getName()); //dhanushka - change to designation - done
+					user.setUsername(employee.getDesignation_id().getName()); 
 					if (employee.getEmpphoto() != null) {
 						user.setUserphoto(employee.getEmpphoto());
 					}
