@@ -20,14 +20,7 @@
                     <li class="nav-item"><a class="nav-link" href="/expense">Wallet</i></a></li>
                 </ul>
           </div>
-            <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0">
-                <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">  <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="/home">Home</a></li>
-                    <li><a class="dropdown-item" href="/profile">My Profile</a></li>
-                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
-                </ul>
-            </div>
+            <div th:replace="~{common :: sellerprofiledropdown}"></div>
           
       </nav>
 

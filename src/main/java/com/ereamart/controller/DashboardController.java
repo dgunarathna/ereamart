@@ -24,8 +24,6 @@ public class DashboardController {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	User loggedUser = userDao.getByUsename(auth.getName());
 
-	
-
 	ModelAndView dashboardPage = new ModelAndView();   
 	dashboardPage.setViewName("dashboard.html");
 	dashboardPage.addObject("loggedusername", auth.getName());

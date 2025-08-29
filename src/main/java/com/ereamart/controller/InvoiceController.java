@@ -23,7 +23,6 @@ import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Invoice;
 import com.ereamart.entity.InvoiceHasProduct;
-import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 

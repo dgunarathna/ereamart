@@ -70,3 +70,22 @@
 </div>
 
 
+
+
+<div class="col-xl d-flex gap-1 justify-content-end my-auto p-0" th:fragment="sellerprofiledropdown">
+    <button type="button" class="btn btn-icon rounded-pill bg-light" data-bs-toggle="dropdown" -expanded="false">
+        <img id="imgLogUserPhoto" src="/images/default.png" alt="" class="rounded-pill" width="38px "></button>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+            <div class="d-flex flex-column">
+                    <p class="m-0 mx-auto"><strong>Name</strong></p>
+                    <p class="m-0 mx-auto text-muted"><small th:text="' '+ ${loggedusername} + ' '">Role</small></p>
+                </div>
+        </li>
+
+        <div role="separator" class="dropdown-divider"></div>
+        <li><a class="dropdown-item" href="/home">Home</a></li>
+        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+        <li><a class="dropdown-item text-danger" href="/logout">Log out</a></li>
+    </ul>
+</div>

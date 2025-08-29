@@ -23,7 +23,6 @@ import com.ereamart.dao.GRNStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.GRN;
 import com.ereamart.entity.GRNHasProduct;
-import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 
