@@ -22,16 +22,14 @@ public class EreamartApplication {
 	}
 
 	// mapping for return index page
-	@RequestMapping(value = {"/index","/index.html"})
-	public ModelAndView uiIndexPage(){
+	@RequestMapping(value = {"/index","/index.html"}) 
+	public ModelAndView uiIndexPage(){ 
 		ModelAndView indexPage = new ModelAndView();
-		indexPage.setViewName("index.html");
-		return indexPage; 
-	}
+		indexPage.setViewName("index.html"); 
+		return indexPage;
+	} 
 
-}   
- 
-
+}
 
 
    
