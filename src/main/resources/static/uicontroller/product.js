@@ -366,4 +366,7 @@ const buttonAddNew = () => {
     $("#buttonDelete").hide();
     $("#buttonPrint").hide();
     $("#buttonUpdate").hide();
+
+    
+    selectDepartment.disabled = ""; 
 }
