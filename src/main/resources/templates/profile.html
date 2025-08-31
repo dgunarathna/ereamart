@@ -12,9 +12,12 @@
       <nav class="navbar row py-0 mx-0">
           <div class="col-xl d-flex col-6 p-0 gap-1">
               <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <button onclick="location.href='/dashboard';" class="btn btn-icon btn-light my-auto rounded-pill" type="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
-              <h5 class="my-auto">Profile</h5>
-          </div>
+              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
+            </div>
+            <div class="col-xl d-flex gap-1 justify-content-end my-auto p-0">
+              
+              <div th:replace="~{common :: sellerprofiledropdown}"></div>
+            </div>
       </nav>
       <div class="row app p-0 m-0">
           <div class=" col-lg-6 col-md-12 mx-auto ">
@@ -33,7 +36,7 @@
                       Account 
                   </button>
                 </h2>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse " aria-labelledby="panelsStayOpen-headingOne">
                   <div class="accordion-body">
                       <form class="row g-2 align-items-center" onsubmit="return false">
 

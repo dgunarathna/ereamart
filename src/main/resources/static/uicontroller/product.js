@@ -68,7 +68,7 @@ const refreshProductForm = () => {
 
     formProduct.reset();
 
-    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, textDiscountRate, textProfitRate, textBarcode, selectStatus]);
+    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, textDiscountRate, textProfitRate, selectStatus]);
 
     let category = getServiceRequest('/productcategory/alldata');
     fillDataIntoSelect(selectCategory,"Select Category",category,"name");
@@ -200,7 +200,6 @@ const buttonProductPrint = (ob, index) => {
                 +"<tr><th> Price </th><td>"+ ob.price +"</td></tr>" 
                 +"<tr><th> Discount </th><td>"+ ob.discount_rate +"</td></tr>" 
                 +"<tr><th> Profit </th><td>"+ ob.profit_rate +"</td></tr>" 
-                +"<tr><th> Barcode </th><td>"+ ob.barcode +"</td></tr>" 
                 +"<tr><th> Manufacture </th><td>"+ ob.productmanufacture_id.name +"</td></tr>" 
                 +"<tr><th> Category </th><td>"+ ob.productcategory_id.name +"</td></tr>" 
                 +"<tr><th> Department </th><td>"+ ob.productcategory_id.productdepartment_id.name +"</td></tr> "
@@ -242,9 +241,6 @@ const checkFormError = ()=>{
     }
     if (product.profit_rate == null) {
         errors = errors + "Please enter profit rate \n";
-    }
-    if (product.code == null) {
-        errors = errors + "Please Select barcode \n";
     }
     if (product.productstatus_id == null) {
         errors = errors + "Please Select Status \n";
@@ -313,9 +309,6 @@ const checkFormUpdate = () => {
         }
         if (product.profitrate != oldProduct.profitrate) {
             updates = updates + "Profit Rate - " + oldProduct.profitrate + " to " + product.profitrate + "\n";
-        }
-        if (product.barcode != oldProduct.barcode) {
-            updates = updates + "Barcode - " + oldProduct.barcode + " to " + product.barcode + "\n";
         }
         if (product.productstatus_id.name != oldProduct.productstatus_id.name) {
             updates = updates + "Status - " + oldProduct.productstatus_id.name + " to " + product.productstatus_id.name + "\n";

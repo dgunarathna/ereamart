@@ -21,7 +21,7 @@ import jakarta.transaction.Transactional;
 public class MyUserServiceDetail implements UserDetailsService{
 
     @Autowired
-    private UserDao userdao;
+    private UserDao userdao;      
 
     @Override
     @Transactional

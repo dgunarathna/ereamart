@@ -16,7 +16,7 @@ public class EreamartApplication {
 	
 		System.out.println("********************************************************");
 		System.out.println("********************************************************");
-		System.out.println("************** Project start successfully **************");
+		System.out.println("************** Project start successfully **************"); 
 		System.out.println("********************************************************");
 		System.out.println("********************************************************");
 	}
