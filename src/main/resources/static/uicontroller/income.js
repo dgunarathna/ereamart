@@ -48,6 +48,9 @@ const refreshIncomeForm = () => {
 
     formIncome.reset();
 
+    fileReceiptPhoto.value = "";
+    imgReceiptPhotoPreview.src = "/images/default.png";
+
     setDefault([ selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal,]);
 
     let invoices = getServiceRequest('/invoice/alldata');

@@ -18,7 +18,7 @@ import com.ereamart.entity.User;
 import jakarta.transaction.Transactional;
 
 @Service
-public class MyUserServiceDetail implements UserDetailsService{
+public class MyUserServiceDetail implements UserDetailsService{ 
 
     @Autowired
     private UserDao userdao;      

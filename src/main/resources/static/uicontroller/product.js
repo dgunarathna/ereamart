@@ -68,6 +68,9 @@ const refreshProductForm = () => {
 
     formProduct.reset();
 
+    fileProductPhoto.value = "";
+    imgproductPhotoPreview.src = "/images/default.png";
+
     setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, textDiscountRate, textProfitRate, selectStatus]);
 
     let category = getServiceRequest('/productcategory/alldata');
@@ -367,6 +370,4 @@ const buttonAddNew = () => {
     $("#buttonPrint").hide();
     $("#buttonUpdate").hide();
 
-    
-    selectDepartment.disabled = ""; 
 }

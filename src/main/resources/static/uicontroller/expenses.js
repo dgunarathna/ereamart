@@ -48,6 +48,9 @@ const refreshExpensesForm = () => {
 
     formExpenses.reset();
 
+    fileReceiptPhoto.value = "";
+    imgReceiptPhotoPreview.src = "/images/default.png";
+
     setDefault([ selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate, ]);
 
     let grns = getServiceRequest('/grn/alldata');
