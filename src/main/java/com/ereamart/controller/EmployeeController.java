@@ -167,8 +167,8 @@ public class EmployeeController {
 			Employee extById = employeeDao.getReferenceById(employee.getId()); // check id with db
 			if (extById == null) {
 				return "Update not completed, NIC already exists" ;
-			}  
-
+			}   
+ 
 			//duplicate check
 			Employee extEmployeeByNic = employeeDao.getByNIC(employee.getNic());
 			if (extEmployeeByNic != null && extEmployeeByNic.getId() != employee.getId()) {

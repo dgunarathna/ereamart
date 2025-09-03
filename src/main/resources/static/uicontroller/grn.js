@@ -235,6 +235,32 @@ const checkFormUpdate = () => {
         if (grn.status_id.name != oldGrn.status_id.name) {
             updates = updates + "Status - " + oldGrn.status_id.name + " to " + grn.status_id.name + "\n";
         }
+        //check inner form updates
+        if (grn.grnHasProductList.length != oldGrn.grnHasProductList.length) {
+            updates = updates + "Products List changeged\n";
+        } else {
+            let equalCount = 0;
+            for(const oldoproduct of oldGrn.grnHasProductList){
+                for(const newoproduct of grn.grnHasProductList){
+                    if (oldoproduct.product_id.id == newoproduct.product_id.id) {
+                        equalCount = equalCount + 1;
+                    }
+                }
+            }
+
+            if (equalCount != grn.grnHasProductList.length) {
+                updates = updates + "Products List changeged\n";
+            }else{
+                for(const oldoproduct of oldGrn.grnHasProductList){
+                    for(const newoproduct of grn.grnHasProductList){
+                        if (oldoproduct.product_id.id == newoproduct.product_id.id && oldoproduct.quantity != newoproduct.quantity) {
+                            updates = updates + "Products quantity changeged\n";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
     return updates;
 }

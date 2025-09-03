@@ -25,4 +25,4 @@ public class ModuleController {
     public List<com.ereamart.entity.Module> modulesWithoutDPR(){
         return moduleDao.modulesWithoutDPR();
     } 
-}
+}     

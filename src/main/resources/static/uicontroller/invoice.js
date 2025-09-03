@@ -201,6 +201,32 @@ const checkFormUpdate = () => {
         if (invoice.netamount != oldInvoice.netamount) {
             updates = updates + "Net Amount - " + oldInvoice.netamount + " to " + invoice.netamount + "\n";
         }
+        //check inner form updates
+        if (invoice.invoiceHasProductList.length != oldInvoice.invoiceHasProductList.length) {
+            updates = updates + "Products List changeged\n";
+        } else {
+            let equalCount = 0;
+            for(const oldoproduct of oldInvoice.invoiceHasProductList){
+                for(const newoproduct of invoice.invoiceHasProductList){
+                    if (oldoproduct.product_id.id == newoproduct.product_id.id) {
+                        equalCount = equalCount + 1;
+                    }
+                }
+            }
+
+            if (equalCount != invoice.invoiceHasProductList.length) {
+                updates = updates + "Products List changeged\n";
+            }else{
+                for(const oldoproduct of oldInvoice.invoiceHasProductList){
+                    for(const newoproduct of invoice.invoiceHasProductList){
+                        if (oldoproduct.product_id.id == newoproduct.product_id.id && oldoproduct.quantity != newoproduct.quantity) {
+                            updates = updates + "Products quantity changeged\n";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
     return updates;
 }

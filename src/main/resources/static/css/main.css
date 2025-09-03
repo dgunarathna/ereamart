@@ -156,11 +156,11 @@ body::-webkit-scrollbar {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     border-radius: 100%;
     background-image: linear-gradient(#FFF720 10%, #3CD500);
-    filter: blur(150px);
+    filter: blur(100px);
     transition: all 150ms ease-out;
     position: fixed;
     pointer-events: none;

@@ -220,6 +220,32 @@ const checkFormUpdate = () => {
         if (respond.note != oldRespond.note) {
             updates = updates + "Note - " + oldRespond.note + " to " + respond.note + "\n";
         }
+        //check inner form updates
+        if (respond.respondHasProductList.length != oldRespond.respondHasProductList.length) {
+            updates = updates + "Products List changeged\n";
+        } else {
+            let equalCount = 0;
+            for(const oldoproduct of oldRespond.respondHasProductList){
+                for(const newoproduct of respond.respondHasProductList){
+                    if (oldoproduct.product_id.id == newoproduct.product_id.id) {
+                        equalCount = equalCount + 1;
+                    }
+                }
+            }
+
+            if (equalCount != respond.respondHasProductList.length) {
+                updates = updates + "Products List changeged\n";
+            }else{
+                for(const oldoproduct of oldRespond.respondHasProductList){
+                    for(const newoproduct of respond.respondHasProductList){
+                        if (oldoproduct.product_id.id == newoproduct.product_id.id && oldoproduct.quantity != newoproduct.quantity) {
+                            updates = updates + "Products quantity changeged\n";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
     return updates;
 }

@@ -21,6 +21,7 @@ public class EreamartApplication {
 		System.out.println("********************************************************");
 	}
 
+ 
 	
 	// mapping for return index page
 	@RequestMapping(value = {"/index","/index.html"}) 
@@ -29,27 +30,7 @@ public class EreamartApplication {
 		indexPage.setViewName("index.html"); 
 		return indexPage;
 	} 
-
+ 
 } 
-
-
-   
- 
- 
-
-
  
   
-
-
-
-
-
-
-
-
-
-
-
-
-
