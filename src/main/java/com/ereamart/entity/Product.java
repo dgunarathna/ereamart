@@ -47,13 +47,10 @@ public class Product {
     private String size;
 
     @NotNull
-    private BigDecimal price; 
+    private Integer rop; 
     
     @NotNull
-    private BigDecimal discount_rate;
-
-    @NotNull
-    private BigDecimal profit_rate;
+    private Integer roq;
 
     @NotNull
     private LocalDateTime added_datetime;

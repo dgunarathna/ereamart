@@ -23,8 +23,8 @@ const refreshProductTable = () => {
         {propertyName: "size", dataType: "string"},
         {propertyName: "name", dataType: "string"},
         {propertyName: "description", dataType: "string"},
-        {propertyName: "discount_rate", dataType: "decimal"},
-        {propertyName: "profit_rate", dataType: "decimal"},
+        {propertyName: "rop", dataType: "string"},
+        {propertyName: "roq", dataType: "string"},
         {propertyName: getCategory, dataType: "function"},
         {propertyName: getDepartment, dataType: "function"},
         {propertyName: getStatus, dataType: "function"}
@@ -71,7 +71,7 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, textDiscountRate, textProfitRate, selectStatus]);
+    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize,textROP, textROQ, selectStatus]);
 
     let category = getServiceRequest('/productcategory/alldata');
     fillDataIntoSelect(selectCategory,"Select Category",category,"name");
@@ -146,9 +146,8 @@ const productFormRefill = (ob, index) => {
     textBrand.value = JSON.stringify(ob.productbrand_id);
     selectProduct.value = JSON.stringify(ob.productitem_id);
     textSize.value = ob.size;
-    textDiscountRate.value = ob.discount_rate;
-    textProfitRate.value = ob.profit_rate;
-    textPrice.value = ob.price;
+    textROQ.value = ob.roq;
+    textROP.value = ob.rop;
     selectStatus.value = JSON.stringify(ob.productstatus_id);
 
     product = JSON.parse(JSON.stringify(ob));
@@ -200,8 +199,8 @@ const buttonProductPrint = (ob, index) => {
                 +"<tr><th> Description </th><td>"+ ob.description +"</td></tr>" 
                 +"<tr><th> Brand </th><td>"+ ob.productbrand_id.name +"</td></tr>" 
                 +"<tr><th> Size </th><td>"+ ob.size +"</td></tr>" 
-                +"<tr><th> Price </th><td>"+ ob.price +"</td></tr>" 
-                +"<tr><th> Discount </th><td>"+ ob.discount_rate +"</td></tr>" 
+                +"<tr><th> ROP </th><td>"+ ob.rop +"</td></tr>" 
+                +"<tr><th> Discount </th><td>"+ ob.roq +"</td></tr>" 
                 +"<tr><th> Profit </th><td>"+ ob.profit_rate +"</td></tr>" 
                 +"<tr><th> Manufacture </th><td>"+ ob.productmanufacture_id.name +"</td></tr>" 
                 +"<tr><th> Category </th><td>"+ ob.productcategory_id.name +"</td></tr>" 
@@ -239,7 +238,7 @@ const checkFormError = ()=>{
     if (product.size == null) {
         errors = errors + "Please enter size \n";
     }
-    if (product.discount_rate == null) {
+    if (product.roq == null) {
         errors = errors + "Please enter discount rate \n";
     }
     if (product.profit_rate == null) {
