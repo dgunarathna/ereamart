@@ -25,6 +25,6 @@ public class RespondStatus {
     @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
     private Integer id;
  
-    private String name;
+    private String name; 
      
 } 
