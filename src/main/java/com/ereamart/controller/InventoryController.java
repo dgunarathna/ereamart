@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -177,5 +178,21 @@ public class InventoryController {
 			return "Delete not completed" + e.getMessage();
 		}
 	}
+
+
+	//  request mapping for roq - /qty/byinventory/2
+    @GetMapping(value = "/qty/byinventory/{productid}", produces = "application/json")
+    public Integer findQTYByInventory(@PathVariable("productid") Integer productid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Inventory");
+
+			if (userPrivilege.getPrivi_select()) {
+			return inventoryDao.findQTYByInventory(productid);
+			} else {
+				return null;
+			}
+    }
 
 }

@@ -2,7 +2,6 @@ package com.ereamart.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Product;
 
@@ -14,4 +13,8 @@ public interface InventoryDao extends JpaRepository<Inventory, Integer>{
     //for get next code
     @Query(value = "SELECT coalesce(concat('I', lpad(substring(max(i.inventory_code), 2) + 1, 5, 0)), 'I00001') FROM ereamart.inventory as i;", nativeQuery = true)
     String getNextCode();
+
+    @Query(value = "SELECT SUM(total_qty) AS total_qty FROM ereamart.inventory WHERE product_id = 1;", nativeQuery = true)
+    Integer findQTYByInventory(Integer productid);
+
 }

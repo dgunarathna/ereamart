@@ -47,7 +47,7 @@ public class Product {
     private String size;
 
     @NotNull
-    private Integer rop; 
+    private Integer rop;
     
     @NotNull
     private Integer roq;

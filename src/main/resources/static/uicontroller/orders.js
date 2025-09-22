@@ -327,7 +327,6 @@ const buttonAddNew = () => {
    
 }
 
-
 // inner form ***************************************************************************************************************************************************************************************
 
 // function for check item ext in the inner table
@@ -367,6 +366,17 @@ const filterProductBySupplier = () => {
     let selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 }
+
+// Calculate order quantity based on ROQ and inventory
+function calculateOrderQty() {
+    const roq = getServiceRequest('/roq/byproduct/' + JSON.parse(selectItem.value).id);
+    const inventoryQty = getServiceRequest('/qty/byinventory/' + JSON.parse(selectItem.value).id);
+
+    const qty = roq - inventoryQty;
+    textQTY.value = qty;
+    orderHasProduct.quantity = qty;
+}
+
 
 const refreshOrderInnerForm = () =>{
     orderHasProduct = new Object();
@@ -481,6 +491,8 @@ const buttonOrderItemUpdate = () => {
     }
 
 }
+
+
 
 
 

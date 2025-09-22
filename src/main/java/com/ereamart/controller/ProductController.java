@@ -250,6 +250,22 @@ public class ProductController {
 			}
     }
 
+
+	//  request mapping for roq - /roq/byproduct/
+    @GetMapping(value = "/roq/byproduct/{productid}", produces = "application/json")
+    public Integer findROQByProduct(@PathVariable("productid") Integer productid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findROQByProduct(productid);
+			} else {
+				return null;
+			}
+    }
+
 	
 
 }

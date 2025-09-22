@@ -91,7 +91,7 @@
 
               <div class="col-xl-5">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
-                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'orderHasProduct','product_id'); checkProductExt();"></select>
+                <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'orderHasProduct','product_id'); checkProductExt(); calculateOrderQty()"></select>
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
