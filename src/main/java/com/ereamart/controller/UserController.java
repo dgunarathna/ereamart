@@ -121,6 +121,7 @@ public class UserController {
 				userDao.save(user);
 
 				// dependances  dhanushkka - auto update emp photo 
+				
 
 				return "OK";
 			} catch (Exception e) {

@@ -123,6 +123,8 @@ public class LoginController {
 			userDao.save(extUser);
 
 			// dependances
+			
+			
 			return "OK";
 		} catch (Exception e) {
 			return "Update not completed" + e.getMessage();

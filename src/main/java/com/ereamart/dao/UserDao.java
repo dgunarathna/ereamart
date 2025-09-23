@@ -14,4 +14,7 @@ public interface UserDao extends JpaRepository<User, Integer>{
     @Query(value = "SELECT u FROM User u WHERE u.username<> ?1 AND u.username<> 'Admin' ORDER BY u.id DESC")
     List<User> findAll(String username);
 
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
+
 }

@@ -52,7 +52,7 @@ const saveChanges = ()=>{
                 let putResponce = getHTTPServiceRequest("/changeuserdetails/insert", "POST", lguser);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
-                    window.location.replace("/logout");
+                    // window.location.replace("/logout");
                 } else {
                     window.alert("Failed to update" + putResponce);
                 }

@@ -185,10 +185,18 @@ public class EmployeeController {
 				employee.setUpdate_datetime(LocalDateTime.now());
 				employee.setUpdate_user_id(loggedUser.getId());
 
+
 				// update oparator
 				employeeDao.save(employee);
 
 				// dependances
+				// Update userphoto if employee has a user account
+				User user = userDao.findByEmail(employee.getEmail());
+				if (user != null && employee.getEmpphoto() != null) {
+				    user.setUserphoto(employee.getEmpphoto());
+				    userDao.save(user);
+				}
+
 				return "OK";
 			} catch (Exception e) {
 				return "Update not completed" + e.getMessage();
@@ -237,6 +245,6 @@ public class EmployeeController {
 	}	
 }
 
-  
+
 
 
