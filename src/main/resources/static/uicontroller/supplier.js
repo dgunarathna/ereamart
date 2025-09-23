@@ -258,7 +258,11 @@ const checkFormUpdate = () => {
         if (supplier.supplier_status_id.name != oldSupplier.supplier_status_id.name) {
             updates = updates + "Supplier Status - " + oldSupplier.supplier_status_id.name + " to " + supplier.supplier_status_id.name + "\n";
         }
+        if (supplier.supplierItemList.map(product=>product.id).sort().toString() !== oldSupplier.supplierItemList.map(product=>product.id).sort().toString()) {
+            updates = updates + "Selected Products - updated\n";
+        }
     }
+
     return updates;
 }
 
