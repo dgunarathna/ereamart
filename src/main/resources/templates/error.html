@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:replace="~{common :: headFragment}"></div>
-<body>
-    <p>error</p> <a href="/dashboard">Dashboard</a> <a href="/logout">logout</a>
+
+<body style="min-height:100vh; margin:0; padding:0; display:flex; align-items:center; justify-content:center;">
+    <!-- Cursor effect -->
+    <div class="cursor"></div>
+
+    <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height:100vh;">
+        <div class="text-center">
+            <h1 class="h1" style="background: linear-gradient(135deg, #059025 0%, #97CC16 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:700;"> Oops! </h1>
+            <p class="h5">Something went wrong.</p>
+            <p class="p">The page you are looking for might have been removed,<br> had its name changed, or is temporarily unavailable.</p>
+            <div class="mt-4">
+                <a href="/dashboard" class="btn btn-primary me-2" style="min-width:120px;">Dashboard</a>
+                <a href="/logout" class="btn btn-outline-danger" style="min-width:120px;">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{common :: scripts}"></div>
 </body>
+
 </html>

@@ -189,8 +189,8 @@ const checkFormUpdate = () => {
         if (customer.note != oldCustomer.note) {
             updates = updates + "Note - " + oldCustomer.note + " to " + customer.note + "\n";
         }
-        if (customer.status != oldCustomer.status) {
-            updates = updates + "Status - " + oldCustomer.status + " to " + customer.status + "\n";
+        if (customer.customer_status_id.name != oldCustomer.customer_status_id.name) {
+            updates = updates + "Status - " + oldCustomer.customer_status_id.name + " to " + customer.customer_status_id.name + "\n";
         }
     }
     return updates;
