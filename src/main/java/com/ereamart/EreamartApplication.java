@@ -18,10 +18,10 @@ public class EreamartApplication {
 		System.out.println("********************************************************");
 		System.out.println("************** Project start successfully **************"); 
 		System.out.println("********************************************************");
-		System.out.println("********************************************************");
+		System.out.println("********************************************************"); 
 	}
 
- 
+   
 	
 	// mapping for return index page
 	@RequestMapping(value = {"/index","/index.html"}) 
@@ -31,6 +31,6 @@ public class EreamartApplication {
 		return indexPage;
 	} 
  
-} 
- 
-  
+}
+
+
