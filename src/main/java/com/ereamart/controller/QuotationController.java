@@ -97,6 +97,7 @@ public class QuotationController {
 				quotationDao.save(quotation);
 
 				// dependances
+				
 				return "OK";
 			} catch (Exception e) {
 				return "Save not completed" + e.getMessage();

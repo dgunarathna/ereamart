@@ -14,7 +14,7 @@ const refreshUserEditForm = () => {
     textEditUserName.value = lguser.username;
 
     if (lguser.userphoto != null) {
-        imgEditPhotoPreview = atob(lguser.userphoto)
+        imgEditPhotoPreview.src = atob(lguser.userphoto)
     } else {
         imgEditPhotoPreview.src = "/images/default.png";
     }
@@ -52,7 +52,8 @@ const saveChanges = ()=>{
                 let putResponce = getHTTPServiceRequest("/changeuserdetails/insert", "POST", lguser);
                 if (putResponce == "OK") {
                     window.alert("Update Successfull");
-                    window.location.replace("/dashboard");
+                    window.location.reload();
+                    // window.location.replace("/dashboard");
                 } else {
                     window.alert("Failed to update" + putResponce);
                 }
