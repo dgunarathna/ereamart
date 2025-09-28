@@ -47,10 +47,12 @@ public class InventoryController {
     public ModelAndView uiInventoryPage(){
 		
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
 
 	ModelAndView inventoryPage = new ModelAndView();   
 	inventoryPage.setViewName("inventory.html");
 	inventoryPage.addObject("loggedusername", auth.getName());
+	inventoryPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return inventoryPage;
 	}

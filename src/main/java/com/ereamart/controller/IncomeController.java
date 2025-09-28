@@ -46,10 +46,12 @@ public class IncomeController {
     public ModelAndView uiIncomePage(){
 		
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
 
 	ModelAndView incomePage = new ModelAndView();   
 	incomePage.setViewName("income.html");
 	incomePage.addObject("loggedusername", auth.getName());
+	incomePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return incomePage;
 	}

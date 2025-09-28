@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.SupplierDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.Product;
 import com.ereamart.entity.Supplier;
 import com.ereamart.entity.SupplierStatusDao;
 import com.ereamart.entity.User;
@@ -49,10 +48,12 @@ public class SupplierController {
 
         //check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
         ModelAndView supplierPage = new ModelAndView();
         supplierPage.setViewName("supplier.html");
 		supplierPage.addObject("loggedusername", auth.getName());
+		supplierPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
         return supplierPage;
 	}
 

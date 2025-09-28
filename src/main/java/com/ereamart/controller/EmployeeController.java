@@ -59,10 +59,12 @@ public class EmployeeController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		ModelAndView employeePage = new ModelAndView();
 		employeePage.setViewName("employee.html");
 		employeePage.addObject("loggedusername", auth.getName());
+		employeePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return employeePage;
 	} 
 	

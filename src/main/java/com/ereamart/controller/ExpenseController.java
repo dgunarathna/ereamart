@@ -46,10 +46,12 @@ public class ExpenseController {
 
         //check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
         ModelAndView expensePage = new ModelAndView();
         expensePage.setViewName("expense.html");
 		expensePage.addObject("loggedusername", auth.getName());
+		expensePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
         return expensePage;
 	}
 

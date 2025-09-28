@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.PrivilegeDao;
+import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
+import com.ereamart.entity.User;
 
 @RestController
 public class PrivilegeController {
 
 	@Autowired
 	private PrivilegeDao privilegeDao;
+
+	@Autowired
+	private UserDao userDao;
 	
 	@Autowired
 	private UserPrivilegeController userPrivilegeController;
@@ -35,10 +40,12 @@ public class PrivilegeController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		ModelAndView privilegePage = new ModelAndView();
 		privilegePage.setViewName("privilege.html");
 		privilegePage.addObject("loggedusername", auth.getName());
+		privilegePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return privilegePage;
 	}
 

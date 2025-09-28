@@ -36,10 +36,12 @@ public class UserController {
 
         //check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
         ModelAndView userPage = new ModelAndView();
         userPage.setViewName("user.html");
 		userPage.addObject("loggedusername", auth.getName());
+		userPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
         return userPage;
 	}
 

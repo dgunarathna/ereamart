@@ -46,10 +46,12 @@ public class GRNController {
     public ModelAndView uiGRNPage(){
 		
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
 
 	ModelAndView grnPage = new ModelAndView();   
 	grnPage.setViewName("grn.html");
 	grnPage.addObject("loggedusername", auth.getName());
+	grnPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return grnPage;
 	}

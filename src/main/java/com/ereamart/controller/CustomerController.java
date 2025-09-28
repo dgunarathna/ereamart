@@ -23,7 +23,6 @@ import com.ereamart.dao.CustomerStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Customer;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.SupplierStatusDao;
 import com.ereamart.entity.User;
 
 @RestController
@@ -46,10 +45,12 @@ public class CustomerController {
     public ModelAndView uiCustomerPage(){
 		
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
 
 	ModelAndView customerPage = new ModelAndView();   
 	customerPage.setViewName("customer.html");
 	customerPage.addObject("loggedusername", auth.getName());
+	customerPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return customerPage;
 	}

@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.RespondDao;
 import com.ereamart.dao.RespondStatusDao;
 import com.ereamart.dao.UserDao;
-import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Respond;
 import com.ereamart.entity.RespondHasProduct;
@@ -48,10 +47,12 @@ public class RespondController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		ModelAndView respondPage = new ModelAndView();
 		respondPage.setViewName("respond.html");
 		respondPage.addObject("loggedusername", auth.getName());
+		respondPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return respondPage;
 	} 
 

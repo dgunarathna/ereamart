@@ -47,10 +47,12 @@ public class ProductController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		ModelAndView productPage = new ModelAndView();
 		productPage.setViewName("product.html");
 		productPage.addObject("loggedusername", auth.getName());
+		productPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return productPage;
 	} 
 

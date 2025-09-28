@@ -46,10 +46,12 @@ public class InvoiceController {
     public ModelAndView uiInvoicePage(){
 		
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	User loggedUser = userDao.getByUsename(auth.getName());
 
 	ModelAndView invoicePage = new ModelAndView();   
 	invoicePage.setViewName("invoice.html");
 	invoicePage.addObject("loggedusername", auth.getName());
+	invoicePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return invoicePage;
 	}

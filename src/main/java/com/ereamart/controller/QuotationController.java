@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.QuotationDao;
 import com.ereamart.dao.QuotationStatusDao;
 import com.ereamart.dao.UserDao;
-import com.ereamart.entity.OrdersHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Quotation;
 import com.ereamart.entity.QuotationHasProduct;
@@ -48,10 +47,12 @@ public class QuotationController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		ModelAndView quotationPage = new ModelAndView();
 		quotationPage.setViewName("quotation.html");
 		quotationPage.addObject("loggedusername", auth.getName());
+		quotationPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return quotationPage;
 	} 
 

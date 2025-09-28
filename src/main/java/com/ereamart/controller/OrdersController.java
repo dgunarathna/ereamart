@@ -47,10 +47,12 @@ public class OrdersController {
 
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User loggedUser = userDao.getByUsename(auth.getName());
 
 		ModelAndView orderPage = new ModelAndView();
 		orderPage.setViewName("orders.html");
 		orderPage.addObject("loggedusername", auth.getName());
+		orderPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return orderPage;
 	}
 

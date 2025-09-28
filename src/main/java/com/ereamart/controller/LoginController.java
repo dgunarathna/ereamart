@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ereamart.dao.EmployeeDao;
 import com.ereamart.dao.RoleDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.ChangeUser;
+import com.ereamart.entity.Employee;
 import com.ereamart.entity.Role;
 import com.ereamart.entity.User;
 
@@ -25,6 +27,9 @@ public class LoginController {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private EmployeeDao employeeDao;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -123,7 +128,14 @@ public class LoginController {
 			userDao.save(extUser);
 
 			// dependances
-			
+			System.out.println("Employee email: " + changeUser.getEmail());
+			Employee employee = employeeDao.findByEmail(changeUser.getEmail());
+			System.out.println("User found: " + (employee != null ? employee.getEmail() : "none"));
+
+			if (employee != null && changeUser.getUserphoto() != null) {
+				employee.setEmpphoto(changeUser.getUserphoto());
+				employeeDao.save(employee);
+			}
 			
 			return "OK";
 		} catch (Exception e) {
