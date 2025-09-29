@@ -2,6 +2,7 @@ window.addEventListener("load", () => {
     console.log("browser load Event");
     refreshProductTable();
     refreshProductForm();
+    refreshProductManufactureForm();
 });
 
 
@@ -372,4 +373,48 @@ const buttonAddNew = () => {
     
     selectDepartment.disabled = "";
 
+}
+
+
+// Manufacture form ************************************************************************************************************************************************************************************
+
+
+const refreshProductManufactureForm = () => {
+    
+    productmanufacture = new Object();
+    formProduct.reset();
+
+    setDefault([textManufacture]);
+}
+
+const checkProductManufactureFormError = ()=>{
+    let errors = "";
+    if (productmanufacture.name == null) {
+        errors = errors + "Please Enter manufacture name\n"
+    }
+    return errors;
+}
+
+
+const buttonProductManufactureSubmit = () => {
+    console.log(productmanufacture);
+
+    let errors = checkProductManufactureFormError();
+    if (errors == "") {
+        let userConfirm = window.confirm("Are you sure to add "+ productmanufacture.name +"?");
+        if (userConfirm == true) {
+            let postResponce = getHTTPServiceRequest("/productmanufacture/insert", "POST", productmanufacture);
+            if (postResponce == "OK") {
+                window.alert("Save Successfully");
+                $("#modalAddManufactureForm").modal("hide");
+                refreshProductManufactureForm();
+                refreshProductForm();
+                $("#modalProductForm").modal("show");
+            }else{
+                window.alert("Faild to submit\n" + postResponce);
+            }
+        }
+    }else{
+        window.alert("Form has following errors\n" + errors);
+    }
 }

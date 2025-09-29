@@ -1,6 +1,5 @@
 package com.ereamart.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

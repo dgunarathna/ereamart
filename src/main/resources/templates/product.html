@@ -106,14 +106,14 @@
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Category<span class="text-danger">*</span></label>
-                <div class="input-group">
-                  <select id="selectCategory" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productcategory_id')"></select>
-                  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAddCategoryForm"><i class="fa-solid fa-plus"></i></button>
-                </div>
+                <select id="selectCategory" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productcategory_id')"></select>
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Manufacture<span class="text-danger">*</span></label>
-                <select id="textManufacture" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productmanufacture_id')"></select>
+                <div class="input-group">
+                  <select id="textManufacture" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productmanufacture_id')"></select>
+                  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAddManufactureForm"><i class="fa-solid fa-plus"></i></button>
+                </div>
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Brand<span class="text-danger">*</span></label>
@@ -167,34 +167,30 @@
       </div>
 
       <!-- Modal  add category-->
-      <div class="modal fade" id="modalAddCategoryForm" tabindex="-1" aria-labelledby="modalAddCategoryFormLabel" aria-hidden="true">
+      <div class="modal fade" id="modalAddManufactureForm" tabindex="-1" aria-labelledby="modalAddManufactureFormLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
         <div class="modal-content">
 
           <div class="modal-header">
-            <h6 class="modal-title" id="modalAddCategoryFormLabel">Add New Category</h6>
+            <h6 class="modal-title" id="modalAddManufactureFormLabel">Add New Manufacture</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#modalProductForm"></button>
           </div>
 
           <div class="modal-body">
             <form id="formAddCategory" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
                 <div class="col-xl-12 col-lg-12">
-                  <label class="form-label">Department<span class="text-danger">*</span></label>
-                  <select class="form-select" onchange="selectDynamicElementValidator(this,'aproduct','adepartment_id')"></select>
-              </div>
-                <div class="col-xl-12 col-lg-12">
-                  <label class="form-label">Category<span class="text-danger">*</span></label>
-                  <input type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'aproduct','aproductname')">
+                  <label class="form-label">Name<span class="text-danger">*</span></label>
+                  <input type="textManufacture" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'productmanufacture','name')">
               </div>
             </form>
           </div>
 
           <div class="modal-footer">
             <div class="col">
-              <button type="button" onclick="refreshaProductForm()" class="btn btn-outline-danger">Clear</button>
+              <button type="button" onclick="refreshProductManufactureForm()" class="btn btn-outline-danger">Clear</button>
             </div>
             <div class="col text-end">
-              <button type="button" onclick="buttonaProductSubmit()" class="btn btn-primary">Submit</button>
+              <button type="button" onclick="buttonProductManufactureSubmit()" class="btn btn-primary">Submit</button>
             </div>
           </div>
 
