@@ -51,6 +51,7 @@ public class ExpenseController {
         ModelAndView expensePage = new ModelAndView();
         expensePage.setViewName("expense.html");
 		expensePage.addObject("loggedusername", auth.getName());
+		expensePage.addObject("pageTitle", "Expense");
 		expensePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
         return expensePage;
 	}

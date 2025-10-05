@@ -52,6 +52,7 @@ public class OrdersController {
 		ModelAndView orderPage = new ModelAndView();
 		orderPage.setViewName("orders.html");
 		orderPage.addObject("loggedusername", auth.getName());
+		orderPage.addObject("pageTitle", "Orders");
 		orderPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return orderPage;
 	}

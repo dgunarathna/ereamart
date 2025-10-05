@@ -52,6 +52,7 @@ public class RespondController {
 		ModelAndView respondPage = new ModelAndView();
 		respondPage.setViewName("respond.html");
 		respondPage.addObject("loggedusername", auth.getName());
+		respondPage.addObject("pageTitle", "Respond");
 		respondPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return respondPage;
 	} 

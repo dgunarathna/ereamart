@@ -51,6 +51,7 @@ public class IncomeController {
 	ModelAndView incomePage = new ModelAndView();   
 	incomePage.setViewName("income.html");
 	incomePage.addObject("loggedusername", auth.getName());
+	incomePage.addObject("pageTitle", "Income");
 	incomePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return incomePage;

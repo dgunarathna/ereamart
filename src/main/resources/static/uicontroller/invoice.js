@@ -201,6 +201,9 @@ const checkFormUpdate = () => {
         if (invoice.netamount != oldInvoice.netamount) {
             updates = updates + "Net Amount - " + oldInvoice.netamount + " to " + invoice.netamount + "\n";
         }
+        if (invoice.invoice_status_id.name != oldInvoice.invoice_status_id.name) {
+            updates = updates + "Invoice Status - " + oldInvoice.invoice_status_id.name + " to " + invoice.invoice_status_id.name + "\n";
+        }
         //check inner form updates
         if (invoice.invoiceHasProductList.length != oldInvoice.invoiceHasProductList.length) {
             updates = updates + "Products List changeged\n";

@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ereamart.dao.EmployeeDao;
+import com.ereamart.dao.EmployeeStatusDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.Employee;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 
@@ -30,6 +33,12 @@ public class UserController {
     @Autowired
 	private UserPrivilegeController userPrivilegeController;
 
+	@Autowired
+	private EmployeeDao employeeDao;
+
+	@Autowired
+	private EmployeeStatusDao employeeStatusDao;
+
     // mapping for return user page
     @RequestMapping(value =  {"/user","/user.html"})
     public ModelAndView uiUserPage(){
@@ -41,6 +50,7 @@ public class UserController {
         ModelAndView userPage = new ModelAndView();
         userPage.setViewName("user.html");
 		userPage.addObject("loggedusername", auth.getName());
+		userPage.addObject("pageTitle", "User");
 		userPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
         return userPage;
 	}
@@ -54,7 +64,7 @@ public class UserController {
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "User");
 
         if (userPrivilege.getPrivi_select()) {
-            return userDao.findAll(Sort.by(Direction.DESC, "id"));
+            return userDao.findAll(auth.getName());
         } else {
             return new ArrayList<>();
         }
@@ -122,8 +132,16 @@ public class UserController {
 				// update oparator
 				userDao.save(user);
 
-				// dependances  dhanushkka - auto update emp photo 
-				
+				// dependances auto update employe status as removed
+				Employee employee = employeeDao.getByEmail(user.getEmail());
+				if (user.getStatus() == false && employee != null) {
+					employee.setEmployeestatus_id(employeeStatusDao.getReferenceById(3)); // Set status to removed
+					employeeDao.save(employee);
+				} 
+				if (user.getStatus() == true && employee != null) {
+					employee.setEmployeestatus_id(employeeStatusDao.getReferenceById(1)); // Set status to active
+					employeeDao.save(employee);
+				}
 
 				return "OK";
 			} catch (Exception e) {

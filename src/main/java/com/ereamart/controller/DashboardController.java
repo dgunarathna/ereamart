@@ -27,6 +27,7 @@ public class DashboardController {
 	ModelAndView dashboardPage = new ModelAndView();   
 	dashboardPage.setViewName("dashboard.html");
 	dashboardPage.addObject("loggedusername", auth.getName());
+    dashboardPage.addObject("pageTitle", "Dashboard");
 	dashboardPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return dashboardPage;
@@ -43,6 +44,7 @@ public class DashboardController {
 	ModelAndView profilePage = new ModelAndView();   
 	profilePage.setViewName("profile.html");
 	profilePage.addObject("loggedusername", auth.getName());
+	profilePage.addObject("pageTitle", "Profile");
 	profilePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return profilePage;

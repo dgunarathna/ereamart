@@ -51,6 +51,7 @@ public class InvoiceController {
 	ModelAndView invoicePage = new ModelAndView();   
 	invoicePage.setViewName("invoice.html");
 	invoicePage.addObject("loggedusername", auth.getName());
+	invoicePage.addObject("pageTitle", "Invoice");
 	invoicePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return invoicePage;

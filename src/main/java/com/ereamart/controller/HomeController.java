@@ -27,6 +27,7 @@ public class HomeController {
 	ModelAndView homePage = new ModelAndView();   
 	homePage.setViewName("home.html");
 	homePage.addObject("loggedusername", auth.getName());
+	homePage.addObject("pageTitle", "Home");
 	homePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return homePage;

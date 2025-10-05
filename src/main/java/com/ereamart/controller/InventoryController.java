@@ -52,6 +52,7 @@ public class InventoryController {
 	ModelAndView inventoryPage = new ModelAndView();   
 	inventoryPage.setViewName("inventory.html");
 	inventoryPage.addObject("loggedusername", auth.getName());
+	inventoryPage.addObject("pageTitle", "Inventory");
 	inventoryPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return inventoryPage;

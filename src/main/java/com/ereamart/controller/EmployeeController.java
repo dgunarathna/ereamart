@@ -64,6 +64,7 @@ public class EmployeeController {
 		ModelAndView employeePage = new ModelAndView();
 		employeePage.setViewName("employee.html");
 		employeePage.addObject("loggedusername", auth.getName());
+		employeePage.addObject("pageTitle", "Employee");
 		employeePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return employeePage;
 	} 
@@ -198,7 +199,13 @@ public class EmployeeController {
 				    user.setUserphoto(employee.getEmpphoto());
 				    userDao.save(user);
 				}
-
+				if (employee.getEmployeestatus_id().getId() == 2 || employee.getEmployeestatus_id().getId() == 3) {
+					user.setStatus(false); // Set user account status to false
+					userDao.save(user);
+				} else if (employee.getEmployeestatus_id().getId() == 1) {
+					user.setStatus(true); // Set user account status to true
+					userDao.save(user);
+				}
 				return "OK";
 			} catch (Exception e) {
 				return "Update not completed" + e.getMessage();

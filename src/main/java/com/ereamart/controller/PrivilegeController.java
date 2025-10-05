@@ -45,6 +45,7 @@ public class PrivilegeController {
 		ModelAndView privilegePage = new ModelAndView();
 		privilegePage.setViewName("privilege.html");
 		privilegePage.addObject("loggedusername", auth.getName());
+		privilegePage.addObject("pageTitle", "Privilege");
 		privilegePage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return privilegePage;
 	}

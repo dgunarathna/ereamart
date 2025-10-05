@@ -50,6 +50,7 @@ public class CustomerController {
 	ModelAndView customerPage = new ModelAndView();   
 	customerPage.setViewName("customer.html");
 	customerPage.addObject("loggedusername", auth.getName());
+	customerPage.addObject("pageTitle", "Customer");
 	customerPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return customerPage;

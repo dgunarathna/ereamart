@@ -52,6 +52,7 @@ public class ProductController {
 		ModelAndView productPage = new ModelAndView();
 		productPage.setViewName("product.html");
 		productPage.addObject("loggedusername", auth.getName());
+		productPage.addObject("pageTitle", "Product");
 		productPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return productPage;
 	} 

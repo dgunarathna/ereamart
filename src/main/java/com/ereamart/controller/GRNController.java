@@ -51,6 +51,7 @@ public class GRNController {
 	ModelAndView grnPage = new ModelAndView();   
 	grnPage.setViewName("grn.html");
 	grnPage.addObject("loggedusername", auth.getName());
+	grnPage.addObject("pageTitle", "GRN");
 	grnPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return grnPage;

@@ -36,6 +36,7 @@ public class ReportController {
 	ModelAndView reportPage = new ModelAndView();   
 	reportPage.setViewName("report.html");
 	reportPage.addObject("loggedusername", auth.getName());
+    reportPage.addObject("pageTitle", "Report");
 	reportPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return reportPage;

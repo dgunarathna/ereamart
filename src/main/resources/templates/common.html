@@ -3,7 +3,7 @@
 <head th:fragment="headFragment">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ereamart</title>
+    <title th:text="${pageTitle} + ' - Ereamart'">Ereamart</title>
 
     <!-- Favicon -->
     <link rel="icon" href="/images/favicon/favicon.svg">
@@ -22,10 +22,14 @@
     <!-- logged userimage -->
     <script th:inline="javascript">
       window.addEventListener("load", ()=>{
+        
         let logedUserPhoto = /*[[${loggeduserphoto}]]*/ 'loggeduserphoto';
         if (logedUserPhoto != null) {
           imgLogUserPhoto.src = atob(logedUserPhoto);
         }
+        
+        let pageTitle = /*[[${pageTitle}]]*/ 'Ereamart';
+        console.log("Page Title:", pageTitle);
       });
     </script>
 </head>

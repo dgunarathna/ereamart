@@ -52,6 +52,7 @@ public class QuotationController {
 		ModelAndView quotationPage = new ModelAndView();
 		quotationPage.setViewName("quotation.html");
 		quotationPage.addObject("loggedusername", auth.getName());
+		quotationPage.addObject("pageTitle", "Quotation");
 		quotationPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 		return quotationPage;
 	} 

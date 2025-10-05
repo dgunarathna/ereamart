@@ -53,6 +53,7 @@ public class SupplierController {
         ModelAndView supplierPage = new ModelAndView();
         supplierPage.setViewName("supplier.html");
 		supplierPage.addObject("loggedusername", auth.getName());
+		supplierPage.addObject("pageTitle", "Supplier");
 		supplierPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
         return supplierPage;
 	}
