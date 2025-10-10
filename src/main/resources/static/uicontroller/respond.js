@@ -214,8 +214,8 @@ const checkFormUpdate = () => {
         if (respond.requestdate != oldRespond.requestdate) {
             updates = updates + "Requested Date - " + oldRespond.requestdate + " to " + respond.requestdate + "\n";
         }
-        if (respond.status_id.name != oldRespond.status_id.name) {
-            updates = updates + "Status - " + oldRespond.status_id.name + " to " + respond.status_id.name + "\n";
+        if (respond.respond_status_id.name != oldRespond.respond_status_id.name) {
+            updates = updates + "Status - " + oldRespond.respond_status_id.name + " to " + respond.respond_status_id.name + "\n";
         }
         if (respond.note != oldRespond.note) {
             updates = updates + "Note - " + oldRespond.note + " to " + respond.note + "\n";

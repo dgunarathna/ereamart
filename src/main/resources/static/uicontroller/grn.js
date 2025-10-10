@@ -211,8 +211,8 @@ const checkFormUpdate = () => {
         if (grn.grnno != oldGrn.grnno) {
             updates = updates + "GRN no - " + oldGrn.grnno + " to " + grn.grnno + "\n";
         }
-        if (grn.order_id.orderno != oldGrn.order_id.orderno) {
-            updates = updates + "Order no - " + oldGrn.order_id.orderno + " to " + grn.order_id.orderno + "\n";
+        if (grn.orders_id.orders_code != oldGrn.orders_id.orders_code) {
+            updates = updates + "Order no - " + oldGrn.orders_id.orders_code + " to " + grn.orders_id.orders_code + "\n";
         }
         if (grn.invoiceno != oldGrn.invoiceno) {
             updates = updates + "Invoice No - " + oldGrn.invoiceno + " to " + grn.invoiceno + "\n";
@@ -232,8 +232,8 @@ const checkFormUpdate = () => {
         if (grn.receiveddate != oldGrn.receiveddate) {
             updates = updates + "Received date - " + oldGrn.receiveddate + " to " + grn.receiveddate + "\n";
         }
-        if (grn.status_id.name != oldGrn.status_id.name) {
-            updates = updates + "Status - " + oldGrn.status_id.name + " to " + grn.status_id.name + "\n";
+        if (grn.grn_status_id.name != oldGrn.grn_status_id.name) {
+            updates = updates + "Status - " + oldGrn.grn_status_id.name + " to " + grn.grn_status_id.name + "\n";
         }
         //check inner form updates
         if (grn.grnHasProductList.length != oldGrn.grnHasProductList.length) {

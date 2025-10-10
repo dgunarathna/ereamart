@@ -240,10 +240,10 @@ const checkFormError = ()=>{
         errors = errors + "Please enter size \n";
     }
     if (product.roq == null) {
-        errors = errors + "Please enter discount rate \n";
+        errors = errors + "Please enter roq\n";
     }
-    if (product.profit_rate == null) {
-        errors = errors + "Please enter profit rate \n";
+    if (product.rop == null) {
+        errors = errors + "Please enter rop \n";
     }
     if (product.productstatus_id == null) {
         errors = errors + "Please Select Status \n";

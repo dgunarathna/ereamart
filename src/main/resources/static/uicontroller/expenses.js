@@ -202,8 +202,8 @@ const checkFormUpdate = () => {
     console.log(oldExpenses);
     
     if (expenses != null && oldExpenses !== null) {
-        if (expenses.bill_no != oldExpenses.bill_no) {
-            updates = updates + "Bill no - " + oldExpenses.bill_no + " to " + expenses.bill_no + "\n";
+        if (expenses.grn_id.grn_no != oldExpenses.grn_id.grn_no) {
+            updates = updates + "Bill no - " + oldExpenses.grn_id.grn_no + " to " + expenses.grn_id.grn_no + "\n";
         }
         if (expenses.expensesreceipt != oldExpenses.expensesreceipt) {
             updates = updates + "expensesReceipt - " + oldExpenses.expensesreceipt + " to " + expenses.expensesreceipt + "\n";
@@ -225,6 +225,9 @@ const checkFormUpdate = () => {
         }
         if (expenses.date != oldExpenses.date) {
             updates = updates + "Date - " + oldExpenses.date + " to " + expenses.date + "\n";
+        }
+        if (expenses.expense_status_id.name != oldExpenses.expense_status_id.name) {
+            updates = updates + "Status - " + oldExpenses.expense_status_id.name + " to " + expenses.expense_status_id.name + "\n";
         }
     }
     return updates;

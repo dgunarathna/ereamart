@@ -213,6 +213,9 @@ const checkFormUpdate = () => {
         if (income.total_amount != oldIncome.total_amount) {
             updates = updates + "Total Amount - " + oldIncome.total_amount + " to " + income.total_amount + "\n";
         }
+        if (income.income_status_id.name != oldIncome.income_status_id.name) {
+            updates = updates + "Status - " + oldIncome.income_status_id.name + " to " + income.income_status_id.name + "\n";
+        }
     }
     return updates;
 }
