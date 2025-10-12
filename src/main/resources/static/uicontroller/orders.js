@@ -384,7 +384,7 @@ const refreshOrderInnerForm = () =>{
     selectItem.disabled = "";
 
     textUnitPrice.value = "";
-    textUnitPrice.disabled = "disabled";
+    // textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
     textLinePrice.disabled = "disabled";
@@ -488,6 +488,8 @@ const buttonOrderItemUpdate = () => {
     if (orderHasProduct.quantity != oldOrderHasProduct.quantity) {
         order.orderHasProductList[innerFormIndex] = orderHasProduct;
         refreshOrderInnerForm();
+    } else {
+        window.alert("Nothing to update");
     }
 
 }

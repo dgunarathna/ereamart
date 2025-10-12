@@ -377,7 +377,8 @@ const refreshGRNInnerForm = () =>{
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitprice", dataType: "decimal"},
-        {propertyName: "lineprice", dataType: "decimal"}
+        {propertyName: "lineprice", dataType: "decimal"},
+        {propertyName: "batch_number", dataType: "string"},
     ];
 
     fillDataIntoInnerTable(tableGRNItemBody, grn.grnHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
@@ -423,6 +424,7 @@ const orderInnerFormRefill = (ob, index) =>{
     textUnitPrice.value = parseFloat(grnHasProduct.unitPrice);
     textQTY.value = grnHasProduct.quantity;
     textLinePrice.value = parseFloat(grnHasProduct.lineprice);
+    textBatchNo.value = parseFloat(grnHasProduct.batch_number);
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
@@ -454,6 +456,8 @@ const buttonInvoiceItemUpdate = () => {
     if (grnHasProduct.quantity != oldGRNHasProduct.quantity) {
         grn.grnHasProductList[innerFormIndex] = grnHasProduct;
         refreshGRNInnerForm();
+    } else {
+        window.alert("Nothing to update");
     }
 
 }

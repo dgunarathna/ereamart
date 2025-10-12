@@ -17,4 +17,10 @@ public interface InventoryDao extends JpaRepository<Inventory, Integer>{
     @Query(value = "SELECT SUM(total_qty) AS total_qty FROM ereamart.inventory WHERE product_id = 1;", nativeQuery = true)
     Integer findQTYByInventory(Integer productid);
 
+    @Query("SELECT i FROM Inventory i WHERE i.product_id = ?1 AND i.batch_number = ?2")
+    Inventory findByProductAndBatch(Product product, String batch);
+
+    @Query("SELECT i FROM Inventory i WHERE i.product_id = ?1")
+    Inventory findByProduct(Product product);
+
 }

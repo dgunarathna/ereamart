@@ -407,6 +407,8 @@ const buttonQuotationItemUpdate = () => {
     if (quotationHasItem.quantity != oldQuotationHasItem.quantity) {
         quotation.quotationHasProductList[innerFormIndex] = quotationHasItem;
         refreshQuotationInnerForm();
+    } else {
+        window.alert("Nothing to update");
     }
 
 }

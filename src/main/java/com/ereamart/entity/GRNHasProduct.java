@@ -44,6 +44,9 @@ public class GRNHasProduct {
     private Integer quantity;
 
     @NotNull
+    private String batch_number;
+
+    @NotNull
     private BigDecimal lineprice;
 
     @ManyToOne()

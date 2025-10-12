@@ -244,6 +244,10 @@ public class EmployeeController {
 				employeeDao.save(extEmployeeById);
 
 				// dependances
+				User user = userDao.findByEmail(employee.getEmail());
+				user.setStatus(false); // Set user account status to false
+				userDao.save(user);
+				
 				return "OK";
 			} catch (Exception e) {
 				return "Delete not completed" + e.getMessage();

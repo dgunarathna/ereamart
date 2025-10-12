@@ -313,10 +313,10 @@ const refreshinvoiceInnerForm = () =>{
     selectItem.disabled = "";
 
     textUnitPrice.value = "";
-    textUnitPrice.disabled = "disabled";
+    // textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
-    textLinePrice.disabled = "disabled";
+    // textLinePrice.disabled = "disabled";
 
 
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
@@ -411,6 +411,8 @@ const buttonInvoiceItemUpdate = () => {
     if (invoiceHasProduct.quantity != oldOlinvoiceHasProduct.quantity) {
         invoice.invoiceHasProductList[innerFormIndex] = invoiceHasProduct;
         refreshinvoiceInnerForm();
+    } else {
+        window.alert("Nothing to update");
     }
 
 }

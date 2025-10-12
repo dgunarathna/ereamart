@@ -438,6 +438,8 @@ const buttonRespondItemUpdate = () => {
     if (respondHasProduct.quantity != oldRespondHasProduct.quantity) {
         respond.respondHasProductList[innerFormIndex] = respondHasProduct;
         refreshRespondInnerForm();
+    } else {
+        window.alert("Nothing to update");
     }
 
 }
