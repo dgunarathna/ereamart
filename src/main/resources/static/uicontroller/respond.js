@@ -77,8 +77,14 @@ const respondFormRefill = (ob, index) => {
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     textdiscount.value = ob.discount;
     texttotalamount.value = ob.totalprice;
-    selectStatus.value = JSON.stringify(ob.respond_status_id);
     textNote.value = ob.note;
+    selectStatus.value = JSON.stringify(ob.respond_status_id);
+
+    if (ob.respond_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
 
     respond = JSON.parse(JSON.stringify(ob));
     oldRespond = JSON.parse(JSON.stringify(ob));

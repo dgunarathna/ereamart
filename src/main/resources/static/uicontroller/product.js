@@ -151,6 +151,12 @@ const productFormRefill = (ob, index) => {
     textROP.value = ob.rop;
     selectStatus.value = JSON.stringify(ob.productstatus_id);
 
+    if (ob.productstatus_id.name == "Unavailable") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
     product = JSON.parse(JSON.stringify(ob));
     oldProduct = JSON.parse(JSON.stringify(ob));
 

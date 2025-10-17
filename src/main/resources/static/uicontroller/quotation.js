@@ -77,6 +77,12 @@ const QuotationFormRefill = (ob, index) => {
     textNote.value = ob.note;
     selectStatus.value = JSON.stringify(ob.quotation_status_id);
 
+    if (ob.quotation_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
 
     quotation = JSON.parse(JSON.stringify(ob));
     oldQuotation = JSON.parse(JSON.stringify(ob));

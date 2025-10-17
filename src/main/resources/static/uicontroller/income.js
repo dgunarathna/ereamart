@@ -81,6 +81,12 @@ const incomeFormRefill = (ob, index) => {
     textTotal.value = ob.total_amount;
     selectStatus.value = JSON.stringify(ob.income_status_id);
 
+    if (ob.income_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
     income = JSON.parse(JSON.stringify(ob));
     oldIncome = JSON.parse(JSON.stringify(ob));
 

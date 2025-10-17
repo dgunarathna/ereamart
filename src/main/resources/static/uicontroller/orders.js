@@ -105,8 +105,14 @@ const orderFormRefill = (ob, index) => {
     texttotalamount.value = ob.total_amount;
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     selectsupplier.disabled = "disabled";
-    selectStatus.value = JSON.stringify(ob.orders_status_id);
     textnote.value = ob.note;
+    selectStatus.value = JSON.stringify(ob.orders_status_id);
+
+    if (ob.orders_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
 
     order = JSON.parse(JSON.stringify(ob));
     oldOrder = JSON.parse(JSON.stringify(ob));

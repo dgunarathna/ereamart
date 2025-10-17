@@ -84,6 +84,12 @@ const expensesFormRefill = (ob, index) => {
     expensesDate.value = ob.date;
     selectStatus.value = JSON.stringify(ob.expense_status_id);
 
+    if (ob.expense_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
     expenses = JSON.parse(JSON.stringify(ob));
     oldExpenses = JSON.parse(JSON.stringify(ob));
 

@@ -93,7 +93,7 @@
               </div>
 
                 
-              <div class="col-xl-5">
+              <div class="col-xl-3">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'invoiceHasProduct','product_id'); checkProductExt();"></select>
               </div>
@@ -109,6 +109,10 @@
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
                 <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoiceHasProduct','lineprice')">
               </div>
+              <div class="col-xl-2">
+                <label class="form-label">Batch No<span class="text-danger">*</span></label>
+                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoiceHasProduct','batch_number')">
+              </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonInvoiceItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
                 <button type="button" onclick="buttonInvoiceItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
@@ -123,6 +127,7 @@
                         <th>Quantity</th>
                         <th>Unit Price</th>
                         <th>Line Price</th>
+                        <th>Batch No</th>
                         <th>Modify</th>
                       </tr>
                     </thead>

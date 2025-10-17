@@ -22,6 +22,7 @@ import com.ereamart.dao.InventoryDao;
 import com.ereamart.dao.InvoiceDao;
 import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.GRNHasProduct;
 import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Invoice;
 import com.ereamart.entity.InvoiceHasProduct;
@@ -101,7 +102,7 @@ public class InvoiceController {
 					ihp.setInvoice_id(invoice);
 
 					// Update inventory quantity
-					Inventory inventory = inventoryDao.findByProduct(ihp.getProduct_id());
+					Inventory inventory = inventoryDao.findByProductAndBatch(ihp.getProduct_id(), ihp.getBatch_number());
 					if (inventory != null) {
 						inventory.setTotal_qty(inventory.getTotal_qty() - ihp.getQuantity());
 						inventoryDao.save(inventory);
@@ -149,24 +150,17 @@ public class InvoiceController {
 				// Update inventory quantities
 				for (InvoiceHasProduct ihp : invoice.getInvoiceHasProductList()) { //due to block inner form 
 					ihp.setInvoice_id(invoice);
+				}
+				invoiceDao.save(invoice);
 
-					// Retrieve the existing product in the invoice
-					InvoiceHasProduct existingIhp = extById.getInvoiceHasProductList().stream()
-						.filter(existing -> existing.getProduct_id().equals(ihp.getProduct_id()))
-						.findFirst()
-						.orElse(null);
-
-					// Calculate the quantity difference
-					int quantityDifference = ihp.getQuantity() - (existingIhp != null ? existingIhp.getQuantity() : 0);
-
-					// Update inventory
+				// Update inventory total_qty based on changes
+				for (InvoiceHasProduct ihp : invoice.getInvoiceHasProductList()) {
 					Inventory inventory = inventoryDao.findByProduct(ihp.getProduct_id());
 					if (inventory != null) {
-						inventory.setTotal_qty(inventory.getTotal_qty() - quantityDifference);
+						inventory.setTotal_qty(inventory.getTotal_qty() + ihp.getQuantity());
 						inventoryDao.save(inventory);
 					}
 				}
-				invoiceDao.save(invoice);
 
 				// dependances
 				return "OK";
@@ -197,15 +191,6 @@ public class InvoiceController {
 		}
 		 
 		try {
-			// Update inventory quantities before deletion
-			for (InvoiceHasProduct ihp : extProductById.getInvoiceHasProductList()) {
-				Inventory inventory = inventoryDao.findByProduct(ihp.getProduct_id());
-				if (inventory != null) {
-					inventory.setTotal_qty(inventory.getTotal_qty() + ihp.getQuantity()); // Restore quantity
-					inventoryDao.save(inventory);
-				}
-			}
-
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
 			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
@@ -213,6 +198,15 @@ public class InvoiceController {
 
 			// delete oparator
 			invoiceDao.save(extProductById);
+
+			// Update inventory total_qty
+			for (InvoiceHasProduct ihp : extProductById.getInvoiceHasProductList()) {
+				Inventory inventory = inventoryDao.findByProduct(ihp.getProduct_id());
+				if (inventory != null) {
+					inventory.setTotal_qty(inventory.getTotal_qty() - ihp.getQuantity());
+					inventoryDao.save(inventory);
+				}
+			}
 
 			// dependances
 			return "OK";

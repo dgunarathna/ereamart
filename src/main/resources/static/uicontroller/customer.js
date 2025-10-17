@@ -57,6 +57,12 @@ const customerFormRefill = (ob, index) => {
     textNote.value = ob.note;
     selectStatus.value = JSON.stringify(ob.customer_status_id);
 
+    if (ob.customer_status_id.name == "Inactive") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
     customer = JSON.parse(JSON.stringify(ob));
     oldCustomer = JSON.parse(JSON.stringify(ob));
 

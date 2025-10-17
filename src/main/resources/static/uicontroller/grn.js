@@ -78,6 +78,12 @@ const grnFormRefill = (ob, index) => {
     textReceivedDate.value = ob.recieved_date;
     selectStatus.value = JSON.stringify(ob.grn_status_id);
 
+    if (ob.grn_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
     grn = JSON.parse(JSON.stringify(ob));
     oldGrn = JSON.parse(JSON.stringify(ob));
 
@@ -352,10 +358,10 @@ const refreshGRNInnerForm = () =>{
     selectItem.disabled = "";
 
     textUnitPrice.value = "";
-    textUnitPrice.disabled = "disabled";
+    // textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
-    textLinePrice.disabled = "disabled";
+    // textLinePrice.disabled = "disabled";
 
 
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);

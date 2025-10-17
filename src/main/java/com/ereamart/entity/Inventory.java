@@ -32,8 +32,6 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment pk
     private Integer id;
 
-    private Integer available_qty;
-
     private Integer total_qty;
 
     private BigDecimal sales_price;

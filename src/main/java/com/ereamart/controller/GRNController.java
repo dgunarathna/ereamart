@@ -20,9 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ereamart.dao.GRNDao;
 import com.ereamart.dao.GRNStatusDao;
+import com.ereamart.dao.InventoryDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.GRN;
 import com.ereamart.entity.GRNHasProduct;
+import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
 
@@ -40,6 +42,9 @@ public class GRNController {
 
     @Autowired // genarate instance of Order status dao
 	private GRNStatusDao grnStatusDao;
+
+	@Autowired
+	private InventoryDao inventoryDao; // Add this line to inject InventoryDao
 
     // mapping for return grn page
     @RequestMapping(value =  {"/grn","/grn.html"})
@@ -97,6 +102,15 @@ public class GRNController {
 				}
 				grnDao.save(grn);
 
+				// Update inventory total_qty
+				for (GRNHasProduct grnhp : grn.getGrnHasProductList()) {
+					Inventory inventory = inventoryDao.findByProductAndBatch(grnhp.getProduct_id(), grnhp.getBatch_number());
+					if (inventory != null) {
+						inventory.setTotal_qty(inventory.getTotal_qty() + grnhp.getQuantity());
+						inventoryDao.save(inventory);
+					}
+				}
+
 				// dependances
 				return "OK";
 			} catch (Exception e) {
@@ -142,6 +156,15 @@ public class GRNController {
 				}
 				grnDao.save(grn);
 
+				// Update inventory total_qty based on changes
+				for (GRNHasProduct grnhp : grn.getGrnHasProductList()) {
+					Inventory inventory = inventoryDao.findByProduct(grnhp.getProduct_id());
+					if (inventory != null) {
+						inventory.setTotal_qty(inventory.getTotal_qty() + grnhp.getQuantity());
+						inventoryDao.save(inventory);
+					}
+				}
+
 				// dependances
 				return "OK";
 			} catch (Exception e) {
@@ -178,6 +201,15 @@ public class GRNController {
 
 			// delete oparator
 			grnDao.save(extProductById);
+
+			// Update inventory total_qty
+			for (GRNHasProduct grnhp : extProductById.getGrnHasProductList()) {
+				Inventory inventory = inventoryDao.findByProduct(grnhp.getProduct_id());
+				if (inventory != null) {
+					inventory.setTotal_qty(inventory.getTotal_qty() - grnhp.getQuantity());
+					inventoryDao.save(inventory);
+				}
+			}
 
 			// dependances
 			return "OK";

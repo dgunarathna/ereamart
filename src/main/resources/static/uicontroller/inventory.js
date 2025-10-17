@@ -17,7 +17,6 @@ const refreshInventoryTable = () => {
         {propertyName: getProductName, dataType: "function"},
         {propertyName: getGrnNo, dataType: "function"},
         {propertyName: "sales_price", dataType: "string"},
-        {propertyName: "available_qty", dataType: "string"},
         {propertyName: "total_qty", dataType: "string"},
         {propertyName: "expire_date", dataType: "string"},
         {propertyName: "manufacture_date", dataType: "string"},
@@ -57,7 +56,7 @@ const refreshInventoryForm = () => {
 
     formInventory.reset();
 
-    setDefault([selectProduct, textSalePrice, textAvailableQty, textTotalQty, textExpireDate, textManufactureDate, textBatchNo, selectGRN, selectStatus]);
+    setDefault([selectProduct, textSalePrice, textTotalQty, textExpireDate, textManufactureDate, textBatchNo, selectGRN, selectStatus]);
 
     let grns = getServiceRequest('/grn/alldata');
     fillDataIntoSelect(selectGRN,"Select GRN",grns,"grn_no");
@@ -83,13 +82,18 @@ const inventoryFormRefill = (ob, index) => {
 
     selectProduct.value = JSON.stringify(ob.product_id);
     textSalePrice.value = ob.sales_price;
-    textAvailableQty.value = ob.available_qty;
     textTotalQty.value = ob.total_qty;
     textExpireDate.value = ob.expire_date;
     textManufactureDate.value = ob.manufacture_date;
     textBatchNo.value = ob.batch_number;
     selectGRN.value = JSON.stringify(ob.grn_id);
     selectStatus.value = JSON.stringify(ob.inventory_status_id);
+
+    if (ob.inventory_status_id.name == "Out of stock") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
 
     inventory = JSON.parse(JSON.stringify(ob));
     oldInventory = JSON.parse(JSON.stringify(ob));
@@ -219,9 +223,6 @@ const checkFormUpdate = () => {
         }
         if (inventory.saleprice != oldInventory.saleprice) {
             updates = updates + "Sale Price - " + oldInventory.saleprice + " to " + inventory.saleprice + "\n";
-        }
-        if (inventory.availableqty != oldInventory.availableqty) {
-            updates = updates + "Available QTY - " + oldInventory.availableqty + " to " + inventory.availableqty + "\n";
         }
         if (inventory.totalqty != oldInventory.totalqty) {
             updates = updates + "Total QTY - " + oldInventory.totalqty + " to " + inventory.totalqty + "\n";

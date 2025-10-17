@@ -79,6 +79,12 @@ const supplierFormRefill = (ob, index) => {
     textAccountNo.value = supplier.account_no;
     selectStatus.value = JSON.stringify(supplier.supplier_status_id);
 
+    if (ob.supplier_status_id.name == "Inactive") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
+
     allProducts = getServiceRequest('/product/withoutsupply/' + supplier.id);
     fillDataIntoSelect(selectAllProducts, "" ,allProducts,"name");
 

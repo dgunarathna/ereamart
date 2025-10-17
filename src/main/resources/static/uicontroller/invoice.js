@@ -62,10 +62,16 @@ const invoiceFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
     selectCustomer.value = JSON.stringify(ob.customer_id);
-    selectStatus.value = JSON.stringify(ob.invoice_status_id);
     textTotalAmount.value = ob.total_amount;
     textDisountAmount.value = ob.discount_amount;
     textNetAmount.value = ob.net_amount;
+    selectStatus.value = JSON.stringify(ob.invoice_status_id);
+
+    if (ob.invoice_status_id.name == "Delete") {
+        buttonDelete.disabled = "disabled";
+        buttonUpdate.disabled = "disabled";
+        selectStatus.disabled = "disabled";
+    }
 
     invoice = JSON.parse(JSON.stringify(ob));
     oldInvoice = JSON.parse(JSON.stringify(ob));
@@ -333,7 +339,8 @@ const refreshinvoiceInnerForm = () =>{
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitprice", dataType: "decimal"},
-        {propertyName: "lineprice", dataType: "decimal"}
+        {propertyName: "lineprice", dataType: "decimal"},
+        {propertyName: "batch_number", dataType: "string"},
     ];
 
     fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
@@ -380,6 +387,7 @@ const orderInnerFormRefill = (ob, index) =>{
     textUnitPrice.value = parseFloat(invoiceHasProduct.unitprice);
     textQTY.value = invoiceHasProduct.quantity;
     textLinePrice.value = parseFloat(invoiceHasProduct.lineprice);
+    textBatchNo.value = invoiceHasProduct.batch_number;
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
