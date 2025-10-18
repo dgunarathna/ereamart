@@ -44,9 +44,6 @@ public class InvoiceHasProduct {
     @NotNull
     private BigDecimal lineprice;
 
-    @NotNull
-    private String batch_number;
-
     @ManyToOne()
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product_id;

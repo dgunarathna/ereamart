@@ -340,7 +340,6 @@ const refreshinvoiceInnerForm = () =>{
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"},
-        {propertyName: "batch_number", dataType: "string"},
     ];
 
     fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
@@ -387,7 +386,6 @@ const orderInnerFormRefill = (ob, index) =>{
     textUnitPrice.value = parseFloat(invoiceHasProduct.unitprice);
     textQTY.value = invoiceHasProduct.quantity;
     textLinePrice.value = parseFloat(invoiceHasProduct.lineprice);
-    textBatchNo.value = invoiceHasProduct.batch_number;
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();

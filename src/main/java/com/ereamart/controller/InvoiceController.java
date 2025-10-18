@@ -3,6 +3,7 @@ package com.ereamart.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,12 +23,14 @@ import com.ereamart.dao.InventoryDao;
 import com.ereamart.dao.InvoiceDao;
 import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.dao.InventoryStatusDao;
 import com.ereamart.entity.GRNHasProduct;
 import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Invoice;
 import com.ereamart.entity.InvoiceHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
+import com.ereamart.entity.InventoryStatus;
 
 @RestController
 public class InvoiceController {
@@ -46,6 +49,9 @@ public class InvoiceController {
 
 	@Autowired // generate instance of inventory dao - interface
 	private InventoryDao inventoryDao;
+
+    @Autowired
+    private InventoryStatusDao inventoryStatusDao;
 
     // mapping for return invoice page
     @RequestMapping(value =  {"/invoice","/invoice.html"})
@@ -98,16 +104,31 @@ public class InvoiceController {
 				invoice.setInvoice_code(invoiceDao.getNextCode());
 
 				// save oparator
-				for (InvoiceHasProduct ihp : invoice.getInvoiceHasProductList()) { //due to block inner form 
-					ihp.setInvoice_id(invoice);
+                for (InvoiceHasProduct ihp : invoice.getInvoiceHasProductList()) { //due to block inner form 
+                    ihp.setInvoice_id(invoice);
 
-					// Update inventory quantity
-					Inventory inventory = inventoryDao.findByProductAndBatch(ihp.getProduct_id(), ihp.getBatch_number());
-					if (inventory != null) {
-						inventory.setTotal_qty(inventory.getTotal_qty() - ihp.getQuantity());
-						inventoryDao.save(inventory);
-					}
-				}
+                    // Update inventory quantity: deduct from oldest expire_date rows first
+                    int quantityToDeduct = ihp.getQuantity() == null ? 0 : ihp.getQuantity();
+                    List<Inventory> inventories = inventoryDao.findByProductOrderByExpireDateAsc(ihp.getProduct_id());
+                    for (Inventory inv : inventories) {
+                        if (quantityToDeduct <= 0) break;
+                        Integer available = inv.getTotal_qty() == null ? 0 : inv.getTotal_qty();
+                        if (available <= 0) continue;
+
+                        if (available <= quantityToDeduct) {
+                            // use up this inventory row
+                            quantityToDeduct -= available;
+                            inv.setTotal_qty(0);
+                            // mark status = 2 when fully sold
+                            inv.setInventory_status_id(inventoryStatusDao.getReferenceById(2));
+                        } else {
+                            // partially consume this inventory row
+                            inv.setTotal_qty(available - quantityToDeduct);
+                            quantityToDeduct = 0;
+                        }
+                        inventoryDao.save(inv);
+                    }
+                }
 				invoiceDao.save(invoice);
 
 				// dependances

@@ -2,6 +2,7 @@ package com.ereamart.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import java.util.List;
 import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Product;
 
@@ -23,4 +24,7 @@ public interface InventoryDao extends JpaRepository<Inventory, Integer>{
     @Query("SELECT i FROM Inventory i WHERE i.product_id = ?1")
     Inventory findByProduct(Product product);
 
+    // New: get all inventory rows for a product ordered by expire_date (oldest expire first)
+    @Query("SELECT i FROM Inventory i WHERE i.product_id = ?1 ORDER BY i.expire_date ASC")
+    List<Inventory> findByProductOrderByExpireDateAsc(Product product);
 }
