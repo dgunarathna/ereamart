@@ -1,15 +1,5 @@
 var cursor = document.querySelector('.cursor');
 
-const navbar = document.getElementById("navbar");
-
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 0) {
-        navbar.classList.add("shrink");
-      } else {
-        navbar.classList.remove("shrink");
-      }
-    });
-
 document.addEventListener('mousemove', function(e){
   var x = e.clientX;
   var y = e.clientY;
