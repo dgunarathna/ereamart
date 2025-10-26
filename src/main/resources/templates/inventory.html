@@ -96,11 +96,11 @@
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Sale Price<span class="text-danger">*</span></label>
-                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','sales_price')">
+                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'inventory','sales_price')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Total QTY<span class="text-danger">*</span></label>
-                <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','total_qty')">
+                <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'inventory','total_qty')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Manufacture Date<span class="text-danger">*</span></label>
@@ -112,7 +112,7 @@
               </div>
               <div class="col-xl-4">
                 <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
-                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'inventory','batch_number')">
+                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','batch_number')">
               </div>    
             </form>
           </div>

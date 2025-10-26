@@ -105,15 +105,15 @@
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Total Due Amount<span class="text-danger">*</span></label>
-                <input id="textTotalDue" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','total_due_amount')">
+                <input id="textTotalDue" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'expenses','total_due_amount')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Paid Amount<span class="text-danger">*</span></label>
-                <input id="textTotalPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','paid_amount')">
+                <input id="textTotalPaid" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'expenses','paid_amount')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Balance Amount<span class="text-danger">*</span></label>
-                <input id="textTotalBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'expenses','balance_amount')">
+                <input id="textTotalBalance" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'expenses','balance_amount')">
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Date<span class="text-danger">*</span></label>

@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
-                  <input id="textTotal" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'income','total_amount')">
+                  <input id="textTotal" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'income','total_amount')">
                 </div>
                 <div class="col-xl-4">
                   <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>

@@ -99,15 +99,15 @@
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoiceHasProduct','quantity'); calculateLinePrice();">
+                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'invoiceHasProduct','quantity'); calculateLinePrice();">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Unit Price<span class="text-danger">*</span></label>
-                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoiceHasProduct','unitprice')">
+                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoiceHasProduct','unitprice')">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
-                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoiceHasProduct','lineprice')">
+                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoiceHasProduct','lineprice')">
               </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonInvoiceItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
@@ -134,15 +134,15 @@
               
                 <div class="col-xl-4">
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
-                  <input id="textTotalAmount" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'invoice','total_amount')">
+                  <input id="textTotalAmount" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','total_amount')">
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Discount %<span class="text-danger">*</span></label>
-                  <input id="textDisountAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'invoice','discount_amount')">
+                  <input id="textDisountAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','discount_amount')">
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Net Amount<span class="text-danger">*</span></label>
-                  <input id="textNetAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'invoice','net_amount')">
+                  <input id="textNetAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','net_amount')">
                 </div>
 
               

@@ -97,7 +97,7 @@
                 </div>
                 <div class="col-xl-12">
                   <label class="form-label">Address</label>
-                  <textarea id="textAddress" class="form-control" onkeyup="textValidator(this,'^.*$','customer','address')"></textarea>
+                  <textarea id="textAddress" class="form-control" onkeyup="textValidator(this,'^[\\s\\S]{0,250}$','customer','address')"></textarea>
                 </div>
                 <div class="col-xl-12">
                   <label for="inputAddress" class="form-label">Note</label>

@@ -125,19 +125,19 @@
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Size<span class="text-danger">*</span></label>
-                <input id="textSize" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','size')">
+                <input id="textSize" type="text" Required class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\s\\-\\/\\.]{1,20}$', 'product','size')">
               </div>
               <div class="col-lg-12">
                 <label class="form-label">Product name<span class="text-danger">*</span></label>
-                <input id="textProductName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'product','name')">
+                <input id="textProductName" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\s\\-\\.,()]{1,100}$', 'product','name')">
               </div>
               <div class="col-xl-4 col-lg-6">
                 <label class="form-label">ROP<span class="text-danger">*</span></label>
-                <input id="textROP" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','rop')">
+                <input id="textROP" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'product','rop')">
               </div>
               <div class="col-xl-4 col-lg-6">
                 <label class="form-label">ROQ<span class="text-danger">*</span></label>
-                <input id="textROQ" type="text" Required class="form-control" onkeyup="textValidator(this,'^.*$', 'product','roq')">
+                <input id="textROQ" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'product','roq')">
               </div>
               <div class="col-xl-4 col-lg-6">
                 <label class="form-label">Status<span class="text-danger">*</span></label>
@@ -145,7 +145,7 @@
               </div>
               <div class="col-lg-12">
                 <label for="inputdescription" class="form-label">Description</label>
-                <textarea id="textDescription"  class="form-control" onkeyup="textValidator(this,'^.*$', 'product','description')"></textarea>
+                <textarea id="textDescription"  class="form-control" onkeyup="textValidator(this,'^[\\s\\S]{0,500}$', 'product','description')"></textarea>
               </div>
             </form>
           </div>
@@ -180,7 +180,7 @@
             <form id="formAddCategory" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
                 <div class="col-xl-12 col-lg-12">
                   <label class="form-label">Name<span class="text-danger">*</span></label>
-                  <input type="textManufacture" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'productmanufacture','name')">
+                  <input type="textManufacture" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\s\\-\\.,]{1,100}$', 'productmanufacture','name')">
               </div>
             </form>
           </div>

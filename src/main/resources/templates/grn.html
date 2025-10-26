@@ -96,19 +96,19 @@
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','quantity'); calculateLinePrice();">
+                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'grnHasProduct','quantity'); calculateLinePrice();">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Unit Price<span class="text-danger">*</span></label>
-                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','unitprice')">
+                <input id="textUnitPrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'grnHasProduct','unitprice')">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Line price<span class="text-danger">*</span></label>
-                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','lineprice')">
+                <input id="textLinePrice" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'grnHasProduct','lineprice')">
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Batch No<span class="text-danger">*</span></label>
-                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'grnHasProduct','batch_number')">
+                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'grnHasProduct','batch_number')">
               </div>
 
               <div class="col-xl-1 gap-1 d-flex align-items-end">

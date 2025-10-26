@@ -101,7 +101,7 @@
               </div>
               <div class="col-xl-12">
                 <label class="form-label">Address<span class="text-danger">*</span></label>
-                <textarea id="textAddress" Required  class="form-control" onkeyup="textValidator(this,'^.*$','supplier','address')"></textarea>
+                <textarea id="textAddress" Required  class="form-control" onkeyup="textValidator(this,'^[\\s\\S]{0,250}$','supplier','address')"></textarea>
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Bank<span class="text-danger">*</span></label>

@@ -94,7 +94,7 @@
               </div>
               <div class="col-xl-2">
                 <label class="form-label">Quantity<span class="text-danger">*</span></label>
-                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'quotationHasItem','quantity');">
+                <input id="textQTY" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'quotationHasItem','quantity');">
               </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
                 <button type="button" onclick="buttonQuotationItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
@@ -118,7 +118,7 @@
               
               <div class="col-xl-6">
                 <label class="form-label">Total Items<span class="text-danger">*</span></label>
-                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^.*$', 'quotation','totalitems')">
+                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'quotation','totalitems')">
               </div>
               <div class="col-xl-6">
                 <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
@@ -126,7 +126,7 @@
               </div> 
               <div class="col-lg-12">
                 <label for="inputAddress" class="form-label">Note</label>
-                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^.*$', 'quotation','note')">
+                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^[\\s\\S]{0,250}$', 'quotation','note')">
               </div>
 
             </form>
