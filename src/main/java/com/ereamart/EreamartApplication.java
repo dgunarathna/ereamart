@@ -21,8 +21,8 @@ public class EreamartApplication {
 		System.out.println("********************************************************"); 
 	}
 
-   
-	
+
+
 	// mapping for return index page
 	@RequestMapping(value = {"/index","/index.html"}) 
 	public ModelAndView uiIndexPage(){ 
@@ -32,5 +32,7 @@ public class EreamartApplication {
 	} 
  
 }
+
+
 
 

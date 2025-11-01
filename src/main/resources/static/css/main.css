@@ -57,7 +57,7 @@
 body {
     margin: 16px;
     overflow: hidden;
-    background-color: #DCDCDC;
+    background-color: #EFEFEF;
 }
 
 .container-fluid{
@@ -112,7 +112,7 @@ body::-webkit-scrollbar {
 
 .card, .card-header{
     border: 0;
-    background-color: #EFEFEF;
+    background-color: #ffffff;
     /* background: transparent; */
 }
 
@@ -147,7 +147,7 @@ body::-webkit-scrollbar {
 }
 
 .nav-pills{
-    background-color: #EFEFEF;
+    background-color: #ffffff; 
 }
 
 
@@ -335,6 +335,7 @@ th, .form-label{
         right: 0;
         margin: 0 auto;
         z-index: 1000;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     }
     
        
