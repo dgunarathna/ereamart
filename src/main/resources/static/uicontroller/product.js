@@ -293,7 +293,7 @@ const checkFormUpdate = () => {
     
     if (product != null && oldProduct !== null) {
         if (product.image != oldProduct.image) {
-            updates = updates + "Product description - " + oldProduct.image + " to " + product.image + "\n";
+            updates = updates + "Product image - " + oldProduct.image + " to " + product.image + "\n";
         }
         if (product.productcategory_id.name != oldProduct.productcategory_id.name) {
             updates = updates + "Category - " + oldProduct.productcategory_id.name + " to " + product.productcategory_id.name + "\n";
@@ -309,9 +309,6 @@ const checkFormUpdate = () => {
         }
         if (product.productbrand_id.name != oldProduct.productbrand_id.name) {
             updates = updates + "Brand - " + oldProduct.productbrand_id.name + " to " + product.productbrand_id.name + "\n";
-        }
-        if (product.size != oldProduct.size) {
-            updates = updates + "Size - " + oldProduct.size + " to " + product.size + "\n";
         }
         if (product.discountrate != oldProduct.discountrate) {
             updates = updates + "Discount Rate - " + oldProduct.discountrate + " to " + product.discountrate + "\n";
@@ -331,6 +328,18 @@ const checkFormUpdate = () => {
         if (product.productdescription != oldProduct.productdescription) {
             updates = updates + "Product description - " + oldProduct.productdescription + " to " + product.productdescription + "\n";
         }
+        if (product.rop != oldProduct.rop) {
+            updates = updates + "ROP - " + oldProduct.rop + " to " + product.rop + "\n";
+        }  
+        if (product.roq != oldProduct.roq) {
+            updates = updates + "ROQ - " + oldProduct.roq + " to " + product.roq + "\n";
+        }
+        if (product.description != oldProduct.description) {
+            updates = updates + "Description - " + oldProduct.description + " to " + product.description + "\n";
+        }
+        if (product.size != oldProduct.size) {  
+            updates = updates + "Size - " + oldProduct.size + " to " + product.size + "\n";
+        }
     }
     return updates;
 };
@@ -343,7 +352,7 @@ const buttonProductUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ product.name +"? \n");
+            let userConfirm = window.confirm("Are you sure to update "+ product.name +"? \n"  + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/product/update", "PUT", product);
                 if (putResponce == "OK") {

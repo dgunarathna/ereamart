@@ -237,8 +237,8 @@ const checkFormUpdate = () => {
         if (supplier.name != oldSupplier.name) {
             updates = updates + "Name - " + oldSupplier.name + " to " + supplier.name + "\n";
         }
-        if (supplier.brn != oldSupplier.brn) {
-            updates = updates + "BRN - " + oldSupplier.brn + " to " + supplier.brn + "\n";
+        if (supplier.supplier_brn != oldSupplier.supplier_brn) {
+            updates = updates + "BRN - " + oldSupplier.supplier_brn + " to " + supplier.supplier_brn + "\n";
         }
         if (supplier.email != oldSupplier.email) {
             updates = updates + "Email - " + oldSupplier.email + " to " + supplier.email + "\n";

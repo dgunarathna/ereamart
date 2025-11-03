@@ -211,16 +211,25 @@ const checkFormUpdate = () => {
     console.log(oldRespond);
     
     if (respond != null && oldRespond !== null) {
-        if (respond.supplier_id.name != oldRespond.supplier_id.name) {
-            updates = updates + "Supplier - " + oldRespond.supplier_id.name + " to " + respond.supplier_id.name + "\n";
-        }
         if (respond.totalitems != oldRespond.totalitems) {
             updates = updates + "Totalitems - " + oldRespond.totalitems + " to " + respond.totalitems + "\n";
         }
-        if (respond.requestdate != oldRespond.requestdate) {
-            updates = updates + "Requested Date - " + oldRespond.requestdate + " to " + respond.requestdate + "\n";
+        if (respond.discount != oldRespond.discount) {
+            updates = updates + "Discount - " + oldRespond.discount + " to " + respond.discount + "\n";
         }
-        if (respond.respond_status_id.name != oldRespond.respond_status_id.name) {
+        if (respond.totalprice != oldRespond.totalprice) {
+            updates = updates + "Totalitems - " + oldRespond.totalprice + " to " + respond.totalprice + "\n";
+        }
+        if (respond.request_date != oldRespond.request_date) { 
+            updates = updates + "Request Date - " + oldRespond.request_date + " to " + respond.request_date + "\n";
+        }
+        if (respond.quotation_id.quotation_code != oldRespond.quotation_id.quotation_code) {        
+            updates = updates + "Quotation - " + oldRespond.quotation_id.quotation_code + " to " + respond.quotation_id.quotation_code + "\n";
+        }
+        if (respond.supplier_id.reg_no != oldRespond.supplier_id.reg_no) {  
+            updates = updates + "Supplier - " + oldRespond.supplier_id.reg_no + " to " + respond.supplier_id.reg_no + "\n";
+        }
+        if (respond.respond_status_id.name != oldRespond.respond_status_id.name) {  
             updates = updates + "Status - " + oldRespond.respond_status_id.name + " to " + respond.respond_status_id.name + "\n";
         }
         if (respond.note != oldRespond.note) {

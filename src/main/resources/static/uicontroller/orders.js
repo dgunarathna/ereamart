@@ -243,8 +243,8 @@ const checkFormUpdate = () => {
         if (order.required_date != oldOrder.required_date) {
             updates = updates + "Required date - " + oldOrder.required_date + " to " + order.required_date + "\n";
         }
-        if (order.totalamount != oldOrder.totalamount) {
-            updates = updates + "Total amount - " + oldOrder.totalamount + " to " + order.totalamount + "\n";
+        if (order.total_amount != oldOrder.total_amount) {
+            updates = updates + "Total amount - " + oldOrder.total_amount + " to " + order.total_amount + "\n";
         }
         if (order.supplier_id.name != oldOrder.supplier_id.name) {
             updates = updates + "Supplier - " + oldOrder.supplier_id.name + " to " + order.supplier_id.name + "\n";
@@ -254,9 +254,6 @@ const checkFormUpdate = () => {
         }
         if (order.note != oldOrder.note) {
             updates = updates + "Note - " + oldOrder.note + " to " + order.note + "\n";
-        }
-        if (order.orderHasProductList != oldOrder.orderHasProductList) {
-            updates = updates + "Product List - " + oldOrder.orderHasProductList.length + " to " + order.orderHasProductList.length + "\n";
         }
         //check inner form updates
         if (order.orderHasProductList.length != oldOrder.orderHasProductList.length) {
