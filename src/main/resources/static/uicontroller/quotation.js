@@ -15,7 +15,6 @@ const refreshQuotationTable = () => {
         {propertyName: "quotation_code", dataType: "string"},
         {propertyName: getSupplier, dataType: "function"},
         {propertyName: "totalitems", dataType: "string"},
-        {propertyName: "note", dataType: "string"},
         {propertyName: "requestdate", dataType: "string"},
         {propertyName: getStatus, dataType: "function"}
     ];
@@ -43,7 +42,7 @@ const refreshQuotationForm = () => {
 
     formQuotation.reset();
 
-    setDefault([selectsupplier, textItems, selectrequireddate, selectStatus, textNote]);
+    setDefault([selectsupplier, textItems, selectrequireddate, selectStatus]);
     
     let supliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",supliers,"name");
@@ -74,7 +73,6 @@ const QuotationFormRefill = (ob, index) => {
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     textItems.value = ob.totalitems;
     selectrequireddate.value = ob.requestdate;
-    textNote.value = ob.note;
     selectStatus.value = JSON.stringify(ob.quotation_status_id);
 
     if (ob.quotation_status_id.name == "Delete") {
@@ -137,7 +135,6 @@ const buttonQuotationPrint = (ob, index) => {
                 +"<tr><th> Quotation code </th><td>"+ ob.quotation_code +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Total Items  </th><td>"+ ob.totalitems +"</td></tr>"  
-                +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Request Date </th><td>"+ ob.requestdate +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.quotation_status_id.name +"</td></tr>" 
             +"</tbody>" 
@@ -170,9 +167,6 @@ const checkFormError = ()=>{
     }
     if (quotation.quotation_status_id == null) {
         errors = errors + "Please select Status \n";
-    }
-    if (quotation.note == null) {
-        errors = errors + "Please select Note \n";
     }
     return errors;
 }
@@ -217,9 +211,6 @@ const checkFormUpdate = () => {
         }
         if (quotation.quotation_status_id.name != oldQuotation.quotation_status_id.name) {
             updates = updates + "Status - " + oldQuotation.quotation_status_id.name + " to " + quotation.quotation_status_id.name + "\n";
-        }
-        if (quotation.note != oldQuotation.note) {
-            updates = updates + "Note - " + oldQuotation.note + " to " + quotation.note + "\n";
         }
         //check inner form updates
         if (quotation.quotationHasProductList.length != oldQuotation.quotationHasProductList.length) {

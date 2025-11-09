@@ -39,8 +39,6 @@ public class Quotation {
     
     private Integer totalitems; 
 
-    private String note;
-
     private LocalDateTime added_datetime;
 
     private LocalDateTime update_datetime;
