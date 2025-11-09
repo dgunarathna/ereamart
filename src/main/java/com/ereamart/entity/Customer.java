@@ -35,10 +35,7 @@ public class Customer {
     private String fullname;
 
     private String email;
-
     private Integer mobileno;
-
-    private String address;
     
     @NotNull
     private LocalDateTime added_datetime;
