@@ -58,7 +58,6 @@
                     <th>Email</th>
                     <th>Mobile</th>
                     <th>Address</th>
-                    <th>Note</th>
                     <th>Status</th>
                 </tr>
               </thead>
@@ -98,10 +97,6 @@
                 <div class="col-xl-12">
                   <label class="form-label">Address</label>
                   <textarea id="textAddress" class="form-control" onkeyup="textValidator(this,'^[\\s\\S]{0,250}$','customer','address')"></textarea>
-                </div>
-                <div class="col-xl-12">
-                  <label for="inputAddress" class="form-label">Note</label>
-                  <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','customer','note')">
                 </div>
               </form>
             </div>

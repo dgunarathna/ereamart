@@ -16,7 +16,6 @@ const refreshRespondTable = () => {
         {propertyName: getSupplier, dataType: "function"},
         {propertyName: "totalprice", dataType: "string"},
         {propertyName: "request_date", dataType: "string"},
-        {propertyName: "note", dataType: "string"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -43,7 +42,7 @@ const refreshRespondForm = () => {
     
     formRespond.reset();
 
-    setDefault([selectquotation, selectsupplier, selectrequireddate, selectStatus, textNote, textdiscount, texttotalamount]);
+    setDefault([selectquotation, selectsupplier, selectrequireddate, selectStatus, textdiscount, texttotalamount]);
     
     let quotations = getServiceRequest('/quotation/alldata');
     fillDataIntoSelect(selectquotation,"Select quotation",quotations,"quotation_code");
@@ -77,7 +76,6 @@ const respondFormRefill = (ob, index) => {
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     textdiscount.value = ob.discount;
     texttotalamount.value = ob.totalprice;
-    textNote.value = ob.note;
     selectStatus.value = JSON.stringify(ob.respond_status_id);
 
     if (ob.respond_status_id.name == "Delete") {
@@ -142,7 +140,6 @@ const buttonRespondPrint = (ob, index) => {
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Discount  </th><td>"+ ob.discount +"</td></tr>"  
                 +"<tr><th> Total Items  </th><td>"+ ob.totalprice +"</td></tr>"  
-                +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Request Date </th><td>"+ ob.request_date +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.respond_status_id.name +"</td></tr>" 
             +"</tbody>" 
@@ -175,9 +172,6 @@ const checkFormError = ()=>{
     }
     if (respond.respond_status_id == null) {
         errors = errors + "Please select Status \n";
-    }
-    if (respond.note == null) {
-        errors = errors + "Please select Note \n";
     }
     return errors;
 }
@@ -231,9 +225,6 @@ const checkFormUpdate = () => {
         }
         if (respond.respond_status_id.name != oldRespond.respond_status_id.name) {  
             updates = updates + "Status - " + oldRespond.respond_status_id.name + " to " + respond.respond_status_id.name + "\n";
-        }
-        if (respond.note != oldRespond.note) {
-            updates = updates + "Note - " + oldRespond.note + " to " + respond.note + "\n";
         }
         //check inner form updates
         if (respond.respondHasProductList.length != oldRespond.respondHasProductList.length) {

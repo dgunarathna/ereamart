@@ -19,7 +19,6 @@ const refreshGRNTable = () => {
         {propertyName: "total_amount", dataType: "string"},
         {propertyName: "discount", dataType: "string"},
         {propertyName: "net_amount", dataType: "string"},
-        {propertyName: "note", dataType: "string"},
         {propertyName: getGRNStatus, dataType: "function"},
     ];
 
@@ -45,7 +44,7 @@ const refreshGRNForm = () => {
     
     formGRN.reset();
 
-    setDefault([ textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textNote, textReceivedDate, selectStatus]);
+    setDefault([ textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textReceivedDate, selectStatus]);
 
     let orders = getServiceRequest('/orders/alldata');
     fillDataIntoSelect(selectOrder,"Select order no",orders,"orders_code");
@@ -74,7 +73,6 @@ const grnFormRefill = (ob, index) => {
     textTotalAmount.value = ob.total_amount;
     textDiscountRate.value = ob.discount;
     textNetAmount.value = ob.net_amount;
-    textNote.value = ob.note;
     textReceivedDate.value = ob.recieved_date;
     selectStatus.value = JSON.stringify(ob.grn_status_id);
 
@@ -139,7 +137,6 @@ const buttonGRNPrint = (ob, index) => {
                 +"<tr><th> Total Amount </th><td>"+ ob.total_amount +"</td></tr>" 
                 +"<tr><th> Discount Rate </th><td>"+ ob.discount +"</td></tr>" 
                 +"<tr><th> Net Amount</th><td>"+ ob.net_amount +"</td></tr>" 
-                +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Received Date </th><td>"+ ob.recieved_date +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.grn_status_id.name +"</td></tr>" 
             +"</tbody>" 

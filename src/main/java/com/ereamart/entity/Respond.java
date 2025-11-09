@@ -42,8 +42,6 @@ public class Respond {
     private BigDecimal discount;
 
     private Date request_date;
-    
-    private String note; 
 
     private LocalDateTime added_datetime; 
 

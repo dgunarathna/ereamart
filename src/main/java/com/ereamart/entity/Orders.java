@@ -40,8 +40,6 @@ public class Orders {
     private LocalDate required_date;
 
     private BigDecimal total_amount;
-    
-    private String note;
 
     @NotNull
     private LocalDateTime added_datetime;

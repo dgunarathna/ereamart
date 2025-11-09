@@ -46,9 +46,6 @@ public class GRN {
     private Integer discount;
 
     private BigDecimal net_amount;
-
-    private String note;
-
     
     @NotNull
     private LocalDateTime added_datetime;

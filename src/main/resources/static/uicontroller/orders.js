@@ -16,7 +16,6 @@ const refreshOrderTable = () => {
         {propertyName: getSupplier, dataType: "function"},
         {propertyName: "required_date", dataType: "string"},
         {propertyName: "total_amount", dataType: "string"},
-        {propertyName: "note", dataType: "string"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -57,7 +56,7 @@ const refreshOrderForm = () => {
 
     formOrder.reset();
 
-    setDefault([ selectrequireddate, texttotalamount, selectsupplier, selectStatus, textnote]);
+    setDefault([ selectrequireddate, texttotalamount, selectsupplier, selectStatus]);
 
     let suppliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",suppliers,"name");
@@ -105,7 +104,6 @@ const orderFormRefill = (ob, index) => {
     texttotalamount.value = ob.total_amount;
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     selectsupplier.disabled = "disabled";
-    textnote.value = ob.note;
     selectStatus.value = JSON.stringify(ob.orders_status_id);
 
     if (ob.orders_status_id.name == "Delete") {
@@ -169,7 +167,6 @@ const buttonOrderPrint = (ob, index) => {
                 +"<tr><th> Order no	 </th><td>"+ ob.orders_code +"</td></tr>" 
                 +"<tr><th> Required Date	 </th><td>"+ ob.required_date +"</td></tr>" 
                 +"<tr><th> Total Amount	 </th><td>"+ ob.total_amount +"</td></tr>" 
-                +"<tr><th> Note	 </th><td>"+ ob.note +"</td></tr>" 
                 +"<tr><th> Supplier	 </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.orders_status_id.name +"</td></tr>" 
             +"</tbody>" 
@@ -251,9 +248,6 @@ const checkFormUpdate = () => {
         }
         if (order.orders_status_id.name != oldOrder.orders_status_id.name) {
             updates = updates + "Status - " + oldOrder.orders_status_id.name + " to " + order.orders_status_id.name + "\n";
-        }
-        if (order.note != oldOrder.note) {
-            updates = updates + "Note - " + oldOrder.note + " to " + order.note + "\n";
         }
         //check inner form updates
         if (order.orderHasProductList.length != oldOrder.orderHasProductList.length) {

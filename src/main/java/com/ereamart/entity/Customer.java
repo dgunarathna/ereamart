@@ -40,9 +40,6 @@ public class Customer {
 
     private String address;
     
-    private String note;
-
-    
     @NotNull
     private LocalDateTime added_datetime;
 
