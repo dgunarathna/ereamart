@@ -36,6 +36,8 @@ public class Customer {
 
     private String email;
     private Integer mobileno;
+
+    private Integer loyalty_points;
     
     @NotNull
     private LocalDateTime added_datetime;

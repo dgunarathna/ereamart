@@ -57,6 +57,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Mobile</th>
+                    <th>Loyalty Points</th>
                     <th>Status</th>
                 </tr>
               </thead>
@@ -94,7 +95,8 @@
                   <input id="textMobileNo" type="text" Required  class="form-control"  onkeyup="textValidator(this,'^[0][7][01245678][0-9]{7}$','customer','mobileno')">
                 </div>
                 <div class="col-xl-12">
-                  <!-- Address field removed for Customer -->
+                  <label class="form-label">Loyalty Points</label>
+                  <input id="textLoyaltyPoints" type="text" class="form-control" pattern="^[0-9]+$" onkeyup="textValidator(this,'^[0-9]+$','customer','loyalty_points')">
                 </div>
               </form>
             </div>

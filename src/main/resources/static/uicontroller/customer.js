@@ -16,7 +16,7 @@ const refreshCustomerTable = () => {
         {propertyName: "fullname", dataType: "string"},
         {propertyName: "email", dataType: "string"},
         {propertyName: "mobileno", dataType: "string"},
-        // Address removed for Customer
+        {propertyName: "loyalty_points", dataType: "string"},
         {propertyName: getStatus, dataType: "function"},
     ];
 
@@ -38,7 +38,7 @@ const refreshCustomerForm = () => {
 
     formCustomer.reset();
 
-    setDefault([ textName, textEmail, textMobileNo, selectStatus]);
+    setDefault([ textName, textEmail, textMobileNo, textLoyaltyPoints, selectStatus]);
 
     let customers = getServiceRequest('/customerstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",customers,"name");
@@ -52,6 +52,7 @@ const customerFormRefill = (ob, index) => {
     textName.value = ob.fullname;
     textEmail.value = ob.email;
     textMobileNo.value = ob.mobileno;
+    textLoyaltyPoints.value = ob.loyalty_points;
     selectStatus.value = JSON.stringify(ob.customer_status_id);
 
     if (ob.customer_status_id.name == "Inactive") {
@@ -107,7 +108,7 @@ const buttonCustomerPrint = (ob, index) => {
                 +"<tr><th> Name </th><td>"+ ob.fullname +"</td></tr>" 
                 +"<tr><th> Email </th><td>"+ ob.email +"</td></tr>" 
                 +"<tr><th> Mobile </th><td>"+ ob.mobileno +"</td></tr>" 
-                
+                +"<tr><th> Loyalty Points </th><td>"+ ob.loyalty_points +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.customer_status_id.name +"</td></tr>"
             +"</tbody>" 
             +"</table>" 
@@ -137,6 +138,9 @@ const checkFormError = ()=>{
     }
     if (customer.mobileno == null) {
         errors = errors + "Please Enter Mobile\n"
+    }
+    if (customer.loyalty_points == null || !/^[0-9]+$/.test(customer.loyalty_points)) {
+        errors = errors + "Please Enter valid Loyalty Points\n"
     }
     return errors;
 };
@@ -182,7 +186,9 @@ const checkFormUpdate = () => {
         if (customer.mobileno != oldCustomer.mobileno) {
             updates = updates + "Mobile - " + oldCustomer.mobileno + " to " + customer.mobileno + "\n";
         }
-        // Address removed: skip comparison
+        if (customer.loyalty_points != oldCustomer.loyalty_points) {
+            updates = updates + "Loyalty Points - " + oldCustomer.loyalty_points + " to " + customer.loyalty_points + "\n";
+        }
         if (customer.customer_status_id.name != oldCustomer.customer_status_id.name) {
             updates = updates + "Status - " + oldCustomer.customer_status_id.name + " to " + customer.customer_status_id.name + "\n";
         }
