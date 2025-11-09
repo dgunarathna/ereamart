@@ -3,8 +3,6 @@ package com.ereamart.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -24,13 +22,14 @@ import com.ereamart.dao.InvoiceDao;
 import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.dao.InventoryStatusDao;
-import com.ereamart.entity.GRNHasProduct;
+import com.ereamart.dao.IncomeDao;
+import com.ereamart.dao.IncomeStatusDao;
+import com.ereamart.entity.Income;
 import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Invoice;
 import com.ereamart.entity.InvoiceHasProduct;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.User;
-import com.ereamart.entity.InventoryStatus;
 
 @RestController
 public class InvoiceController {
@@ -52,6 +51,12 @@ public class InvoiceController {
 
     @Autowired
     private InventoryStatusDao inventoryStatusDao;
+
+    @Autowired
+    private IncomeDao incomeDao;
+
+    @Autowired
+    private IncomeStatusDao incomeStatusDao;
 
     // mapping for return invoice page
     @RequestMapping(value =  {"/invoice","/invoice.html"})
@@ -129,9 +134,24 @@ public class InvoiceController {
                         inventoryDao.save(inv);
                     }
                 }
-				invoiceDao.save(invoice);
+				Invoice savedInvoice = invoiceDao.save(invoice);
 
-				// dependances
+                // Create corresponding income record
+                Income income = new Income();
+                income.setInvoice_id(savedInvoice);
+                income.setTotal_amount(savedInvoice.getNet_amount());
+                income.setPayment_methord("Cash");
+                income.setDate(savedInvoice.getAdded_datetime().toLocalDate());
+                income.setCustomer_id(savedInvoice.getCustomer_id());
+                income.setPayment_methord("Cash"); // Default to cash
+                income.setAdded_datetime(LocalDateTime.now());
+                income.setAdded_user_id(loggedUser.getId());
+                income.setIncome_status_id(incomeStatusDao.getReferenceById(1)); // Complete
+                income.setIncome_number(incomeDao.getNextCode());
+
+                incomeDao.save(income);
+
+                // dependances
 				return "OK";
 			} catch (Exception e) {
 				return "Save not completed" + e.getMessage();
@@ -153,16 +173,18 @@ public class InvoiceController {
 		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
 		
 		if (userPrivilege.getPrivi_update()) {
-			//check ext pk - update / delete only
-			if (invoice.getId() == null) { // no employee id - with link access
-				return "Update not completed, product already exists" ;
-			}
-			Invoice extById = invoiceDao.getReferenceById(invoice.getId()); // check id with db
-			if (extById == null) {
-				return "Update not completed, product already exists" ;
-			}  
+            //check id exists
+            Integer invoiceId = invoice.getId();
+            if (invoiceId == null) {
+                return "Update not completed, no invoice id provided";
+            }
 
-			//duplicate check
+            // Verify invoice exists
+            if (!invoiceDao.existsById(invoiceId)) {
+                return "Update not completed, invoice not found";
+            }
+
+            //duplicate check
 			try {
 				// set auto added data
 				invoice.setUpdate_datetime(LocalDateTime.now());
@@ -183,6 +205,16 @@ public class InvoiceController {
 					}
 				}
 
+                // Update corresponding income record if exists
+                Income income = incomeDao.findActiveByInvoice_id(invoice);
+                if (income != null) {
+                    income.setTotal_amount(invoice.getNet_amount());
+                    income.setPayment_methord("Cash");
+                    income.setUpdate_datetime(LocalDateTime.now());
+                    income.setUpdate_user_id(loggedUser.getId());
+                    incomeDao.save(income);
+                }
+
 				// dependances
 				return "OK";
 			} catch (Exception e) {
@@ -197,30 +229,40 @@ public class InvoiceController {
 	// mapping for delete invoice data
 	@DeleteMapping(value = "/invoice/delete") 
 	public String deleteEmployeeData(@RequestBody Invoice invoice) {
-		//check logged user authorization
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Invoice");
-        
+        //check logged user authorization
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		//check ext pk - update / delete only
-		if (invoice.getId() == null) { // no employee id - with link access
-			return "Delete not completed, product not exist" ;
-		}
-		Invoice extProductById = invoiceDao.getReferenceById(invoice.getId()); // check id with db
-		if (extProductById == null) {
-			return "Delete not completed, product not exist in the database" ;
-		}
-		 
-		try {
+        //check id exists
+        Integer invoiceId = invoice.getId();
+        if (invoiceId == null) {
+            return "Delete not completed, no invoice id provided";
+        }
+
+        // Verify invoice exists and get reference
+        if (!invoiceDao.existsById(invoiceId)) {
+            return "Delete not completed, invoice not found";
+        }
+        Invoice extProductById = invoiceDao.getReferenceById(invoiceId);
+         
+        try {
 			// set auto added data
 			extProductById.setDelete_datetime(LocalDateTime.now());
 			extProductById.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
 			extProductById.setInvoice_status_id(invoiceStatusDao.getReferenceById(2));
 
-			// delete oparator
+			// delete operator
 			invoiceDao.save(extProductById);
 
-			// Update inventory total_qty
+            // Update corresponding income record if exists
+            Income income = incomeDao.findActiveByInvoice_id(extProductById);
+            if (income != null) {
+                income.setDelete_datetime(LocalDateTime.now());
+                income.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
+                income.setIncome_status_id(incomeStatusDao.getReferenceById(2)); // Deleted
+                incomeDao.save(income);
+            }
+ 
+            // Update inventory total_qty
 			for (InvoiceHasProduct ihp : extProductById.getInvoiceHasProductList()) {
 				Inventory inventory = inventoryDao.findByProduct(ihp.getProduct_id());
 				if (inventory != null) {
