@@ -72,7 +72,7 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize,textROP, textROQ, selectStatus]);
+    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
     let category = getServiceRequest('/productcategory/alldata');
     fillDataIntoSelect(selectCategory,"Select Category",category,"name");
@@ -88,6 +88,9 @@ const refreshProductForm = () => {
     selectStatus.value = JSON.stringify(status[0]); // set default values
     product.productstatus_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen"
+
+    // initialize unit
+    product.unit = null;
 
     let manufactures = getServiceRequest('/productmanufacture/alldata');
     fillDataIntoSelect(textManufacture,"Select Manufacture",manufactures,"name");
@@ -110,19 +113,32 @@ const refreshProductForm = () => {
 let textSizeElement   = document.querySelector("#textSize");
 let textBrandElement  = document.querySelector("#textBrand");
 let selectProductElement = document.querySelector("#selectProduct");
+let selectUnitElement = document.querySelector("#selectUnit");
 
 function updateProductName() {
     let brand = JSON.parse(textBrandElement.value);
     let item  = JSON.parse(selectProductElement.value);
     let size  = textSizeElement.value;
+    let unit  = (selectUnitElement && selectUnitElement.value) ? selectUnitElement.value : "";
+    // Build name parts, skip empty parts to avoid extra spaces
+    let parts = [brand.name, item.name];
+    if (size && size.trim() !== "") parts.push(size.trim());
+    if (unit && unit.trim() !== "") parts.push(unit.trim());
 
-    textProductName.value = brand.name + " " + item.name + " " + size;
+    textProductName.value = parts.join(" ");
     product.name = textProductName.value; 
 }
 
 textSizeElement.addEventListener("input", updateProductName);
 textBrandElement.addEventListener("change", updateProductName);
 selectProductElement.addEventListener("change", updateProductName);
+if (selectUnitElement) {
+    selectUnitElement.addEventListener("change", ()=>{
+        // selectStaticElementValidator will set product.unit via onchange attribute; keep product in-sync and regenerate name
+        if (product) product.unit = selectUnitElement.value ? selectUnitElement.value : null;
+        updateProductName();
+    });
+}
 
 
 
@@ -147,6 +163,13 @@ const productFormRefill = (ob, index) => {
     textBrand.value = JSON.stringify(ob.productbrand_id);
     selectProduct.value = JSON.stringify(ob.productitem_id);
     textSize.value = ob.size;
+    if (selectUnit) {
+        selectUnit.value = ob.unit ? ob.unit : "";
+        // ensure product object has unit and product name reflects it
+        if (product) product.unit = ob.unit ? ob.unit : null;
+    }
+    // regenerate product name after populating brand/product/size/unit
+    try { updateProductName(); } catch(e) { /* ignore if elements not ready */ }
     textROQ.value = ob.roq;
     textROP.value = ob.rop;
     selectStatus.value = JSON.stringify(ob.productstatus_id);

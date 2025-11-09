@@ -45,6 +45,8 @@ public class Product {
     @NotNull
     private String size;
 
+    private String unit;
+
     @NotNull
     private Integer rop;
     
