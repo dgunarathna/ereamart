@@ -62,6 +62,117 @@ const refreshExpensesForm = () => {
     let status = getServiceRequest('/expensesstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
 
+    // implement GRN selection like other modules: call backend endpoints per-field
+    // Provide a named function for HTML to call (same approach as filterProductByGRN in inventory)
+    const filterExpenseByGRN = () => {
+        try {
+            // make sure the validator ran and expenses.grn_id is set
+            if (!selectGRN.value) return;
+            const selected = JSON.parse(selectGRN.value);
+
+            // get fresh GRN object from backend
+            let grnObj = getServiceRequest('/grn/getbyid?id=' + selected.id);
+            if (!grnObj || !grnObj.id) return;
+
+            // determine supplier id from GRN
+            let supplierId = null;
+            if (grnObj.orders_id && grnObj.orders_id.supplier_id && grnObj.orders_id.supplier_id.id) {
+                supplierId = grnObj.orders_id.supplier_id.id;
+            } else if (grnObj.supplier_id && grnObj.supplier_id.id) {
+                supplierId = grnObj.supplier_id.id;
+            }
+
+            // fetch supplier list and select the matching supplier so option value matches
+            if (supplierId) {
+                let suppliers = getServiceRequest('/supplier/alldata');
+                let supplierFound = suppliers.find(s => s.id === supplierId || s.name === (grnObj.supplier_id && grnObj.supplier_id.name));
+                if (supplierFound) {
+                    selectSupplier.value = JSON.stringify(supplierFound);
+                    window['expenses'].supplier_id = supplierFound;
+                    selectSupplier.style.border = "1px solid lightgreen";
+                }
+            }
+
+            // Check previous expenses for this GRN
+            let allExpenses = getServiceRequest('/expense/alldata');
+            let grnExpenses = allExpenses.filter(e => e.grn_id && e.grn_id.id === grnObj.id);
+            let totalPaidForGRN = grnExpenses.reduce((sum, e) => sum + parseFloat(e.paid_amount || 0), 0);
+
+            // amounts
+            let totalDue = null;
+            if (grnObj.net_amount != null) totalDue = grnObj.net_amount;
+            else if (grnObj.total_amount != null) totalDue = grnObj.total_amount;
+
+            if (totalDue != null) {
+                // Calculate remaining due amount
+                const remainingDue = totalDue - totalPaidForGRN;
+                textTotalDue.value = remainingDue.toFixed(2);
+                window['expenses'].total_due_amount = (""+remainingDue.toFixed(2));
+                textTotalDue.style.border = "1px solid lightgreen";
+
+                // Set initial paid amount equal to total due
+                textTotalPaid.value = remainingDue.toFixed(2);
+                window['expenses'].paid_amount = (""+remainingDue.toFixed(2));
+                textTotalPaid.style.border = "1px solid lightgreen";
+
+                // Note: textTotalPaid is already set equal to totalDue above
+
+                // calculate balance = total - paid
+                const parseNumber = (v) => { let n = parseFloat(v); return isNaN(n) ? 0 : n; };
+                const bal = parseNumber(totalDue) - parseNumber(textTotalPaid.value);
+                // keep two decimals
+                textTotalBalance.value = 0;
+                window['expenses'].balance_amount = (""+bal.toFixed(2));
+                textTotalBalance.style.border = "1px solid lightgreen";
+            }
+
+            // date
+            if (grnObj.recieved_date) {
+                let d = new Date(grnObj.recieved_date);
+                let iso = d.toISOString().split('T')[0];
+                expensesDate.value = iso;
+                window['expenses'].date = iso;
+                expensesDate.style.border = "1px solid lightgreen";
+            }
+
+            // status -> Complete
+            let statusFresh = getServiceRequest('/expensesstatus/alldata');
+            if (statusFresh && statusFresh.length > 0) {
+                let complete = statusFresh.find(s => s.name == "Complete");
+                if (complete) {
+                    selectStatus.value = JSON.stringify(complete);
+                    window['expenses'].expense_status_id = complete;
+                    selectStatus.style.border = "1px solid lightgreen";
+                }
+            }
+
+        } catch (err) { console.log(err); }
+    };
+
+    // expose the const to global scope so inline HTML handlers can call it (keeps the const declaration style)
+    window.filterExpenseByGRN = filterExpenseByGRN;
+
+    // calculate balance when total or paid changes: balance = total - paid
+    const calculateBalance = () => {
+        const parseNumber = (v) => { let n = parseFloat(v); return isNaN(n) ? 0 : n; };
+        const total = parseNumber(textTotalDue.value);
+        const paid = parseNumber(textTotalPaid.value);
+        const bal = total - paid;
+        // keep two decimal places
+        textTotalBalance.value = bal.toFixed(2);
+        window['expenses'].balance_amount = (""+bal.toFixed(2));
+        // ensure borders reflect valid inputs
+        textTotalBalance.style.border = "1px solid lightgreen";
+        // also update the paid amount in the expenses object
+        window['expenses'].paid_amount = (""+paid.toFixed(2));
+    };
+
+    // wire live calculation on paid amount changes (keeps inline textValidator calls intact)
+    try {
+        textTotalPaid.addEventListener('input', calculateBalance); // use input instead of keyup to catch all changes
+        textTotalPaid.addEventListener('change', calculateBalance); // catch changes from non-keyboard input
+    } catch (e) { /* elements may not exist during some flows; ignore */ }
+
 }
 
 const expensesFormRefill = (ob, index) => {

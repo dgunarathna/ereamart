@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,6 +61,21 @@ public class GRNController {
 	grnPage.addObject("loggeduserphoto", loggedUser.getUserphoto());
 
 	return grnPage;
+	}
+
+	// mapping for get grn by id - /grn/getbyid?id=
+	@GetMapping(value = "/grn/getbyid", params = {"id"}, produces = "application/json")
+	public GRN getGrnById(@RequestParam("id") Integer id) {
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "GRN");
+
+		if (userPrivilege.getPrivi_select()) {
+			return grnDao.getReferenceById(id);
+		} else {
+			return new GRN();
+		}
 	}
 
 	//request mapping for load grn all data - /grn/alldata
@@ -210,6 +226,8 @@ public class GRNController {
 					inventoryDao.save(inventory);
 				}
 			}
+
+            
 
 			// dependances
 			return "OK";
