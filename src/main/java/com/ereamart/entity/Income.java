@@ -63,9 +63,6 @@ public class Income {
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     private Invoice invoice_id;
 
-    @OneToOne()
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Customer customer_id;
 
     @ManyToOne()
     @JoinColumn(name = "income_status_id", referencedColumnName = "id")

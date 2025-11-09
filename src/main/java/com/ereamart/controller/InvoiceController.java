@@ -142,7 +142,6 @@ public class InvoiceController {
                 income.setTotal_amount(savedInvoice.getNet_amount());
                 income.setPayment_methord("Cash");
                 income.setDate(savedInvoice.getAdded_datetime().toLocalDate());
-                income.setCustomer_id(savedInvoice.getCustomer_id());
                 income.setPayment_methord("Cash"); // Default to cash
                 income.setAdded_datetime(LocalDateTime.now());
                 income.setAdded_user_id(loggedUser.getId());

@@ -14,8 +14,7 @@ const refreshIncomeTable = () => {
     let propertyList = [
         {propertyName: "income_number", dataType: "string"},
         {propertyName: "receiptimage", dataType: "image-array" },
-        {propertyName: getInvoice, dataType: "function"},
-        {propertyName: getCustomer, dataType: "function"},
+    {propertyName: getInvoice, dataType: "function"},
         {propertyName: "payment_methord", dataType: "string"},
         {propertyName: "date", dataType: "string"},
         {propertyName: "total_amount", dataType: "string"},
@@ -23,10 +22,6 @@ const refreshIncomeTable = () => {
     ];
 
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
-}
-
-const getCustomer = (dataOb) => {
-    return dataOb.customer_id.regno;
 }
 
 const getInvoice = (dataOb) => {
@@ -51,13 +46,12 @@ const refreshIncomeForm = () => {
     fileReceiptPhoto.value = "";
     imgReceiptPhotoPreview.src = "/images/default.png";
 
-    setDefault([ selectInvoiceNo, selectCustomer, selectPaymentMethord, incomeDate, textTotal,]);
+    setDefault([ selectInvoiceNo, selectPaymentMethord, incomeDate, textTotal,]);
 
     let invoices = getServiceRequest('/invoice/alldata');
     fillDataIntoSelect(selectInvoiceNo,"Select invoice",invoices,"invoice_code");
 
-    let customers = getServiceRequest('/customer/alldata');
-    fillDataIntoSelect(selectCustomer,"Select customer",customers,"fullname");
+    // Customer selection removed for Income
 
     let status = getServiceRequest('/incomestatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
@@ -75,7 +69,6 @@ const incomeFormRefill = (ob, index) => {
     }
 
     selectInvoiceNo.value = JSON.stringify(ob.invoice_id);
-    selectCustomer.value = JSON.stringify(ob.customer_id);
     selectPaymentMethord.value = ob.payment_methord;
     incomeDate.value = ob.date;
     textTotal.value = ob.total_amount;
@@ -133,7 +126,7 @@ const buttonIncomePrint = (ob, index) => {
                 +"<tr><th> Income no </th><td>"+ ob.income_number +"</td></tr>" 
                 +"<tr><th> Receipt </th><td>"+ ob.receiptimage +"</td></tr>" 
                 +"<tr><th> Invoice no </th><td>"+ ob.invoice_id.invoice_code +"</td></tr>" 
-                +"<tr><th> Customer </th><td>"+ ob.customer_id.fullname  +"</td></tr>" 
+                
                 +"<tr><th> Payment Method </th><td>"+ ob.payment_methord +"</td></tr>" 
                 +"<tr><th> Date </th><td>"+ ob.date +"</td></tr>" 
                 +"<tr><th> Total Amount </th><td>"+ ob.total_amount +"</td></tr>" 
@@ -154,9 +147,7 @@ const buttonIncomePrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (income.customer_id == null) {
-        errors = errors + "Please Enter Customer\n"
-    }
+    // Customer is not required for Income anymore
     if (income.payment_methord == null) {
         errors = errors + "Please Enter Payment Method\n"
     }
@@ -207,9 +198,7 @@ const checkFormUpdate = () => {
         if (income.invoice_id.invoice_code != oldIncome.invoice_id.invoice_code) {
             updates = updates + "Invoice no - " + oldIncome.invoice_id.invoice_code + " to " + income.invoice_id.invoice_code + "\n";
         }
-        if (income.customer_id.name != oldIncome.customer_id.name) {
-            updates = updates + "Customer - " + oldIncome.customer_id.name + " to " + income.customer_id.name + "\n";
-        }
+        // Customer removed: skip comparison
         if (income.payment_methord != oldIncome.payment_methord) {
             updates = updates + "Payment Method - " + oldIncome.payment_methord + " to " + income.payment_methord + "\n";
         }
