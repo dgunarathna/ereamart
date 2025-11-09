@@ -58,7 +58,6 @@
                     <th>Email</th>
                     <th>Mobile</th>
                     <th>Address</th>
-                    <th>Note</th>
                     <th>Bank</th>
                     <th>Branch</th>
                     <th>Account No</th>
@@ -127,10 +126,6 @@
                 <label class="form-label">Selected Products<span class="text-danger">*</span></label>
                 <select id="selectSelectedProducts" class="form-select" multiple></select>
               </div>
-              <div class="col-xl-6">
-                <label for="inputAddress" class="form-label">Note</label>
-                <input id="textNote" type="text"  class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','supplier','note')">
-              </div>  
               <div class="col-xl-6">
                 <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
                 <select id="selectStatus" class="form-select" Required onchange="selectDynamicElementValidator(this,'supplier','supplier_status_id')"></select>

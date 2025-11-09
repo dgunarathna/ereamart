@@ -46,8 +46,6 @@ public class Supplier {
 
     private String address;
 
-    private String note;
-
     private String bank;
 
     private String branch;

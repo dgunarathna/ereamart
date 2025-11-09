@@ -18,7 +18,6 @@ const refreshSupplierTable = () => {
         {propertyName: "email", dataType: "string"},
         {propertyName: "mobile_no", dataType: "string"},
         {propertyName: "address", dataType: "string"},
-        {propertyName: "note", dataType: "string"},
         {propertyName: "bank", dataType: "string"},
         {propertyName: "branch", dataType: "string"},
         {propertyName: "account_no", dataType: "string"},
@@ -45,7 +44,7 @@ const refreshSupplierForm = () => {
 
     formSupplier.reset();
 
-    setDefault([textBRN, textName, textEmail, textMobileNo, textAddress, textNote, textBank, textBranch, textAccountNo, selectStatus]);
+    setDefault([textBRN, textName, textEmail, textMobileNo, textAddress, textBank, textBranch, textAccountNo, selectStatus]);
 
     let supplierStatus = getServiceRequest('/supplierstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select Status",supplierStatus,"name");
@@ -73,7 +72,6 @@ const supplierFormRefill = (ob, index) => {
     textEmail.value = supplier.email;
     textMobileNo.value = supplier.mobile_no;
     textAddress.value = supplier.address;
-    textNote.value = supplier.note;
     textBank.value = supplier.bank;
     textBranch.value = supplier.branch;
     textAccountNo.value = supplier.account_no;
@@ -138,9 +136,8 @@ const buttonSupplierPrint = (ob, index) => {
                 +"<tr><th> Name </th><td>"+ ob.supplier_brn +"</td></tr>" 
                 +"<tr><th> Email </th><td>"+ ob.email +"</td></tr>" 
                 +"<tr><th> Mobile Number </th><td>"+ ob.mobile_no +"</td></tr>" 
-                +"<tr><th> Address </th><td>"+ ob.address +"</td></tr>" 
-                +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
-                +"<tr><th> Bank </th><td>"+ ob.bank +"</td></tr>" 
+                +"<tr><th> Address </th><td>"+ ob.address +"</td></tr>"
+                +"<tr><th> Bank </th><td>"+ ob.bank +"</td></tr>"
                 +"<tr><th> Branch </th><td>"+ ob.branch +"</td></tr>" 
                 +"<tr><th> Account No </th><td>"+ ob.account_no +"</td></tr>" 
                 +"<tr><th> Supplier Status </th><td>"+ ob.supplier_status_id.name +"</td></tr>" 
@@ -183,9 +180,6 @@ const checkFormError = ()=>{
     }
     if (supplier.address == null) {
         errors = errors + "Please Enter Address\n"
-    }
-    if (supplier.note == null) {
-        errors = errors + "Please Enter Note\n"
     }
     if (supplier.bank == null) {
         errors = errors + "Please Enter Bank\n"
@@ -248,9 +242,6 @@ const checkFormUpdate = () => {
         }
         if (supplier.address != oldSupplier.address) {
             updates = updates + "Address - " + oldSupplier.address + " to " + supplier.address + "\n";
-        }
-        if (supplier.note != oldSupplier.note) {
-            updates = updates + "Note - " + oldSupplier.note + " to " + supplier.note + "\n";
         }
         if (supplier.bank != oldSupplier.bank) {
             updates = updates + "Bank - " + oldSupplier.bank + " to " + supplier.bank + "\n";
