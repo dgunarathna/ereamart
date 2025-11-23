@@ -23,7 +23,6 @@ const refreshProductTable = () => {
         {propertyName: getProduct, dataType: "function"},
         {propertyName: "size", dataType: "string"},
         {propertyName: "name", dataType: "string"},
-        {propertyName: "description", dataType: "string"},
         {propertyName: "rop", dataType: "string"},
         {propertyName: "roq", dataType: "string"},
         {propertyName: getCategory, dataType: "function"},
@@ -72,7 +71,7 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
+    setDefault([selectCategory, selectDepartment, textProductName, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
     let departments = getServiceRequest('/productdepartment/alldata');
     fillDataIntoSelect(selectDepartment,"Select Department",departments,"name");
@@ -193,7 +192,6 @@ const productFormRefill = (ob, index) => {
     fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
     selectCategory.value = JSON.stringify(ob.productcategory_id);
     textProductName.value = ob.name;
-    textDescription.value = ob.description;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);
     selectProduct.value = JSON.stringify(ob.productitem_id);
@@ -261,7 +259,6 @@ const buttonProductPrint = (ob, index) => {
                 +"<tr><th> Product code </th><td>"+ ob.code +"</td></tr>" 
                 +"<tr><th> Image </th><td>"+ ob.image +"</td></tr>" 
                 +"<tr><th> Name </th><td>"+ ob.name +"</td></tr>" 
-                +"<tr><th> Description </th><td>"+ ob.description +"</td></tr>" 
                 +"<tr><th> Brand </th><td>"+ ob.productbrand_id.name +"</td></tr>" 
                 +"<tr><th> Size </th><td>"+ ob.size +"</td></tr>" 
                 +"<tr><th> ROP </th><td>"+ ob.rop +"</td></tr>" 
@@ -314,9 +311,6 @@ const checkFormError = ()=>{
     }
     if (product.name == null) {
         errors = errors + "Please Enter product name \n";
-    }
-    if (product.description == null) {
-        errors = errors + "Please Enter description\n";
     }
     return errors;
 }
@@ -383,17 +377,11 @@ const checkFormUpdate = () => {
         if (product.productimage != oldProduct.productimage) {
             updates = updates + "Product image - " + oldProduct.productimage + " to " + product.productimage + "\n";
         }
-        if (product.productdescription != oldProduct.productdescription) {
-            updates = updates + "Product description - " + oldProduct.productdescription + " to " + product.productdescription + "\n";
-        }
         if (product.rop != oldProduct.rop) {
             updates = updates + "ROP - " + oldProduct.rop + " to " + product.rop + "\n";
         }  
         if (product.roq != oldProduct.roq) {
             updates = updates + "ROQ - " + oldProduct.roq + " to " + product.roq + "\n";
-        }
-        if (product.description != oldProduct.description) {
-            updates = updates + "Description - " + oldProduct.description + " to " + product.description + "\n";
         }
         if (product.size != oldProduct.size) {  
             updates = updates + "Size - " + oldProduct.size + " to " + product.size + "\n";

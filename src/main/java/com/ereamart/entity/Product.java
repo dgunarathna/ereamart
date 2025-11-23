@@ -40,9 +40,6 @@ public class Product {
     private String code;
 
     @NotNull
-    private String description;
-
-    @NotNull
     private String size;
 
     private String unit;
