@@ -91,8 +91,8 @@ const refreshProductForm = () => {
     let manufactures = getServiceRequest('/productmanufacture/alldata');
     fillDataIntoSelect(textManufacture,"Select Manufacture",manufactures,"name");
 
-    let brands = getServiceRequest('/productbrand/alldata');
-    fillDataIntoSelect(textBrand,"Select Brand",brands,"name");
+    // Initialize brands as empty - will be populated when department is selected
+    fillDataIntoSelect(textBrand,"Select Brand",[],"name");
 
     let items = getServiceRequest('/productitem/alldata');
     fillDataIntoSelect(selectProduct,"Select product",items,"name");
@@ -143,31 +143,44 @@ if (selectUnitElement) {
     });
 }
 
-// filter categories by select department dropdown
+// filter categories and brands by select department dropdown
 function filterProductByDepartment() {
     let selectDepartment = document.getElementById("selectDepartment");
     let selectCategory = document.getElementById("selectCategory");
+    let textBrand = document.getElementById("textBrand");
     
     if (selectDepartment && selectDepartment.value && selectDepartment.value !== "") {
         try {
             let departmentData = JSON.parse(selectDepartment.value);
             if (departmentData && departmentData.id) {
+                // Filter categories by department
                 let categoriesByDepartment = getServiceRequest('/productcategory/bydepartment?departmentid=' + departmentData.id);
                 fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
                 // Clear the category selection when department changes
                 if (product) product.productcategory_id = null;
                 if (selectCategory) selectCategory.style.border = "1px solid #ced4da";
+                
+                // Filter brands by department
+                let brandsByDepartment = getServiceRequest('/productbrand/bydepartment?departmentid=' + departmentData.id);
+                fillDataIntoSelect(textBrand,"Select Brand",brandsByDepartment,"name");
+                // Clear the brand selection when department changes
+                if (product) product.productbrand_id = null;
+                if (textBrand) textBrand.style.border = "1px solid #ced4da";
             }
         } catch (e) {
             console.error("Error parsing department data:", e);
-            // If parsing fails, clear categories
+            // If parsing fails, clear categories and brands
             if (selectCategory) fillDataIntoSelect(selectCategory,"Select Category",[],"name");
             if (product) product.productcategory_id = null;
+            if (textBrand) fillDataIntoSelect(textBrand,"Select Brand",[],"name");
+            if (product) product.productbrand_id = null;
         }
     } else {
-        // If no department selected, clear categories
+        // If no department selected, clear categories and brands
         if (selectCategory) fillDataIntoSelect(selectCategory,"Select Category",[],"name");
         if (product) product.productcategory_id = null;
+        if (textBrand) fillDataIntoSelect(textBrand,"Select Brand",[],"name");
+        if (product) product.productbrand_id = null;
     }
 }
 
@@ -191,6 +204,11 @@ const productFormRefill = (ob, index) => {
     let categoriesByDepartment = getServiceRequest('/productcategory/bydepartment?departmentid=' + ob.productcategory_id.productdepartment_id.id);
     fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
     selectCategory.value = JSON.stringify(ob.productcategory_id);
+    
+    // Load brands for the selected department before setting brand value
+    let brandsByDepartment = getServiceRequest('/productbrand/bydepartment?departmentid=' + ob.productcategory_id.productdepartment_id.id);
+    fillDataIntoSelect(textBrand,"Select Brand",brandsByDepartment,"name");
+    
     textProductName.value = ob.name;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);

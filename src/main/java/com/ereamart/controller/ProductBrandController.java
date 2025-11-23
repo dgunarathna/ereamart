@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ereamart.dao.ProductBrandDao;
@@ -26,5 +27,11 @@ public class ProductBrandController {
     @GetMapping(value = "/productbrand/bycategory/{categoryid}", produces = "application/json")
     public List<ProductBrand> findPBrandybyPCategory(@PathVariable("categoryid") Integer categoryid){
         return productBrandDao.findPBrandybyPCategory(categoryid);
+    } 
+    
+    //request mapping for load productbrand by department - /productbrand/bydepartment
+    @GetMapping(value = "/productbrand/bydepartment", params = {"departmentid"}, produces = "application/json")
+    public List<ProductBrand> findBrandByDepartment(@RequestParam("departmentid") Integer departmentid){
+        return productBrandDao.findBrandByDepartment(departmentid);
     } 
 }
