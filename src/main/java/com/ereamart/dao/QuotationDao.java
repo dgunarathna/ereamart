@@ -12,7 +12,7 @@ public interface QuotationDao extends JpaRepository<Quotation, Integer>{
     Product getByCode(String name);
 
     //for get next code when new quotation
-    @Query(value = "SELECT coalesce(concat('Q', lpad(substring(max(q.quotation_code), 2) + 1, 5, 0)), 'Q00001') FROM ereamart.quotation as q;", nativeQuery = true)
+    @Query(value = "SELECT coalesce(CONCAT('Q', (SUBSTRING(MAX(q.quotation_code), 2) + 1)), 'Q1') FROM ereamart.quotation as q;", nativeQuery = true)
     String getNextCode();
 
 }

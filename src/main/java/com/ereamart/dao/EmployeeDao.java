@@ -12,7 +12,7 @@ public interface EmployeeDao  extends JpaRepository<Employee, Integer>{
     // @Query(value = "SELECT lpad(max(e.empno) + 1, 8, 0) FROM ereamart.employee as e;", nativeQuery = true)
     // String getNextEmpNo();
 
-    @Query(value = "SELECT COALESCE(CONCAT('E', max(e.empno) + 1), 'E1') FROM ereamart.employee as e;", nativeQuery = true) // dhanushka - next emp
+    @Query(value = "SELECT COALESCE(CONCAT('E', (SUBSTRING(MAX(e.empno), 2) + 1)), 'E1') FROM ereamart.employee as e;", nativeQuery = true) // dhanushka - next emp
     String getNextEmpNo();
 
     @Query(value = "select e from Employee e where e.nic=?1")
@@ -27,3 +27,4 @@ public interface EmployeeDao  extends JpaRepository<Employee, Integer>{
     @Query("SELECT e FROM Employee e WHERE e.email = ?1")
     Employee findByEmail(String email);
 } 
+

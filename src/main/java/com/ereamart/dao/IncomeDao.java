@@ -10,7 +10,7 @@ public interface IncomeDao extends JpaRepository<Income, Integer>{
 
 
     //for get next code when new product
-    @Query(value = "SELECT coalesce(CONCAT('I', (SUBSTRING(MAX(i.income_number), 2) + 1)), 'I00001') FROM ereamart.income as i;", nativeQuery = true)
+    @Query(value = "SELECT coalesce(CONCAT('I', (SUBSTRING(MAX(i.income_number), 2) + 1)), 'I1') FROM ereamart.income as i;", nativeQuery = true)
     String getNextCode();
 
     // Find active income by invoice_id
