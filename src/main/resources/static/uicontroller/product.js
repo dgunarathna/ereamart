@@ -74,14 +74,11 @@ const refreshProductForm = () => {
 
     setDefault([selectCategory, selectDepartment, textProductName, textDescription, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
-    let category = getServiceRequest('/productcategory/alldata');
-    fillDataIntoSelect(selectCategory,"Select Category",category,"name");
-
     let departments = getServiceRequest('/productdepartment/alldata');
     fillDataIntoSelect(selectDepartment,"Select Department",departments,"name");
 
-    // let departmentsbycategories = getServiceRequest('/productdepartment/bycategory?categoryid=' + category.id);
-    // fillDataIntoSelect(selectDepartment,"Select Department",departmentsbycategories,"name");
+    // Initialize categories as empty - will be populated when department is selected
+    fillDataIntoSelect(selectCategory,"Select Category",[],"name");
     
     let status = getServiceRequest('/productstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select Status",status,"name");
@@ -105,7 +102,6 @@ const refreshProductForm = () => {
     // fillDataIntoSelect(textBrand,"Select Brand",brandsbycategory,"name");
 
     textProductName.disabled = "disabled";
-    selectDepartment.disabled = "disabled";
 }
 
 
@@ -116,17 +112,25 @@ let selectProductElement = document.querySelector("#selectProduct");
 let selectUnitElement = document.querySelector("#selectUnit");
 
 function updateProductName() {
-    let brand = JSON.parse(textBrandElement.value);
-    let item  = JSON.parse(selectProductElement.value);
-    let size  = textSizeElement.value;
-    let unit  = (selectUnitElement && selectUnitElement.value) ? selectUnitElement.value : "";
-    // Build name parts, skip empty parts to avoid extra spaces
-    let parts = [brand.name, item.name];
-    if (size && size.trim() !== "") parts.push(size.trim());
-    if (unit && unit.trim() !== "") parts.push(unit.trim());
+    try {
+        if (!textBrandElement || !textBrandElement.value || textBrandElement.value === "") return;
+        if (!selectProductElement || !selectProductElement.value || selectProductElement.value === "") return;
+        
+        let brand = JSON.parse(textBrandElement.value);
+        let item  = JSON.parse(selectProductElement.value);
+        let size  = textSizeElement ? textSizeElement.value : "";
+        let unit  = (selectUnitElement && selectUnitElement.value) ? selectUnitElement.value : "";
+        // Build name parts, skip empty parts to avoid extra spaces
+        let parts = [brand.name, item.name];
+        if (size && size.trim() !== "") parts.push(size.trim());
+        if (unit && unit.trim() !== "") parts.push(unit.trim());
 
-    textProductName.value = parts.join(" ");
-    product.name = textProductName.value; 
+        textProductName.value = parts.join(" ");
+        if (product) product.name = textProductName.value;
+    } catch (e) {
+        console.error("Error updating product name:", e);
+        // Don't update name if parsing fails
+    }
 }
 
 textSizeElement.addEventListener("input", updateProductName);
@@ -138,6 +142,34 @@ if (selectUnitElement) {
         if (product) product.unit = selectUnitElement.value ? selectUnitElement.value : null;
         updateProductName();
     });
+}
+
+// filter categories by select department dropdown
+function filterProductByDepartment() {
+    let selectDepartment = document.getElementById("selectDepartment");
+    let selectCategory = document.getElementById("selectCategory");
+    
+    if (selectDepartment && selectDepartment.value && selectDepartment.value !== "") {
+        try {
+            let departmentData = JSON.parse(selectDepartment.value);
+            if (departmentData && departmentData.id) {
+                let categoriesByDepartment = getServiceRequest('/productcategory/bydepartment?departmentid=' + departmentData.id);
+                fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
+                // Clear the category selection when department changes
+                if (product) product.productcategory_id = null;
+                if (selectCategory) selectCategory.style.border = "1px solid #ced4da";
+            }
+        } catch (e) {
+            console.error("Error parsing department data:", e);
+            // If parsing fails, clear categories
+            if (selectCategory) fillDataIntoSelect(selectCategory,"Select Category",[],"name");
+            if (product) product.productcategory_id = null;
+        }
+    } else {
+        // If no department selected, clear categories
+        if (selectCategory) fillDataIntoSelect(selectCategory,"Select Category",[],"name");
+        if (product) product.productcategory_id = null;
+    }
 }
 
 
@@ -155,8 +187,11 @@ const productFormRefill = (ob, index) => {
         imgproductPhotoPreview.src = "/images/default.png";
     }
 
-    selectCategory.value = JSON.stringify(ob.productcategory_id);
     selectDepartment.value = JSON.stringify(ob.productcategory_id.productdepartment_id);
+    // Load categories for the selected department before setting category value
+    let categoriesByDepartment = getServiceRequest('/productcategory/bydepartment?departmentid=' + ob.productcategory_id.productdepartment_id.id);
+    fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
+    selectCategory.value = JSON.stringify(ob.productcategory_id);
     textProductName.value = ob.name;
     textDescription.value = ob.description;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
@@ -412,6 +447,9 @@ const buttonAddNew = () => {
     selectDepartment.disabled = "";
 
 }
+
+
+
 
 
 // Manufacture form ************************************************************************************************************************************************************************************
