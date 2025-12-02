@@ -127,7 +127,6 @@ selectProductElement.addEventListener("change", updateProductName);
 textSizeElement.addEventListener("input", updateProductName);
 if (selectUnitElement) {
     selectUnitElement.addEventListener("change", ()=>{
-        textProductName.reset();
         // selectStaticElementValidator will set product.unit via onchange attribute; keep product in-sync and regenerate name
         if (product) product.unit = selectUnitElement.value ? selectUnitElement.value : null;
         updateProductName();
