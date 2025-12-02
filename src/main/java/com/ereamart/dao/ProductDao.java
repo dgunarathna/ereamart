@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ereamart.entity.Product;
-import com.ereamart.entity.ProductCategory;
 
 public interface ProductDao extends JpaRepository<Product, Integer>{ 
 
@@ -31,6 +30,8 @@ public interface ProductDao extends JpaRepository<Product, Integer>{
 
     @Query(value = "SELECT p.roq FROM Product p WHERE p.id = ?1")
     Integer findROQByProduct(Integer productid);
+
+
 
 
 

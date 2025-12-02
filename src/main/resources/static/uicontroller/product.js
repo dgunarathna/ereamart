@@ -25,8 +25,6 @@ const refreshProductTable = () => {
         {propertyName: "name", dataType: "string"},
         {propertyName: "rop", dataType: "string"},
         {propertyName: "roq", dataType: "string"},
-        {propertyName: getCategory, dataType: "function"},
-        {propertyName: getDepartment, dataType: "function"},
         {propertyName: getStatus, dataType: "function"}
     ];
 
@@ -48,13 +46,6 @@ const getStatus = (dataOb) => {
     }
 }
 
-const getCategory = (dataOb) => {
-    return dataOb.productcategory_id.name;
-}
-
-const getDepartment = (dataOb) => {
-    return dataOb.productcategory_id.productdepartment_id.name;
-}
 
 const getBrand = (dataOb) => {
     return dataOb.productbrand_id.name;
@@ -71,13 +62,12 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([selectCategory, selectDepartment, textProductName, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
+    setDefault([ textProductName, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
-    let departments = getServiceRequest('/productdepartment/alldata');
-    fillDataIntoSelect(selectDepartment,"Select Department",departments,"name");
 
-    // Initialize categories as empty - will be populated when department is selected
-    fillDataIntoSelect(selectCategory,"Select Category",[],"name");
+    let manufactures = getServiceRequest('/productmanufacture/alldata');
+    fillDataIntoSelect(textManufacture,"Select Manufacture",manufactures,"name");
+
     
     let status = getServiceRequest('/productstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select Status",status,"name");
@@ -85,42 +75,41 @@ const refreshProductForm = () => {
     product.productstatus_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen"
 
-    // initialize unit
-    product.unit = null;
-
-    let manufactures = getServiceRequest('/productmanufacture/alldata');
-    fillDataIntoSelect(textManufacture,"Select Manufacture",manufactures,"name");
-
-    // Initialize brands as empty - will be populated when department is selected
-    fillDataIntoSelect(textBrand,"Select Brand",[],"name");
-
-    let items = getServiceRequest('/productitem/alldata');
-    fillDataIntoSelect(selectProduct,"Select product",items,"name");
-
-    // let brandsbycategory = getServiceRequest('/productbrands/bycategory/'+ category.id);
-    // fillDataIntoSelect(textBrand,"Select Brand",brandsbycategory,"name");
-
     textProductName.disabled = "disabled";
 }
 
+// Filter brand by manufacture 
+const filterBrandByManufacture = () => {
+    let brands = getServiceRequest('/brands/bymanufcature/' + JSON.parse(textManufacture.value).id);
+    fillDataIntoSelect(textBrand,"Select Brand",brands,"name");
+}
+
+// Filter product item by brand
+const filterProductItemByBrand = () => {
+    let products = getServiceRequest('/productitem/bybrand/' + JSON.parse(textBrand.value).id);
+    fillDataIntoSelect(selectProduct,"Select Product",products,"name");
+}
 
 // Common function to update product.name
-let textSizeElement   = document.querySelector("#textSize");
+let textManufactureElement  = document.querySelector("#textManufacture");
 let textBrandElement  = document.querySelector("#textBrand");
 let selectProductElement = document.querySelector("#selectProduct");
+let textSizeElement   = document.querySelector("#textSize");
 let selectUnitElement = document.querySelector("#selectUnit");
 
 function updateProductName() {
     try {
+        if (!textManufactureElement || !textManufactureElement.value || textManufactureElement.value === "") return;
         if (!textBrandElement || !textBrandElement.value || textBrandElement.value === "") return;
         if (!selectProductElement || !selectProductElement.value || selectProductElement.value === "") return;
         
+        let manufacture = JSON.parse(textManufactureElement.value);
         let brand = JSON.parse(textBrandElement.value);
         let item  = JSON.parse(selectProductElement.value);
         let size  = textSizeElement ? textSizeElement.value : "";
         let unit  = (selectUnitElement && selectUnitElement.value) ? selectUnitElement.value : "";
         // Build name parts, skip empty parts to avoid extra spaces
-        let parts = [brand.name, item.name];
+        let parts = [manufacture.name, brand.name, item.name];
         if (size && size.trim() !== "") parts.push(size.trim());
         if (unit && unit.trim() !== "") parts.push(unit.trim());
 
@@ -132,56 +121,16 @@ function updateProductName() {
     }
 }
 
-textSizeElement.addEventListener("input", updateProductName);
+textManufactureElement.addEventListener("change", updateProductName);
 textBrandElement.addEventListener("change", updateProductName);
 selectProductElement.addEventListener("change", updateProductName);
+textSizeElement.addEventListener("input", updateProductName);
 if (selectUnitElement) {
     selectUnitElement.addEventListener("change", ()=>{
         // selectStaticElementValidator will set product.unit via onchange attribute; keep product in-sync and regenerate name
         if (product) product.unit = selectUnitElement.value ? selectUnitElement.value : null;
         updateProductName();
     });
-}
-
-// filter categories and brands by select department dropdown
-function filterProductByDepartment() {
-    let selectDepartment = document.getElementById("selectDepartment");
-    let selectCategory = document.getElementById("selectCategory");
-    let textBrand = document.getElementById("textBrand");
-    
-    if (selectDepartment && selectDepartment.value && selectDepartment.value !== "") {
-        try {
-            let departmentData = JSON.parse(selectDepartment.value);
-            if (departmentData && departmentData.id) {
-                // Filter categories by department
-                let categoriesByDepartment = getServiceRequest('/productcategory/bydepartment?departmentid=' + departmentData.id);
-                fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
-                // Clear the category selection when department changes
-                if (product) product.productcategory_id = null;
-                if (selectCategory) selectCategory.style.border = "1px solid #ced4da";
-                
-                // Filter brands by department
-                let brandsByDepartment = getServiceRequest('/productbrand/bydepartment?departmentid=' + departmentData.id);
-                fillDataIntoSelect(textBrand,"Select Brand",brandsByDepartment,"name");
-                // Clear the brand selection when department changes
-                if (product) product.productbrand_id = null;
-                if (textBrand) textBrand.style.border = "1px solid #ced4da";
-            }
-        } catch (e) {
-            console.error("Error parsing department data:", e);
-            // If parsing fails, clear categories and brands
-            if (selectCategory) fillDataIntoSelect(selectCategory,"Select Category",[],"name");
-            if (product) product.productcategory_id = null;
-            if (textBrand) fillDataIntoSelect(textBrand,"Select Brand",[],"name");
-            if (product) product.productbrand_id = null;
-        }
-    } else {
-        // If no department selected, clear categories and brands
-        if (selectCategory) fillDataIntoSelect(selectCategory,"Select Category",[],"name");
-        if (product) product.productcategory_id = null;
-        if (textBrand) fillDataIntoSelect(textBrand,"Select Brand",[],"name");
-        if (product) product.productbrand_id = null;
-    }
 }
 
 
@@ -198,16 +147,6 @@ const productFormRefill = (ob, index) => {
     } else {
         imgproductPhotoPreview.src = "/images/default.png";
     }
-
-    selectDepartment.value = JSON.stringify(ob.productcategory_id.productdepartment_id);
-    // Load categories for the selected department before setting category value
-    let categoriesByDepartment = getServiceRequest('/productcategory/bydepartment?departmentid=' + ob.productcategory_id.productdepartment_id.id);
-    fillDataIntoSelect(selectCategory,"Select Category",categoriesByDepartment,"name");
-    selectCategory.value = JSON.stringify(ob.productcategory_id);
-    
-    // Load brands for the selected department before setting brand value
-    let brandsByDepartment = getServiceRequest('/productbrand/bydepartment?departmentid=' + ob.productcategory_id.productdepartment_id.id);
-    fillDataIntoSelect(textBrand,"Select Brand",brandsByDepartment,"name");
     
     textProductName.value = ob.name;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
@@ -235,7 +174,7 @@ const productFormRefill = (ob, index) => {
     oldProduct = JSON.parse(JSON.stringify(ob));
 
     $("#modalProductForm").modal("show");
-    $("#modalProductFormLabel").text(ob.code);
+    $("#modalProductFormLabel").text(ob.name);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 
@@ -303,12 +242,6 @@ const buttonProductPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (product.productcategory_id == null) {
-        errors = errors + "Please Enter category\n"
-    }
-    // if (product.department_id == null) {
-    //     errors = errors + "Please Enter department\n"
-    // }
     if (product.productmanufacture_id == null) {
         errors = errors + "Please select manufacture \n";
     }
@@ -364,9 +297,6 @@ const checkFormUpdate = () => {
     if (product != null && oldProduct !== null) {
         if (product.image != oldProduct.image) {
             updates = updates + "Product image - " + oldProduct.image + " to " + product.image + "\n";
-        }
-        if (product.productcategory_id.name != oldProduct.productcategory_id.name) {
-            updates = updates + "Category - " + oldProduct.productcategory_id.name + " to " + product.productcategory_id.name + "\n";
         }
         if (product.name != oldProduct.name) {
             updates = updates + "Name - " + oldProduct.name + " to " + product.name + "\n";
@@ -449,8 +379,6 @@ const buttonAddNew = () => {
     $("#buttonPrint").hide();
     $("#buttonUpdate").hide();
 
-    
-    selectDepartment.disabled = "";
 
 }
 

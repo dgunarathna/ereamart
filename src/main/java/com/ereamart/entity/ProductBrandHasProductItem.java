@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,22 +13,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // this class genatate as an entity
-@Table(name = "productmanufacture") //table mapping
+@Table(name = "productbrand_has_productitem") //table mapping
 @Data // for settes getters
 @AllArgsConstructor // allconstructor
 @NoArgsConstructor // default constructor
 @JsonInclude(value = Include.NON_NULL)
 
-public class ProductManufacture {
+public class ProductBrandHasProductItem {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY) // auto increment pk
-    private Integer id;
- 
-    private String name;
+    @ManyToOne()
+    @JoinColumn(name = "productbrand_id", referencedColumnName = "id")
+    private ProductBrand productbrand_id;
 
-    // @ManyToOne()
-    // @JoinColumn(name = "productbrand_id", referencedColumnName = "id")
-    // private ProductBrand productbrand_id;
+    @Id
+    @ManyToOne()
+    @JoinColumn(name = "productitem_id", referencedColumnName = "id")
+    private ProductItem productitem_id;
 }
  
