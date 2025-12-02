@@ -63,8 +63,6 @@
                   <th>Name</th>
                   <th>ROP</th>
                   <th>ROQ</th>
-                  <th>Category</th>
-                  <th>Department</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -100,32 +98,27 @@
               </div>
 
               <div class="col-xl-6 col-lg-6">
-                <label class="form-label">Category<span class="text-danger">*</span></label>
-                <select id="selectCategory" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productcategory_id')"></select>
-              </div>
-              <div class="col-xl-6 col-lg-6">
-                <label class="form-label">Department<span class="text-danger">*</span></label>
-                <select id="selectDepartment" class="form-select" onchange="selectDynamicElementValidator(this,'product','department_id'), filterProductByDepartment();"></select>
-              </div>
-              <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Manufacture<span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <select id="textManufacture" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productmanufacture_id')"></select>
+                  <select id="textManufacture" Required class="form-select"onchange="selectDynamicElementValidator(this,'product','productmanufacture_id'), filterBrandByManufacture();"></select>
                   <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAddManufactureForm"><i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
+
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Brand<span class="text-danger">*</span></label>
-                <select id="textBrand" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productbrand_id')"></select>
+                <select id="textBrand" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productbrand_id'), filterProductItemByBrand();"></select>
               </div>
+              
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <select id="selectProduct" Required class="form-select" onchange="selectDynamicElementValidator(this,'product','productitem_id')"></select>
               </div>
+
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Size<span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <input id="textSize" type="text" Required class="form-control" onkeyup="textValidator(this,'^\\d*\\.?\\d+$', 'product','size')">
+                  <input id="textSize" type="number" Required class="form-control" onkeyup="textValidator(this,'^\\d*\\.?\\d+$', 'product','size')">
                   <select id="selectUnit" class="form-select" Required onchange="selectStaticElementValidator(this,'product','unit')" aria-label="Select unit for size">
                     <option value="" selected disabled>Select Unit</option>
                     <option value="pcs">pcs</option>

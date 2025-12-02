@@ -9,12 +9,8 @@ import com.ereamart.entity.ProductBrand;
 
 public interface ProductBrandDao extends JpaRepository<ProductBrand, Integer>{
 
-    //get brands by category
-    @Query("SELECT b FROM ProductBrand b WHERE b.id IN (SELECT bhc.productbrand_id.id FROM ProductBrandHasProductDepartment bhc WHERE bhc.productdepartment_id.id=?1)")
-    public List<ProductBrand> findPBrandybyPCategory(Integer categoryid);
-    
-    //get brands by department
-    @Query("SELECT b FROM ProductBrand b WHERE b.id IN (SELECT bhc.productbrand_id.id FROM ProductBrandHasProductDepartment bhc WHERE bhc.productdepartment_id.id=?1)")
-    public List<ProductBrand> findBrandByDepartment(Integer departmentid);
+    @Query(value = "SELECT * FROM ereamart.productbrand where productmanufacture_id = ?1", nativeQuery = true)
+    List<ProductBrand> findBrnadbyManufacture(Integer manufactureid);
+
  
 }

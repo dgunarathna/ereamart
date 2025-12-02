@@ -72,16 +72,12 @@ public class Product {
     @JoinColumn(name = "productstatus_id", referencedColumnName = "id")
     private ProductStatus productstatus_id;
 
-    @ManyToOne()
-    @JoinColumn(name = "productcategory_id", referencedColumnName = "id")
-    private ProductCategory productcategory_id;
-
-    @ManyToOne()
-    @JoinColumn(name = "productbrand_id", referencedColumnName = "id")
-    private ProductBrand productbrand_id;
-
     @OneToOne()
     @JoinColumn(name = "productitem_id", referencedColumnName = "id")
     private ProductItem productitem_id;
+    
+    @OneToOne()
+    @JoinColumn(name = "productbrand_id", referencedColumnName = "id")
+    private ProductBrand productbrand_id;
 
 }

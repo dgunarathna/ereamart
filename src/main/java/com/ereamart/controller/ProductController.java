@@ -237,7 +237,6 @@ public class ProductController {
     }
 
 
-
 	//  request mapping for load productbrand all data - /product/bysupplier
     @GetMapping(value = "/product/withoutsupply/{supplierid}", produces = "application/json")
     public List<Product> findProductWithoutSupplyID(@PathVariable("supplierid") Integer supplierid){
@@ -270,6 +269,6 @@ public class ProductController {
     }
 
 
-	
+
 
 }

@@ -1,6 +1,5 @@
 package com.ereamart.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ereamart.dao.ProductManufactureDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
-import com.ereamart.entity.Product;
 import com.ereamart.entity.ProductManufacture;
 import com.ereamart.entity.User;
 
@@ -55,8 +53,6 @@ public class ProductManufactureControlller {
 	
 			try {
 				// set auto added data
-				productManufacture.setAdded_datetime(LocalDateTime.now());
-				productManufacture.setAdded_user_id(loggedUser.getId());
 
 				// save oparator
 				productManufactureDao.save(productManufacture);
