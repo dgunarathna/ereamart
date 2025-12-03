@@ -90,6 +90,7 @@ public class SupplierController {
 				// set auto added data
 				supplier.setAdded_datetime(LocalDateTime.now());
 				supplier.setAdded_user_id(loggedUser.getId());
+				supplier.setReg_no(supplierDao.getNextRegNo());
 
 				// save oparator
 				supplierDao.save(supplier);

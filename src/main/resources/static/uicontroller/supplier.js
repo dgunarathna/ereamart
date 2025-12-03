@@ -163,9 +163,6 @@ const buttonSupplierPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (supplier.reg_no == null) {
-        errors = errors + "Please Enter Reg No\n"
-    }
     if (supplier.name == null) {
         errors = errors + "Please Enter BRN\n"
     }
