@@ -68,11 +68,11 @@ const refreshProductForm = () => {
     let manufactures = getServiceRequest('/productmanufacture/alldata');
     fillDataIntoSelect(textManufacture, "Select Manufacture", manufactures, "name");
 
-    // let brands = getServiceRequest('/productbrand/alldata');
-    // fillDataIntoSelect(textBrand, "Select Brand", brands, "name");
+    let brands = getServiceRequest('/productbrand/alldata');
+    fillDataIntoSelect(textBrand, "Select Brand", brands, "name");
 
-    // let products = getServiceRequest('/productitem/alldata');
-    // fillDataIntoSelect(selectProduct, "Select Product", products, "name");
+    let products = getServiceRequest('/productitem/alldata');
+    fillDataIntoSelect(selectProduct, "Select Product", products, "name");
 
 
     let status = getServiceRequest('/productstatus/alldata');
