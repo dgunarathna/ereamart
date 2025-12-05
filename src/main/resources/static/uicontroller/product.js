@@ -16,16 +16,16 @@ const refreshProductTable = () => {
     // decimal >
 
     let propertyList = [
-        {propertyName: "code", dataType: "string"},
-        {propertyName: "image", dataType: "image-array"},
-        {propertyName: getManufacture, dataType: "function"},
-        {propertyName: getBrand, dataType: "function"},
-        {propertyName: getProduct, dataType: "function"},
-        {propertyName: "size", dataType: "string"},
-        {propertyName: "name", dataType: "string"},
-        {propertyName: "rop", dataType: "string"},
-        {propertyName: "roq", dataType: "string"},
-        {propertyName: getStatus, dataType: "function"}
+        { propertyName: "code", dataType: "string" },
+        { propertyName: "image", dataType: "image-array" },
+        { propertyName: getManufacture, dataType: "function" },
+        { propertyName: getBrand, dataType: "function" },
+        { propertyName: getProduct, dataType: "function" },
+        { propertyName: "size", dataType: "string" },
+        { propertyName: "name", dataType: "string" },
+        { propertyName: "rop", dataType: "string" },
+        { propertyName: "roq", dataType: "string" },
+        { propertyName: getStatus, dataType: "function" }
     ];
 
     fillDataIntoTable(tableProductBody, products, propertyList, productFormRefill);
@@ -62,15 +62,21 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([ textProductName, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
+    setDefault([textProductName, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
 
     let manufactures = getServiceRequest('/productmanufacture/alldata');
-    fillDataIntoSelect(textManufacture,"Select Manufacture",manufactures,"name");
+    fillDataIntoSelect(textManufacture, "Select Manufacture", manufactures, "name");
 
-    
+    // let brands = getServiceRequest('/productbrand/alldata');
+    // fillDataIntoSelect(textBrand, "Select Brand", brands, "name");
+
+    // let products = getServiceRequest('/productitem/alldata');
+    // fillDataIntoSelect(selectProduct, "Select Product", products, "name");
+
+
     let status = getServiceRequest('/productstatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select Status",status,"name");
+    fillDataIntoSelect(selectStatus, "Select Status", status, "name");
     selectStatus.value = JSON.stringify(status[0]); // set default values
     product.productstatus_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen"
@@ -81,20 +87,20 @@ const refreshProductForm = () => {
 // Filter brand by manufacture 
 const filterBrandByManufacture = () => {
     let brands = getServiceRequest('/brands/bymanufcature/' + JSON.parse(textManufacture.value).id);
-    fillDataIntoSelect(textBrand,"Select Brand",brands,"name");
+    fillDataIntoSelect(textBrand, "Select Brand", brands, "name");
 }
 
 // Filter product item by brand
 const filterProductItemByBrand = () => {
     let products = getServiceRequest('/productitem/bybrand/' + JSON.parse(textBrand.value).id);
-    fillDataIntoSelect(selectProduct,"Select Product",products,"name");
+    fillDataIntoSelect(selectProduct, "Select Product", products, "name");
 }
 
 // Common function to update product.name
-let textManufactureElement  = document.querySelector("#textManufacture");
-let textBrandElement  = document.querySelector("#textBrand");
+let textManufactureElement = document.querySelector("#textManufacture");
+let textBrandElement = document.querySelector("#textBrand");
 let selectProductElement = document.querySelector("#selectProduct");
-let textSizeElement   = document.querySelector("#textSize");
+let textSizeElement = document.querySelector("#textSize");
 let selectUnitElement = document.querySelector("#selectUnit");
 
 function updateProductName() {
@@ -102,12 +108,12 @@ function updateProductName() {
         if (!textManufactureElement || !textManufactureElement.value || textManufactureElement.value === "") return;
         if (!textBrandElement || !textBrandElement.value || textBrandElement.value === "") return;
         if (!selectProductElement || !selectProductElement.value || selectProductElement.value === "") return;
-        
+
         let manufacture = JSON.parse(textManufactureElement.value);
         let brand = JSON.parse(textBrandElement.value);
-        let item  = JSON.parse(selectProductElement.value);
-        let size  = textSizeElement ? textSizeElement.value : "";
-        let unit  = (selectUnitElement && selectUnitElement.value) ? selectUnitElement.value : "";
+        let item = JSON.parse(selectProductElement.value);
+        let size = textSizeElement ? textSizeElement.value : "";
+        let unit = (selectUnitElement && selectUnitElement.value) ? selectUnitElement.value : "";
         // Build name parts, skip empty parts to avoid extra spaces
         let parts = [manufacture.name, brand.name, item.name];
         if (size && size.trim() !== "") parts.push(size.trim());
@@ -126,7 +132,7 @@ textBrandElement.addEventListener("change", updateProductName);
 selectProductElement.addEventListener("change", updateProductName);
 textSizeElement.addEventListener("input", updateProductName);
 if (selectUnitElement) {
-    selectUnitElement.addEventListener("change", ()=>{
+    selectUnitElement.addEventListener("change", () => {
         // selectStaticElementValidator will set product.unit via onchange attribute; keep product in-sync and regenerate name
         if (product) product.unit = selectUnitElement.value ? selectUnitElement.value : null;
         updateProductName();
@@ -147,7 +153,7 @@ const productFormRefill = (ob, index) => {
     } else {
         imgproductPhotoPreview.src = "/images/default.png";
     }
-    
+
     textProductName.value = ob.name;
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);
@@ -159,7 +165,7 @@ const productFormRefill = (ob, index) => {
         if (product) product.unit = ob.unit ? ob.unit : null;
     }
     // regenerate product name after populating brand/product/size/unit
-    try { updateProductName(); } catch(e) { /* ignore if elements not ready */ }
+    try { updateProductName(); } catch (e) { /* ignore if elements not ready */ }
     textROQ.value = ob.roq;
     textROP.value = ob.rop;
     selectStatus.value = JSON.stringify(ob.productstatus_id);
@@ -191,8 +197,8 @@ const buttonProductDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshProductTable();
-            $("#modalProductForm").modal("hide"); 
-        }else{
+            $("#modalProductForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -203,44 +209,44 @@ const buttonProductPrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Product code </th><td>"+ ob.code +"</td></tr>" 
-                +"<tr><th> Image </th><td>"+ ob.image +"</td></tr>" 
-                +"<tr><th> Name </th><td>"+ ob.name +"</td></tr>" 
-                +"<tr><th> Brand </th><td>"+ ob.productbrand_id.name +"</td></tr>" 
-                +"<tr><th> Size </th><td>"+ ob.size +"</td></tr>" 
-                +"<tr><th> ROP </th><td>"+ ob.rop +"</td></tr>" 
-                +"<tr><th> Discount </th><td>"+ ob.roq +"</td></tr>" 
-                +"<tr><th> Profit </th><td>"+ ob.profit_rate +"</td></tr>" 
-                +"<tr><th> Manufacture </th><td>"+ ob.productmanufacture_id.name +"</td></tr>" 
-                +"<tr><th> Category </th><td>"+ ob.productcategory_id.name +"</td></tr>" 
-                +"<tr><th> Department </th><td>"+ ob.productcategory_id.productdepartment_id.name +"</td></tr> "
-                +"<tr><th> Status </th><td>"+ ob.productstatus_id.name +"</td></tr> "
-            +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Product code </th><td>" + ob.code + "</td></tr>"
+        + "<tr><th> Image </th><td>" + ob.image + "</td></tr>"
+        + "<tr><th> Name </th><td>" + ob.name + "</td></tr>"
+        + "<tr><th> Brand </th><td>" + ob.productbrand_id.name + "</td></tr>"
+        + "<tr><th> Size </th><td>" + ob.size + "</td></tr>"
+        + "<tr><th> ROP </th><td>" + ob.rop + "</td></tr>"
+        + "<tr><th> Discount </th><td>" + ob.roq + "</td></tr>"
+        + "<tr><th> Profit </th><td>" + ob.profit_rate + "</td></tr>"
+        + "<tr><th> Manufacture </th><td>" + ob.productmanufacture_id.name + "</td></tr>"
+        + "<tr><th> Category </th><td>" + ob.productcategory_id.name + "</td></tr>"
+        + "<tr><th> Department </th><td>" + ob.productcategory_id.productdepartment_id.name + "</td></tr> "
+        + "<tr><th> Status </th><td>" + ob.productstatus_id.name + "</td></tr> "
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalProductForm").modal("hide"); 
+        $("#modalProductForm").modal("hide");
     }, 500);
 }
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (product.productmanufacture_id == null) {
         errors = errors + "Please select manufacture \n";
@@ -268,10 +274,10 @@ const checkFormError = ()=>{
 
 const buttonProductSubmit = () => {
     console.log(product);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ product.name +"?");
+        let userConfirm = window.confirm("Are you sure to add " + product.name + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/product/insert", "POST", product);
             if (postResponce == "OK") {
@@ -279,11 +285,11 @@ const buttonProductSubmit = () => {
                 refreshProductTable();
                 refreshProductForm();
                 $("#modalProductForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
@@ -293,7 +299,7 @@ const checkFormUpdate = () => {
 
     console.log(product);
     console.log(oldProduct);
-    
+
     if (product != null && oldProduct !== null) {
         if (product.image != oldProduct.image) {
             updates = updates + "Product image - " + oldProduct.image + " to " + product.image + "\n";
@@ -327,11 +333,11 @@ const checkFormUpdate = () => {
         }
         if (product.rop != oldProduct.rop) {
             updates = updates + "ROP - " + oldProduct.rop + " to " + product.rop + "\n";
-        }  
+        }
         if (product.roq != oldProduct.roq) {
             updates = updates + "ROQ - " + oldProduct.roq + " to " + product.roq + "\n";
         }
-        if (product.size != oldProduct.size) {  
+        if (product.size != oldProduct.size) {
             updates = updates + "Size - " + oldProduct.size + " to " + product.size + "\n";
         }
     }
@@ -346,7 +352,7 @@ const buttonProductUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ product.name +"? \n"  + updates);
+            let userConfirm = window.confirm("Are you sure to update " + product.name + "? \n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/product/update", "PUT", product);
                 if (putResponce == "OK") {
@@ -390,14 +396,14 @@ const buttonAddNew = () => {
 
 
 const refreshProductManufactureForm = () => {
-    
+
     productmanufacture = new Object();
     formProduct.reset();
 
     setDefault([textManufacture]);
 }
 
-const checkProductManufactureFormError = ()=>{
+const checkProductManufactureFormError = () => {
     let errors = "";
     if (productmanufacture.name == null) {
         errors = errors + "Please Enter manufacture name\n"
@@ -411,7 +417,7 @@ const buttonProductManufactureSubmit = () => {
 
     let errors = checkProductManufactureFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ productmanufacture.name +"?");
+        let userConfirm = window.confirm("Are you sure to add " + productmanufacture.name + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/productmanufacture/insert", "POST", productmanufacture);
             if (postResponce == "OK") {
@@ -420,11 +426,11 @@ const buttonProductManufactureSubmit = () => {
                 refreshProductManufactureForm();
                 refreshProductForm();
                 $("#modalProductForm").modal("show");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
