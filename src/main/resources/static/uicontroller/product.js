@@ -21,7 +21,7 @@ const refreshProductTable = () => {
         { propertyName: getManufacture, dataType: "function" },
         { propertyName: getBrand, dataType: "function" },
         { propertyName: getProduct, dataType: "function" },
-        { propertyName: "size", dataType: "string" },
+        { propertyName: getSize, dataType: "function" },
         { propertyName: "name", dataType: "string" },
         { propertyName: "rop", dataType: "string" },
         { propertyName: "roq", dataType: "string" },
@@ -31,6 +31,10 @@ const refreshProductTable = () => {
     fillDataIntoTable(tableProductBody, products, propertyList, productFormRefill);
 }
 
+
+const getSize = (dataOb) => {
+    return dataOb.size + dataOb.unit;
+}
 const getManufacture = (dataOb) => {
     return dataOb.productmanufacture_id.name;
 }
@@ -62,7 +66,7 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([textProductName, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
+    setDefault([textProductName, selectProduct, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
 
     let manufactures = getServiceRequest('/productmanufacture/alldata');
@@ -82,18 +86,22 @@ const refreshProductForm = () => {
     selectStatus.style.border = "1px solid lightgreen"
 
     textProductName.disabled = "disabled";
+    textBrandElement.disabled = "disabled";
+    selectProductElement.disabled = "disabled";
 }
 
 // Filter brand by manufacture 
 const filterBrandByManufacture = () => {
     let brands = getServiceRequest('/brands/bymanufcature/' + JSON.parse(textManufacture.value).id);
     fillDataIntoSelect(textBrand, "Select Brand", brands, "name");
+    textBrandElement.disabled = false;
 }
 
 // Filter product item by brand
 const filterProductItemByBrand = () => {
     let products = getServiceRequest('/productitem/bybrand/' + JSON.parse(textBrand.value).id);
     fillDataIntoSelect(selectProduct, "Select Product", products, "name");
+    selectProductElement.disabled = false;
 }
 
 // Common function to update product.name
@@ -228,8 +236,6 @@ const buttonProductPrint = (ob, index) => {
         + "<tr><th> Discount </th><td>" + ob.roq + "</td></tr>"
         + "<tr><th> Profit </th><td>" + ob.profit_rate + "</td></tr>"
         + "<tr><th> Manufacture </th><td>" + ob.productmanufacture_id.name + "</td></tr>"
-        + "<tr><th> Category </th><td>" + ob.productcategory_id.name + "</td></tr>"
-        + "<tr><th> Department </th><td>" + ob.productcategory_id.productdepartment_id.name + "</td></tr> "
         + "<tr><th> Status </th><td>" + ob.productstatus_id.name + "</td></tr> "
         + "</tbody>"
         + "</table>"
