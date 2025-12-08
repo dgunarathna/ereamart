@@ -396,6 +396,7 @@ const buttonQuotationItemSubmit = () => {
     
     quotation.quotationHasProductList.push(quotationHasItem);
     refreshQuotationInnerForm();
+    selectsupplier.disabled = "disabled";
 }
 
 const buttonQuotationItemUpdate = () => {
