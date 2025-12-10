@@ -92,7 +92,7 @@ const supplierFormRefill = (ob, index) => {
     // oldSupplier = JSON.parse(JSON.stringify(ob));
 
     $("#modalSupplierForm").modal("show");
-    $("#modalSupplierFormLabel").text(ob.reg_no);
+    $("#modalSupplierFormLabel").text(ob.name);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
 

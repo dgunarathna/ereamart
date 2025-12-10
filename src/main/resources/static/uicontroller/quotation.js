@@ -388,7 +388,13 @@ const quotationInnerFormDelete = (ob, index) => {
             quotation.quotationHasProductList.splice(extIndex,1);
         }
         refreshQuotationInnerForm();
+
+        if (quotation.quotationHasProductList.length === 0) {
+            selectsupplier.disabled = false;
+        }
     }
+
+    
 }
 
 const buttonQuotationItemSubmit = () => {
