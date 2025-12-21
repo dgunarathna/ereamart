@@ -70,6 +70,10 @@ const QuotationFormRefill = (ob, index) => {
     refreshQuotationForm();
     console.log("Edit", ob, index);
 
+    selectsupplier.disabled = "disabled";
+    textItems.disabled = "disabled";
+
+
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     textItems.value = ob.totalitems;
     selectrequireddate.value = ob.requestdate;
@@ -281,6 +285,8 @@ const buttonrAddNew = () => {
     $("#buttonDelete").hide();
     $("#buttonPrint").hide();
     $("#buttonUpdate").hide();
+
+    selectsupplier.disabled = false;
 }
 
 // inner form ***************************************************************************************************************************************************************************************
@@ -360,6 +366,8 @@ const quotationInnerFormRefill = (ob, index) =>{
 
     refreshQuotationInnerForm();
     console.log("Edit", ob, index);
+
+
     
     innerFormIndex = index;
 
@@ -376,6 +384,8 @@ const quotationInnerFormRefill = (ob, index) =>{
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
+
+
 }
 
 const quotationInnerFormDelete = (ob, index) => {
