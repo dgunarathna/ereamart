@@ -7,7 +7,7 @@ import com.ereamart.entity.Orders;
 
 public interface OrdersDao extends JpaRepository<Orders, Integer>{
 
-    @Query(value = "SELECT COALESCE(CONCAT('O', (SUBSTRING(MAX(o.orders_code), 2) + 1)), 'O1') FROM ereamart.orders as o", nativeQuery = true)
+    @Query(value = "SELECT CONCAT('O', COALESCE(MAX(CAST(SUBSTRING(o.orders_code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.orders as o;", nativeQuery = true)
     String getNextOrderCode();
  
 }

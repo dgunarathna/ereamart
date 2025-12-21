@@ -12,7 +12,7 @@ public interface InventoryDao extends JpaRepository<Inventory, Integer>{
     Product getByName(String name);
 
     //for get next code
-    @Query(value = "SELECT coalesce(CONCAT('I', (SUBSTRING(MAX(e.inventory_code), 2) + 1)), 'I1') FROM ereamart.inventory as i;", nativeQuery = true)
+    @Query(value = "SELECT CONCAT('I', COALESCE(MAX(CAST(SUBSTRING(i.inventory_code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.inventory as i;", nativeQuery = true)
     String getNextCode();
 
     @Query(value = "SELECT SUM(total_qty) AS total_qty FROM ereamart.inventory WHERE product_id = 1;", nativeQuery = true)

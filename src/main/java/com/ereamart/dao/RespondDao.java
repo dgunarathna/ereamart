@@ -7,7 +7,7 @@ import com.ereamart.entity.Respond;
 
 public interface RespondDao extends JpaRepository<Respond, Integer>{
 
-    @Query(value = "SELECT coalesce(CONCAT('R', (SUBSTRING(MAX(r.respond_code), 2) + 1)), 'R1') FROM ereamart.respond as r;", nativeQuery = true)
+    @Query(value = "SELECT CONCAT('R', COALESCE(MAX(CAST(SUBSTRING(r.respond_code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.respond as r;", nativeQuery = true)
     String getNextCode();
 
 

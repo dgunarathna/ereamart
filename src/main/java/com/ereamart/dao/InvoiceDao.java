@@ -12,6 +12,6 @@ public interface InvoiceDao extends JpaRepository<Invoice, Integer>{
     Product getByName(String name);
 
     //for get next code when new product
-    @Query(value = "SELECT coalesce(CONCAT('I', (SUBSTRING(MAX(e.invoice_code), 2) + 1)), 'I1')) FROM ereamart.invoice as i;", nativeQuery = true)
+    @Query(value = "SELECT CONCAT('I', COALESCE(MAX(CAST(SUBSTRING(i.invoice_code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.invoice as i;", nativeQuery = true)
     String getNextCode();
 }

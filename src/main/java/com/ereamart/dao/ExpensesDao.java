@@ -11,6 +11,6 @@ public interface ExpensesDao extends JpaRepository<Expenses, Integer>{
     @Query(value = "Select e from Expenses e where e.bill_no=?1") 
     Product getByName(String name);
 
-    @Query(value = "SELECT COALESCE(CONCAT('I', (SUBSTRING(MAX(e.bill_no), 2) + 1)), 'I1') FROM ereamart.expenses as e", nativeQuery = true)
+    @Query(value = "SELECT CONCAT('I', COALESCE(MAX(CAST(SUBSTRING(e.bill_no, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.expenses as e;", nativeQuery = true)
     String getNextCode(); 
 }
