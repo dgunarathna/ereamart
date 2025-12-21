@@ -17,6 +17,7 @@ const refreshProductTable = () => {
 
     let propertyList = [
         { propertyName: "code", dataType: "string" },
+        { propertyName: "barcode", dataType: "string" },
         { propertyName: "image", dataType: "image-array" },
         { propertyName: getManufacture, dataType: "function" },
         { propertyName: getBrand, dataType: "function" },
@@ -66,7 +67,7 @@ const refreshProductForm = () => {
     fileProductPhoto.value = "";
     imgproductPhotoPreview.src = "/images/default.png";
 
-    setDefault([textProductName, selectProduct, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
+    setDefault([textProductName, textBarcode, selectProduct, textManufacture, textBrand, textSize, selectUnit, textROP, textROQ, selectStatus]);
 
 
     let manufactures = getServiceRequest('/productmanufacture/alldata');
@@ -110,6 +111,7 @@ let textBrandElement = document.querySelector("#textBrand");
 let selectProductElement = document.querySelector("#selectProduct");
 let textSizeElement = document.querySelector("#textSize");
 let selectUnitElement = document.querySelector("#selectUnit");
+let textBarcodeElement = document.querySelector("#textBarcode");
 
 function updateProductName() {
     try {
@@ -163,6 +165,7 @@ const productFormRefill = (ob, index) => {
     }
 
     textProductName.value = ob.name;
+    textBarcode.value = ob.barcode ? ob.barcode : "";
     textManufacture.value = JSON.stringify(ob.productmanufacture_id);
     textBrand.value = JSON.stringify(ob.productbrand_id);
     selectProduct.value = JSON.stringify(ob.productitem_id);
@@ -228,6 +231,7 @@ const buttonProductPrint = (ob, index) => {
         + "<table class='table'>"
         + "<tbody>"
         + "<tr><th> Product code </th><td>" + ob.code + "</td></tr>"
+        + "<tr><th> Barcode </th><td>" + (ob.barcode ? ob.barcode : "") + "</td></tr>"
         + "<tr><th> Image </th><td>" + ob.image + "</td></tr>"
         + "<tr><th> Name </th><td>" + ob.name + "</td></tr>"
         + "<tr><th> Brand </th><td>" + ob.productbrand_id.name + "</td></tr>"
@@ -330,6 +334,9 @@ const checkFormUpdate = () => {
         }
         if (product.productstatus_id.name != oldProduct.productstatus_id.name) {
             updates = updates + "Status - " + oldProduct.productstatus_id.name + " to " + product.productstatus_id.name + "\n";
+        }
+        if (product.barcode != oldProduct.barcode) {
+            updates = updates + "Barcode - " + (oldProduct.barcode ? oldProduct.barcode : "") + " to " + (product.barcode ? product.barcode : "") + "\n";
         }
         if (product.productname != oldProduct.productname) {
             updates = updates + "Product name - " + oldProduct.productname + " to " + product.productname + "\n";

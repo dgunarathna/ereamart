@@ -38,7 +38,8 @@ public class Product {
 
     @NotNull
     private String code;
-
+    
+    private String barcode;
     @NotNull
     private String size;
 

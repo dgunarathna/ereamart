@@ -12,6 +12,8 @@ public interface ProductDao extends JpaRepository<Product, Integer>{
     @Query(value = "Select p from Product p where p.name=?1") 
     Product getByName(String name);
 
+    Product getByBarcode(String barcode);
+
     //for get next code when new product
     @Query(value = "SELECT CONCAT('P', COALESCE(MAX(CAST(SUBSTRING(p.code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.product as p;", nativeQuery = true)
     String getNextCode();
