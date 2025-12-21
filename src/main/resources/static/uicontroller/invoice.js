@@ -327,8 +327,8 @@ const refreshinvoiceInnerForm = () =>{
 
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
  
-    selectItems = getServiceRequest('/product/alldata');       
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+    selectItems = getServiceRequest('/product/alldata').map(item => ({...item, barcodeName: `${item.barcode} - ${item.name}`}));   
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"barcodeName"); 
 
 
     //refresh inner table ****************************************************************************************************************************************************************************   
