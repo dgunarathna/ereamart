@@ -313,14 +313,16 @@ const buttonrAddNew = () => {
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
     let extIndex = respond.respondHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let getQty = getServiceRequest('/productqty/byquotation/' + JSON.parse(selectquotation.value).id + '/productqty/byquotation/' + JSON.parse(selectItem.value).id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshRespondInnerForm();
     } else {
-        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
         respondHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
-        textUnitPrice.style.border = "1px solid lightgreen"
+        textQTY.value = getQty;
+        respondHasProduct.quantity = textQTY.value;
+        calculateLinePrice();
     }
 }
 
@@ -345,10 +347,9 @@ const calculateLinePrice = ()=> {
 const refreshRespondInnerForm = () =>{
     respondHasProduct = new Object();
 
-    selectItem.disabled = "";
+    selectItem.value = "";
 
     textUnitPrice.value = "";
-    textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
     textLinePrice.disabled = "disabled";
@@ -357,13 +358,6 @@ const refreshRespondInnerForm = () =>{
 
     setDefault([selectItem,  textQTY, textUnitPrice, textLinePrice]);
 
-    let selectItems = [];
-    if (selectsupplier.value != "") {
-        selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
-    } else {
-        selectItems = getServiceRequest('/product/alldata');
-    }        
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 
 
     //refresh inner table ****************************************************************************************************************************************************************************   
@@ -444,6 +438,7 @@ const buttonRespondItemSubmit = () => {
 
     respond.respondHasProductList.push(respondHasProduct);
     refreshRespondInnerForm();
+
 }
 
 const buttonRespondItemUpdate = () => {
