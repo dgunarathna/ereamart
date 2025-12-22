@@ -13,6 +13,7 @@ const refreshRespondTable = () => {
     // function > object, array, boolean
     let propertyList = [
         {propertyName: "respond_code", dataType: "string"},
+        {propertyName: getQuotationCode, dataType: "function"},
         {propertyName: getSupplier, dataType: "function"},
         {propertyName: "totalprice", dataType: "string"},
         {propertyName: "request_date", dataType: "string"},
@@ -23,7 +24,11 @@ const refreshRespondTable = () => {
 }
 
 const getSupplier = (dataOb) => {
-    return dataOb.supplier_id.reg_no;
+    return dataOb.supplier_id.name;
+}
+
+const getQuotationCode = (dataOb) => {  
+    return dataOb.quotation_id.quotation_code;
 }
 
 const getStatus = (dataOb) => {
