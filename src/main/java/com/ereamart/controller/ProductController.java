@@ -270,5 +270,19 @@ public class ProductController {
 
 
 
+	//  request mapping for load productbrand all data - /product/byquotation
+    @GetMapping(value = "/product/byquotation/{quotationID}", produces = "application/json")
+    public List<Product> findProductByQuotationID(@PathVariable("quotationID") Integer quotationID){
+		
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductByQuotationID(quotationID);
+			} else {
+				return new ArrayList<>();
+			}
+    }
 
 }

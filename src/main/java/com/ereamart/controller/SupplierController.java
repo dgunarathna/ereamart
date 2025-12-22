@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -199,4 +200,18 @@ public class SupplierController {
 		}
     } 
 
+	//request mapping for load supplier by quotation id - /supplier/byquotation/{id}
+	@GetMapping(value = "/supplier/byquotation/{id}", produces = "application/json")
+	public List<Supplier> getSupplierByQuotation(@PathVariable("id") Integer id) {
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Quotation");
+		
+		if (userPrivilege.getPrivi_select()) {
+			return supplierDao.findByQuotationId(id);
+		} else {
+			return null;
+		}
+	}
+	
 }

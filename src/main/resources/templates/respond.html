@@ -82,11 +82,11 @@
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Qutation<span class="text-danger">*</span></label>
-                <select id="selectquotation" Required class="form-select" onchange="selectDynamicElementValidator(this,'respond','quotation_id');"></select>
+                <select id="selectquotation" Required class="form-select" onchange="selectDynamicElementValidator(this,'respond','quotation_id'); filterSupplierByQuotation(); filterProductByQuotation();"></select>
               </div>
               <div class="col-xl-4">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
-                <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'respond','supplier_id'); filterProductBySupplier();" ></select>
+                <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'respond','supplier_id');" ></select>
               </div>
               
               <div class="col-xl-11">

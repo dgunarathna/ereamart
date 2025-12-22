@@ -14,5 +14,4 @@ public interface QuotationDao extends JpaRepository<Quotation, Integer>{
     //for get next code when new quotation
     @Query(value = "SELECT CONCAT('Q', COALESCE(MAX(CAST(SUBSTRING(q.quotation_code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.quotation as q;", nativeQuery = true)
     String getNextCode();
-
 }

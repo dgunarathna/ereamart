@@ -1,5 +1,7 @@
 package com.ereamart.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,4 +15,8 @@ public interface SupplierDao extends JpaRepository<Supplier, Integer>{
 
     @Query(value = "SELECT CONCAT('S', COALESCE(MAX(CAST(SUBSTRING(s.reg_no, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.supplier as s;", nativeQuery = true)
     String getNextRegNo();
+
+    @Query(value = "SELECT s.* FROM ereamart.supplier s " + "WHERE s.id = (SELECT q.supplier_id FROM ereamart.quotation q WHERE q.id = ?1)", nativeQuery = true)
+    List<Supplier> findByQuotationId(Integer quotationId);
+
 }

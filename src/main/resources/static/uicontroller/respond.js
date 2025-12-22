@@ -47,9 +47,6 @@ const refreshRespondForm = () => {
     let quotations = getServiceRequest('/quotation/alldata');
     fillDataIntoSelect(selectquotation,"Select quotation",quotations,"quotation_code");
 
-    let supliers = getServiceRequest('/supplier/alldata');
-    fillDataIntoSelect(selectsupplier,"Select supplier",supliers,"name");
-
     let status = getServiceRequest('/respondstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
     selectStatus.value = JSON.stringify(status[0]); // set default values
@@ -64,6 +61,21 @@ const refreshRespondForm = () => {
     //inner form ************************************
     refreshRespondInnerForm();
 
+}
+
+// filter supplier by select quotation 
+const filterSupplierByQuotation = () => {
+    let suppliers = getServiceRequest('/supplier/byquotation/' + JSON.parse(selectquotation.value).id);
+    fillDataIntoSelect(selectsupplier,"Select Supplier",suppliers,"name"); 
+    selectsupplier.value = JSON.stringify(suppliers[0]); // set default values
+    respond.supplier_id = JSON.parse(selectsupplier.value);
+    selectsupplier.style.border = "1px solid lightgreen";
+}
+
+// filter products by select supplier dropdown
+const filterProductByQuotation = () => {
+    let selectItems = getServiceRequest('/product/byquotation/' + JSON.parse(selectquotation.value).id);
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 }
 
 
@@ -328,11 +340,7 @@ const calculateLinePrice = ()=> {
     }
 }
 
-// filter products by select supplier dropdown
-const filterProductBySupplier = () => {
-    let selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
-}
+
 
 const refreshRespondInnerForm = () =>{
     respondHasProduct = new Object();
