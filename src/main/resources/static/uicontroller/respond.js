@@ -47,7 +47,7 @@ const refreshRespondForm = () => {
     
     formRespond.reset();
 
-    setDefault([selectquotation, selectsupplier, selectrequireddate, selectStatus, textdiscount, texttotalamount]);
+        setDefault([selectquotation, selectsupplier, selectrequireddate, selectStatus, texttotalamount]);
     
     let quotations = getServiceRequest('/quotation/alldata');
     fillDataIntoSelect(selectquotation,"Select quotation",quotations,"quotation_code");
@@ -88,10 +88,15 @@ const respondFormRefill = (ob, index) => {
     refreshRespondForm();
     console.log("Edit", ob, index);
 
+    let suppliers = getServiceRequest('/supplier/alldata');
+    fillDataIntoSelect(selectsupplier,"Select Supplier",suppliers,"name"); 
+
+    let quotations = getServiceRequest('/quotation/alldata');
+    fillDataIntoSelect(selectquotation,"Select quotation",quotations,"quotation_code");
+
     selectrequireddate.value = ob.request_date;
     selectquotation.value = JSON.stringify(ob.quotation_id);
     selectsupplier.value = JSON.stringify(ob.supplier_id);
-    textdiscount.value = ob.discount;
     texttotalamount.value = ob.totalprice;
     selectStatus.value = JSON.stringify(ob.respond_status_id);
 
@@ -155,7 +160,6 @@ const buttonRespondPrint = (ob, index) => {
             +"<tbody>"
                 +"<tr><th> Respond code </th><td>"+ ob.respond_code +"</td></tr>" 
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
-                +"<tr><th> Discount  </th><td>"+ ob.discount +"</td></tr>"  
                 +"<tr><th> Total Items  </th><td>"+ ob.totalprice +"</td></tr>"  
                 +"<tr><th> Request Date </th><td>"+ ob.request_date +"</td></tr>" 
                 +"<tr><th> Status </th><td>"+ ob.respond_status_id.name +"</td></tr>" 
@@ -224,9 +228,6 @@ const checkFormUpdate = () => {
     if (respond != null && oldRespond !== null) {
         if (respond.totalitems != oldRespond.totalitems) {
             updates = updates + "Totalitems - " + oldRespond.totalitems + " to " + respond.totalitems + "\n";
-        }
-        if (respond.discount != oldRespond.discount) {
-            updates = updates + "Discount - " + oldRespond.discount + " to " + respond.discount + "\n";
         }
         if (respond.totalprice != oldRespond.totalprice) {
             updates = updates + "Totalitems - " + oldRespond.totalprice + " to " + respond.totalprice + "\n";
@@ -402,20 +403,17 @@ const getProductName = (dataOb) => {
 }
 
 const respondInnerFormRefill = (ob, index) =>{
-
+    
     refreshRespondInnerForm();
     console.log("Edit", ob, index);
-    
     innerFormIndex = index;
 
     respondHasProduct = JSON.parse(JSON.stringify(ob));
     oldRespondHasProduct = JSON.parse(JSON.stringify(ob));
 
-
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 
-    selectItem.disabled = "disabled";
     selectItem.value = JSON.stringify(respondHasProduct.product_id);
     textUnitPrice.value = parseFloat(respondHasProduct.unitprice);
     textQTY.value = respondHasProduct.quantity;
@@ -423,6 +421,8 @@ const respondInnerFormRefill = (ob, index) =>{
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
+    filterSupplierByQuotation(); 
+    filterProductByQuotation();
 }
 
 const respondInnerFormDelete = (ob, index) => {

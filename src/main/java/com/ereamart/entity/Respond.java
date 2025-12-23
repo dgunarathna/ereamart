@@ -39,7 +39,7 @@ public class Respond {
 
     private BigDecimal totalprice;
 
-    private BigDecimal discount;
+    
 
     private Date request_date;
 
