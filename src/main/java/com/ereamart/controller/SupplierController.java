@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.SupplierDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Privilege;
+import com.ereamart.entity.Respond;
 import com.ereamart.entity.Supplier;
 import com.ereamart.entity.SupplierStatusDao;
 import com.ereamart.entity.User;
@@ -205,7 +206,7 @@ public class SupplierController {
 	public List<Supplier> getSupplierByQuotation(@PathVariable("id") Integer id) {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Quotation");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Supplier");
 		
 		if (userPrivilege.getPrivi_select()) {
 			return supplierDao.findByQuotationId(id);
@@ -214,4 +215,19 @@ public class SupplierController {
 		}
 	}
 	
+
+	// return supplier by respond ID
+    @GetMapping(value = "/supplier/byrespond/{respondID}", produces = "application/json")
+    public List<Supplier> findSupplierbyRespondID(@PathVariable("respondID") Integer respondID){
+		
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Supplier");
+
+			if (userPrivilege.getPrivi_select()) {
+			return supplierDao.findSupplierIdByRespondID(respondID);
+			} else {
+				return null;
+			}
+    }
 }

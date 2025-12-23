@@ -63,6 +63,10 @@ public class Orders {
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier_id;
 
+    @ManyToOne()
+    @JoinColumn(name = "respond_id", referencedColumnName = "id")
+    private Respond respond_id;
+
     @OneToMany(mappedBy = "orders_id", cascade = CascadeType.ALL ,orphanRemoval = true)
     private List<OrdersHasProduct> orderHasProductList;
 

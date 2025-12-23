@@ -19,4 +19,7 @@ public interface SupplierDao extends JpaRepository<Supplier, Integer>{
     @Query(value = "SELECT s.* FROM ereamart.supplier s " + "WHERE s.id = (SELECT q.supplier_id FROM ereamart.quotation q WHERE q.id = ?1)", nativeQuery = true)
     List<Supplier> findByQuotationId(Integer quotationId);
 
+    @Query(value = "SELECT s.* FROM ereamart.supplier s WHERE s.id = (SELECT r.supplier_id FROM ereamart.respond r WHERE r.id = ?1)", nativeQuery = true)
+    List<Supplier> findSupplierIdByRespondID(Integer respondID);
+
 }

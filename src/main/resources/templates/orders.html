@@ -76,11 +76,15 @@
       
           <div class="modal-body">
             <form id="formOrder" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
-              <div class="col-xl-6">
+              <div class="col-xl-4">
                 <label class="form-label">Required Date<span class="text-danger">*</span></label>
                 <input id="selectrequireddate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'order','required_date' )">
               </div>
-              <div class="col-xl-6">
+              <div class="col-xl-4">
+                <label class="form-label">Respond</label>
+                <select id="selectRespond" class="form-select" onchange="selectDynamicElementValidator(this,'order','respond_id'); filterSupplierbyRespond();"></select>
+              </div>
+              <div class="col-xl-4">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
                 <div class="input-group">
                   <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'order','supplier_id'); filterProductBySupplier();" ></select>
@@ -92,7 +96,7 @@
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <div class="input-group">
                   <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'orderHasProduct','product_id'); checkProductExt(); calculateOrderQty()"></select>
-                  <input id="textUnitPrice" type="text" Required  placeholder="Unit Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'orderHasProduct','unitprice')">
+                  <input id="textUnitPrice" type="text" Required  placeholder="Unit Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'orderHasProduct','unitprice'); calculateLinePrice()">
                   <input id="textQTY" type="text" Required  placeholder="Quantity" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'orderHasProduct','quantity'); calculateLinePrice();">
                   <input id="textLinePrice" type="text" Required  placeholder="Line Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'orderHasProduct','lineprice')">
                 </div>

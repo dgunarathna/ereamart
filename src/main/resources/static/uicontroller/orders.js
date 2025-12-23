@@ -56,10 +56,14 @@ const refreshOrderForm = () => {
 
     formOrder.reset();
 
-    setDefault([ selectrequireddate, texttotalamount, selectsupplier, selectStatus]);
+    setDefault([selectRespond, selectrequireddate, texttotalamount, selectsupplier, selectStatus]);
+    
+    let responds = getServiceRequest('/respond/alldata');
+    fillDataIntoSelect(selectRespond,"Select respond",responds,"respond_code");
 
     let suppliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectsupplier,"Select supplier",suppliers,"name");
+
 
     let status = getServiceRequest('/ordersstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
@@ -96,6 +100,15 @@ const refreshOrderForm = () => {
     refreshOrderInnerForm();
 }
 
+const filterSupplierbyRespond = () =>{
+    let selectSuppliers = getServiceRequest('/supplier/byrespond/' + JSON.parse(selectRespond.value).id);
+    fillDataIntoSelect(selectsupplier,"Select supplier",selectSuppliers,"name");
+    selectsupplier.value = JSON.stringify(selectSuppliers[0]); // set default values
+    order.supplier_id = JSON.parse(selectsupplier.value);
+    selectsupplier.style.border = "1px solid lightgreen";
+    filterProductBySupplier();
+}
+
 const orderFormRefill = (ob, index) => {
     refreshOrderForm();
     console.log("Edit", ob, index);
@@ -105,6 +118,7 @@ const orderFormRefill = (ob, index) => {
     selectsupplier.value = JSON.stringify(ob.supplier_id);
     selectsupplier.disabled = "disabled";
     selectStatus.value = JSON.stringify(ob.orders_status_id);
+    selectRespond.value = JSON.stringify(ob.respond_id);
 
     if (ob.orders_status_id.name == "Delete") {
         buttonDelete.disabled = "disabled";
@@ -165,6 +179,7 @@ const buttonOrderPrint = (ob, index) => {
             +"<table class='table mb-4'>"
             +"<tbody>"
                 +"<tr><th> Order no	 </th><td>"+ ob.orders_code +"</td></tr>" 
+                +"<tr><th> Respond no	 </th><td>"+ ob.respond_id +"</td></tr>" 
                 +"<tr><th> Required Date	 </th><td>"+ ob.required_date +"</td></tr>" 
                 +"<tr><th> Total Amount	 </th><td>"+ ob.total_amount +"</td></tr>" 
                 +"<tr><th> Supplier	 </th><td>"+ ob.supplier_id.name +"</td></tr>" 
