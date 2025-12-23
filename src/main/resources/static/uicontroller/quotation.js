@@ -377,7 +377,6 @@ const quotationInnerFormRefill = (ob, index) =>{
 
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
-    selectItem.disabled = "disabled";
     selectItem.value = JSON.stringify(quotationHasItem.product_id)
 
     textQTY.value = quotationHasItem.quantity;
