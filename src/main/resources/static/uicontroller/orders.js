@@ -56,7 +56,7 @@ const refreshOrderForm = () => {
 
     formOrder.reset();
 
-    setDefault([selectRespond, selectrequireddate, texttotalamount, selectsupplier, selectStatus]);
+    setDefault([selectItem, selectRespond, selectrequireddate, texttotalamount, selectsupplier, selectStatus]);
     
     let responds = getServiceRequest('/respond/alldata');
     fillDataIntoSelect(selectRespond,"Select respond",responds,"respond_code");
@@ -106,7 +106,14 @@ const filterSupplierbyRespond = () =>{
     selectsupplier.value = JSON.stringify(selectSuppliers[0]); // set default values
     order.supplier_id = JSON.parse(selectsupplier.value);
     selectsupplier.style.border = "1px solid lightgreen";
-    filterProductBySupplier();
+
+    let selectItems = [];
+    if (selectRespond.value != "") {
+        selectItems = getServiceRequest('/product/byrespond/' + JSON.parse(selectRespond.value).id);
+    } else {
+        selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
+    }       
+    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 }
 
 const orderFormRefill = (ob, index) => {
@@ -224,7 +231,6 @@ const checkFormError = ()=>{
 
 const buttonOrderSubmit = () => {
     console.log(order);
-    console.log("order object eka");
     
     let errors = checkFormError();
     if (errors == "") {
@@ -345,13 +351,16 @@ const buttonAddNew = () => {
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
     let extIndex = order.orderHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
-
+    let getunitPrice = getServiceRequest('/unitprice/byrespond/' + JSON.parse(selectRespond.value).id + '/byproduct/' + JSON.parse(selectItem.value).id);
+    
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshOrderInnerForm();
+        filterSupplierbyRespond();
     } else {
-        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
         orderHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
+        textUnitPrice.value = getunitPrice;
+        orderHasProduct.unitprice = textUnitPrice.value;
         textUnitPrice.style.border = "1px solid lightgreen"
     }
 }
@@ -373,11 +382,7 @@ const calculateLinePrice = ()=> {
 }
 
 
-// filter products by select supplier dropdown
-const filterProductBySupplier = () => {
-    let selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
-}
+
 
 // Calculate order quantity based on ROQ and inventory
 function calculateOrderQty() {
@@ -401,18 +406,7 @@ const refreshOrderInnerForm = () =>{
     textLinePrice.value = "";
     textLinePrice.disabled = "disabled";
     
-
-
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
-
-    let selectItems = [];
-    if (selectsupplier.value != "") {
-        selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
-    } else {
-        selectItems = getServiceRequest('/product/alldata');
-    }        
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
-
 
     //refresh inner table ****************************************************************************************************************************************************************************   
 
@@ -492,6 +486,7 @@ const buttonOrderItemSubmit = () => {
 
     order.orderHasProductList.push(orderHasProduct);
     refreshOrderInnerForm();
+    filterSupplierbyRespond();
 }
 
 const buttonOrderItemUpdate = () => {

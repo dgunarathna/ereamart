@@ -39,6 +39,9 @@ public interface ProductDao extends JpaRepository<Product, Integer>{
     @Query("SELECT qhp.quantity FROM QuotationHasProduct qhp WHERE qhp.quotation_id.id = ?1 AND qhp.product_id.id = ?2")
     Integer findQuantityByQuotationAndProduct(Integer quotationID, Integer productID);
 
+    @Query(value = "select p from Product p where p.id in (select rhp.product_id.id from RespondHasProduct rhp where rhp.respond_id.id = ?1)")
+    List<Product> findProductByRespondID(Integer respondid);
+
 
 
 

@@ -310,6 +310,17 @@ const filterProductBySupplier = () => {
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 }
 
+// Calculate order quantity based on ROQ and inventory
+function calculateOrderQty() {
+    const roq = getServiceRequest('/roq/byproduct/' + JSON.parse(selectItem.value).id);
+    const inventoryQty = getServiceRequest('/qty/byinventory/' + JSON.parse(selectItem.value).id);
+
+    const qty = roq - inventoryQty;
+    textQTY.value = qty;
+    quotationHasItem.quantity = qty;
+}
+
+
 const refreshQuotationInnerForm = () =>{
     quotationHasItem = new Object();
 

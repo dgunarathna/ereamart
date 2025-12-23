@@ -90,7 +90,7 @@
               <div class="col-xl-11">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotationHasItem','product_id'); checkProductExt();"></select>
+                  <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotationHasItem','product_id'); checkProductExt(); calculateOrderQty();"></select>
                   <input id="textQTY" type="text" Required placeholder="Quantity" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'quotationHasItem','quantity');">
                 </div>
               </div>

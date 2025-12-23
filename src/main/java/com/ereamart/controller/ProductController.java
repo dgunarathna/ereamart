@@ -301,4 +301,19 @@ public class ProductController {
 			}
     }
 
+
+	//  request mapping for load productbrand all data - /product/byrespond
+    @GetMapping(value = "/product/byrespond/{respondid}", produces = "application/json")
+    public List<Product> findProductByRespondID(@PathVariable("respondid") Integer respondid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductByRespondID(respondid);
+			} else {
+				return new ArrayList<>();
+			}
+    }
 }
