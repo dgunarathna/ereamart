@@ -127,9 +127,6 @@ const buttonCustomerPrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (customer.regno == null) {
-        errors = errors + "Please Enter Reg No\n"
-    }
     if (customer.fullname == null) {
         errors = errors + "Please Enter Name\n"
     }
@@ -138,9 +135,6 @@ const checkFormError = ()=>{
     }
     if (customer.mobileno == null) {
         errors = errors + "Please Enter Mobile\n"
-    }
-    if (customer.loyalty_points == null || !/^[0-9]+$/.test(customer.loyalty_points)) {
-        errors = errors + "Please Enter valid Loyalty Points\n"
     }
     return errors;
 };
