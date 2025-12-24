@@ -45,12 +45,6 @@ const getStatus = (dataOb) => {
 
 //form *********************************************************************************************************************************************************************************************
 
-// filter products by order dropdown
-const filterProductByGRN = () => {
-    let selectItems = getServiceRequest('/product/bygrncode/' + JSON.parse(selectGRN.value).id);
-    fillDataIntoSelect(selectProduct,"Select Product",selectItems,"name");   
-}
-
 const refreshInventoryForm = () => {
     inventory = new Object();
 
@@ -74,6 +68,28 @@ const refreshInventoryForm = () => {
     selectStatus.value = JSON.stringify(status[0]); // set default values
     inventory.inventory_status_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen";
+}
+
+
+// filter products by order dropdown
+const filterProductByGRN = () => {
+    let selectItems = getServiceRequest('/product/bygrncode/' + JSON.parse(selectGRN.value).id);
+    fillDataIntoSelect(selectProduct,"Select Product",selectItems,"name");   
+}
+
+const filterBatchByGRN = () => {
+    let getBatchNo = getServiceRequest('/batch/bygrn/' + JSON.parse(selectGRN.value).id + '/byproduct/' + JSON.parse(selectProduct.value).id);
+    textBatchNo.value = getBatchNo;
+    inventory.batch_number = textBatchNo.value;
+    textBatchNo.style.border = "1px solid lightgreen";
+
+    let getqty = getServiceRequest('/qty/bygrn/' + JSON.parse(selectGRN.value).id + '/byproduct/' + JSON.parse(selectProduct.value).id);
+    textTotalQty.value = getqty;
+    inventory.total_qty = textTotalQty.value;
+    textTotalQty.style.border = "1px solid lightgreen";
+
+    let getsaleprice = getServiceRequest('/price/bygrn/' + JSON.parse(selectGRN.value).id + '/byproduct/' + JSON.parse(selectProduct.value).id);
+    textSalePrice.placeholder = getsaleprice;
 }
 
 const inventoryFormRefill = (ob, index) => {

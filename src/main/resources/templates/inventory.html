@@ -82,38 +82,38 @@
           <div class="modal-body">
             <form id="formInventory" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
               
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <label class="form-label">GRN No<span class="text-danger">*</span></label>
                 <select id="selectGRN" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','grn_id'); filterProductByGRN();"></select>
               </div> 
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
-                <select id="selectProduct" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','product_id')"></select>
+                <select id="selectProduct" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','product_id');filterBatchByGRN();"></select>
               </div>
-              <div class="col-xl-4">
-                <label class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','inventory_status_id')"></select>
-              </div>
-              <div class="col-xl-4">
-                <label class="form-label">Sale Price<span class="text-danger">*</span></label>
-                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'inventory','sales_price')">
-              </div>
-              <div class="col-xl-4">
+              <div class="col-xl-3">
                 <label class="form-label">Total QTY<span class="text-danger">*</span></label>
                 <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'inventory','total_qty')">
               </div>
-              <div class="col-xl-4">
+              <div class="col-xl-3">
+                <label class="form-label">Sale Price<span class="text-danger">*</span></label>
+                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'inventory','sales_price')">
+              </div>
+              <div class="col-xl-3">
                 <label class="form-label">Manufacture Date<span class="text-danger">*</span></label>
                 <input id="textManufactureDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','manufacture_date' )">
               </div>
-              <div class="col-xl-4">
+              <div class="col-xl-3">
                 <label class="form-label">Expire Date<span class="text-danger">*</span></label>
                 <input id="textExpireDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','expire_date' )">
               </div>
-              <div class="col-xl-4">
+              <div class="col-xl-6">
                 <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
                 <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','batch_number')">
-              </div>    
+              </div> 
+              <div class="col-xl-6">
+                <label class="form-label">Status<span class="text-danger">*</span></label>
+                <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','inventory_status_id')"></select>
+              </div>   
             </form>
           </div>
       
