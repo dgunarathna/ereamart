@@ -42,6 +42,11 @@ const refreshGRNForm = () => {
     grn = new Object();
     grn.grnHasProductList = new Array();
     
+    textNetAmount.disabled = "disabled";
+    textTotalAmount.disabled = "disabled";
+
+
+
     formGRN.reset();
 
     setDefault([ textInvoiceNo, selectOrder, textTotalAmount, textDiscountRate, textNetAmount, textReceivedDate, selectStatus]);
@@ -62,6 +67,7 @@ const refreshGRNForm = () => {
 
     //inner form ************************************
     refreshGRNInnerForm();
+
 }
 
 const grnFormRefill = (ob, index) => {
@@ -313,14 +319,23 @@ const buttonAddNew = () => {
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
     let extIndex = grn.grnHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let getunitPrice = getServiceRequest('/unitprice/byorder/' + JSON.parse(selectOrder.value).id + '/byproduct/' + JSON.parse(selectItem.value).id);
+    let getqty = getServiceRequest('/qty/byorder/' + JSON.parse(selectOrder.value).id + '/byproduct/' + JSON.parse(selectItem.value).id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshGRNInnerForm();
     } else {
-        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
         grnHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
+        textUnitPrice.value = getunitPrice;
+        grnHasProduct.unitprice = textUnitPrice.value;
         textUnitPrice.style.border = "1px solid lightgreen"
+        textQTY.value = getqty;
+        grnHasProduct.quantity = textQTY.value;
+        textQTY.style.border = "1px solid lightgreen"
+        calculateLinePrice();
+        selectItem.style.border = "1px solid lightgreen"
+        grnHasProduct.product_id = selectedProduct;
     }
 }
 
@@ -355,22 +370,13 @@ const refreshGRNInnerForm = () =>{
     selectItem.disabled = "";
 
     textUnitPrice.value = "";
-    // textUnitPrice.disabled = "disabled";
+    textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
-    // textLinePrice.disabled = "disabled";
+    textBatchNo.value = "";
+    textLinePrice.disabled = "disabled";
 
-
-    setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
-
-    let selectItems = [];
-    if (selectOrder.value != "") {
-        selectItems = getServiceRequest('/product/byorderscode/' + JSON.parse(selectOrder.value).id);
-    } else {
-        selectItems = getServiceRequest('/product/alldata');
-    }        
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name");
-
+    setDefault([textBatchNo, selectItem, textUnitPrice, textQTY, textLinePrice]);
 
     //refresh inner table ****************************************************************************************************************************************************************************   
 
@@ -378,10 +384,10 @@ const refreshGRNInnerForm = () =>{
     // function > object, array, boolean
     let propertyList = [
         {propertyName: getProductName, dataType: "function"},
+        {propertyName: "batch_number", dataType: "string"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"},
-        {propertyName: "batch_number", dataType: "string"},
     ];
 
     fillDataIntoInnerTable(tableGRNItemBody, grn.grnHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
@@ -396,11 +402,30 @@ const refreshGRNInnerForm = () =>{
         textTotalAmount.value = totalAmount.toFixed(2);
         grn.total_amount = textTotalAmount.value;
         textTotalAmount.style.border = "1px solid lightgreen"
+
+        textDiscountRate.value = "";
+        grn.discount = textDiscountRate.value;
+
+        grn.net_amount = textTotalAmount.value;
+        textNetAmount.value = textTotalAmount.value;
+        textNetAmount.style.border = "1px solid lightgreen"
     };
 
     $("#buttonItemSubmit").show();
     $("#buttonItemUpdate").hide();
 
+    
+}
+
+const calculateNetAmount = () => {
+    if (textDiscountRate.value >= 0) {
+        let netAmount = parseFloat(textTotalAmount.value) - (parseFloat(textTotalAmount.value) * parseFloat(textDiscountRate.value) / 100);
+        grn.discount = textDiscountRate.value;
+        textDiscountRate.style.border = "1px solid lightgreen"
+        grn.net_amount = netAmount.toFixed(2);
+        textNetAmount.value = netAmount.toFixed(2);
+        textNetAmount.style.border = "1px solid lightgreen"
+    }
 }
 
 const getProductName = (dataOb) => {  

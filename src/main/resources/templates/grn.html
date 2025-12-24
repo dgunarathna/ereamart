@@ -111,10 +111,10 @@
                     <thead>
                       <tr>
                         <th>Name</th>
+                        <th>Batch No</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
                         <th>Line Price</th>
-                        <th>Batch No</th>
                         <th>Modify</th>
                       </tr>
                     </thead>
@@ -130,7 +130,7 @@
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Total Discount<span class="text-danger">*</span></label>
-                <input id="textDiscountRate" type="text" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','discount')">
+                <input id="textDiscountRate" type="number" Required class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','discount'); calculateNetAmount();">
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Net Amount<span class="text-danger">*</span></label>
