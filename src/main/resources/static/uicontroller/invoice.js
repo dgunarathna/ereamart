@@ -24,7 +24,11 @@ const refreshInvoiceTable = () => {
 }
 
 const getCustomer = (dataOb) => {
-    return dataOb.customer_id.fullname;
+    if (dataOb.customer_id == null) {
+        return "Unregisted customer";
+    } else {
+        return dataOb.customer_id.fullname;
+    }
 }
 
 const getStatus = (dataOb) => {
