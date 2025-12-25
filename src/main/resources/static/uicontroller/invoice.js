@@ -285,12 +285,13 @@ const buttonAddNew = () => {
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
     let extIndex = invoice.invoiceHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let getsaleprice = getServiceRequest('/salesprice/byproduct/' + JSON.parse(selectItem.value).id);
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshinvoiceInnerForm();
     } else {
-        textUnitPrice.value = parseFloat(selectedProduct.price).toFixed(2);
+        textUnitPrice.value = getsaleprice;
         invoiceHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen"
     }
@@ -327,9 +328,7 @@ const refreshinvoiceInnerForm = () =>{
 
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
  
-    selectItems = getServiceRequest('/product/alldata').map(item => ({...item, barcodeName: `${item.barcode} - ${item.name}`}));   
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"barcodeName"); 
-
+    getallproducts();
 
     //refresh inner table ****************************************************************************************************************************************************************************   
 
@@ -361,6 +360,17 @@ const refreshinvoiceInnerForm = () =>{
     $("#buttonItemUpdate").hide();
 
 }
+
+
+const getallproducts = () => {  
+    selectItems = getServiceRequest('/inventory/alldata');
+
+    selectItems.forEach(item => {
+        item.displayName = item.product_id.barcode + " - " + item.product_id?.name  
+    });
+    
+    fillDataIntoSelect(selectItem, "Select Product", selectItems, "displayName"); 
+}  
 
 const getProductName = (dataOb) => {  
     return dataOb.product_id.name;

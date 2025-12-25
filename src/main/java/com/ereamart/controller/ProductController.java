@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ereamart.dao.ProductDao;
 import com.ereamart.dao.ProductStatusDao;
 import com.ereamart.dao.UserDao;
+import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Privilege;
 import com.ereamart.entity.Product;
 import com.ereamart.entity.User; 
@@ -316,4 +317,5 @@ public class ProductController {
 				return new ArrayList<>();
 			}
     }
+
 }

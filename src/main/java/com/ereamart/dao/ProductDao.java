@@ -2,6 +2,7 @@ package com.ereamart.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -41,6 +42,9 @@ public interface ProductDao extends JpaRepository<Product, Integer>{
 
     @Query(value = "select p from Product p where p.id in (select rhp.product_id.id from RespondHasProduct rhp where rhp.respond_id.id = ?1)")
     List<Product> findProductByRespondID(Integer respondid);
+
+ 
+
 
 
 

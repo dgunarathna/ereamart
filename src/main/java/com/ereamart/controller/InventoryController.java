@@ -1,5 +1,6 @@
 package com.ereamart.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -198,4 +199,33 @@ public class InventoryController {
 			}
     }
 
+
+	//  request mapping for roq - 
+    @GetMapping(value = "/salesprice/byproduct/{productid}", produces = "application/json")
+    public BigDecimal findsalespriceByProduct(@PathVariable("productid") Integer productid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Inventory");
+
+			if (userPrivilege.getPrivi_select()) {
+			return inventoryDao.findsalespriceByProduct(productid);
+			} else {
+				return null;
+			}
+    };
+
+
+	// In a separate InventoryController.java
+	@GetMapping(value = "/inventory/allproducts", produces = "application/json")
+	public List<Inventory> findAllWithProduct() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Inventory");
+		
+		if (userPrivilege.getPrivi_select()) {
+			return inventoryDao.findAllWithProduct();
+		} else {
+			return new ArrayList<>();
+		}
+	}
 }
