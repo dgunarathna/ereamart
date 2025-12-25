@@ -147,6 +147,7 @@ public class InvoiceController {
                 income.setAdded_user_id(loggedUser.getId());
                 income.setIncome_status_id(incomeStatusDao.getReferenceById(1)); // Complete
                 income.setIncome_number(incomeDao.getNextCode());
+                income.set
 
                 incomeDao.save(income);
 

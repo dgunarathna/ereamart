@@ -31,7 +31,7 @@ public interface InventoryDao extends JpaRepository<Inventory, Integer>{
     @Query("SELECT i FROM Inventory i WHERE i.product_id = ?1 ORDER BY i.expire_date ASC")
     List<Inventory> findByProductOrderByExpireDateAsc(Product product);
 
-    @Query("SELECT i.sales_price FROM Inventory i WHERE i.product_id = ?1 ORDER BY i.expire_date ASC")
+    @Query(value = "SELECT inventory.sales_price FROM ereamart.inventory where inventory.product_id=?1", nativeQuery = true)
     BigDecimal findsalespriceByProduct(Integer productid);
 
     @Query("SELECT DISTINCT i FROM Inventory i LEFT JOIN FETCH i.product_id ORDER BY i.id DESC")

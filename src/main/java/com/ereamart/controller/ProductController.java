@@ -318,4 +318,18 @@ public class ProductController {
 			}
     }
 
+	//  request mapping for load productbrand all data - /product/byrespond
+    @GetMapping(value = "/product/byinventory", produces = "application/json")
+    public List<Product> findProductByInventory(){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+
+			if (userPrivilege.getPrivi_select()) {
+			return productDao.findProductByInventory();
+			} else {
+				return new ArrayList<>();
+			}
+    }
 }

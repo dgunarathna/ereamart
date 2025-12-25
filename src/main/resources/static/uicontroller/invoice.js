@@ -148,9 +148,6 @@ const buttonInvoicePrint = (ob, index) => {
 
 const checkFormError = ()=>{
     let errors = "";
-    if (invoice.customer_id == null) {
-        errors = errors + "Please Enter Customer\n"
-    }
     if (invoice.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
@@ -286,6 +283,7 @@ const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
     let extIndex = invoice.invoiceHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
     let getsaleprice = getServiceRequest('/salesprice/byproduct/' + JSON.parse(selectItem.value).id);
+    
 
     if (extIndex > -1) {
         window.alert(" Product Added already");
@@ -363,13 +361,8 @@ const refreshinvoiceInnerForm = () =>{
 
 
 const getallproducts = () => {  
-    selectItems = getServiceRequest('/inventory/alldata');
-
-    selectItems.forEach(item => {
-        item.displayName = item.product_id.barcode + " - " + item.product_id?.name  
-    });
-    
-    fillDataIntoSelect(selectItem, "Select Product", selectItems, "displayName"); 
+    selectItems = getServiceRequest('/product/byinventory');
+    fillDataIntoSelect(selectItem, "Select Product", selectItems, "name"); 
 }  
 
 const getProductName = (dataOb) => {  
