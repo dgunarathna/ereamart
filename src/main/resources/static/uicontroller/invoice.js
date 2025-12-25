@@ -45,6 +45,12 @@ const refreshInvoiceForm = () => {
     invoice = new Object();
     invoice.invoiceHasProductList = new Array();
 
+    textTotalAmount.disabled = "disabled";
+    textNetAmount.disabled = "disabled";
+    textUnitPrice.disabled = "disabled";
+    textLinePrice.disabled = "disabled";
+    textDisountAmount.value = "";
+
     formInvoice.reset();
 
     setDefault([ selectCustomer, textTotalAmount, textDisountAmount, textNetAmount, selectStatus]);
@@ -54,12 +60,17 @@ const refreshInvoiceForm = () => {
 
     let status = getServiceRequest('/invoicestatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]);
+    invoice.invoice_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen"
     
 
     //inner form ************************************
     refreshinvoiceInnerForm();
 
 }
+
+
 
 const invoiceFormRefill = (ob, index) => {
     refreshInvoiceForm();
@@ -196,14 +207,16 @@ const checkFormUpdate = () => {
         if (invoice.invoiceno != oldInvoice.invoiceno) {
             updates = updates + "Invoice no - " + oldInvoice.invoiceno + " to " + invoice.invoiceno + "\n";
         }
-        if (invoice.customer_id.name != oldInvoice.customer_id.name) {
-            updates = updates + "Customer - " + oldInvoice.customer_id.fullname + " to " + invoice.customer_id.name + "\n";
+        if (oldInvoice.customer_id != null) {
+            if (invoice.customer_id.name != oldInvoice.customer_id.name) {
+                updates = updates + "Customer - " + oldInvoice.customer_id.fullname + " to " + invoice.customer_id.name + "\n";
+            }
         }
         if (invoice.total_amount != oldInvoice.total_amount) {
             updates = updates + "Total Amount - " + oldInvoice.total_amount + " to " + invoice.total_amount + "\n";
         }
-        if (invoice.discountamount != oldInvoice.discountamount) {
-            updates = updates + "Discount Amount - " + oldInvoice.discountamount + " to " + invoice.discountamount + "\n";
+        if (invoice.discount_amount != oldInvoice.discount_amount) {
+            updates = updates + "Discount Amount - " + oldInvoice.discount_amount + " to " + invoice.discount_amount + "\n";
         }
         if (invoice.netamount != oldInvoice.netamount) {
             updates = updates + "Net Amount - " + oldInvoice.netamount + " to " + invoice.netamount + "\n";
@@ -295,9 +308,12 @@ const checkProductExt = () => {
     } else {
         textUnitPrice.value = getsaleprice;
         invoiceHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
-        textUnitPrice.style.border = "1px solid lightgreen"
+        textUnitPrice.style.border = "1px solid lightgreen";
     }
 }
+
+
+
 
 //define function for line price
 const calculateLinePrice = ()=> {
@@ -356,11 +372,31 @@ const refreshinvoiceInnerForm = () =>{
         textTotalAmount.value = totalAmount.toFixed(2);
         invoice.total_amount = textTotalAmount.value;
         textTotalAmount.style.border = "1px solid lightgreen"
+
+        
+        invoice.discount_amount = textDisountAmount.value;
+
+        invoice.net_amount = textTotalAmount.value;
+        textNetAmount.value = textTotalAmount.value;
+        textNetAmount.style.border = "1px solid lightgreen"
     };
 
     $("#buttonItemSubmit").show();
     $("#buttonItemUpdate").hide();
 
+}
+
+
+const calculateNetAmount = () => {
+    if (textDisountAmount.value >= 0) {
+        let NetAmount = parseFloat(textTotalAmount.value) - (parseFloat(textTotalAmount.value) * parseFloat(textDisountAmount.value) / 100);
+
+        invoice.discount_amount = textDisountAmount.value;
+        textDisountAmount.style.border = "1px solid lightgreen"
+        invoice.net_amount = NetAmount.toFixed(2);
+        textNetAmount.value = NetAmount.toFixed(2);
+        textNetAmount.style.border = "1px solid lightgreen"
+    }
 }
 
 

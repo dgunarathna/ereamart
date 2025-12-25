@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Discount %<span class="text-danger">*</span></label>
-                  <input id="textDisountAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','discount_amount')">
+                  <input id="textDisountAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','discount_amount');calculateNetAmount();">
                 </div>
                 <div class="col-xl-4">
                   <label class="form-label">Net Amount<span class="text-danger">*</span></label>

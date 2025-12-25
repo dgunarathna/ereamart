@@ -45,7 +45,7 @@ const refreshGRNForm = () => {
     textNetAmount.disabled = "disabled";
     textTotalAmount.disabled = "disabled";
 
-
+    textDiscountRate.value = "";
 
     formGRN.reset();
 
@@ -403,7 +403,6 @@ const refreshGRNInnerForm = () =>{
         grn.total_amount = textTotalAmount.value;
         textTotalAmount.style.border = "1px solid lightgreen"
 
-        textDiscountRate.value = "";
         grn.discount = textDiscountRate.value;
 
         grn.net_amount = textTotalAmount.value;
@@ -420,6 +419,7 @@ const refreshGRNInnerForm = () =>{
 const calculateNetAmount = () => {
     if (textDiscountRate.value >= 0) {
         let netAmount = parseFloat(textTotalAmount.value) - (parseFloat(textTotalAmount.value) * parseFloat(textDiscountRate.value) / 100);
+
         grn.discount = textDiscountRate.value;
         textDiscountRate.style.border = "1px solid lightgreen"
         grn.net_amount = netAmount.toFixed(2);
