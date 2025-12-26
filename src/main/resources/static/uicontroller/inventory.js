@@ -243,6 +243,9 @@ const checkFormUpdate = () => {
         if (inventory.saleprice != oldInventory.saleprice) {
             updates = updates + "Sale Price - " + oldInventory.saleprice + " to " + inventory.saleprice + "\n";
         }
+        if (inventory.discount != oldInventory.discount) {
+            updates = updates + "Discount - " + oldInventory.discount + " to " + inventory.discount + "\n";
+        }
         if (inventory.totalqty != oldInventory.totalqty) {
             updates = updates + "Total QTY - " + oldInventory.totalqty + " to " + inventory.totalqty + "\n";
         }

@@ -216,6 +216,22 @@ public class InventoryController {
     };
 
 
+	//  request mapping for roq - 
+    @GetMapping(value = "/discount/byproduct/{productid}", produces = "application/json")
+    public Integer findDiscountByProduct(@PathVariable("productid") Integer productid){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Inventory");
+
+			if (userPrivilege.getPrivi_select()) {
+			return inventoryDao.findDiscountByProduct(productid);
+			} else {
+				return null;
+			}
+    };
+
+
 	// In a separate InventoryController.java
 	@GetMapping(value = "/inventory/allproducts", produces = "application/json")
 	public List<Inventory> findAllWithProduct() {

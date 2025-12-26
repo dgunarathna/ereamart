@@ -36,4 +36,7 @@ public interface InventoryDao extends JpaRepository<Inventory, Integer>{
 
     @Query("SELECT DISTINCT i FROM Inventory i LEFT JOIN FETCH i.product_id ORDER BY i.id DESC")
     List<Inventory> findAllWithProduct();
+
+    @Query(value = "SELECT inventory.discount FROM ereamart.inventory where inventory.product_id=?1", nativeQuery = true)
+    Integer findDiscountByProduct(Integer productid);
 }

@@ -96,7 +96,7 @@
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <div class="input-group">
                   <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'invoiceHasProduct','product_id'); checkProductExt();"></select>
-                  <input id="textQTY" type="text" Required  placeholder="Quantity" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'invoiceHasProduct','quantity'); calculateLinePrice();">
+                  <input id="textQTY" type="text" Required  placeholder="Quantity" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'invoiceHasProduct','quantity'); checkProductExt(); calculateLinePrice();">
                   <input id="textUnitPrice" type="text" Required  placeholder="Unit Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoiceHasProduct','unitprice')">
                   <input id="textdiscount" type="text" Required  placeholder="Discount %" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'invoiceHasProduct','discount'); calculateLinePrice();">
                   <input id="textLinePrice" type="text" Required  placeholder="Line Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoiceHasProduct','lineprice')">

@@ -304,6 +304,7 @@ const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
     let extIndex = invoice.invoiceHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
     let getsaleprice = getServiceRequest('/salesprice/byproduct/' + JSON.parse(selectItem.value).id);
+    let getdiscount = getServiceRequest('/discount/byproduct/' + JSON.parse(selectItem.value).id);
     
 
     if (extIndex > -1) {
@@ -313,6 +314,10 @@ const checkProductExt = () => {
         textUnitPrice.value = getsaleprice;
         invoiceHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen";
+
+        textdiscount.value = getdiscount;
+        invoiceHasProduct.discount = parseFloat(textdiscount.value);
+        textdiscount.style.border = "1px solid lightgreen";
     }
 }
 
@@ -322,7 +327,7 @@ const checkProductExt = () => {
 //define function for line price
 const calculateLinePrice = ()=> {
     if (textQTY.value > 0) {
-        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        let lineprice = (parseFloat(textQTY.value) * parseFloat(textUnitPrice.value) * (1 - parseFloat(textdiscount.value || 0) / 100)).toFixed(2);
         invoiceHasProduct.lineprice = lineprice;
         textLinePrice.value = lineprice;
         textLinePrice.style.border = "1px solid lightgreen"
