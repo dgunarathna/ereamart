@@ -44,6 +44,7 @@ const refreshGRNForm = () => {
     
     textNetAmount.disabled = "disabled";
     textTotalAmount.disabled = "disabled";
+    textDiscountRate.disabled = "disabled";
 
     textDiscountRate.value = "";
 
@@ -326,23 +327,20 @@ const checkProductExt = () => {
         window.alert(" Product Added already");
         refreshGRNInnerForm();
     } else {
-        grnHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.value = getunitPrice;
-        grnHasProduct.unitprice = textUnitPrice.value;
+        grnHasProduct.unitprice = parseFloat(textUnitPrice.value).toFixed(2);
         textUnitPrice.style.border = "1px solid lightgreen"
+
         textQTY.value = getqty;
         grnHasProduct.quantity = textQTY.value;
         textQTY.style.border = "1px solid lightgreen"
-        calculateLinePrice();
-        selectItem.style.border = "1px solid lightgreen"
-        grnHasProduct.product_id = selectedProduct;
     }
 }
 
 //define function for line price
 const calculateLinePrice = ()=> {
     if (textQTY.value > 0) {
-        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        let lineprice = (parseFloat(textQTY.value) * parseFloat(textUnitPrice.value) * (1 - parseFloat(textdiscount.value || 0) / 100)).toFixed(2);
         grnHasProduct.lineprice = lineprice;
         textLinePrice.value = lineprice;
         textLinePrice.style.border = "1px solid lightgreen"
@@ -368,15 +366,16 @@ const refreshGRNInnerForm = () =>{
     grnHasProduct = new Object();
 
     selectItem.disabled = "";
-
+    selectItem.value = "";
     textUnitPrice.value = "";
+    textdiscount.value = "";
     textUnitPrice.disabled = "disabled";
     textQTY.value = "";
     textLinePrice.value = "";
     textBatchNo.value = "";
     textLinePrice.disabled = "disabled";
 
-    setDefault([textBatchNo, selectItem, textUnitPrice, textQTY, textLinePrice]);
+    setDefault([textBatchNo, selectItem, textUnitPrice, textQTY, textLinePrice, textdiscount]);
 
     //refresh inner table ****************************************************************************************************************************************************************************   
 
@@ -387,28 +386,42 @@ const refreshGRNInnerForm = () =>{
         {propertyName: "batch_number", dataType: "string"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitprice", dataType: "decimal"},
+        {propertyName: "discount", dataType: "string"},
         {propertyName: "lineprice", dataType: "decimal"},
     ];
 
     fillDataIntoInnerTable(tableGRNItemBody, grn.grnHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
 
-    //auto load total amount
     let totalAmount = 0.00;
-    for (const orderproduct of grn.grnHasProductList) {
-        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
-    };
+    let netAmount = 0.00;
+    let totalDiscountAmount  = 0.00;
 
+    for (const grnproduct of grn.grnHasProductList) {
+        totalAmount = parseFloat (totalAmount) + parseFloat(grnproduct.unitprice) * parseFloat(grnproduct.quantity);
+        netAmount = parseFloat (netAmount) + parseFloat(grnproduct.lineprice);
+        totalDiscountAmount = totalAmount - netAmount;
+    };
+    
+    //auto load total amount
     if (totalAmount != 0.00) {
         textTotalAmount.value = totalAmount.toFixed(2);
         grn.total_amount = textTotalAmount.value;
         textTotalAmount.style.border = "1px solid lightgreen"
-
-        grn.discount = textDiscountRate.value;
-
-        grn.net_amount = textTotalAmount.value;
-        textNetAmount.value = textTotalAmount.value;
+    };
+    //auto load net amount
+    if (netAmount != 0.00) {
+        textNetAmount.value = netAmount.toFixed(2);
+        grn.net_amount = textNetAmount.value;
         textNetAmount.style.border = "1px solid lightgreen"
     };
+     //load discount amount
+    if (totalDiscountAmount != 0.00) {
+        textDiscountRate.value = totalDiscountAmount.toFixed(2);
+        grn.discount_amount = textDiscountRate.value;
+        textDiscountRate.style.border = "1px solid lightgreen";
+    }
+
+
 
     $("#buttonItemSubmit").show();
     $("#buttonItemUpdate").hide();
@@ -463,7 +476,7 @@ const orderInnerFormDelete = (ob, index) => {
 
     let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
     if (userConfirm) {
-        let extIndex = grn.grnHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        let extIndex = grn.grnHasProductList.map(grnproduct=>grnproduct.product_id.id).indexOf(ob.product_id.id);
         if (extIndex != -1) {
             grn.grnHasProductList.splice(extIndex,1);
         }

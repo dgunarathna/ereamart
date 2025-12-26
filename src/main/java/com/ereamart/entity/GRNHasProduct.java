@@ -38,6 +38,8 @@ public class GRNHasProduct {
     @NotNull
     private BigDecimal unitprice;
 
+    private Integer discount;
+    
     @NotNull
     private Integer quantity;
 

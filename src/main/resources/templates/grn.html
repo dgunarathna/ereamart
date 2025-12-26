@@ -94,8 +94,9 @@
                 <div class="input-group">
                   <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'grnHasProduct','product_id'); checkProductExt();"></select>
                   <input id="textBatchNo" type="text" Required  placeholder="Batch No" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'grnHasProduct','batch_number')">
-                  <input id="textUnitPrice" type="text" Required  placeholder="Unit Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'grnHasProduct','unitprice')">
                   <input id="textQTY" type="text" Required  placeholder="Quantity" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'grnHasProduct','quantity'); calculateLinePrice();">
+                  <input id="textUnitPrice" type="text" Required  placeholder="Unit Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'grnHasProduct','unitprice')">
+                  <input id="textdiscount" type="text" Required  placeholder="Discount %" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'grnHasProduct','discount'); calculateLinePrice();">
                   <input id="textLinePrice" type="text" Required  placeholder="Line Price" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'grnHasProduct','lineprice')">
                 </div>
               </div>
@@ -114,6 +115,7 @@
                         <th>Batch No</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
+                        <th>Discount %</th>
                         <th>Line Price</th>
                         <th>Modify</th>
                       </tr>
