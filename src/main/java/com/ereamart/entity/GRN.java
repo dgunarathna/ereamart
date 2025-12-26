@@ -43,7 +43,7 @@ public class GRN {
 
     private BigDecimal total_amount;
 
-    private Integer discount;
+    private BigDecimal discount;
 
     private BigDecimal net_amount;
     

@@ -170,9 +170,6 @@ const checkFormError = ()=>{
     if (invoice.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
-    if (invoice.discount_amount == null) {
-        errors = errors + "Please Enter Discount Amount\n"
-    }
     if (invoice.net_amount == null) {
         errors = errors + "Please Enter Net Amount\n"
     }

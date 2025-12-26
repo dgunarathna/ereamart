@@ -177,9 +177,6 @@ const checkFormError = ()=>{
     if (grn.total_amount == null) {
         errors = errors + "Please Enter Total Amount\n"
     }
-    if (grn.discount == null) {
-        errors = errors + "Please Enter Discount Rate\n"
-    }
     if (grn.net_amount == null) {
         errors = errors + "Please Enter Net amount\n"
     }
@@ -417,7 +414,7 @@ const refreshGRNInnerForm = () =>{
      //load discount amount
     if (totalDiscountAmount != 0.00) {
         textDiscountRate.value = totalDiscountAmount.toFixed(2);
-        grn.discount_amount = textDiscountRate.value;
+        grn.discount = textDiscountRate.value;
         textDiscountRate.style.border = "1px solid lightgreen";
     }
 
@@ -460,7 +457,6 @@ const orderInnerFormRefill = (ob, index) =>{
     selectItems = getServiceRequest('/product/alldata');
     fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
 
-    selectItem.disabled = "disabled";
     selectItem.value = JSON.stringify(grnHasProduct.product_id)
     textUnitPrice.value = parseFloat(grnHasProduct.unitPrice);
     textQTY.value = grnHasProduct.quantity;
