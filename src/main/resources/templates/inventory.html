@@ -58,6 +58,7 @@
                   <th>GRN No</th>
                   <th>Sale Price</th>
                   <th>Total QTY</th>
+                  <th>Discount (%)</th>
                   <th>Manufacture Date</th>
                   <th>Expire Date</th>
                   <th>Batch Number</th>
@@ -106,11 +107,15 @@
                 <label class="form-label">Expire Date<span class="text-danger">*</span></label>
                 <input id="textExpireDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','expire_date' )">
               </div>
-              <div class="col-xl-6">
+              <div class="col-xl-4">
                 <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
                 <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','batch_number')">
               </div> 
-              <div class="col-xl-6">
+              <div class="col-xl-4">
+                <label for="textEmail" class="form-label">Discount (%)<span class="text-danger">*</span></label>
+                <input id="textdiscount" type="text" class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','discount')">
+              </div> 
+              <div class="col-xl-4">
                 <label class="form-label">Status<span class="text-danger">*</span></label>
                 <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','inventory_status_id')"></select>
               </div>   

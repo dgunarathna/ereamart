@@ -33,6 +33,8 @@ public class Inventory {
     private Integer id;
 
     private Integer total_qty;
+    
+    private Integer discount;
 
     private BigDecimal sales_price;
 

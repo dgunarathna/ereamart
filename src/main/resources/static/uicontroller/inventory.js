@@ -18,6 +18,7 @@ const refreshInventoryTable = () => {
         {propertyName: getGrnNo, dataType: "function"},
         {propertyName: "sales_price", dataType: "string"},
         {propertyName: "total_qty", dataType: "string"},
+        {propertyName: "discount", dataType: "string"},
         {propertyName: "expire_date", dataType: "string"},
         {propertyName: "manufacture_date", dataType: "string"},
         {propertyName: "batch_number", dataType: "string"},
@@ -99,11 +100,13 @@ const inventoryFormRefill = (ob, index) => {
     selectProduct.value = JSON.stringify(ob.product_id);
     textSalePrice.value = ob.sales_price;
     textTotalQty.value = ob.total_qty;
+    textdiscount.value = ob.discount;
     textExpireDate.value = ob.expire_date;
     textManufactureDate.value = ob.manufacture_date;
     textBatchNo.value = ob.batch_number;
     selectGRN.value = JSON.stringify(ob.grn_id);
     selectStatus.value = JSON.stringify(ob.inventory_status_id);
+
 
     if (ob.inventory_status_id.name == "Out of stock") {
         buttonDelete.disabled = "disabled";
