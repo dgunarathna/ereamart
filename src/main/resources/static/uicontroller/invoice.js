@@ -47,8 +47,12 @@ const refreshInvoiceForm = () => {
 
     textTotalAmount.disabled = "disabled";
     textNetAmount.disabled = "disabled";
+    textDisountAmount.disabled = "disabled";
     textUnitPrice.disabled = "disabled";
     textLinePrice.disabled = "disabled";
+    
+    
+    textdiscount.disabled = "disabled";
     textDisountAmount.value = "";
 
     formInvoice.reset();
@@ -340,11 +344,12 @@ const refreshinvoiceInnerForm = () =>{
     textUnitPrice.value = "";
     // textUnitPrice.disabled = "disabled";
     textQTY.value = "";
+    textdiscount.value = "";
     textLinePrice.value = "";
     // textLinePrice.disabled = "disabled";
 
 
-    setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
+    setDefault([selectItem, textUnitPrice, textQTY, textdiscount, textLinePrice]);
  
     getallproducts();
 
@@ -356,48 +361,47 @@ const refreshinvoiceInnerForm = () =>{
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
         {propertyName: "unitprice", dataType: "decimal"},
+        {propertyName: "discount", dataType: "string"},
         {propertyName: "lineprice", dataType: "decimal"},
     ];
 
     fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
 
 
-    //auto load total amount
     let totalAmount = 0.00;
-    for (const orderproduct of invoice.invoiceHasProductList) {
-        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
-    };
+    let netAmount = 0.00;
+    let totalDiscountAmount  = 0.00;
 
+    for (const orderproduct of invoice.invoiceHasProductList) {
+        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.unitprice) * parseFloat(orderproduct.quantity);
+        netAmount = parseFloat (netAmount) + parseFloat(orderproduct.lineprice);
+        totalDiscountAmount = totalAmount - netAmount;
+    }
+    
+    //auto load total amount
     if (totalAmount != 0.00) {
         textTotalAmount.value = totalAmount.toFixed(2);
         invoice.total_amount = textTotalAmount.value;
         textTotalAmount.style.border = "1px solid lightgreen"
-
-        
-        invoice.discount_amount = textDisountAmount.value;
-
-        invoice.net_amount = textTotalAmount.value;
-        textNetAmount.value = textTotalAmount.value;
+    }
+    //auto load net amount
+    if (netAmount != 0.00) {
+        textNetAmount.value = netAmount.toFixed(2);
+        invoice.net_amount = textNetAmount.value;
         textNetAmount.style.border = "1px solid lightgreen"
     };
+     //load discount amount
+    if (totalDiscountAmount != 0.00) {
+        textDisountAmount.value = totalDiscountAmount.toFixed(2);
+        invoice.discount_amount = textDisountAmount.value;
+        textDisountAmount.style.border = "1px solid lightgreen";
+    }
 
     $("#buttonItemSubmit").show();
     $("#buttonItemUpdate").hide();
 
 }
 
-
-const calculateNetAmount = () => {
-    if (textDisountAmount.value >= 0) {
-        let NetAmount = parseFloat(textTotalAmount.value) - (parseFloat(textTotalAmount.value) * parseFloat(textDisountAmount.value) / 100);
-
-        invoice.discount_amount = textDisountAmount.value;
-        textDisountAmount.style.border = "1px solid lightgreen"
-        invoice.net_amount = NetAmount.toFixed(2);
-        textNetAmount.value = NetAmount.toFixed(2);
-        textNetAmount.style.border = "1px solid lightgreen"
-    }
-}
 
 
 const getallproducts = () => {  

@@ -41,6 +41,8 @@ public class InvoiceHasProduct {
     @NotNull
     private Integer quantity;
 
+    private Integer discount;
+
     @NotNull
     private BigDecimal lineprice;
 
