@@ -16,7 +16,7 @@ const refreshInventoryTable = () => {
         {propertyName: "inventory_code", dataType: "string"},
         {propertyName: getProductName, dataType: "function"},
         {propertyName: getGrnNo, dataType: "function"},
-        {propertyName: "sales_price", dataType: "string"},
+        {propertyName: "sales_price", dataType: "decimal"},
         {propertyName: "total_qty", dataType: "string"},
         {propertyName: "discount", dataType: "string"},
         {propertyName: "expire_date", dataType: "string"},

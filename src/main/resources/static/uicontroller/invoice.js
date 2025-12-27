@@ -15,7 +15,7 @@ const refreshInvoiceTable = () => {
         {propertyName: "invoice_code", dataType: "string"},
         {propertyName: getCustomer, dataType: "function"},
         {propertyName: "total_amount", dataType: "decimal"},
-        {propertyName: "discount_amount", dataType: "string"},
+        {propertyName: "discount_amount", dataType: "decimal"},
         {propertyName: "net_amount", dataType: "decimal"},
         {propertyName: getStatus, dataType: "function"},
     ];
@@ -362,8 +362,8 @@ const refreshinvoiceInnerForm = () =>{
     let propertyList = [
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "quantity", dataType: "string"},
-        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "discount", dataType: "string"},
+        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"},
     ];
 

@@ -16,9 +16,9 @@ const refreshGRNTable = () => {
         {propertyName: getOrder_id, dataType: "function"},
         {propertyName: "supplier_invoice_number", dataType: "string"},
         {propertyName: "recieved_date", dataType: "string"},
-        {propertyName: "total_amount", dataType: "string"},
-        {propertyName: "discount", dataType: "string"},
-        {propertyName: "net_amount", dataType: "string"},
+        {propertyName: "total_amount", dataType: "decimal"},
+        {propertyName: "discount", dataType: "decimal"},
+        {propertyName: "net_amount", dataType: "decimal"},
         {propertyName: getGRNStatus, dataType: "function"},
     ];
 
@@ -382,8 +382,8 @@ const refreshGRNInnerForm = () =>{
         {propertyName: getProductName, dataType: "function"},
         {propertyName: "batch_number", dataType: "string"},
         {propertyName: "quantity", dataType: "string"},
-        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "discount", dataType: "string"},
+        {propertyName: "unitprice", dataType: "decimal"},
         {propertyName: "lineprice", dataType: "decimal"},
     ];
 

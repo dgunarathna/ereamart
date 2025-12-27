@@ -18,9 +18,9 @@ const refreshExpensesTable = () => {
         {propertyName: getSupplierName, dataType: "function"},
         {propertyName: "payment_method", dataType: "string"},
         {propertyName: "date", dataType: "string"},
-        {propertyName: "total_due_amount", dataType: "string"},
-        {propertyName: "paid_amount", dataType: "string"},
-        {propertyName: "balance_amount", dataType: "string"},
+        {propertyName: "total_due_amount", dataType: "decimal"},
+        {propertyName: "paid_amount", dataType: "decimal"},
+        {propertyName: "balance_amount", dataType: "decimal"},
         {propertyName: getStatus, dataType: "function"},
     ];
 

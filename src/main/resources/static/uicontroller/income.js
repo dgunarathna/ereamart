@@ -14,10 +14,10 @@ const refreshIncomeTable = () => {
     let propertyList = [
         {propertyName: "income_number", dataType: "string"},
         {propertyName: "receiptimage", dataType: "image-array" },
-    {propertyName: getInvoice, dataType: "function"},
+        {propertyName: getInvoice, dataType: "function"},
         {propertyName: "payment_methord", dataType: "string"},
         {propertyName: "date", dataType: "string"},
-        {propertyName: "total_amount", dataType: "string"},
+        {propertyName: "total_amount", dataType: "decimal"},
         {propertyName: getStatus, dataType: "function"},
     ];
 
