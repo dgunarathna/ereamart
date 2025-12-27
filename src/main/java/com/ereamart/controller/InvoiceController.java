@@ -140,9 +140,7 @@ public class InvoiceController {
                 Income income = new Income();
                 income.setInvoice_id(savedInvoice);
                 income.setTotal_amount(savedInvoice.getNet_amount());
-                income.setPayment_methord("Cash");
                 income.setDate(savedInvoice.getAdded_datetime().toLocalDate());
-                income.setPayment_methord("Cash"); // Default to cash
                 income.setAdded_datetime(LocalDateTime.now());
                 income.setAdded_user_id(loggedUser.getId());
                 income.setIncome_status_id(incomeStatusDao.getReferenceById(1)); // Complete
@@ -209,7 +207,6 @@ public class InvoiceController {
                 Income income = incomeDao.findActiveByInvoice_id(invoice);
                 if (income != null) {
                     income.setTotal_amount(invoice.getNet_amount());
-                    income.setPayment_methord("Cash");
                     income.setUpdate_datetime(LocalDateTime.now());
                     income.setUpdate_user_id(loggedUser.getId());
                     incomeDao.save(income);
