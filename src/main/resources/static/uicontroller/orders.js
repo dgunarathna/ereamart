@@ -15,7 +15,7 @@ const refreshOrderTable = () => {
         {propertyName: "orders_code", dataType: "string"},
         {propertyName: getSupplier, dataType: "function"},
         {propertyName: "required_date", dataType: "string"},
-        {propertyName: "total_amount", dataType: "string"},
+        {propertyName: "total_amount", dataType: "decimal"},
         {propertyName: getStatus, dataType: "function"}
     ];
 

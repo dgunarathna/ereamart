@@ -15,7 +15,7 @@ const refreshRespondTable = () => {
         {propertyName: "respond_code", dataType: "string"},
         {propertyName: getQuotationCode, dataType: "function"},
         {propertyName: getSupplier, dataType: "function"},
-        {propertyName: "totalprice", dataType: "string"},
+        {propertyName: "totalprice", dataType: "decimal"},
         {propertyName: "request_date", dataType: "string"},
         {propertyName: getStatus, dataType: "function"}
     ];
