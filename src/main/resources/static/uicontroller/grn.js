@@ -19,6 +19,9 @@ const refreshGRNTable = () => {
         {propertyName: "total_amount", dataType: "decimal"},
         {propertyName: "discount", dataType: "decimal"},
         {propertyName: "net_amount", dataType: "decimal"},
+        {propertyName: "total_amount", dataType: "decimal"},
+        {propertyName: "discount", dataType: "decimal"},
+        {propertyName: "net_amount", dataType: "decimal"},
         {propertyName: getGRNStatus, dataType: "function"},
     ];
 
