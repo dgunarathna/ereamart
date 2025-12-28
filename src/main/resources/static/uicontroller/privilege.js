@@ -22,11 +22,10 @@ const refreshPrivilegeTable = () => {
 
     fillDataIntoTable(tablePrivilegeBody, privileges, propertyList, privilegeFormRefill);
     $('#tablePrivilege').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });
+});
 
 };
 

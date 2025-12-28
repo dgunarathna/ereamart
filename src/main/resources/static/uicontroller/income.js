@@ -24,11 +24,10 @@ const refreshIncomeTable = () => {
 
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
     $('#tableIncome').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });
+});
 
 }
 

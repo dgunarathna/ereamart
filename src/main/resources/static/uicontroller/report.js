@@ -50,11 +50,10 @@ const genearatePayementReport = () => {
 
   fillDataIntoReportTable(tableBodyPayement, reportDataList, propertyList); 
   $('#tablePayement').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });
+});
 
   //chart
   const ctx = document.getElementById('paymentReport');

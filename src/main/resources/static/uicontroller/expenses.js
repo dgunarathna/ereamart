@@ -26,11 +26,10 @@ const refreshExpensesTable = () => {
 
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
     $('#tableExpenses').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });
+});
 }
 
 const getGRNNO = (dataOb) => {

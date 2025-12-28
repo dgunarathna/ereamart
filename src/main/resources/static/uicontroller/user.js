@@ -25,11 +25,10 @@ const refreshUserTable = () => {
 
     fillDataIntoTable(tableUserBody, users, propertyList, UserFormRefill);
     $('#tableUser').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });
+});
 }
 
 

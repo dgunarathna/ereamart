@@ -32,11 +32,10 @@ const refreshEmployeeTable = () => {
 
     fillDataIntoTable(tableEmployeeBody, employees, propertyList, employeeFormRefill);
     $('#tableEmployee').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });   
+});   
     
 };
 

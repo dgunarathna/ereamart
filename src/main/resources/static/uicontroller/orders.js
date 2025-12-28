@@ -21,11 +21,10 @@ const refreshOrderTable = () => {
 
     fillDataIntoTable(tableOrderBody, Orders, propertyList, orderFormRefill);
     $('#tableOrder').DataTable({
-    destroy: true,
         info: false,
         paging: false,
         searching: false
-        });
+});
 
     //diable when status delete - dhanushka
     // for (const index in Orders) {
