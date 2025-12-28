@@ -31,7 +31,11 @@ const refreshEmployeeTable = () => {
     ];
 
     fillDataIntoTable(tableEmployeeBody, employees, propertyList, employeeFormRefill);
+<<<<<<< HEAD
     $('#tableEmployee').DataTable.DataTable().destroy()({
+=======
+    $('#tableEmployee').DataTable({
+>>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7
         info: false,
         paging: false,
         searching: false
