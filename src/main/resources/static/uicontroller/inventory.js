@@ -25,8 +25,10 @@ const refreshInventoryTable = () => {
         {propertyName: getStatus, dataType: "function"},
     ];
 
+    $('#tableInventory').DataTable().destroy();
     fillDataIntoTable(tableInventoryBody, inventorys, propertyList, inventoryFormRefill);
-    $('#tableInventory').DataTable({
+    new DataTable('#tableInventory', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

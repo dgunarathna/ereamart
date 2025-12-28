@@ -19,8 +19,10 @@ const refreshQuotationTable = () => {
         {propertyName: getStatus, dataType: "function"}
     ];
 
+    $('#tableQuotation').DataTable().destroy();
     fillDataIntoTable(tableQuotationBody, Quotations, propertyList, QuotationFormRefill);
-    $('#tableQuotation').DataTable({
+    new DataTable('#tableQuotation', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

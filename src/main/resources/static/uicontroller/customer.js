@@ -20,8 +20,10 @@ const refreshCustomerTable = () => {
         {propertyName: getStatus, dataType: "function"},
     ];
 
+    $('#tableCustomer').DataTable().destroy();
     fillDataIntoTable(tableCustomerBody, customers, propertyList, customerFormRefill);
-    $('#tableCustomer').DataTable({
+    new DataTable('#tableCustomer', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

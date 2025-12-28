@@ -20,8 +20,10 @@ const refreshRespondTable = () => {
         {propertyName: getStatus, dataType: "function"}
     ];
 
+    $('#tableRespond').DataTable().destroy();
     fillDataIntoTable(tableRespondBody, responds, propertyList, respondFormRefill);
-    $('#tableRespond').DataTable({
+    new DataTable('#tableRespond', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

@@ -22,8 +22,10 @@ const refreshIncomeTable = () => {
         {propertyName: getStatus, dataType: "function"},
     ];
 
+    $('#tableIncome').DataTable().destroy();
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
-    $('#tableIncome').DataTable({
+    new DataTable('#tableIncome', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

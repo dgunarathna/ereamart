@@ -24,8 +24,10 @@ const refreshSupplierTable = () => {
         {propertyName: getStatus, dataType: "function"}
     ];
 
+    $('#tableSupplier').DataTable().destroy();
     fillDataIntoTable(tableSupplierBody, suppliers, propertyList, supplierFormRefill);
-    $('#tableSupplier').DataTable({
+    new DataTable('#tableSupplier', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

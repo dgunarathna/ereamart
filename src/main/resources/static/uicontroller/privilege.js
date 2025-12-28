@@ -20,8 +20,10 @@ const refreshPrivilegeTable = () => {
         {propertyName: getDelete, dataType: "function"},
     ];
 
+    $('#tablePrivilege').DataTable().destroy();
     fillDataIntoTable(tablePrivilegeBody, privileges, propertyList, privilegeFormRefill);
-    $('#tablePrivilege').DataTable({
+    new DataTable('#tablePrivilege', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

@@ -48,8 +48,10 @@ const genearatePayementReport = () => {
         { propertyName: "amount", dataType: "decimal" },
     ];
 
+  $('#tablePayement').DataTable().destroy();
   fillDataIntoReportTable(tableBodyPayement, reportDataList, propertyList); 
-  $('#tablePayement').DataTable({
+  new DataTable('#tablePayement', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

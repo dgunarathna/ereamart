@@ -10,8 +10,9 @@ window.addEventListener("load", () => {
 
 const refreshEmployeeTable = () => {
 
+    
     let employees = getServiceRequest('/employee/alldata');
-
+    
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
@@ -29,9 +30,11 @@ const refreshEmployeeTable = () => {
         { propertyName: getDesignation, dataType: "function" },
         { propertyName: getEmployeeStatus, dataType: "function" },
     ];
-
+    
+    $('#tableEmployee').DataTable().destroy();
     fillDataIntoTable(tableEmployeeBody, employees, propertyList, employeeFormRefill);
-    $('#tableEmployee').DataTable({
+    
+    new DataTable('#tableEmployee', {
         info: false,
         paging: false,
         searching: false

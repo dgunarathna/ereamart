@@ -19,8 +19,10 @@ const refreshOrderTable = () => {
         {propertyName: getStatus, dataType: "function"}
     ];
 
+    $('#tableOrder').DataTable().destroy();
     fillDataIntoTable(tableOrderBody, Orders, propertyList, orderFormRefill);
-    $('#tableOrder').DataTable({
+    new DataTable('#tableOrder', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

@@ -22,8 +22,10 @@ const refreshGRNTable = () => {
         {propertyName: getGRNStatus, dataType: "function"},
     ];
 
+    $('#tableGRN').DataTable().destroy();
     fillDataIntoTable(tableGRNBody, grns, propertyList, grnFormRefill);
-    $('#tableGRN').DataTable({
+    new DataTable('#tableGRN', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

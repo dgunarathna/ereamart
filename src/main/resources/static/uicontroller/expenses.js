@@ -24,8 +24,10 @@ const refreshExpensesTable = () => {
         {propertyName: getStatus, dataType: "function"},
     ];
 
+    $('#tableExpenses').DataTable().destroy();
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
-    $('#tableExpenses').DataTable({
+    new DataTable('#tableExpenses', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

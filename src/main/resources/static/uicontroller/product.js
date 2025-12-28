@@ -29,8 +29,10 @@ const refreshProductTable = () => {
         { propertyName: getStatus, dataType: "function" }
     ];
 
+    $('#tableProduct').DataTable().destroy();
     fillDataIntoTable(tableProductBody, products, propertyList, productFormRefill);
-    $('#tableProduct').DataTable({
+    new DataTable('#tableProduct', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false

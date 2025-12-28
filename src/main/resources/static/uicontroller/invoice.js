@@ -20,8 +20,10 @@ const refreshInvoiceTable = () => {
         {propertyName: getStatus, dataType: "function"},
     ];
 
+    $('#tableInvoice').DataTable().destroy();
     fillDataIntoTable(tableInvoiceBody, invoices, propertyList, invoiceFormRefill);
-    $('#tableInvoice').DataTable({
+    new DataTable('#tableInvoice', {
+                destroy: true,
         info: false,
         paging: false,
         searching: false
