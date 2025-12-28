@@ -26,7 +26,7 @@ const refreshExpensesTable = () => {
 
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
 <<<<<<< HEAD
-    $('#tableExpenses').DataTable.DataTable().destroy()({
+    $('#tableExpenses').DataTable({
 =======
     $('#tableExpenses').DataTable({
 >>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7

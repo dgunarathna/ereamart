@@ -21,7 +21,7 @@ const refreshQuotationTable = () => {
 
     fillDataIntoTable(tableQuotationBody, Quotations, propertyList, QuotationFormRefill);
 <<<<<<< HEAD
-    $('#tableQuotation').DataTable.DataTable().destroy()({
+    $('#tableQuotation').DataTable({
 =======
     $('#tableQuotation').DataTable({
 >>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7

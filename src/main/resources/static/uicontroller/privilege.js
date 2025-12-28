@@ -22,7 +22,7 @@ const refreshPrivilegeTable = () => {
 
     fillDataIntoTable(tablePrivilegeBody, privileges, propertyList, privilegeFormRefill);
 <<<<<<< HEAD
-    $('#tablePrivilege').DataTable.DataTable().destroy()({
+    $('#tablePrivilege').DataTable({
 =======
     $('#tablePrivilege').DataTable({
 >>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7

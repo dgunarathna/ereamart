@@ -26,7 +26,7 @@ const refreshSupplierTable = () => {
 
     fillDataIntoTable(tableSupplierBody, suppliers, propertyList, supplierFormRefill);
 <<<<<<< HEAD
-    $('#tableSupplier').DataTable.DataTable().destroy()({
+    $('#tableSupplier').DataTable({
 =======
     $('#tableSupplier').DataTable({
 >>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7

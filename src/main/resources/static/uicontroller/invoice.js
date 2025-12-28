@@ -22,7 +22,7 @@ const refreshInvoiceTable = () => {
 
     fillDataIntoTable(tableInvoiceBody, invoices, propertyList, invoiceFormRefill);
 <<<<<<< HEAD
-    $('#tableInvoice').DataTable.DataTable().destroy()({
+    $('#tableInvoice').DataTable({
 =======
     $('#tableInvoice').DataTable({
 >>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7
