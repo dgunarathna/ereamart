@@ -26,6 +26,11 @@ const refreshInventoryTable = () => {
     ];
 
     fillDataIntoTable(tableInventoryBody, inventorys, propertyList, inventoryFormRefill);
+    $('#tableInventory').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 const getGrnNo = (dataOb) => {

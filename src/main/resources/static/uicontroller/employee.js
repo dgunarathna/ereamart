@@ -30,7 +30,13 @@ const refreshEmployeeTable = () => {
         { propertyName: getEmployeeStatus, dataType: "function" },
     ];
 
-    fillDataIntoTable(tableEmployeeBody, employees, propertyList, employeeFormRefill);   
+    fillDataIntoTable(tableEmployeeBody, employees, propertyList, employeeFormRefill);
+    $('#tableEmployee').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });   
+    
 };
 
 const getDesignation = (dataOb) => {

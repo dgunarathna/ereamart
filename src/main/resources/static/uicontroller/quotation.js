@@ -20,6 +20,11 @@ const refreshQuotationTable = () => {
     ];
 
     fillDataIntoTable(tableQuotationBody, Quotations, propertyList, QuotationFormRefill);
+    $('#tableQuotation').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 const getSupplier = (dataOb) => {

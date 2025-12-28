@@ -21,6 +21,11 @@ const refreshPrivilegeTable = () => {
     ];
 
     fillDataIntoTable(tablePrivilegeBody, privileges, propertyList, privilegeFormRefill);
+    $('#tablePrivilege').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });
 
 };
 

@@ -21,6 +21,11 @@ const refreshCustomerTable = () => {
     ];
 
     fillDataIntoTable(tableCustomerBody, customers, propertyList, customerFormRefill);
+    $('#tableCustomer').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });
     
 };
 

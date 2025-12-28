@@ -25,6 +25,11 @@ const refreshSupplierTable = () => {
     ];
 
     fillDataIntoTable(tableSupplierBody, suppliers, propertyList, supplierFormRefill);
+    $('#tableSupplier').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 const getStatus = (dataOb) => {

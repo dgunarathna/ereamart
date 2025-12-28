@@ -23,6 +23,11 @@ const refreshGRNTable = () => {
     ];
 
     fillDataIntoTable(tableGRNBody, grns, propertyList, grnFormRefill);
+    $('#tableGRN').DataTable.DataTable().destroy()({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 const getOrder_id = (dataOb) => {
