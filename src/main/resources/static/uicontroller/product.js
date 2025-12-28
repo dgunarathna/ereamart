@@ -32,8 +32,10 @@ const refreshProductTable = () => {
     fillDataIntoTable(tableProductBody, products, propertyList, productFormRefill);
 <<<<<<< HEAD
     $('#tableProduct').DataTable({
+    destroy: true,
 =======
     $('#tableProduct').DataTable({
+    destroy: true,
 >>>>>>> 1ab9c77be7d7d40021360caaef45e71af74249d7
         info: false,
         paging: false,
