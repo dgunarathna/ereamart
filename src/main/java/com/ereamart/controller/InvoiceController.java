@@ -134,20 +134,20 @@ public class InvoiceController {
                         inventoryDao.save(inv);
                     }
                 }
-				Invoice savedInvoice = invoiceDao.save(invoice);
+				// Invoice savedInvoice = invoiceDao.save(invoice);
 
                 // Create corresponding income record
-                Income income = new Income();
-                income.setInvoice_id(savedInvoice);
-                income.setTotal_amount(savedInvoice.getNet_amount());
-                income.setDate(savedInvoice.getAdded_datetime().toLocalDate());
-                income.setAdded_datetime(LocalDateTime.now());
-                income.setAdded_user_id(loggedUser.getId());
-                income.setIncome_status_id(incomeStatusDao.getReferenceById(1)); // Complete
-                income.setIncome_number(incomeDao.getNextCode());
-                income.setCustomer_id(savedInvoice.getCustomer_id());
+                // Income income = new Income();
+                // income.setInvoice_id(savedInvoice);
+                // income.setTotal_amount(savedInvoice.getNet_amount());
+                // income.setDate(savedInvoice.getAdded_datetime().toLocalDate());
+                // income.setAdded_datetime(LocalDateTime.now());
+                // income.setAdded_user_id(loggedUser.getId());
+                // income.setIncome_status_id(incomeStatusDao.getReferenceById(1));
+                // income.setIncome_number(incomeDao.getNextCode());
+                // income.setCustomer_id(savedInvoice.getCustomer_id());
                 
-                incomeDao.save(income);
+                // incomeDao.save(income);
 
                 // dependances
 				return "OK";
@@ -204,13 +204,13 @@ public class InvoiceController {
 				}
 
                 // Update corresponding income record if exists
-                Income income = incomeDao.findActiveByInvoice_id(invoice);
-                if (income != null) {
-                    income.setTotal_amount(invoice.getNet_amount());
-                    income.setUpdate_datetime(LocalDateTime.now());
-                    income.setUpdate_user_id(loggedUser.getId());
-                    incomeDao.save(income);
-                }
+                // Income income = incomeDao.findActiveByInvoice_id(invoice);
+                // if (income != null) {
+                //     income.setTotal_amount(invoice.getNet_amount());
+                //     income.setUpdate_datetime(LocalDateTime.now());
+                //     income.setUpdate_user_id(loggedUser.getId());
+                //     incomeDao.save(income);
+                // }
 
 				// dependances
 				return "OK";
@@ -251,13 +251,13 @@ public class InvoiceController {
 			invoiceDao.save(extProductById);
 
             // Update corresponding income record if exists
-            Income income = incomeDao.findActiveByInvoice_id(extProductById);
-            if (income != null) {
-                income.setDelete_datetime(LocalDateTime.now());
-                income.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
-                income.setIncome_status_id(incomeStatusDao.getReferenceById(2)); // Deleted
-                incomeDao.save(income);
-            }
+            // Income income = incomeDao.findActiveByInvoice_id(extProductById);
+            // if (income != null) {
+            //     income.setDelete_datetime(LocalDateTime.now());
+            //     income.setDelete_user_id(userDao.getByUsename(auth.getName()).getId());
+            //     income.setIncome_status_id(incomeStatusDao.getReferenceById(2));
+            //     incomeDao.save(income);
+            // }
  
             // Update inventory total_qty
 			for (InvoiceHasProduct ihp : extProductById.getInvoiceHasProductList()) {
