@@ -9,6 +9,7 @@ const refreshIncomeTable = () => {
 
     let incomes = getServiceRequest('/income/alldata');
 
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
@@ -22,6 +23,7 @@ const refreshIncomeTable = () => {
     ];
 
     fillDataIntoTable(tableIncomeBody, incomes, propertyList, incomeFormRefill);
+
 }
 
 const getInvoice = (dataOb) => {
@@ -35,6 +37,7 @@ const getStatus = (dataOb) => {
         return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.income_status_id.name + "</p>";
     }
 }
+
 
 //form *********************************************************************************************************************************************************************************************
 
@@ -55,7 +58,24 @@ const refreshIncomeForm = () => {
 
     let status = getServiceRequest('/incomestatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]);
+    income.income_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen"
 }
+
+
+const filterinvoicedata = () => {
+    let invoiceDetails = getServiceRequest('/details/getbyinvoice/' + JSON.parse(selectInvoiceNo.value).id);
+
+    textTotal.value = invoiceDetails.total_amount;
+    income.total_amount = invoiceDetails.total_amount;
+    textTotal.style.border = "1px solid lightgreen";
+
+    incomeDate.value = invoiceDetails.added_datetime.split('T')[0];
+    income.date = invoiceDetails.added_datetime.split('T')[0];
+    incomeDate.style.border = "1px solid lightgreen";
+}
+
 
 const incomeFormRefill = (ob, index) => {
     refreshIncomeForm();

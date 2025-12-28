@@ -1,5 +1,7 @@
 package com.ereamart.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,4 +16,7 @@ public interface InvoiceDao extends JpaRepository<Invoice, Integer>{
     //for get next code when new product
     @Query(value = "SELECT CONCAT('I', COALESCE(MAX(CAST(SUBSTRING(i.invoice_code, 2) AS UNSIGNED)) + 1, 1)) FROM ereamart.invoice as i;", nativeQuery = true)
     String getNextCode();
+
+    @Query(value = "SELECT * FROM ereamart.invoice WHERE id =?1", nativeQuery = true)
+    Invoice findDetailsbyInvoiceID(Integer invoiceID);
 }

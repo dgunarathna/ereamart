@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Invoice;
 import com.ereamart.entity.InvoiceHasProduct;
 import com.ereamart.entity.Privilege;
+import com.ereamart.entity.Supplier;
 import com.ereamart.entity.User;
 
 @RestController
@@ -274,4 +276,21 @@ public class InvoiceController {
 			return "Delete not completed" + e.getMessage();
 		}
 	}
+
+
+    @GetMapping(value = "/details/getbyinvoice/{invoiceID}", produces = "application/json")
+    public Invoice findDetailsbyInvoiceID(@PathVariable("invoiceID") Integer invoiceID){
+		
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Invoice");
+
+			if (userPrivilege.getPrivi_select()) {
+			return invoiceDao.findDetailsbyInvoiceID(invoiceID);
+			} else {
+				return null;
+			}
+    }
+
+
 }

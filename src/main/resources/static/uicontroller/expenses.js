@@ -25,6 +25,7 @@ const refreshExpensesTable = () => {
     ];
 
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
+
 }
 
 const getGRNNO = (dataOb) => {
@@ -54,13 +55,16 @@ const refreshExpensesForm = () => {
     setDefault([ selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate, ]);
 
     let grns = getServiceRequest('/grn/alldata');
-    fillDataIntoSelect(selectGRN,"Select Status",grns,"grn_no");
+    fillDataIntoSelect(selectGRN,"Select GRN",grns,"grn_no");
 
     let supliers = getServiceRequest('/supplier/alldata');
     fillDataIntoSelect(selectSupplier,"Select Status",supliers,"name");
 
     let status = getServiceRequest('/expensesstatus/alldata');
     fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    selectStatus.value = JSON.stringify(status[0]);
+    expenses.expense_status_id = JSON.parse(selectStatus.value);
+    selectStatus.style.border = "1px solid lightgreen"
 
     // implement GRN selection like other modules: call backend endpoints per-field
     // Provide a named function for HTML to call (same approach as filterProductByGRN in inventory)
