@@ -135,9 +135,4 @@ const fillDataIntoReportTable = (tableBodayId, dataList, propertyList)=>{
         tableBodayId.appendChild(tr);
     });
 }
-// datatables jquery 
-new DataTable('#tablePrivilege, #tableEmployee, #tableUser, #tableProduct, #tableQuotation, #tableOrder, #tableProduct, #tableGRN, #tableInventory, #tableInvoice, #tableExpenses, #tableIncome, #tableSupplier, #tableCustomer ,  #tableOrderItem , #tabledahboard, #tablePayement, #tableInvoiceItem, #tableQuotationItem, #tableRespond, #tableRespondItem, #tableGRNItem' , {
-    info: false,
-    paging: false,
-    searching: false,
-});
+

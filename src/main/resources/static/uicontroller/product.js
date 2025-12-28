@@ -30,6 +30,11 @@ const refreshProductTable = () => {
     ];
 
     fillDataIntoTable(tableProductBody, products, propertyList, productFormRefill);
+    $('#tableProduct').DataTable({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 

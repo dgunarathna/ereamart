@@ -21,6 +21,11 @@ const refreshInvoiceTable = () => {
     ];
 
     fillDataIntoTable(tableInvoiceBody, invoices, propertyList, invoiceFormRefill);
+    $('#tableInvoice').DataTable({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 const getCustomer = (dataOb) => {

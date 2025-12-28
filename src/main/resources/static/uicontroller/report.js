@@ -49,6 +49,11 @@ const genearatePayementReport = () => {
     ];
 
   fillDataIntoReportTable(tableBodyPayement, reportDataList, propertyList); 
+  $('#tablePayement').DataTable({
+        info: false,
+        paging: false,
+        searching: false
+        });
 
   //chart
   const ctx = document.getElementById('paymentReport');

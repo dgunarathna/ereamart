@@ -21,6 +21,11 @@ const refreshRespondTable = () => {
     ];
 
     fillDataIntoTable(tableRespondBody, responds, propertyList, respondFormRefill);
+    $('#tableRespond').DataTable({
+        info: false,
+        paging: false,
+        searching: false
+        });
 }
 
 const getSupplier = (dataOb) => {

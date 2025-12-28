@@ -21,6 +21,11 @@ const refreshCustomerTable = () => {
     ];
 
     fillDataIntoTable(tableCustomerBody, customers, propertyList, customerFormRefill);
+    $('#tableCustomer').DataTable({
+        info: false,
+        paging: false,
+        searching: false
+        });
     
 };
 
