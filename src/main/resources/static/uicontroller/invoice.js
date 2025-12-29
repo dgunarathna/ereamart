@@ -16,6 +16,7 @@ const refreshInvoiceTable = () => {
         {propertyName: getCustomer, dataType: "function"},
         {propertyName: "total_amount", dataType: "decimal"},
         {propertyName: "discount_amount", dataType: "decimal"},
+        {propertyName: "redeem_amount", dataType: "string"},
         {propertyName: "net_amount", dataType: "decimal"},
         {propertyName: getStatus, dataType: "function"},
     ];
@@ -344,6 +345,7 @@ const calculateLinePrice = ()=> {
     }
 }
 
+let originalNetAmount = 0;
 
 const refreshinvoiceInnerForm = () =>{
     invoiceHasProduct = new Object();
@@ -376,7 +378,6 @@ const refreshinvoiceInnerForm = () =>{
 
     fillDataIntoInnerTable(tableInvoiceItemBody, invoice.invoiceHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
 
-
     let totalAmount = 0.00;
     let netAmount = 0.00;
     let totalDiscountAmount  = 0.00;
@@ -398,6 +399,7 @@ const refreshinvoiceInnerForm = () =>{
         textNetAmount.value = netAmount.toFixed(2);
         invoice.net_amount = textNetAmount.value;
         textNetAmount.style.border = "1px solid lightgreen"
+        originalNetAmount = parseFloat(textNetAmount.value);
     };
      //load discount amount
     if (totalDiscountAmount != 0.00) {
@@ -412,6 +414,26 @@ const refreshinvoiceInnerForm = () =>{
 }
 
 
+
+
+const loyaltypoints = () => {
+    let loyaltypoint = getServiceRequest('/loyaltypoint/bycustomer/' + JSON.parse(selectCustomer.value).id);
+    textRedeemAmount.placeholder = loyaltypoint;
+}
+
+
+const redeemAmount = () => {
+    if (parseFloat(textRedeemAmount.value) > parseFloat(textRedeemAmount.placeholder)) {
+        window.alert("You don't have enough loyalty points");
+        textRedeemAmount.value = "";
+        textNetAmount.value = originalNetAmount.toFixed(2);
+        invoice.net_amount = textNetAmount.value;
+    } else {
+        let netAmountAfterRedeem = originalNetAmount - parseFloat(textRedeemAmount.value);
+        textNetAmount.value = netAmountAfterRedeem.toFixed(2);
+        invoice.net_amount = textNetAmount.value;
+    }
+}
 
 const getallproducts = () => {  
     selectItems = getServiceRequest('/product/byinventory');

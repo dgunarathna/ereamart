@@ -1,5 +1,6 @@
 package com.ereamart.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,10 @@ import com.ereamart.dao.InvoiceDao;
 import com.ereamart.dao.InvoiceStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.dao.InventoryStatusDao;
+import com.ereamart.dao.CustomerDao;
 import com.ereamart.dao.IncomeDao;
 import com.ereamart.dao.IncomeStatusDao;
+import com.ereamart.entity.Customer;
 import com.ereamart.entity.Income;
 import com.ereamart.entity.Inventory;
 import com.ereamart.entity.Invoice;
@@ -59,6 +62,9 @@ public class InvoiceController {
 
     @Autowired
     private IncomeStatusDao incomeStatusDao;
+
+	@Autowired // genarate instance of customer dao - interface
+	private CustomerDao customerDao;
 
     // mapping for return invoice page
     @RequestMapping(value =  {"/invoice","/invoice.html"})
@@ -105,6 +111,30 @@ public class InvoiceController {
 			//duplicate check
 	
 			try {
+				// LOYALTY POINTS REDEMPTION LOGIC - Must happen BEFORE saving the invoice
+            if (invoice.getCustomer_id() != null && invoice.getRedeem_amount() != null && invoice.getRedeem_amount() > 0) {
+                Customer customer = invoice.getCustomer_id();
+                
+                // Check if customer has enough loyalty points
+                Integer currentPoints = customer.getLoyalty_points();
+                if (currentPoints == null) {
+                    currentPoints = 0;
+                }
+                
+                if (currentPoints < invoice.getRedeem_amount()) {
+                    return "Save not completed: Customer has insufficient loyalty points. Available: " + currentPoints + ", Required: " + invoice.getRedeem_amount();
+                }
+                
+                // Deduct loyalty points
+                customer.setLoyalty_points(currentPoints - invoice.getRedeem_amount());
+                
+                // Save updated customer BEFORE invoice to ensure data consistency
+                customerDao.save(customer);
+                
+                // Update the invoice's customer reference to the persisted entity
+                invoice.setCustomer_id(customer);
+            }
+
 				// set auto added data
 				invoice.setAdded_datetime(LocalDateTime.now());
 				invoice.setAdded_user_id(loggedUser.getId());
@@ -136,7 +166,39 @@ public class InvoiceController {
                         inventoryDao.save(inv);
                     }
                 }
-				// Invoice savedInvoice = invoiceDao.save(invoice);
+				
+				Invoice savedInvoice = invoiceDao.save(invoice);
+
+				// LOYALTY POINTS LOGIC
+				if (savedInvoice.getCustomer_id() != null) {
+					Customer customer = savedInvoice.getCustomer_id();
+					
+					// Calculate loyalty points (e.g., 1 point per 100 currency units)
+					// OR 1% of net amount
+					BigDecimal netAmount = savedInvoice.getNet_amount();
+					if (netAmount != null) {
+						// Example: 1 point for every 100 currency units
+						// loyalty_points_to_add = netAmount / 100
+						BigDecimal loyaltyRate = new BigDecimal("0.005");
+						BigDecimal pointsToAddDecimal = netAmount.multiply(loyaltyRate);
+						
+						// Convert to integer (round down)
+						int loyaltyPointsToAdd = pointsToAddDecimal.intValue();
+						
+						// Get current points (handle null)
+						Integer currentPoints = customer.getLoyalty_points();
+						if (currentPoints == null) {
+							currentPoints = 0;
+						}
+						
+						// Add new points
+						customer.setLoyalty_points(currentPoints + loyaltyPointsToAdd);
+						
+						// Save updated customer
+						customerDao.save(customer);
+					}
+				}
+
 
                 // Create corresponding income record
                 // Income income = new Income();

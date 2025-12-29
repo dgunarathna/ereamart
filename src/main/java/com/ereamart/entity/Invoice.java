@@ -39,6 +39,8 @@ public class Invoice {
     private BigDecimal total_amount;
 
     private BigDecimal discount_amount;
+
+    private Integer redeem_amount;
     
     private BigDecimal net_amount;
 

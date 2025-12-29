@@ -57,6 +57,7 @@
                   <th>Customer</th>
                   <th>Total</th>
                   <th>Total Discount</th>
+                  <th>Total Redeem</th>
                   <th>Net Amount</th>
                   <th>Status</th>
               </tr>
@@ -81,7 +82,7 @@
                 <div class="col-xl-6">
                   <label class="form-label">Customer</span></label>
                   <div class="input-group">
-                    <select id="selectCustomer" Required class="form-select" onchange="selectDynamicElementValidator(this,'invoice','customer_id')"></select>
+                    <select id="selectCustomer" Required class="form-select" onchange="selectDynamicElementValidator(this,'invoice','customer_id'); loyaltypoints();"></select>
                     <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i></button>
                   </div>
                 </div>
@@ -127,15 +128,19 @@
               </div>
 
               
-                <div class="col-xl-4">
+                <div class="col-xl-3">
                   <label class="form-label">Total Amount<span class="text-danger">*</span></label>
                   <input id="textTotalAmount" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','total_amount')">
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-3">
                   <label class="form-label">Total Discount<span class="text-danger">*</span></label>
                   <input id="textDisountAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','discount_amount');">
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-3">
+                  <label class="form-label">Total Redeem<span class="text-danger">*</span></label>
+                  <input id="textRedeemAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','redeem_amount'); redeemAmount();">
+                </div>
+                <div class="col-xl-3">
                   <label class="form-label">Total Net Amount<span class="text-danger">*</span></label>
                   <input id="textNetAmount" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'invoice','net_amount')">
                 </div>

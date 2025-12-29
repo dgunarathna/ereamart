@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import com.ereamart.dao.CustomerStatusDao;
 import com.ereamart.dao.UserDao;
 import com.ereamart.entity.Customer;
 import com.ereamart.entity.Privilege;
+import com.ereamart.entity.Product;
 import com.ereamart.entity.User;
 
 @RestController
@@ -112,7 +114,7 @@ public class CustomerController {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User loggedUser = userDao.getByUsename(auth.getName());
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Customer");
 		
 		if (userPrivilege.getPrivi_update()) {
 
@@ -152,7 +154,7 @@ public class CustomerController {
 	public String deleteEmployeeData(@RequestBody Customer customer) {
 		//check logged user authorization
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Product");
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Customer");
         
 
 		//check ext pk - update / delete only
@@ -179,4 +181,19 @@ public class CustomerController {
 			return "Delete not completed" + e.getMessage();
 		}
 	}
+
+	 @GetMapping(value = "/loyaltypoint/bycustomer/{customerID}", produces = "application/json")
+    public Integer findloyaltypointByCustomerID(@PathVariable("customerID") Integer customerID){
+
+		//check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Customer");
+
+			if (userPrivilege.getPrivi_select()) {
+			return customerDao.findloyaltypointByCustomerID(customerID);
+			} else {
+				return null;
+			}
+    }
+
 }
