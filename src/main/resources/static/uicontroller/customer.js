@@ -43,6 +43,8 @@ const getStatus = (dataOb) => {
 const refreshCustomerForm = () => {
     customer = new Object();
 
+    textLoyaltyPoints.disabled = "disabled";
+    
     formCustomer.reset();
 
     setDefault([ textName, textEmail, textMobileNo, textLoyaltyPoints, selectStatus]);
