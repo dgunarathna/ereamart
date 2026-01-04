@@ -34,6 +34,33 @@ const fillDataIntoSelect = (parentId, message, dataList, displayProperty)=>{
     });
 }
 
+// define function for all dropdowns
+const fillDataIntoSelectTwo = (parentId, message, dataList, displayPropertyOne, displayPropertyTwo)=>{
+    
+    parentId.innerHTML = "";
+    
+
+    if (message != "") {
+        let optionMsg = document.createElement("option");
+        optionMsg.value = "";
+        optionMsg.selected = "selected";
+        optionMsg.disabled = "disabled";
+        optionMsg.innerText = message;
+        parentId.appendChild(optionMsg); 
+    }
+
+    dataList.forEach(dataOb => {
+        let option = document.createElement("option");
+        option.value = JSON.stringify(dataOb);
+        option.innerText = dataOb[displayPropertyOne] + " - " + dataOb[displayPropertyTwo];
+        parentId.appendChild(option);
+        
+    });
+}
+
+
+
+
 //define function for get service request
 const getServiceRequest = (url)=>{
 
