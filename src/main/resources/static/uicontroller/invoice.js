@@ -437,7 +437,7 @@ const redeemAmount = () => {
 
 const getallproducts = () => {  
     selectItems = getServiceRequest('/product/byinventory');
-    fillDataIntoSelect(selectItem, "Select Product", selectItems, "name"); 
+    fillDataIntoSelectTwo(selectItem, "Select Product",selectItems, "barcode", "name"); 
 }  
 
 const getProductName = (dataOb) => {  
