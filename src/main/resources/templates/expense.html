@@ -49,6 +49,7 @@
                     <th>GRN No</th>
                     <th>Supplier</th>
                     <th>Payment Method</th>
+                    <th>Category</th>
                     <th>Date</th>
                     <th>Total Due Amount</th>
                     <th>Paid Amount</th>
@@ -118,6 +119,20 @@
               <div class="col-xl-4">
                 <label class="form-label">Date<span class="text-danger">*</span></label>
                 <input id="expensesDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'expenses','date' )">
+              </div>
+              <div class="col-xl-4">
+                <label class="form-label">Category<span class="text-danger">*</span></label>
+                <select id="selectCategory" class="form-select" Required onchange="selectStaticElementValidator(this,'expenses','expenses_category')">
+                  <option value="" selected disabled>Select Expense Category</option>
+                  <option value="Procurement">Procurement (Supplier Payments)</option>
+                  <option value="Utility">Utility Bills (Electricity/Water)</option>
+                  <option value="Rent">Rent & Lease</option>
+                  <option value="Payroll">Salaries & Payroll</option>
+                  <option value="Marketing">Marketing & Advertising</option>
+                  <option value="Maintenance">Maintenance & Repairs</option>
+                  <option value="Logistics">Transportation & Logistics</option>
+                  <option value="Miscellaneous">Miscellaneous</option>
+              </select>
               </div>
               <div class="col-xl-4">
                   <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>

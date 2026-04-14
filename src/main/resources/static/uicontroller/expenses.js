@@ -17,6 +17,7 @@ const refreshExpensesTable = () => {
         {propertyName: getGRNNO, dataType: "function"},
         {propertyName: getSupplierName, dataType: "function"},
         {propertyName: "payment_method", dataType: "string"},
+        {propertyName: "expenses_category", dataType: "string"},
         {propertyName: "date", dataType: "string"},
         {propertyName: "total_due_amount", dataType: "decimal"},
         {propertyName: "paid_amount", dataType: "decimal"},
@@ -58,7 +59,7 @@ const refreshExpensesForm = () => {
     fileReceiptPhoto.value = "";
     imgReceiptPhotoPreview.src = "/images/default.png";
 
-    setDefault([ selectSupplier, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate, ]);
+    setDefault([ selectSupplier, selectCategory, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate, ]);
 
     let grns = getServiceRequest('/grn/alldata');
     fillDataIntoSelect(selectGRN,"Select GRN",grns,"grn_no");
@@ -198,6 +199,7 @@ const expensesFormRefill = (ob, index) => {
 
     selectSupplier.value = JSON.stringify(ob.supplier_id);
     selectGRN.value = JSON.stringify(ob.grn_id);
+    selectCategory.value = ob.expenses_category;
     selectPaymentMethord.value = ob.payment_method;
     textTotalDue.value = ob.total_due_amount;
     textTotalPaid.value = ob.paid_amount;
@@ -259,6 +261,7 @@ const buttonExpensesPrint = (ob, index) => {
                 +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
                 +"<tr><th> Payment Method </th><td>"+ ob.payment_method +"</td></tr>" 
                 +"<tr><th> Total Due Amount </th><td>"+ ob.total_due_amount +"</td></tr>" 
+                +"<tr><th> Category </th><td>"+ ob.expenses_category +"</td></tr>" 
                 +"<tr><th> Paid Amount </th><td>"+ ob.paid_amount +"</td></tr>" 
                 +"<tr><th> Balance Amount </th><td>"+ ob.balance_amount +"</td></tr>" 
                 +"<tr><th> Date </th><td>"+ ob.date +"</td></tr>"
@@ -293,6 +296,9 @@ const checkFormError = ()=>{
     }
     if (expenses.balance_amount == null) {
         errors = errors + "Please Enter Balance Amount\n"
+    }
+    if (expenses.expenses_category == null) {
+        errors = errors + "Please Select Expense Category\n"
     }
     if (expenses.date == null) {
         errors = errors + "Please Enter Date\n"
@@ -340,6 +346,9 @@ const checkFormUpdate = () => {
         }
         if (expenses.payment_method != oldExpenses.payment_method) {
             updates = updates + "Payment Method - " + oldExpenses.payment_method + " to " + expenses.payment_method + "\n";
+        }
+        if (expenses.expenses_category != oldExpenses.expenses_category) {
+            updates = updates + "Category - " + oldExpenses.expenses_category + " to " + expenses.expenses_category + "\n";
         }
         if (expenses.total_due_amount != oldExpenses.total_due_amount) {
             updates = updates + "Total Due Amount - " + oldExpenses.total_due_amount + " to " + expenses.total_due_amount + "\n";

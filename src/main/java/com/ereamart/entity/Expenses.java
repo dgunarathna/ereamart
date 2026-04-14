@@ -46,6 +46,8 @@ public class Expenses {
     
     private Byte receiptimage;
 
+    private String expenses_category;
+
     
     @NotNull
     private LocalDateTime added_datetime;
