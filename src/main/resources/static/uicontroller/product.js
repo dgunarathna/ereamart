@@ -32,11 +32,14 @@ const refreshProductTable = () => {
     $('#tableProduct').DataTable().destroy();
     fillDataIntoTable(tableProductBody, products, propertyList, productFormRefill);
     new DataTable('#tableProduct', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search products..."
+        }
+    });
 }
 
 

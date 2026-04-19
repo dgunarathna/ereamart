@@ -13,26 +13,29 @@ const refreshInventoryTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "inventory_code", dataType: "string"},
-        {propertyName: getProductName, dataType: "function"},
-        {propertyName: getGrnNo, dataType: "function"},
-        {propertyName: "sales_price", dataType: "decimal"},
-        {propertyName: "total_qty", dataType: "string"},
-        {propertyName: "discount", dataType: "string"},
-        {propertyName: "expire_date", dataType: "string"},
-        {propertyName: "manufacture_date", dataType: "string"},
-        {propertyName: "batch_number", dataType: "string"},
-        {propertyName: getStatus, dataType: "function"},
+        { propertyName: "inventory_code", dataType: "string" },
+        { propertyName: getProductName, dataType: "function" },
+        { propertyName: getGrnNo, dataType: "function" },
+        { propertyName: "sales_price", dataType: "decimal" },
+        { propertyName: "total_qty", dataType: "string" },
+        { propertyName: "discount", dataType: "string" },
+        { propertyName: "expire_date", dataType: "string" },
+        { propertyName: "manufacture_date", dataType: "string" },
+        { propertyName: "batch_number", dataType: "string" },
+        { propertyName: getStatus, dataType: "function" },
     ];
 
     $('#tableInventory').DataTable().destroy();
     fillDataIntoTable(tableInventoryBody, inventorys, propertyList, inventoryFormRefill);
     new DataTable('#tableInventory', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search inventory..."
+        }
+    });
 }
 
 const getGrnNo = (dataOb) => {
@@ -61,18 +64,18 @@ const refreshInventoryForm = () => {
     setDefault([selectProduct, textSalePrice, textTotalQty, textExpireDate, textManufactureDate, textBatchNo, selectGRN, selectStatus]);
 
     let grns = getServiceRequest('/grn/alldata');
-    fillDataIntoSelect(selectGRN,"Select GRN",grns,"grn_no");
-    
+    fillDataIntoSelect(selectGRN, "Select GRN", grns, "grn_no");
+
     let selectItems = [];
     if (selectGRN.value != "") {
         selectItems = getServiceRequest('/product/bygrncode/' + JSON.parse(selectGRN.value).id);
     } else {
         selectItems = getServiceRequest('/product/alldata');
-    }  
-    fillDataIntoSelect(selectProduct,"Select Product",selectItems,"name");
+    }
+    fillDataIntoSelect(selectProduct, "Select Product", selectItems, "name");
 
     let status = getServiceRequest('/inventorystatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    fillDataIntoSelect(selectStatus, "Select status", status, "name");
     selectStatus.value = JSON.stringify(status[0]); // set default values
     inventory.inventory_status_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen";
@@ -82,7 +85,7 @@ const refreshInventoryForm = () => {
 // filter products by order dropdown
 const filterProductByGRN = () => {
     let selectItems = getServiceRequest('/product/bygrncode/' + JSON.parse(selectGRN.value).id);
-    fillDataIntoSelect(selectProduct,"Select Product",selectItems,"name");   
+    fillDataIntoSelect(selectProduct, "Select Product", selectItems, "name");
 }
 
 const filterBatchByGRN = () => {
@@ -142,8 +145,8 @@ const buttonInventoryDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshInventoryTable();
-            $("#modalInventoryForm").modal("hide"); 
-        }else{
+            $("#modalInventoryForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -154,42 +157,42 @@ const buttonInventoryPrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Inventory code </th><td>"+ ob.inventory_code +"</td></tr>" 
-                +"<tr><th> Product </th><td>"+ ob.product_id.name +"</td></tr>" 
-                +"<tr><th> Sale Price </th><td>"+ ob.sales_price +"</td></tr>" 
-                +"<tr><th> Available QTY </th><td>"+ ob.available_qty +"</td></tr>" 
-                +"<tr><th> Total QTY </th><td>"+ ob.total_qty +"</td></tr>" 
-                +"<tr><th> Expire Date </th><td>"+ ob.expire_date +"</td></tr>" 
-                +"<tr><th> Manufacture Date </th><td>"+ ob.manufacture_date +"</td></tr>" 
-                +"<tr><th> Batch Number </th><td>"+ ob.batch_number +"</td></tr>" 
-                +"<tr><th> GRN No </th><td>"+ ob.grn_id.grn_no +"</td></tr>" 
-                +"<tr><th> Status ID </th><td>"+ ob.inventory_status_id.name +"</td></tr>" 
-            +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Inventory code </th><td>" + ob.inventory_code + "</td></tr>"
+        + "<tr><th> Product </th><td>" + ob.product_id.name + "</td></tr>"
+        + "<tr><th> Sale Price </th><td>" + ob.sales_price + "</td></tr>"
+        + "<tr><th> Available QTY </th><td>" + ob.available_qty + "</td></tr>"
+        + "<tr><th> Total QTY </th><td>" + ob.total_qty + "</td></tr>"
+        + "<tr><th> Expire Date </th><td>" + ob.expire_date + "</td></tr>"
+        + "<tr><th> Manufacture Date </th><td>" + ob.manufacture_date + "</td></tr>"
+        + "<tr><th> Batch Number </th><td>" + ob.batch_number + "</td></tr>"
+        + "<tr><th> GRN No </th><td>" + ob.grn_id.grn_no + "</td></tr>"
+        + "<tr><th> Status ID </th><td>" + ob.inventory_status_id.name + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalInventoryForm").modal("hide"); 
+        $("#modalInventoryForm").modal("hide");
     }, 500);
 }
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (inventory.sales_price == null) {
         errors = errors + "Please Enter Sale Price\n"
@@ -217,7 +220,7 @@ const checkFormError = ()=>{
 
 const buttonInventorySubmit = () => {
     console.log(inventory);
-    
+
     let errors = checkFormError();
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add?");
@@ -228,11 +231,11 @@ const buttonInventorySubmit = () => {
                 refreshInventoryTable();
                 refreshInventoryForm();
                 $("#modalInventoryForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
@@ -242,7 +245,7 @@ const checkFormUpdate = () => {
 
     console.log(inventory);
     console.log(oldInventory);
-    
+
     if (inventory != null && oldInventory !== null) {
         if (inventory.product_id.name != oldInventory.product_id.name) {
             updates = updates + "Product - " + oldInventory.product_id.name + " to " + inventory.product_id.name + "\n";
@@ -282,7 +285,7 @@ const buttonInventoryUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ inventory.product_id.name +"?\n" +updates);
+            let userConfirm = window.confirm("Are you sure to update " + inventory.product_id.name + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/inventory/update", "PUT", inventory);
                 if (putResponce == "OK") {
@@ -297,7 +300,7 @@ const buttonInventoryUpdate = () => {
         }
     } else {
         window.alert("Form has following errors..\n" + errors)
-    } 
+    }
 }
 
 //Add new record ************************************************************************************************************************************************************************************

@@ -12,26 +12,29 @@ const refreshSupplierTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "reg_no", dataType: "string"},
-        {propertyName: "name", dataType: "string"},
-        {propertyName: "supplier_brn", dataType: "string"},
-        {propertyName: "email", dataType: "string"},
-        {propertyName: "mobile_no", dataType: "string"},
-        {propertyName: "address", dataType: "string"},
-        {propertyName: "bank", dataType: "string"},
-        {propertyName: "branch", dataType: "string"},
-        {propertyName: "account_no", dataType: "string"},
-        {propertyName: getStatus, dataType: "function"}
+        { propertyName: "reg_no", dataType: "string" },
+        { propertyName: "name", dataType: "string" },
+        { propertyName: "supplier_brn", dataType: "string" },
+        { propertyName: "email", dataType: "string" },
+        { propertyName: "mobile_no", dataType: "string" },
+        { propertyName: "address", dataType: "string" },
+        { propertyName: "bank", dataType: "string" },
+        { propertyName: "branch", dataType: "string" },
+        { propertyName: "account_no", dataType: "string" },
+        { propertyName: getStatus, dataType: "function" }
     ];
 
     $('#tableSupplier').DataTable().destroy();
     fillDataIntoTable(tableSupplierBody, suppliers, propertyList, supplierFormRefill);
     new DataTable('#tableSupplier', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search suppliers..."
+        }
+    });
 }
 
 const getStatus = (dataOb) => {
@@ -39,7 +42,7 @@ const getStatus = (dataOb) => {
         return "<p class='badge bg-success w-100 my-auto'>" + dataOb.supplier_status_id.name + "</p>";
     } if (dataOb.supplier_status_id.name == "Inactive") {
         return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.supplier_status_id.name + "</p>";
-    } 
+    }
 }
 
 //form *********************************************************************************************************************************************************************************************
@@ -47,23 +50,23 @@ const getStatus = (dataOb) => {
 const refreshSupplierForm = () => {
     supplier = new Object();
     supplier.supplierItemList = new Array();
-    
+
 
     formSupplier.reset();
 
     setDefault([textBRN, textName, textEmail, textMobileNo, textAddress, textBank, textBranch, textAccountNo, selectStatus]);
 
     let supplierStatus = getServiceRequest('/supplierstatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select Status",supplierStatus,"name");
+    fillDataIntoSelect(selectStatus, "Select Status", supplierStatus, "name");
     selectStatus.value = JSON.stringify(supplierStatus[0]);
     supplier.supplier_status_id = supplierStatus[0];
     selectStatus.style.border = "1px solid lightgreen"
 
 
     allProducts = getServiceRequest('/product/alldata');
-    fillDataIntoSelect(selectAllProducts, "" ,allProducts,"name");
+    fillDataIntoSelect(selectAllProducts, "", allProducts, "name");
 
-    fillDataIntoSelect(selectSelectedProducts, "" ,supplier.supplierItemList,"name");
+    fillDataIntoSelect(selectSelectedProducts, "", supplier.supplierItemList, "name");
 }
 
 
@@ -91,9 +94,9 @@ const supplierFormRefill = (ob, index) => {
     }
 
     allProducts = getServiceRequest('/product/withoutsupply/' + supplier.id);
-    fillDataIntoSelect(selectAllProducts, "" ,allProducts,"name");
+    fillDataIntoSelect(selectAllProducts, "", allProducts, "name");
 
-    fillDataIntoSelect(selectSelectedProducts, "" ,supplier.supplierItemList,"name");
+    fillDataIntoSelect(selectSelectedProducts, "", supplier.supplierItemList, "name");
 
     // supplier = JSON.parse(JSON.stringify(ob));
     // oldSupplier = JSON.parse(JSON.stringify(ob));
@@ -116,8 +119,8 @@ const buttonSupplierDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshSupplierTable();
-            $("#modalSupplierForm").modal("hide"); 
-        }else{
+            $("#modalSupplierForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -128,47 +131,47 @@ const buttonSupplierPrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Reg No </th><td>"+ ob.reg_no +"</td></tr>" 
-                +"<tr><th> BRN </th><td>"+ ob.name +"</td></tr>" 
-                +"<tr><th> Name </th><td>"+ ob.supplier_brn +"</td></tr>" 
-                +"<tr><th> Email </th><td>"+ ob.email +"</td></tr>" 
-                +"<tr><th> Mobile Number </th><td>"+ ob.mobile_no +"</td></tr>" 
-                +"<tr><th> Address </th><td>"+ ob.address +"</td></tr>"
-                +"<tr><th> Bank </th><td>"+ ob.bank +"</td></tr>"
-                +"<tr><th> Branch </th><td>"+ ob.branch +"</td></tr>" 
-                +"<tr><th> Account No </th><td>"+ ob.account_no +"</td></tr>" 
-                +"<tr><th> Supplier Status </th><td>"+ ob.supplier_status_id.name +"</td></tr>" 
-            +"</tbody>" 
-            +"</table>"  
-            + "<h6 class='mt-4'>Products</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Supply Products </th><td>"+ selectSelectedProducts.innerHTML +"</td></tr>" 
-            +"</tbody>"
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Reg No </th><td>" + ob.reg_no + "</td></tr>"
+        + "<tr><th> BRN </th><td>" + ob.name + "</td></tr>"
+        + "<tr><th> Name </th><td>" + ob.supplier_brn + "</td></tr>"
+        + "<tr><th> Email </th><td>" + ob.email + "</td></tr>"
+        + "<tr><th> Mobile Number </th><td>" + ob.mobile_no + "</td></tr>"
+        + "<tr><th> Address </th><td>" + ob.address + "</td></tr>"
+        + "<tr><th> Bank </th><td>" + ob.bank + "</td></tr>"
+        + "<tr><th> Branch </th><td>" + ob.branch + "</td></tr>"
+        + "<tr><th> Account No </th><td>" + ob.account_no + "</td></tr>"
+        + "<tr><th> Supplier Status </th><td>" + ob.supplier_status_id.name + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "<h6 class='mt-4'>Products</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Supply Products </th><td>" + selectSelectedProducts.innerHTML + "</td></tr>"
+        + "</tbody>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalSupplierForm").modal("hide"); 
+        $("#modalSupplierForm").modal("hide");
     }, 500);
 }
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (supplier.name == null) {
         errors = errors + "Please Enter BRN\n"
@@ -202,10 +205,10 @@ const checkFormError = ()=>{
 
 const buttonSupplierSubmit = () => {
     console.log(supplier);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ supplier.name +"?");
+        let userConfirm = window.confirm("Are you sure to add " + supplier.name + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/supplier/insert", "POST", supplier);
             if (postResponce == "OK") {
@@ -213,11 +216,11 @@ const buttonSupplierSubmit = () => {
                 refreshSupplierTable();
                 refreshSupplierForm();
                 $("#modalSupplierForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
@@ -227,7 +230,7 @@ const checkFormUpdate = () => {
 
     console.log(supplier);
     console.log(oldSupplier);
-    
+
     if (supplier != null && oldSupplier !== null) {
         if (supplier.regno != oldSupplier.regno) {
             updates = updates + "Reg No - " + oldSupplier.regno + " to " + supplier.regno + "\n";
@@ -259,7 +262,7 @@ const checkFormUpdate = () => {
         if (supplier.supplier_status_id.name != oldSupplier.supplier_status_id.name) {
             updates = updates + "Supplier Status - " + oldSupplier.supplier_status_id.name + " to " + supplier.supplier_status_id.name + "\n";
         }
-        if (supplier.supplierItemList.map(product=>product.id).sort().toString() !== oldSupplier.supplierItemList.map(product=>product.id).sort().toString()) {
+        if (supplier.supplierItemList.map(product => product.id).sort().toString() !== oldSupplier.supplierItemList.map(product => product.id).sort().toString()) {
             updates = updates + "Selected Products - updated\n";
         }
     }
@@ -274,7 +277,7 @@ const buttonSupplierUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ supplier.fullname +"?\n" + updates);
+            let userConfirm = window.confirm("Are you sure to update " + supplier.fullname + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/supplier/update", "PUT", supplier);
                 if (putResponce == "OK") {
@@ -289,7 +292,7 @@ const buttonSupplierUpdate = () => {
         }
     } else {
         window.alert("Form has following errors..\n" + errors)
-    } 
+    }
 }
 
 //Add new record ************************************************************************************************************************************************************************************
@@ -307,40 +310,40 @@ const buttonAddNew = () => {
 }
 
 // List transfer ***************************************************************************************************************************************************************************************
-const addProduct = () =>{
+const addProduct = () => {
 
     if (selectAllProducts.value != "") {
         let selectedProduct = JSON.parse(selectAllProducts.value);
         supplier.supplierItemList.push(selectedProduct);
-        fillDataIntoSelect(selectSelectedProducts,"",supplier.supplierItemList,"name");
+        fillDataIntoSelect(selectSelectedProducts, "", supplier.supplierItemList, "name");
 
-        let extIndex =  allProducts.map(product=>product.id).indexOf(selectedProduct.id);
+        let extIndex = allProducts.map(product => product.id).indexOf(selectedProduct.id);
         if (extIndex != -1) {
             allProducts.splice(extIndex, 1)
         }
-        fillDataIntoSelect(selectAllProducts,"",allProducts,"name");
+        fillDataIntoSelect(selectAllProducts, "", allProducts, "name");
     } else {
         window.alert("Please select product")
     }
 
 }
 
-const removeProduct = () =>{
+const removeProduct = () => {
 
     if (selectSelectedProducts.value != "") {
         let selectedProduct = JSON.parse(selectSelectedProducts.value);
         allProducts.push(selectedProduct);
-        fillDataIntoSelect(selectAllProducts,"",allProducts,"name");
-        
+        fillDataIntoSelect(selectAllProducts, "", allProducts, "name");
 
-        let extIndex =  supplier.supplierItemList.map(product=>product.id).indexOf(selectedProduct.id);
+
+        let extIndex = supplier.supplierItemList.map(product => product.id).indexOf(selectedProduct.id);
         if (extIndex != -1) {
             supplier.supplierItemList.splice(extIndex, 1)
         }
-        fillDataIntoSelect(selectSelectedProducts,"",supplier.supplierItemList,"name");
+        fillDataIntoSelect(selectSelectedProducts, "", supplier.supplierItemList, "name");
     } else {
         window.alert("Please select product")
     }
-    
+
 }
 

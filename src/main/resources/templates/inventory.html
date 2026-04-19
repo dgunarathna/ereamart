@@ -1,145 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:replace="~{common :: headFragment}"></div>
+
 <body>
 
-  
+
   <!-- Cursor effect -->
   <div class="cursor"></div>
 
   <div class="container-fluid p-0 m-0">
-      <!-- nav bar -->
-      <nav class="navbar row py-0 mx-0">
-          <div class="col-xl d-flex p-0 gap-1">
-              <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
-          </div>
-          <div class="col-xl-6 d-flex p-0">
-            <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/dashboard">Home</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill active" href="/product">Store</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
-                </ul>
-          </div>
-            <div th:replace="~{common :: sellerprofiledropdown}"></div>
-          
-      </nav>
+    <!-- nav bar -->
+    <nav class="navbar row py-0 mx-0">
+      <div class="col-xl d-flex p-0 gap-1">
+        <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
+        <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span
+            style=" color: #97CC16;">Mart</Span></h4>
+      </div>
+      <div class="col-xl-6 d-flex p-0">
+        <ul
+          class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar"
+          style="width: fit-content;">
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/dashboard">Home</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill active" href="/product">Store</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
+        </ul>
+      </div>
+      <div th:replace="~{common :: sellerprofiledropdown}"></div>
 
-      <div class=" container-fluid row p-0 m-0">
-        <div class="col"></div>
-        <div class="col-xl-6 mt-1">
-          <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Product</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/supplier">Supplier</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation">Quotation</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/respond">Respond</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/orders">Order</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/grn">GRN</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill active" href="/inventory">Inventory</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/customer">Customer</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice">Invoice</a></li>
-          </ul>
-        </div>
-        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
-              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
-              <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalInventoryForm"><i class="fa-solid fa-plus"></i></button>
-            </div>
+    </nav>
+
+    <div class=" container-fluid row p-0 m-0">
+      <div class="col"></div>
+      <div class="col-xl-6 mt-1">
+        <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Product</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/supplier">Supplier</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/quotation">Quotation</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/respond">Respond</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/orders">Order</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/grn">GRN</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill active" href="/inventory">Inventory</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/customer">Customer</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice">Invoice</a></li>
+        </ul>
+      </div>
+      <div class="col-xl d-flex justify-content-end gap-1 text-end my-auto p-0">
+        <button type="button" class="btn btn-primary rounded-pill" onclick="buttonAddNew()" data-bs-toggle="modal"
+          data-bs-target="#modalInventoryForm">Add New</button>
+      </div>
     </div>
 
-      <div class="row app p-0 m-0">
-          <div class="col">
-          <!-- Table -->
-          <div class="table-responsive">
-            <table class="table table-hover align-middle" id="tableInventory">
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Product</th>
-                  <th>GRN No</th>
-                  <th>Sale Price</th>
-                  <th>Total QTY</th>
-                  <th>Discount (%)</th>
-                  <th>Manufacture Date</th>
-                  <th>Expire Date</th>
-                  <th>Batch Number</th>
-                  <th>Status</th>
+    <div class="row app p-0 m-0">
+      <div class="col">
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle" id="tableInventory">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Product</th>
+                <th>GRN No</th>
+                <th>Sale Price</th>
+                <th>Total QTY</th>
+                <th>Discount (%)</th>
+                <th>Manufacture Date</th>
+                <th>Expire Date</th>
+                <th>Batch Number</th>
+                <th>Status</th>
               </tr>
-              </thead>
-              <tbody id="tableInventoryBody"></tbody>
-            </table>
-          </div>
-          </div>
+            </thead>
+            <tbody id="tableInventoryBody"></tbody>
+          </table>
+        </div>
       </div>
-      <!-- Modal -->
-    <div class="modal fade" id="modalInventoryForm" tabindex="-1" aria-labelledby="modalInventoryFormLabel" aria-hidden="true">
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalInventoryForm" tabindex="-1" aria-labelledby="modalInventoryFormLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-      
+
           <div class="modal-header">
             <h6 class="modal-title" id="modalInventoryFormLabel">Add New</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-      
+
           <div class="modal-body">
             <form id="formInventory" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
-              
+
               <div class="col-xl-6">
                 <label class="form-label">GRN No<span class="text-danger">*</span></label>
-                <select id="selectGRN" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','grn_id'); filterProductByGRN();"></select>
-              </div> 
+                <select id="selectGRN" Required class="form-select"
+                  onchange="selectDynamicElementValidator(this,'inventory','grn_id'); filterProductByGRN();"></select>
+              </div>
               <div class="col-xl-6">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
-                <select id="selectProduct" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','product_id');filterBatchByGRN();"></select>
+                <select id="selectProduct" Required class="form-select"
+                  onchange="selectDynamicElementValidator(this,'inventory','product_id');filterBatchByGRN();"></select>
               </div>
               <div class="col-xl-3">
                 <label class="form-label">Total QTY<span class="text-danger">*</span></label>
-                <input id="textTotalQty" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'inventory','total_qty')">
+                <input id="textTotalQty" type="text" Required class="form-control"
+                  onkeyup="textValidator(this,'^[0-9]+$', 'inventory','total_qty')">
               </div>
               <div class="col-xl-3">
                 <label class="form-label">Sale Price<span class="text-danger">*</span></label>
-                <input id="textSalePrice" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'inventory','sales_price')">
+                <input id="textSalePrice" type="text" Required class="form-control"
+                  onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$', 'inventory','sales_price')">
               </div>
               <div class="col-xl-3">
                 <label class="form-label">Manufacture Date<span class="text-danger">*</span></label>
-                <input id="textManufactureDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','manufacture_date' )">
+                <input id="textManufactureDate" type="date" Required class="form-control" onkeydown="return false"
+                  onchange="dateElemantValidator(this, 'inventory','manufacture_date' )">
               </div>
               <div class="col-xl-3">
                 <label class="form-label">Expire Date<span class="text-danger">*</span></label>
-                <input id="textExpireDate" type="date" Required  class="form-control" onkeydown="return false" onchange="dateElemantValidator(this, 'inventory','expire_date' )">
+                <input id="textExpireDate" type="date" Required class="form-control" onkeydown="return false"
+                  onchange="dateElemantValidator(this, 'inventory','expire_date' )">
               </div>
               <div class="col-xl-4">
                 <label for="textEmail" class="form-label">Batch Number<span class="text-danger">*</span></label>
-                <input id="textBatchNo" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','batch_number')">
-              </div> 
+                <input id="textBatchNo" type="text" Required class="form-control"
+                  onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','batch_number')">
+              </div>
               <div class="col-xl-4">
                 <label for="textEmail" class="form-label">Discount (%)<span class="text-danger">*</span></label>
-                <input id="textdiscount" type="text" class="form-control" onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','discount')">
-              </div> 
+                <input id="textdiscount" type="text" class="form-control"
+                  onkeyup="textValidator(this,'^[A-Za-z0-9\\-]{1,50}$', 'inventory','discount')">
+              </div>
               <div class="col-xl-4">
                 <label class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required  class="form-select" onchange="selectDynamicElementValidator(this,'inventory','inventory_status_id')"></select>
-              </div>   
+                <select id="selectStatus" Required class="form-select"
+                  onchange="selectDynamicElementValidator(this,'inventory','inventory_status_id')"></select>
+              </div>
             </form>
           </div>
-      
+
           <div class="modal-footer">
             <div class="col">
-              <button type="button" onclick="buttonInventoryDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
-              <button type="button" onclick="refreshInventoryForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
-            </div> 
+              <button type="button" onclick="buttonInventoryDelete(window['editOb'], window['editRowIndex'])"
+                class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshInventoryForm()" class="btn btn-outline-danger"
+                id="buttonClear">Clear</button>
+            </div>
             <div class="col text-end">
-              <button type="button" onclick="buttonInventoryPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
-              <button type="button" onclick="buttonInventoryUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
-              <button type="button" onclick="buttonInventorySubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+              <button type="button" onclick="buttonInventoryPrint(window['editOb'], window['editRowIndex'])"
+                class="btn btn-tertiry" id="buttonPrint">Print</button>
+              <button type="button" onclick="buttonInventoryUpdate()" class="btn btn-primary"
+                id="buttonUpdate">Update</button>
+              <button type="button" onclick="buttonInventorySubmit()" class="btn btn-primary"
+                id="buttonSubmit">Submit</button>
+            </div>
           </div>
-          </div>
-      
+
         </div>
       </div>
-      </div>
+    </div>
   </div>
-</div>
-    <div th:replace="~{common :: scripts}"></div>
-    <script src="/uicontroller/inventory.js"></script>
+  </div>
+  <div th:replace="~{common :: scripts}"></div>
+  <script src="/uicontroller/inventory.js"></script>
 </body>
+
 </html>

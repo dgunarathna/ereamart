@@ -1,104 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:replace="~{common :: headFragment}"></div>
+
 <body>
 
   <!-- Cursor effect -->
   <div class="cursor"></div>
 
   <div class="container-fluid p-0 m-0">
-      <!-- nav bar -->
-      <nav class="navbar row py-0 mx-0">
-          <div class="col-xl d-flex p-0 gap-1">
-              <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
-          </div>
-          <div class="col-xl-6 d-flex p-0">
-            <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/dashboard">Home</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill active" href="/product">Store</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
-                </ul>
-          </div>
-            <div th:replace="~{common :: sellerprofiledropdown}"></div>
-          
-      </nav>
-
-      <div class=" container-fluid row p-0 m-0">
-        <div class="col"></div>
-        <div class="col-xl-6 mt-1">
-          <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Product</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/supplier">Supplier</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill active" href="/quotation">Quotation</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/respond">Respond</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/orders">Order</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/grn">GRN</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory">Inventory</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/customer">Customer</a></li>
-            <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice">Invoice</a></li>
-          </ul>
-        </div>
-        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
-              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
-                        <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonrAddNew()" data-bs-toggle="modal" data-bs-target="#modalQuotationForm"><i class="fa-solid fa-plus"></i></button>
-          </div>
-    </div>
-      
-      <div class="row app p-0 m-0">
-          <div class="col">
-          <!-- Table -->
-          <div class="table-responsive">
-            <table class="table table-hover" id="tableQuotation">
-              <thead>
-                <tr>
-                  <th>Quotation no</th>
-                  <th>Supplier</th>
-                  <th>Total Items</th>
-                  <th>Request Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="tableQuotationBody"></tbody>
-            </table>
-          </div>
-          </div>
+    <!-- nav bar -->
+    <nav class="navbar row py-0 mx-0">
+      <div class="col-xl d-flex p-0 gap-1">
+        <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
+        <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span
+            style=" color: #97CC16;">Mart</Span></h4>
       </div>
-      <!-- Modal -->
-    <div class="modal fade" id="modalQuotationForm" tabindex="-1" aria-labelledby="modalQuotationFormLabel" aria-hidden="true">
+      <div class="col-xl-6 d-flex p-0">
+        <ul
+          class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar"
+          style="width: fit-content;">
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/dashboard">Home</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill active" href="/product">Store</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
+        </ul>
+      </div>
+      <div th:replace="~{common :: sellerprofiledropdown}"></div>
+
+    </nav>
+
+    <div class=" container-fluid row p-0 m-0">
+      <div class="col"></div>
+      <div class="col-xl-6 mt-1">
+        <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Product</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/supplier">Supplier</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill active" href="/quotation">Quotation</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/respond">Respond</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/orders">Order</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/grn">GRN</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/inventory">Inventory</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/customer">Customer</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/invoice">Invoice</a></li>
+        </ul>
+      </div>
+      <div class="col-xl d-flex justify-content-end gap-1 text-end my-auto p-0">
+        <button type="button" class="btn btn-primary rounded-pill" onclick="buttonrAddNew()" data-bs-toggle="modal"
+          data-bs-target="#modalQuotationForm">Add New</button>
+      </div>
+    </div>
+
+    <div class="row app p-0 m-0">
+      <div class="col">
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-hover" id="tableQuotation">
+            <thead>
+              <tr>
+                <th>Quotation no</th>
+                <th>Supplier</th>
+                <th>Total Items</th>
+                <th>Request Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tableQuotationBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalQuotationForm" tabindex="-1" aria-labelledby="modalQuotationFormLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-      
+
           <div class="modal-header">
             <h6 class="modal-title" id="modalQuotationFormLabel">Add New</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-      
+
           <div class="modal-body">
             <form id="formQuotation" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
               <div class="col-xl-6">
                 <label class="form-label">Request Date<span class="text-danger">*</span></label>
-                <input id="selectrequireddate" type="date" Required  class="form-control" onchange="dateElemantValidator(this, 'quotation','requestdate' )">
+                <input id="selectrequireddate" type="date" Required class="form-control"
+                  onchange="dateElemantValidator(this, 'quotation','requestdate' )">
               </div>
               <div class="col-xl-6">
                 <label class="form-label">Supplier<span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <select id="selectsupplier" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotation','supplier_id'); filterProductBySupplier();" ></select>
-                  <button class="btn btn-outline-secondary" type="button" onclick="location.href='/supplier'"><i class="fa-solid fa-plus"></i></button>
+                  <select id="selectsupplier" Required class="form-select"
+                    onchange="selectDynamicElementValidator(this,'quotation','supplier_id'); filterProductBySupplier();"></select>
+                  <button class="btn btn-outline-secondary" type="button" onclick="location.href='/supplier'"><i
+                      class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
               <div class="col-xl-11">
                 <label class="form-label">Product<span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <select id="selectItem" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotationHasItem','product_id'); checkProductExt(); calculateOrderQty();"></select>
-                  <input id="textQTY" type="text" Required placeholder="Quantity" class="form-control" style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'quotationHasItem','quantity');">
+                  <select id="selectItem" Required class="form-select"
+                    onchange="selectDynamicElementValidator(this,'quotationHasItem','product_id'); checkProductExt(); calculateOrderQty();"></select>
+                  <input id="textQTY" type="text" Required placeholder="Quantity" class="form-control"
+                    style="max-width: 120px;" onkeyup="textValidator(this,'^[0-9]+$', 'quotationHasItem','quantity');">
                 </div>
               </div>
               <div class="col-xl-1 gap-1 d-flex align-items-end">
-                <button type="button" onclick="buttonQuotationItemSubmit()" class="btn btn-outline-primary w-100" id="buttonItemSubmit"><i class="fa-solid fa-plus"></i></button>
-                <button type="button" onclick="buttonQuotationItemUpdate()" class="btn btn-warning w-100" id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
+                <button type="button" onclick="buttonQuotationItemSubmit()" class="btn btn-outline-primary w-100"
+                  id="buttonItemSubmit">Add New</button>
+                <button type="button" onclick="buttonQuotationItemUpdate()" class="btn btn-warning w-100"
+                  id="buttonItemUpdate"><i class="fa-solid fa-check"></i></button>
               </div>
-              
+
               <div class="col-lg-12">
                 <div class="table-responsive">
                   <table class="table table-hover align-middle" id="tableQuotationItem">
@@ -113,40 +125,48 @@
                   </table>
                 </div>
               </div>
-              
+
               <div class="col-xl-6">
                 <label class="form-label">Total Items<span class="text-danger">*</span></label>
-                <input id="textItems" type="text" Required  class="form-control" onkeyup="textValidator(this,'^[0-9]+$', 'quotation','totalitems')">
+                <input id="textItems" type="text" Required class="form-control"
+                  onkeyup="textValidator(this,'^[0-9]+$', 'quotation','totalitems')">
               </div>
               <div class="col-xl-6">
                 <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'quotation','quotation_status_id')"></select>
-              </div> 
+                <select id="selectStatus" Required class="form-select"
+                  onchange="selectDynamicElementValidator(this,'quotation','quotation_status_id')"></select>
+              </div>
 
             </form>
           </div>
-      
+
           <div class="modal-footer">
             <div class="col">
-              <button type="button" onclick="buttonQuotationDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
-              <button type="button" onclick="refreshQuotationForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
-            </div> 
+              <button type="button" onclick="buttonQuotationDelete(window['editOb'], window['editRowIndex'])"
+                class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshQuotationForm()" class="btn btn-outline-danger"
+                id="buttonClear">Clear</button>
+            </div>
             <div class="col text-end">
-              <button type="button" onclick="buttonQuotationPrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
-              <button type="button" onclick="buttonQuotationUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
-              <button type="button" onclick="buttonQuotationSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+              <button type="button" onclick="buttonQuotationPrint(window['editOb'], window['editRowIndex'])"
+                class="btn btn-tertiry" id="buttonPrint">Print</button>
+              <button type="button" onclick="buttonQuotationUpdate()" class="btn btn-primary"
+                id="buttonUpdate">Update</button>
+              <button type="button" onclick="buttonQuotationSubmit()" class="btn btn-primary"
+                id="buttonSubmit">Submit</button>
+            </div>
           </div>
-          </div>
-      
+
         </div>
       </div>
-      </div>
+    </div>
   </div>
 
 
-    
 
-    <div th:replace="~{common :: scripts}"></div>
-    <script src="/uicontroller/quotation.js"></script>
+
+  <div th:replace="~{common :: scripts}"></div>
+  <script src="/uicontroller/quotation.js"></script>
 </body>
+
 </html>

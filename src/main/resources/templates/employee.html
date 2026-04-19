@@ -1,178 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:replace="~{common :: headFragment}"></div>
+
 <body>
   <!-- Cursor effect -->
   <div class="cursor"></div>
 
   <div class="container-fluid p-0 m-0">
-      <!-- nav bar -->
-      <nav class="navbar row py-0 mx-0">
-          <div class="col-xl d-flex p-0 gap-1">
-              <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-              <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
-          </div>
-          <div class="col-xl-6  d-flex p-0">
-                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill active" href="/dashboard">Home</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Store</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
-                </ul>
-            </div>
-            <div th:replace="~{common :: sellerprofiledropdown}"></div>
-      </nav>
-
-      <div class=" container-fluid row p-0 m-0">
-        <div class="col"></div>
-        <div class="col-xl-6 mt-1">
-                <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page" href="/dashboard">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/report">Reports</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/privilege">Privilege</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill active" href="/employee">Employee</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
-                </ul>
-        </div>
-        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
-              <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
-              <button type="button" class="btn btn-icon btn-primary rounded-circle" onclick="buttonAddNew()" data-bs-toggle="modal" data-bs-target="#modalEmployeeForm"><i class="fa-solid fa-plus"></i></button>
-            </div>
-    </div>
-      
-      <div class="row app p-0 m-0">
-          <div class="col">
-          <!-- Table -->
-          <div class="table-responsive">
-            <table class="table table-hover align-middle" id="tableEmployee">
-              <thead>
-                <tr>
-                  <th>Emp No</th>
-                  <th>Photo</th>
-                  <th>Full Name</th>
-                  <th>Email</th>
-                  <th>NIC</th>
-                  <th>DOB</th>
-                  <th>Gender</th>
-                  <th>Mobile</th>
-                  <th>Civil Status</th>
-                  <th>Address</th>
-                  <th>Note</th>
-                  <th>Designation</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="tableEmployeeBody"></tbody>
-            </table>
-          </div>
-          </div>
+    <!-- nav bar -->
+    <nav class="navbar row py-0 mx-0">
+      <div class="col-xl d-flex p-0 gap-1">
+        <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
+        <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span
+            style=" color: #97CC16;">Mart</Span></h4>
       </div>
-      <!-- Modal -->
-    <div class="modal fade" id="modalEmployeeForm" tabindex="-1" aria-labelledby="modalEmployeeFormLabel" aria-hidden="true">
+      <div class="col-xl-6  d-flex p-0">
+        <ul
+          class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar"
+          style="width: fit-content;">
+          <li class="nav-item"><a class="nav-link rounded-pill active" href="/dashboard">Home</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Store</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
+        </ul>
+      </div>
+      <div th:replace="~{common :: sellerprofiledropdown}"></div>
+    </nav>
+
+    <div class=" container-fluid row p-0 m-0">
+      <div class="col"></div>
+      <div class="col-xl-6 mt-1">
+        <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
+          <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page" href="/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/report">Reports</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/privilege">Privilege</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill active" href="/employee">Employee</a></li>
+          <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
+        </ul>
+      </div>
+      <div class="col-xl d-flex justify-content-end gap-1 text-end my-auto p-0">
+        <button type="button" class="btn btn-primary rounded-pill" onclick="buttonAddNew()" data-bs-toggle="modal"
+          data-bs-target="#modalEmployeeForm">Add New</button>
+      </div>
+    </div>
+
+    <div class="row app p-0 m-0">
+      <div class="col">
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle" id="tableEmployee">
+            <thead>
+              <tr>
+                <th>Emp No</th>
+                <th>Photo</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>NIC</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>Mobile</th>
+                <th>Civil Status</th>
+                <th>Address</th>
+                <th>Note</th>
+                <th>Designation</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tableEmployeeBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalEmployeeForm" tabindex="-1" aria-labelledby="modalEmployeeFormLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-      
+
           <div class="modal-header">
             <h6 class="modal-title" id="modalEmployeeFormLabel">Add New</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-      
+
           <div class="modal-body">
             <form id="formEmployee" class="row g-3 col-xl-12 col-lg-12 col-md-12 mx-auto" onsubmit="return false">
-              
+
               <div class="col-xl-12">
                 <label class="form-label">Employee photo<span class="text-danger">*</span></label>
                 <div class="input-group d-flex align-items-center gap-4">
                   <div>
-                    <img id="imgEmpPhotoPreview" src="/images/default.png" alt="" class="rounded-circle" width="90px" height="90px">
+                    <img id="imgEmpPhotoPreview" src="/images/default.png" alt="" class="rounded-circle" width="90px"
+                      height="90px">
                   </div>
                   <div>
-                    <button onclick="fileEmployeePhoto.click()" type="button" class="btn btn-outline-primary">select photo</button>
+                    <button onclick="fileEmployeePhoto.click()" type="button" class="btn btn-outline-primary">select
+                      photo</button>
                     <button type="button" class="btn btn-outline-secondary">clear</button>
-                    <input onchange="fileValidator(this, 'employee', 'empphoto', imgEmpPhotoPreview)" type="file" class="d-none" id="fileEmployeePhoto">
+                    <input onchange="fileValidator(this, 'employee', 'empphoto', imgEmpPhotoPreview)" type="file"
+                      class="d-none" id="fileEmployeePhoto">
                   </div>
                 </div>
               </div>
 
               <div class="col-xl-6 col-lg-6">
                 <label for="textFullName" class="form-label">Full Name<span class="text-danger">*</span></label>
-                <input id="textFullName" type="text" Required class="form-control"  onkeyup="fullNameValidator(this)">
+                <input id="textFullName" type="text" Required class="form-control" onkeyup="fullNameValidator(this)">
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label for="selectDesignation" class="form-label">Designation<span class="text-danger">*</span></label>
-                <select id="selectDesignation" Required class="form-select" onchange="selectDynamicElementValidator(this,'employee','designation_id')"></select>
+                <select id="selectDesignation" Required class="form-select"
+                  onchange="selectDynamicElementValidator(this,'employee','designation_id')"></select>
               </div>
               <div class="col-xl-6 col-lg-6" id="divNic">
                 <label for="textNic" class="form-label">NIC<span class="text-danger">*</span></label>
-                <input id="textNic" type="text" Required class="form-control"  onkeyup="nicValidator(this)">
+                <input id="textNic" type="text" Required class="form-control" onkeyup="nicValidator(this)">
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Date of Birth<span class="text-danger">*</span></label>
-                <input id="dteDOB" type="date" Required class="form-control"  onkeydown="return false" onchange="dateElemantValidator(this, 'employee','dob' )">
+                <input id="dteDOB" type="date" Required class="form-control" onkeydown="return false"
+                  onchange="dateElemantValidator(this, 'employee','dob' )">
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label for="selectCivilStatus" class="form-label">Civil Status<span class="text-danger">*</span></label>
-                <select id="selectCivilStatus" class="form-select" Required onchange="selectStaticElementValidator(this,'employee','civilstatus')">
+                <select id="selectCivilStatus" class="form-select" Required
+                  onchange="selectStaticElementValidator(this,'employee','civilstatus')">
                   <option value="Select Civil Status" selected disabled>Select Civil Status</option>
                   <option value="Married">Married</option>
-                  <option value="Single">Single</option> 
-              </select>
+                  <option value="Single">Single</option>
+                </select>
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label class="form-label">Gender<span class="text-danger">*</span></label>
                 <div class="py-1">
                   <div class="form-check form-check-inline">
-                      <input id="radioMale" class="form-check-input" Required type="radio" name="inlineRadioOptions" value="Male" onchange="employee.gender = this.value">
-                      <label class="form-check-label" for="inlineRadio1">Male</label>
+                    <input id="radioMale" class="form-check-input" Required type="radio" name="inlineRadioOptions"
+                      value="Male" onchange="employee.gender = this.value">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
                   </div>
                   <div class="form-check form-check-inline">
-                      <input id="radioFemale" class="form-check-input" Required type="radio" name="inlineRadioOptions" value="Female" onchange="employee.gender = this.value">
-                      <label class="form-check-label" for="inlineRadio1">Female</label>
+                    <input id="radioFemale" class="form-check-input" Required type="radio" name="inlineRadioOptions"
+                      value="Female" onchange="employee.gender = this.value">
+                    <label class="form-check-label" for="inlineRadio1">Female</label>
                   </div>
                 </div>
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label for="textEmail" class="form-label">Email<span class="text-danger">*</span></label>
-                <input id="textEmail" type="email" Required class="form-control" onkeyup="textValidator(this,'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$', 'employee','email')">
+                <input id="textEmail" type="email" Required class="form-control"
+                  onkeyup="textValidator(this,'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$', 'employee','email')">
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label for="textMobile" class="form-label">Mobile Number<span class="text-danger">*</span></label>
-                <input id="textMobile" type="text" Required class="form-control" onkeyup="textValidator(this,'^[0][7][01245678][0-9]{7}$','employee','mobileno')">
+                <input id="textMobile" type="text" Required class="form-control"
+                  onkeyup="textValidator(this,'^[0][7][01245678][0-9]{7}$','employee','mobileno')">
               </div>
               <div class="col-xl-12 col-lg-6">
                 <label class="form-label">Address<span class="text-danger">*</span></label>
-                <textarea id="textAddress" required class="form-control" rows="2" onkeyup="textValidator(this,'^[\\s\\S]{0,250}$','employee','address')"></textarea>
+                <textarea id="textAddress" required class="form-control" rows="2"
+                  onkeyup="textValidator(this,'^[\\s\\S]{0,250}$','employee','address')"></textarea>
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label for="selectStatus" class="form-label">Employee Status<span class="text-danger">*</span></label>
-                <select id="selectStatus" Required class="form-select" onchange="selectDynamicElementValidator(this,'employee','employeestatus_id')"></select>
+                <select id="selectStatus" Required class="form-select"
+                  onchange="selectDynamicElementValidator(this,'employee','employeestatus_id')"></select>
               </div>
               <div class="col-xl-6 col-lg-6">
                 <label for="textNote" class="form-label">Note</label>
-                <input id="textNote" type="text" class="form-control" onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','employee','note')">
-              </div>     
+                <input id="textNote" type="text" class="form-control"
+                  onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','employee','note')">
+              </div>
             </form>
           </div>
-      
+
           <div class="modal-footer">
             <div class="col">
-              <button type="button" onclick="buttonEmployeeDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
-              <button type="button" onclick="refreshEmployeeForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
-            </div> 
+              <button type="button" onclick="buttonEmployeeDelete(window['editOb'], window['editRowIndex'])"
+                class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+              <button type="button" onclick="refreshEmployeeForm()" class="btn btn-outline-danger"
+                id="buttonClear">Clear</button>
+            </div>
             <div class="col text-end">
-              <button type="button" onclick="buttonEmployeePrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
-              <button type="button" onclick="buttonEmployeeUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
-              <button type="button" onclick="buttonEmployeeSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
+              <button type="button" onclick="buttonEmployeePrint(window['editOb'], window['editRowIndex'])"
+                class="btn btn-tertiry" id="buttonPrint">Print</button>
+              <button type="button" onclick="buttonEmployeeUpdate()" class="btn btn-primary"
+                id="buttonUpdate">Update</button>
+              <button type="button" onclick="buttonEmployeeSubmit()" class="btn btn-primary"
+                id="buttonSubmit">Submit</button>
+            </div>
           </div>
-          </div>
-      
+
         </div>
       </div>
-      </div>
+    </div>
   </div>
 
 
 
-    <div th:replace="~{common :: scripts}"></div>
-    <script src="/uicontroller/employee.js"></script>
+  <div th:replace="~{common :: scripts}"></div>
+  <script src="/uicontroller/employee.js"></script>
 </body>
+
 </html>

@@ -6,27 +6,30 @@ window.addEventListener("load", () => {
 
 //table *********************************************************************************************************************************************************************************************
 const refreshOrderTable = () => {
-    
+
     let Orders = getServiceRequest('/orders/alldata');
 
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "orders_code", dataType: "string"},
-        {propertyName: getSupplier, dataType: "function"},
-        {propertyName: "required_date", dataType: "string"},
-        {propertyName: "total_amount", dataType: "decimal"},
-        {propertyName: getStatus, dataType: "function"}
+        { propertyName: "orders_code", dataType: "string" },
+        { propertyName: getSupplier, dataType: "function" },
+        { propertyName: "required_date", dataType: "string" },
+        { propertyName: "total_amount", dataType: "decimal" },
+        { propertyName: getStatus, dataType: "function" }
     ];
 
     $('#tableOrder').DataTable().destroy();
     fillDataIntoTable(tableOrderBody, Orders, propertyList, orderFormRefill);
     new DataTable('#tableOrder', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search orders..."
+        }
+    });
 
     //diable when status delete - dhanushka
     // for (const index in Orders) {
@@ -35,7 +38,7 @@ const refreshOrderTable = () => {
     //         $("#buttonDelete").hide();
     //     }
     // }
-    
+
 }
 
 const getSupplier = (dataOb) => {
@@ -49,35 +52,35 @@ const getStatus = (dataOb) => {
     } if (dataOb.orders_status_id.name == "Delete") {
         return "<p class='badge bg-danger w-100 my-auto'>" + dataOb.orders_status_id.name + "</p>";
     }
-}   
+}
 
 //form *********************************************************************************************************************************************************************************************
 
-const refreshOrderForm = () => {   
+const refreshOrderForm = () => {
     order = new Object();
     order.orderHasProductList = new Array();
-    
+
     console.log(order.orderHasProductList);
-    
+
     selectsupplier.disabled = "";
 
     formOrder.reset();
 
     setDefault([selectItem, selectRespond, selectrequireddate, texttotalamount, selectsupplier, selectStatus]);
-    
+
     let responds = getServiceRequest('/respond/alldata');
-    fillDataIntoSelect(selectRespond,"Select respond",responds,"respond_code");
+    fillDataIntoSelect(selectRespond, "Select respond", responds, "respond_code");
 
     let suppliers = getServiceRequest('/supplier/alldata');
-    fillDataIntoSelect(selectsupplier,"Select supplier",suppliers,"name");
+    fillDataIntoSelect(selectsupplier, "Select supplier", suppliers, "name");
 
 
     let status = getServiceRequest('/ordersstatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    fillDataIntoSelect(selectStatus, "Select status", status, "name");
     selectStatus.value = JSON.stringify(status[0]); // set default values
     order.orders_status_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen"
-    
+
 
     //set mix max date [YYYY - mm - DD]
 
@@ -107,9 +110,9 @@ const refreshOrderForm = () => {
     refreshOrderInnerForm();
 }
 
-const filterSupplierbyRespond = () =>{
+const filterSupplierbyRespond = () => {
     let selectSuppliers = getServiceRequest('/supplier/byrespond/' + JSON.parse(selectRespond.value).id);
-    fillDataIntoSelect(selectsupplier,"Select supplier",selectSuppliers,"name");
+    fillDataIntoSelect(selectsupplier, "Select supplier", selectSuppliers, "name");
     selectsupplier.value = JSON.stringify(selectSuppliers[0]); // set default values
     order.supplier_id = JSON.parse(selectsupplier.value);
     selectsupplier.style.border = "1px solid lightgreen";
@@ -119,8 +122,8 @@ const filterSupplierbyRespond = () =>{
         selectItems = getServiceRequest('/product/byrespond/' + JSON.parse(selectRespond.value).id);
     } else {
         selectItems = getServiceRequest('/product/bysupplier/' + JSON.parse(selectsupplier.value).id);
-    }       
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+    }
+    fillDataIntoSelect(selectItem, "Select Product", selectItems, "name");
 }
 
 const orderFormRefill = (ob, index) => {
@@ -143,19 +146,19 @@ const orderFormRefill = (ob, index) => {
     order = JSON.parse(JSON.stringify(ob));
     oldOrder = JSON.parse(JSON.stringify(ob));
 
-    
+
     $("#modalOrderForm").modal("show");
     $("#modalOrderFormLabel").text(ob.orders_code);
     $("#buttonSubmit").hide();
     $("#buttonClear").hide();
-    
+
     $("#buttonDelete").show();
     $("#buttonPrint").show();
     $("#buttonUpdate").show();
-    
+
     refreshOrderInnerForm();
     console.log(order.orderHasProductList);
-    
+
 }
 
 const buttonOrderDelete = (ob, index) => {
@@ -166,8 +169,8 @@ const buttonOrderDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshOrderTable();
-            $("#modalOrderForm").modal("hide"); 
-        }else{
+            $("#modalOrderForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -182,41 +185,41 @@ const buttonOrderPrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table mb-4'>"
-            +"<tbody>"
-                +"<tr><th> Order no	 </th><td>"+ ob.orders_code +"</td></tr>" 
-                +"<tr><th> Respond no	 </th><td>"+ ob.respond_id +"</td></tr>" 
-                +"<tr><th> Required Date	 </th><td>"+ ob.required_date +"</td></tr>" 
-                +"<tr><th> Total Amount	 </th><td>"+ ob.total_amount +"</td></tr>" 
-                +"<tr><th> Supplier	 </th><td>"+ ob.supplier_id.name +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.orders_status_id.name +"</td></tr>" 
-            +"</tbody>" 
-            +"</table>"
-            + "<h6 class='mt-4'>Products</h6>"
-            + "<div class='mt-3'> "+ printTable.outerHTML +"</div>"
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table mb-4'>"
+        + "<tbody>"
+        + "<tr><th> Order no	 </th><td>" + ob.orders_code + "</td></tr>"
+        + "<tr><th> Respond no	 </th><td>" + ob.respond_id + "</td></tr>"
+        + "<tr><th> Required Date	 </th><td>" + ob.required_date + "</td></tr>"
+        + "<tr><th> Total Amount	 </th><td>" + ob.total_amount + "</td></tr>"
+        + "<tr><th> Supplier	 </th><td>" + ob.supplier_id.name + "</td></tr>"
+        + "<tr><th> Status </th><td>" + ob.orders_status_id.name + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "<h6 class='mt-4'>Products</h6>"
+        + "<div class='mt-3'> " + printTable.outerHTML + "</div>"
+        + "</div>"
+        + "</body>";
 
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalOrderForm").modal("hide"); 
+        $("#modalOrderForm").modal("hide");
     }, 500);
 }
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (order.required_date == null) {
         errors = errors + "Please enter required date\n"
@@ -238,7 +241,7 @@ const checkFormError = ()=>{
 
 const buttonOrderSubmit = () => {
     console.log(order);
-    
+
     let errors = checkFormError();
     if (errors == "") {
         let userConfirm = window.confirm("Are you sure to add?");
@@ -249,11 +252,11 @@ const buttonOrderSubmit = () => {
                 refreshOrderTable();
                 refreshOrderForm();
                 $("#modalOrderForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
@@ -263,7 +266,7 @@ const checkFormUpdate = () => {
 
     console.log(order);
     console.log(oldOrder);
-    
+
     if (order != null && oldOrder !== null) {
         if (order.required_date != oldOrder.required_date) {
             updates = updates + "Required date - " + oldOrder.required_date + " to " + order.required_date + "\n";
@@ -282,8 +285,8 @@ const checkFormUpdate = () => {
             updates = updates + "Products List changeged\n";
         } else {
             let equalCount = 0;
-            for(const oldoproduct of oldOrder.orderHasProductList){
-                for(const newoproduct of order.orderHasProductList){
+            for (const oldoproduct of oldOrder.orderHasProductList) {
+                for (const newoproduct of order.orderHasProductList) {
                     if (oldoproduct.product_id.id == newoproduct.product_id.id) {
                         equalCount = equalCount + 1;
                     }
@@ -292,9 +295,9 @@ const checkFormUpdate = () => {
 
             if (equalCount != order.orderHasProductList.length) {
                 updates = updates + "Products List changeged\n";
-            }else{
-                for(const oldoproduct of oldOrder.orderHasProductList){
-                    for(const newoproduct of order.orderHasProductList){
+            } else {
+                for (const oldoproduct of oldOrder.orderHasProductList) {
+                    for (const newoproduct of order.orderHasProductList) {
                         if (oldoproduct.product_id.id == newoproduct.product_id.id && oldoproduct.quantity != newoproduct.quantity) {
                             updates = updates + "Products quantity changeged\n";
                             break;
@@ -303,7 +306,7 @@ const checkFormUpdate = () => {
                 }
             }
         }
-        
+
     }
     return updates;
 }
@@ -315,7 +318,7 @@ const buttonOrderUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ order.orderno +"?\n"+ updates);
+            let userConfirm = window.confirm("Are you sure to update " + order.orderno + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/orders/update", "PUT", order);
                 if (putResponce == "OK") {
@@ -349,7 +352,7 @@ const buttonAddNew = () => {
 
     $("#buttonItemUpdate").hide();
 
-   
+
 }
 
 // inner form ***************************************************************************************************************************************************************************************
@@ -357,9 +360,9 @@ const buttonAddNew = () => {
 // function for check item ext in the inner table
 const checkProductExt = () => {
     let selectedProduct = JSON.parse(selectItem.value);
-    let extIndex = order.orderHasProductList.map(oproduct=>oproduct.product_id.id).indexOf(selectedProduct.id);
+    let extIndex = order.orderHasProductList.map(oproduct => oproduct.product_id.id).indexOf(selectedProduct.id);
     let getunitPrice = getServiceRequest('/unitprice/byrespond/' + JSON.parse(selectRespond.value).id + '/byproduct/' + JSON.parse(selectItem.value).id);
-    
+
     if (extIndex > -1) {
         window.alert(" Product Added already");
         refreshOrderInnerForm();
@@ -373,9 +376,9 @@ const checkProductExt = () => {
 }
 
 //define function for line price
-const calculateLinePrice = ()=> {
+const calculateLinePrice = () => {
     if (textQTY.value > 0) {
-        let lineprice = (parseFloat(textQTY.value)* parseFloat(textUnitPrice.value)).toFixed(2);
+        let lineprice = (parseFloat(textQTY.value) * parseFloat(textUnitPrice.value)).toFixed(2);
         orderHasProduct.lineprice = lineprice;
         textLinePrice.value = lineprice;
         textLinePrice.style.border = "1px solid lightgreen"
@@ -402,7 +405,7 @@ function calculateOrderQty() {
 }
 
 
-const refreshOrderInnerForm = () =>{
+const refreshOrderInnerForm = () => {
     orderHasProduct = new Object();
 
     selectItem.disabled = "";
@@ -412,7 +415,7 @@ const refreshOrderInnerForm = () =>{
     textQTY.value = "";
     textLinePrice.value = "";
     textLinePrice.disabled = "disabled";
-    
+
     setDefault([selectItem, textUnitPrice, textQTY, textLinePrice]);
 
     //refresh inner table ****************************************************************************************************************************************************************************   
@@ -420,10 +423,10 @@ const refreshOrderInnerForm = () =>{
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getProductName, dataType: "function"},
-        {propertyName: "quantity", dataType: "string"},
-        {propertyName: "unitprice", dataType: "decimal"},
-        {propertyName: "lineprice", dataType: "decimal"}
+        { propertyName: getProductName, dataType: "function" },
+        { propertyName: "quantity", dataType: "string" },
+        { propertyName: "unitprice", dataType: "decimal" },
+        { propertyName: "lineprice", dataType: "decimal" }
     ];
 
     fillDataIntoInnerTable(tableOrderItemBody, order.orderHasProductList, propertyList, orderInnerFormRefill, orderInnerFormDelete);
@@ -432,7 +435,7 @@ const refreshOrderInnerForm = () =>{
     //auto load total amount
     let totalAmount = 0.00;
     for (const orderproduct of order.orderHasProductList) {
-        totalAmount = parseFloat (totalAmount) + parseFloat(orderproduct.lineprice);
+        totalAmount = parseFloat(totalAmount) + parseFloat(orderproduct.lineprice);
     };
 
     if (totalAmount != 0.00) {
@@ -447,15 +450,15 @@ const refreshOrderInnerForm = () =>{
 }
 
 
-const getProductName = (dataOb) => {  
+const getProductName = (dataOb) => {
     return dataOb.product_id.name;
 }
 
-const orderInnerFormRefill = (ob, index) =>{
+const orderInnerFormRefill = (ob, index) => {
 
     refreshOrderInnerForm();
     console.log("Edit", ob, index);
-    
+
     innerFormIndex = index;
 
     orderHasProduct = JSON.parse(JSON.stringify(ob));
@@ -463,7 +466,7 @@ const orderInnerFormRefill = (ob, index) =>{
 
 
     selectItems = getServiceRequest('/product/alldata');
-    fillDataIntoSelect(selectItem,"Select Product",selectItems,"name"); 
+    fillDataIntoSelect(selectItem, "Select Product", selectItems, "name");
     selectItem.disabled = "disabled";
     selectItem.value = JSON.stringify(orderHasProduct.product_id)
 
@@ -480,9 +483,9 @@ const orderInnerFormDelete = (ob, index) => {
 
     let userConfirm = window.confirm("Are you sure to remove " + ob.product_id.name + "?");
     if (userConfirm) {
-        let extIndex = order.orderHasProductList.map(orderproduct=>orderproduct.product_id.id).indexOf(ob.product_id.id);
+        let extIndex = order.orderHasProductList.map(orderproduct => orderproduct.product_id.id).indexOf(ob.product_id.id);
         if (extIndex != -1) {
-            order.orderHasProductList.splice(extIndex,1);
+            order.orderHasProductList.splice(extIndex, 1);
         }
         refreshOrderInnerForm();
     }

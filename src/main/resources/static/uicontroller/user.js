@@ -26,11 +26,14 @@ const refreshUserTable = () => {
     $('#tableUser').DataTable().destroy();
     fillDataIntoTable(tableUserBody, users, propertyList, UserFormRefill);
     new DataTable('#tableUser', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search users..."
+        }
+    });
 }
 
 
@@ -161,7 +164,7 @@ const UserFormRefill = (ob, index) => {
 
         const isChecked = ob.roles.some(r => r.name === role.name); // dhanushka
         inputCheck.checked = isChecked;
-        
+
         inputCheck.onclick = () => {
             if (inputCheck.checked) {
                 user.roles.push(role)

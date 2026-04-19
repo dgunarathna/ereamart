@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:replace="~{common :: headFragment}"></div>
+
 <body>
     <!-- Cursor effect -->
     <div class="cursor"></div>
@@ -10,10 +11,12 @@
         <nav class="navbar row py-0 mx-0">
             <div class="col-xl d-flex p-0 gap-1">
                 <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
+                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span
+                        style=" color: #97CC16;">Mart</Span></h4>
             </div>
             <div class="col-xl-6  d-flex p-0">
-                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar"
+                    style="width: fit-content;">
                     <li class="nav-item"><a class="nav-link rounded-pill active" href="/dashboard">Home</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Store</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
@@ -23,97 +26,115 @@
         </nav>
 
         <div class=" container-fluid row p-0 m-0">
-        <div class="col"></div>
-        <div class="col-xl-6 mt-1">
+            <div class="col"></div>
+            <div class="col-xl-6 mt-1">
                 <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page"
+                            href="/dashboard">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/report">Reports</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill active" href="/privilege">Privilege</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/employee">Employee</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
                 </ul>
-        </div>
-        <div class="col-xl d-flex gap-1 text-end my-auto p-0">
-                <input class="form-control rounded-pill" type="search" placeholder="Search" aria-label="Search">
-                <button type="button" class="btn btn-icon btn-primary rounded-circle rounded-circle" onclick="buttonAddNew()" data-bs-toggle="modal"data-bs-target="#modalPrivilegeForm"><i class="fa-solid fa-plus"></i></button>
             </div>
-    </div>
-        
+            <div class="col-xl d-flex justify-content-end gap-1 text-end my-auto p-0">
+                <button type="button" class="btn btn-primary rounded-pill" onclick="buttonAddNew()"
+                    data-bs-toggle="modal" data-bs-target="#modalPrivilegeForm">Add New</button>
+            </div>
+        </div>
+
         <div class="row app p-0 m-0">
             <div class="col">
-            <!-- Table -->
-            <div class="table-responsive">
-                <table class="table table-hover align-middle" id="tablePrivilege">
-                <thead>
-                    <tr>
-                    <th>Role</th>
-                    <th>Module</th>
-                    <th>Select</th>
-                    <th>Insert</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody id="tablePrivilegeBody"></tbody>
-                </table>
-            </div>
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="tablePrivilege">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Module</th>
+                                <th>Select</th>
+                                <th>Insert</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablePrivilegeBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="modalPrivilegeForm" tabindex="-1" aria-labelledby="modalPrivilegeFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
+        <div class="modal fade" id="modalPrivilegeForm" tabindex="-1" aria-labelledby="modalPrivilegeFormLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
 
-            <div class="modal-header">
-            <h6 class="modal-title" id="modalPrivilegeFormLabel">Add New</h6>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="modalPrivilegeFormLabel">Add New</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-            <div class="modal-body">
-                <form id="formPrivilege" class="row g-3 col-lg-12 col-md-12 mx-auto">
-                    <div class="col-xl-12">
-                        <label for="selectRole" class="form-label">Role<span class="text-danger">*</span></label>
-                        <select id="selectRole" Required class="form-select" onchange="selectDynamicElementValidator(this,'privilege','role_id')"></select>
+                    <div class="modal-body">
+                        <form id="formPrivilege" class="row g-3 col-lg-12 col-md-12 mx-auto">
+                            <div class="col-xl-12">
+                                <label for="selectRole" class="form-label">Role<span
+                                        class="text-danger">*</span></label>
+                                <select id="selectRole" Required class="form-select"
+                                    onchange="selectDynamicElementValidator(this,'privilege','role_id')"></select>
+                            </div>
+                            <div class="col-xl-12">
+                                <label for="selectModule" class="form-label">Module<span
+                                        class="text-danger">*</span></label>
+                                <select id="selectModule" Required class="form-select"
+                                    onchange="selectDynamicElementValidator(this,'privilege','module_id')"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="checkbox" id="chkBoxSelect"
+                                    onchange="if (this.checked){privilege.privi_select = true;} else { privilege.privi_select = false;}">
+                                <label for="inputState" class="form-label">Select</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="checkbox" id="chkBoxInsert"
+                                    onchange="if (this.checked){privilege.privi_insert = true;} else { privilege.privi_insert = false;}">
+                                <label for="inputState" class="form-label">Insert</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="checkbox" id="chkBoxUpdate"
+                                    onchange="if (this.checked){privilege.privi_update = true;} else { privilege.privi_update = false;}">
+                                <label for="inputState" class="form-label">Update</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="checkbox" id="chkBoxDelete"
+                                    onchange="if (this.checked){privilege.privi_delete = true;} else { privilege.privi_delete = false;}">
+                                <label for="inputState" class="form-label">Delete</label>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-xl-12">
-                        <label for="selectModule" class="form-label">Module<span class="text-danger">*</span></label>
-                        <select id="selectModule" Required class="form-select" onchange="selectDynamicElementValidator(this,'privilege','module_id')"></select>
+                    <div class="modal-footer">
+                        <div class="col">
+                            <button type="button"
+                                onclick="buttonPrivilegeDelete(window['editOb'], window['editRowIndex'])"
+                                class="btn btn-outline-danger" id="buttonDelete">Delete</button>
+                            <button type="button" onclick="refreshPrivilegeForm()" class="btn btn-outline-danger"
+                                id="buttonClear">Clear</button>
+                        </div>
+                        <div class="col text-end">
+                            <button type="button"
+                                onclick="buttonPrivilegePrint(window['editOb'], window['editRowIndex'])"
+                                class="btn btn-tertiry" id="buttonPrint">Print</button>
+                            <button type="button" onclick="buttonPrivilegeUpdate()" class="btn btn-primary"
+                                id="buttonUpdate">Update</button>
+                            <button type="button" onclick="buttonPrivilegeSubmit()" class="btn btn-primary"
+                                id="buttonSubmit">Submit</button>
+                        </div>
                     </div>
-                    <div class="col-lg-3">
-                        <input class="form-check-input" type="checkbox" id="chkBoxSelect" onchange="if (this.checked){privilege.privi_select = true;} else { privilege.privi_select = false;}">
-                        <label for="inputState" class="form-label">Select</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-check-input" type="checkbox" id="chkBoxInsert" onchange="if (this.checked){privilege.privi_insert = true;} else { privilege.privi_insert = false;}">
-                        <label for="inputState" class="form-label" >Insert</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-check-input" type="checkbox" id="chkBoxUpdate" onchange="if (this.checked){privilege.privi_update = true;} else { privilege.privi_update = false;}">
-                        <label for="inputState" class="form-label">Update</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-check-input" type="checkbox" id="chkBoxDelete" onchange="if (this.checked){privilege.privi_delete = true;} else { privilege.privi_delete = false;}">
-                        <label for="inputState" class="form-label">Delete</label>
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <div class="col">
-                    <button type="button" onclick="buttonPrivilegeDelete(window['editOb'], window['editRowIndex'])" class="btn btn-outline-danger" id="buttonDelete">Delete</button>
-                    <button type="button" onclick="refreshPrivilegeForm()" class="btn btn-outline-danger" id="buttonClear">Clear</button>
-                </div> 
-                <div class="col text-end">
-                    <button type="button" onclick="buttonPrivilegePrint(window['editOb'], window['editRowIndex'])" class="btn btn-tertiry" id="buttonPrint">Print</button>    
-                    <button type="button" onclick="buttonPrivilegeUpdate()" class="btn btn-primary" id="buttonUpdate">Update</button>    
-                    <button type="button" onclick="buttonPrivilegeSubmit()" class="btn btn-primary" id="buttonSubmit">Submit</button>  
-            </div>
-            </div>
-        </div>
-        </div>
         </div>
     </div>
-    
+
     <div th:replace="~{common :: scripts}"></div>
     <script src="/uicontroller/privilege.js"></script>
 </body>
+
 </html>

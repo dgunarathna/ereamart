@@ -8,27 +8,30 @@ window.addEventListener("load", () => {
 //table *********************************************************************************************************************************************************************************************
 const refreshCustomerTable = () => {
     let customers = getServiceRequest('/customer/alldata');
-    
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "regno", dataType: "string"},
-        {propertyName: "fullname", dataType: "string"},
-        {propertyName: "email", dataType: "string"},
-        {propertyName: "mobileno", dataType: "string"},
-        {propertyName: "loyalty_points", dataType: "string"},
-        {propertyName: getStatus, dataType: "function"},
+        { propertyName: "regno", dataType: "string" },
+        { propertyName: "fullname", dataType: "string" },
+        { propertyName: "email", dataType: "string" },
+        { propertyName: "mobileno", dataType: "string" },
+        { propertyName: "loyalty_points", dataType: "string" },
+        { propertyName: getStatus, dataType: "function" },
     ];
 
     $('#tableCustomer').DataTable().destroy();
     fillDataIntoTable(tableCustomerBody, customers, propertyList, customerFormRefill);
     new DataTable('#tableCustomer', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
-    
+        language: {
+            search: "",
+            searchPlaceholder: "Search customers..."
+        }
+    });
+
 };
 
 const getStatus = (dataOb) => {
@@ -44,13 +47,13 @@ const refreshCustomerForm = () => {
     customer = new Object();
 
     textLoyaltyPoints.disabled = "disabled";
-    
+
     formCustomer.reset();
 
-    setDefault([ textName, textEmail, textMobileNo, textLoyaltyPoints, selectStatus]);
+    setDefault([textName, textEmail, textMobileNo, textLoyaltyPoints, selectStatus]);
 
     let customers = getServiceRequest('/customerstatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select status",customers,"name");
+    fillDataIntoSelect(selectStatus, "Select status", customers, "name");
 
 };
 
@@ -91,8 +94,8 @@ const buttonCustomerDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshCustomerTable();
-            $("#modalCustomerForm").modal("hide"); 
-        }else{
+            $("#modalCustomerForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -103,38 +106,38 @@ const buttonCustomerPrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Reg No </th><td>"+ ob.regno +"</td></tr>" 
-                +"<tr><th> Name </th><td>"+ ob.fullname +"</td></tr>" 
-                +"<tr><th> Email </th><td>"+ ob.email +"</td></tr>" 
-                +"<tr><th> Mobile </th><td>"+ ob.mobileno +"</td></tr>" 
-                +"<tr><th> Loyalty Points </th><td>"+ ob.loyalty_points +"</td></tr>" 
-                +"<tr><th> Status </th><td>"+ ob.customer_status_id.name +"</td></tr>"
-            +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Reg No </th><td>" + ob.regno + "</td></tr>"
+        + "<tr><th> Name </th><td>" + ob.fullname + "</td></tr>"
+        + "<tr><th> Email </th><td>" + ob.email + "</td></tr>"
+        + "<tr><th> Mobile </th><td>" + ob.mobileno + "</td></tr>"
+        + "<tr><th> Loyalty Points </th><td>" + ob.loyalty_points + "</td></tr>"
+        + "<tr><th> Status </th><td>" + ob.customer_status_id.name + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalCustomerForm").modal("hide"); 
+        $("#modalCustomerForm").modal("hide");
     }, 500);
 };
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (customer.fullname == null) {
         errors = errors + "Please Enter Name\n"
@@ -150,10 +153,10 @@ const checkFormError = ()=>{
 
 const buttonCustomerSubmit = () => {
     console.log(customer);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ customer.fullname +"?");
+        let userConfirm = window.confirm("Are you sure to add " + customer.fullname + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/customer/insert", "POST", customer);
             if (postResponce == "OK") {
@@ -161,11 +164,11 @@ const buttonCustomerSubmit = () => {
                 refreshCustomerTable();
                 refreshCustomerForm();
                 $("#modalCustomerForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 };
@@ -175,7 +178,7 @@ const checkFormUpdate = () => {
 
     console.log(customer);
     console.log(oldCustomer);
-    
+
     if (customer != null && oldCustomer !== null) {
         if (customer.regno != oldCustomer.regno) {
             updates = updates + "Reg No - " + oldCustomer.regno + " to " + customer.regno + "\n";
@@ -206,7 +209,7 @@ const buttonCustomerUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ customer.fullname +"?\n"+updates);
+            let userConfirm = window.confirm("Are you sure to update " + customer.fullname + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/customer/update", "PUT", customer);
                 if (putResponce == "OK") {
@@ -221,7 +224,7 @@ const buttonCustomerUpdate = () => {
         }
     } else {
         window.alert("Form has following errors..\n" + errors)
-    } 
+    }
 };
 
 //Add new record ************************************************************************************************************************************************************************************

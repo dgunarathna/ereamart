@@ -12,27 +12,30 @@ const refreshExpensesTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: "bill_no", dataType: "string"},
-        {propertyName: "receiptimage", dataType: "image-array" },
-        {propertyName: getGRNNO, dataType: "function"},
-        {propertyName: getSupplierName, dataType: "function"},
-        {propertyName: "payment_method", dataType: "string"},
-        {propertyName: "expenses_category", dataType: "string"},
-        {propertyName: "date", dataType: "string"},
-        {propertyName: "total_due_amount", dataType: "decimal"},
-        {propertyName: "paid_amount", dataType: "decimal"},
-        {propertyName: "balance_amount", dataType: "decimal"},
-        {propertyName: getStatus, dataType: "function"},
+        { propertyName: "bill_no", dataType: "string" },
+        { propertyName: "receiptimage", dataType: "image-array" },
+        { propertyName: getGRNNO, dataType: "function" },
+        { propertyName: getSupplierName, dataType: "function" },
+        { propertyName: "payment_method", dataType: "string" },
+        { propertyName: "expenses_category", dataType: "string" },
+        { propertyName: "date", dataType: "string" },
+        { propertyName: "total_due_amount", dataType: "decimal" },
+        { propertyName: "paid_amount", dataType: "decimal" },
+        { propertyName: "balance_amount", dataType: "decimal" },
+        { propertyName: getStatus, dataType: "function" },
     ];
 
     $('#tableExpenses').DataTable().destroy();
     fillDataIntoTable(tableExpensesBody, expenses, propertyList, expensesFormRefill);
     new DataTable('#tableExpenses', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search expenses..."
+        }
+    });
 }
 
 const getGRNNO = (dataOb) => {
@@ -59,16 +62,16 @@ const refreshExpensesForm = () => {
     fileReceiptPhoto.value = "";
     imgReceiptPhotoPreview.src = "/images/default.png";
 
-    setDefault([ selectSupplier, selectCategory, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate, ]);
+    setDefault([selectSupplier, selectCategory, selectPaymentMethord, textTotalDue, textTotalPaid, textTotalBalance, expensesDate,]);
 
     let grns = getServiceRequest('/grn/alldata');
-    fillDataIntoSelect(selectGRN,"Select GRN",grns,"grn_no");
+    fillDataIntoSelect(selectGRN, "Select GRN", grns, "grn_no");
 
     let supliers = getServiceRequest('/supplier/alldata');
-    fillDataIntoSelect(selectSupplier,"Select Status",supliers,"name");
+    fillDataIntoSelect(selectSupplier, "Select Status", supliers, "name");
 
     let status = getServiceRequest('/expensesstatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select status",status,"name");
+    fillDataIntoSelect(selectStatus, "Select status", status, "name");
     selectStatus.value = JSON.stringify(status[0]);
     expenses.expense_status_id = JSON.parse(selectStatus.value);
     selectStatus.style.border = "1px solid lightgreen"
@@ -118,12 +121,12 @@ const refreshExpensesForm = () => {
                 // Calculate remaining due amount
                 const remainingDue = totalDue - totalPaidForGRN;
                 textTotalDue.value = remainingDue.toFixed(2);
-                window['expenses'].total_due_amount = (""+remainingDue.toFixed(2));
+                window['expenses'].total_due_amount = ("" + remainingDue.toFixed(2));
                 textTotalDue.style.border = "1px solid lightgreen";
 
                 // Set initial paid amount equal to total due
                 textTotalPaid.value = remainingDue.toFixed(2);
-                window['expenses'].paid_amount = (""+remainingDue.toFixed(2));
+                window['expenses'].paid_amount = ("" + remainingDue.toFixed(2));
                 textTotalPaid.style.border = "1px solid lightgreen";
 
                 // Note: textTotalPaid is already set equal to totalDue above
@@ -133,7 +136,7 @@ const refreshExpensesForm = () => {
                 const bal = parseNumber(totalDue) - parseNumber(textTotalPaid.value);
                 // keep two decimals
                 textTotalBalance.value = 0;
-                window['expenses'].balance_amount = (""+bal.toFixed(2));
+                window['expenses'].balance_amount = ("" + bal.toFixed(2));
                 textTotalBalance.style.border = "1px solid lightgreen";
             }
 
@@ -171,11 +174,11 @@ const refreshExpensesForm = () => {
         const bal = total - paid;
         // keep two decimal places
         textTotalBalance.value = bal.toFixed(2);
-        window['expenses'].balance_amount = (""+bal.toFixed(2));
+        window['expenses'].balance_amount = ("" + bal.toFixed(2));
         // ensure borders reflect valid inputs
         textTotalBalance.style.border = "1px solid lightgreen";
         // also update the paid amount in the expenses object
-        window['expenses'].paid_amount = (""+paid.toFixed(2));
+        window['expenses'].paid_amount = ("" + paid.toFixed(2));
     };
 
     // wire live calculation on paid amount changes (keeps inline textValidator calls intact)
@@ -234,8 +237,8 @@ const buttonExpensesDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshExpensesTable();
-            $("#modalExpensesForm").modal("hide"); 
-        }else{
+            $("#modalExpensesForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -246,41 +249,41 @@ const buttonExpensesPrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Bill no </th><td>"+ ob.bill_no +"</td></tr>" 
-                +"<tr><th> expensesReceipt </th><td>"+ ob.receiptimage +"</td></tr>" 
-                +"<tr><th> Supplier </th><td>"+ ob.supplier_id.name +"</td></tr>" 
-                +"<tr><th> Payment Method </th><td>"+ ob.payment_method +"</td></tr>" 
-                +"<tr><th> Total Due Amount </th><td>"+ ob.total_due_amount +"</td></tr>" 
-                +"<tr><th> Category </th><td>"+ ob.expenses_category +"</td></tr>" 
-                +"<tr><th> Paid Amount </th><td>"+ ob.paid_amount +"</td></tr>" 
-                +"<tr><th> Balance Amount </th><td>"+ ob.balance_amount +"</td></tr>" 
-                +"<tr><th> Date </th><td>"+ ob.date +"</td></tr>"
-            +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Bill no </th><td>" + ob.bill_no + "</td></tr>"
+        + "<tr><th> expensesReceipt </th><td>" + ob.receiptimage + "</td></tr>"
+        + "<tr><th> Supplier </th><td>" + ob.supplier_id.name + "</td></tr>"
+        + "<tr><th> Payment Method </th><td>" + ob.payment_method + "</td></tr>"
+        + "<tr><th> Total Due Amount </th><td>" + ob.total_due_amount + "</td></tr>"
+        + "<tr><th> Category </th><td>" + ob.expenses_category + "</td></tr>"
+        + "<tr><th> Paid Amount </th><td>" + ob.paid_amount + "</td></tr>"
+        + "<tr><th> Balance Amount </th><td>" + ob.balance_amount + "</td></tr>"
+        + "<tr><th> Date </th><td>" + ob.date + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalExpensesForm").modal("hide"); 
+        $("#modalExpensesForm").modal("hide");
     }, 500);
 }
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (expenses.supplier_id == null) {
         errors = errors + "Please Select Supplier\n"
@@ -308,10 +311,10 @@ const checkFormError = ()=>{
 
 const buttonExpensesSubmit = () => {
     console.log(expenses);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ expenses.bill_no +"?");
+        let userConfirm = window.confirm("Are you sure to add " + expenses.bill_no + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/expenses/insert", "POST", expenses);
             if (postResponce == "OK") {
@@ -319,11 +322,11 @@ const buttonExpensesSubmit = () => {
                 refreshExpensesTable();
                 refreshExpensesForm();
                 $("#modalExpensesForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 }
@@ -333,7 +336,7 @@ const checkFormUpdate = () => {
 
     console.log(expenses);
     console.log(oldExpenses);
-    
+
     if (expenses != null && oldExpenses !== null) {
         if (expenses.grn_id.grn_no != oldExpenses.grn_id.grn_no) {
             updates = updates + "Bill no - " + oldExpenses.grn_id.grn_no + " to " + expenses.grn_id.grn_no + "\n";
@@ -376,7 +379,7 @@ const buttonExpensesUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ expenses.billno +"?\n" + updates);
+            let userConfirm = window.confirm("Are you sure to update " + expenses.billno + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/expenses/update", "PUT", expenses);
                 if (putResponce == "OK") {
@@ -391,7 +394,7 @@ const buttonExpensesUpdate = () => {
         }
     } else {
         window.alert("Form has following errors..\n" + errors)
-    } 
+    }
 }
 
 //Add new record ************************************************************************************************************************************************************************************

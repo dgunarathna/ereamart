@@ -12,34 +12,37 @@ const refreshPrivilegeTable = () => {
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
-        {propertyName: getRole, dataType: "function"},
-        {propertyName: getModule, dataType: "function"},
-        {propertyName: getSelet, dataType: "function"},
-        {propertyName: getInsert, dataType: "function"},
-        {propertyName: getUpdate, dataType: "function"},
-        {propertyName: getDelete, dataType: "function"},
+        { propertyName: getRole, dataType: "function" },
+        { propertyName: getModule, dataType: "function" },
+        { propertyName: getSelet, dataType: "function" },
+        { propertyName: getInsert, dataType: "function" },
+        { propertyName: getUpdate, dataType: "function" },
+        { propertyName: getDelete, dataType: "function" },
     ];
 
     $('#tablePrivilege').DataTable().destroy();
     fillDataIntoTable(tablePrivilegeBody, privileges, propertyList, privilegeFormRefill);
     new DataTable('#tablePrivilege', {
-                destroy: true,
+        destroy: true,
         info: false,
         paging: false,
-        searching: false
-});
+        language: {
+            search: "",
+            searchPlaceholder: "Search privileges..."
+        }
+    });
 
 };
 
-const getRole = (ob)=>{ //D22 : Start User Module Back End and Font End dhanushka
-    return ob.role_id.name; 
+const getRole = (ob) => { //D22 : Start User Module Back End and Font End dhanushka
+    return ob.role_id.name;
 };
 
-const getModule = (ob)=>{
+const getModule = (ob) => {
     return ob.module_id.name;
 };
 
-const getSelet = (ob)=>{
+const getSelet = (ob) => {
     if (ob.privi_select) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
@@ -47,7 +50,7 @@ const getSelet = (ob)=>{
     }
 };
 
-const getInsert = (ob)=>{
+const getInsert = (ob) => {
     if (ob.privi_insert) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
@@ -55,7 +58,7 @@ const getInsert = (ob)=>{
     }
 };
 
-const getUpdate = (ob)=>{
+const getUpdate = (ob) => {
     if (ob.privi_update) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
@@ -63,7 +66,7 @@ const getUpdate = (ob)=>{
     }
 };
 
-const getDelete = (ob)=>{
+const getDelete = (ob) => {
     if (ob.privi_delete) {
         return "<p class='badge bg-success w-100 my-auto'>Granted</p>";
     } else {
@@ -83,10 +86,10 @@ const refreshPrivilegeForm = () => {
     setDefault([selectRole, selectModule]);
 
     let roles = getServiceRequest('/role/withoutadmin');
-    fillDataIntoSelect(selectRole,"Select Role", roles, "name");
-    
+    fillDataIntoSelect(selectRole, "Select Role", roles, "name");
+
     let modules = getServiceRequest('/module/alldata');
-    fillDataIntoSelect(selectModule,"Select Module", modules, "name");
+    fillDataIntoSelect(selectModule, "Select Module", modules, "name");
 
     chkBoxSelect.checked = true;
     privilege.privi_select = true;
@@ -136,7 +139,7 @@ const privilegeFormRefill = (ob, index) => {
     } else {
         chkBoxDelete.checked = false;
     }
-    
+
     privilege = JSON.parse(JSON.stringify(ob));
     oldprivilege = JSON.parse(JSON.stringify(ob));
 
@@ -158,8 +161,8 @@ const buttonPrivilegeDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshPrivilegeTable();
-            $("#modalPrivilegeForm").modal("hide"); 
-        }else{
+            $("#modalPrivilegeForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors)
         }
     }
@@ -168,38 +171,38 @@ const buttonPrivilegeDelete = (ob, index) => {
 const buttonPrivilegePrint = (ob, index) => {
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-                +"<tbody>"
-                    +"<tr><th> Role </th><td>"+ ob.role_id.name +"</td></tr>" 
-                    +"<tr><th> Module </th><td>"+ getModule(ob) +"</td></tr>" 
-                    +"<tr><th> Select </th><td>"+ getSelet(ob) +"</td></tr>" 
-                    +"<tr><th> Insert </th><td>"+ getInsert(ob) +"</td></tr>" 
-                    +"<tr><th> Update </th><td>"+ getUpdate(ob) +"</td></tr>" 
-                    +"<tr><th> Delete </th><td>"+ getDelete(ob) +"</td></tr>"
-                +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Role </th><td>" + ob.role_id.name + "</td></tr>"
+        + "<tr><th> Module </th><td>" + getModule(ob) + "</td></tr>"
+        + "<tr><th> Select </th><td>" + getSelet(ob) + "</td></tr>"
+        + "<tr><th> Insert </th><td>" + getInsert(ob) + "</td></tr>"
+        + "<tr><th> Update </th><td>" + getUpdate(ob) + "</td></tr>"
+        + "<tr><th> Delete </th><td>" + getDelete(ob) + "</td></tr>"
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalPrivilegeForm").modal("hide"); 
+        $("#modalPrivilegeForm").modal("hide");
     }, 500);
 };
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (privilege.role_id == null) {
         errors = errors + "Please select Role \n"
@@ -214,22 +217,22 @@ const checkFormError = ()=>{
 
 const buttonPrivilegeSubmit = () => {
     console.log(privilege);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ privilege.role_id.name + " privileges of " + privilege.module_id.name + "?");
+        let userConfirm = window.confirm("Are you sure to add " + privilege.role_id.name + " privileges of " + privilege.module_id.name + "?");
         if (userConfirm == true) {
-            let postResponce  = getHTTPServiceRequest("/privilege/insert", "POST", privilege);
+            let postResponce = getHTTPServiceRequest("/privilege/insert", "POST", privilege);
             if (postResponce == "OK") {
                 window.alert("Save Successfully");
                 refreshPrivilegeTable();
                 refreshPrivilegeForm();
-                $("#modalPrivilegeForm").modal("hide"); 
-            }else{
+                $("#modalPrivilegeForm").modal("hide");
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 };
@@ -267,7 +270,7 @@ const buttonPrivilegeUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure want to update "+ privilege.role_id.name + " privileges of " + privilege.module_id.name + "? \n");
+            let userConfirm = window.confirm("Are you sure want to update " + privilege.role_id.name + " privileges of " + privilege.module_id.name + "? \n");
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/privilege/update", "PUT", privilege);
                 if (putResponce == "OK") {

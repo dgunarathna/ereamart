@@ -10,9 +10,9 @@ window.addEventListener("load", () => {
 
 const refreshEmployeeTable = () => {
 
-    
+
     let employees = getServiceRequest('/employee/alldata');
-    
+
     // string > string, date, number
     // function > object, array, boolean
     let propertyList = [
@@ -30,16 +30,20 @@ const refreshEmployeeTable = () => {
         { propertyName: getDesignation, dataType: "function" },
         { propertyName: getEmployeeStatus, dataType: "function" },
     ];
-    
+
     $('#tableEmployee').DataTable().destroy();
     fillDataIntoTable(tableEmployeeBody, employees, propertyList, employeeFormRefill);
-    
+
     new DataTable('#tableEmployee', {
         info: false,
         paging: false,
-        searching: false
-});   
-    
+        searching: true,
+        language: {
+            search: "",
+            searchPlaceholder: "Search employees..."
+        }
+    });
+
 };
 
 const getDesignation = (dataOb) => {
@@ -63,17 +67,17 @@ const refreshEmployeeForm = () => {
 
 
     formEmployee.reset();
-    
+
     fileEmployeePhoto.value = "";
     imgEmpPhotoPreview.src = "/images/default.png";
 
-    setDefault([ textFullName, textNic, radioMale, radioFemale, textAddress, dteDOB, textEmail, selectCivilStatus, textMobile, selectDesignation, selectStatus, textNote]);
+    setDefault([textFullName, textNic, radioMale, radioFemale, textAddress, dteDOB, textEmail, selectCivilStatus, textMobile, selectDesignation, selectStatus, textNote]);
 
     let designations = getServiceRequest('/designation/alldata');
-    fillDataIntoSelect(selectDesignation,"Select Designation",designations,"name");
+    fillDataIntoSelect(selectDesignation, "Select Designation", designations, "name");
 
     let employeeStatus = getServiceRequest('/employeestatus/alldata');
-    fillDataIntoSelect(selectStatus,"Select Status",employeeStatus,"name");
+    fillDataIntoSelect(selectStatus, "Select Status", employeeStatus, "name");
 };
 
 const employeeFormRefill = (ob, index) => {
@@ -90,7 +94,7 @@ const employeeFormRefill = (ob, index) => {
     textFullName.value = ob.fullname;
     textNic.value = ob.nic;
     dteDOB.value = ob.dob;
-    
+
     if (ob.gender == "Male") {
         radioMale.checked = true;
     } else {
@@ -126,8 +130,8 @@ const buttonEmployeeDelete = (ob, index) => {
         if (deleteResponce == "OK") {
             window.alert("Delete Successfully");
             refreshEmployeeTable();
-            $("#modalEmployeeForm").modal("hide"); 
-        }else{
+            $("#modalEmployeeForm").modal("hide");
+        } else {
             window.alert("Faild to Delete\n" + errors + deleteResponce)
         }
     }
@@ -138,45 +142,45 @@ const buttonEmployeePrint = (ob, index) => {
 
     let newWindow = window.open();
     let printView =
-    "<head>"
-        +"<title>www.ereamart.com</title>"
-        +"<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
-        +"<link rel='stylesheet' href='/css/main.css'>"
-    +"</head>"
-    +"<body>"
-        +"<div class='container m-0 mt-4'>"
-            +"<h6 class='mb-4'>Details</h6>"
-            +"<table class='table'>"
-            +"<tbody>"
-                +"<tr><th> Emp No </th><td>"+ ob.empno +"</td></tr>" 
-                +"<tr><th> Fullname </th><td>"+ ob.fullname +"</td></tr>" 
-                +"<tr><th> Callingname </th><td>"+ ob.callingname +"</td></tr>" 
-                +"<tr><th> Email </th><td>"+ ob.email +"</td></tr>" 
-                +"<tr><th> NIC </th><td>"+ ob.nic +"</td></tr>" 
-                +"<tr><th> Date of Birth </th><td>"+ ob.dob +"</td></tr>" 
-                +"<tr><th> Gender </th><td>"+ ob.gender +"</td></tr>" 
-                +"<tr><th> Mobile </th><td>"+ ob.mobileno +"</td></tr>" 
-                +"<tr><th> Civil Status </th><td>"+ ob.civilstatus +"</td></tr>" 
-                +"<tr><th> Address </th><td>"+ ob.address +"</td></tr>" 
-                +"<tr><th> Note </th><td>"+ ob.note +"</td></tr>" 
-                +"<tr><th> Designation </th><td>"+ ob.designation_id.name +"</td></tr> "
-                +"<tr><th> Status </th><td>"+ ob.employeestatus_id.name +"</td></tr> "
-            +"</tbody>" 
-            +"</table>" 
-        +"</div>" 
-    +"</body>";
+        "<head>"
+        + "<title>www.ereamart.com</title>"
+        + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+        + "<link rel='stylesheet' href='/css/main.css'>"
+        + "</head>"
+        + "<body>"
+        + "<div class='container m-0 mt-4'>"
+        + "<h6 class='mb-4'>Details</h6>"
+        + "<table class='table'>"
+        + "<tbody>"
+        + "<tr><th> Emp No </th><td>" + ob.empno + "</td></tr>"
+        + "<tr><th> Fullname </th><td>" + ob.fullname + "</td></tr>"
+        + "<tr><th> Callingname </th><td>" + ob.callingname + "</td></tr>"
+        + "<tr><th> Email </th><td>" + ob.email + "</td></tr>"
+        + "<tr><th> NIC </th><td>" + ob.nic + "</td></tr>"
+        + "<tr><th> Date of Birth </th><td>" + ob.dob + "</td></tr>"
+        + "<tr><th> Gender </th><td>" + ob.gender + "</td></tr>"
+        + "<tr><th> Mobile </th><td>" + ob.mobileno + "</td></tr>"
+        + "<tr><th> Civil Status </th><td>" + ob.civilstatus + "</td></tr>"
+        + "<tr><th> Address </th><td>" + ob.address + "</td></tr>"
+        + "<tr><th> Note </th><td>" + ob.note + "</td></tr>"
+        + "<tr><th> Designation </th><td>" + ob.designation_id.name + "</td></tr> "
+        + "<tr><th> Status </th><td>" + ob.employeestatus_id.name + "</td></tr> "
+        + "</tbody>"
+        + "</table>"
+        + "</div>"
+        + "</body>";
 
     newWindow.document.write(printView);
-    
-    setTimeout(()=>{
+
+    setTimeout(() => {
         newWindow.stop();
         newWindow.print();
         newWindow.close();
-        $("#modalEmployeeForm").modal("hide"); 
+        $("#modalEmployeeForm").modal("hide");
     }, 500);
 };
 
-const checkFormError = ()=>{
+const checkFormError = () => {
     let errors = "";
     if (employee.fullname == null) {
         errors = errors + "Please Enter Valid Full Name\n"
@@ -213,10 +217,10 @@ const checkFormError = ()=>{
 
 const buttonEmployeeSubmit = () => {
     console.log(employee);
-    
+
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add "+ employee.fullname +"?");
+        let userConfirm = window.confirm("Are you sure to add " + employee.fullname + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/employe/insert", "POST", employee);
             if (postResponce == "OK") {
@@ -224,11 +228,11 @@ const buttonEmployeeSubmit = () => {
                 refreshEmployeeTable();
                 refreshEmployeeForm();
                 $("#modalEmployeeForm").modal("hide");
-            }else{
+            } else {
                 window.alert("Faild to submit\n" + postResponce);
             }
         }
-    }else{
+    } else {
         window.alert("Form has following errors\n" + errors);
     }
 };
@@ -238,7 +242,7 @@ const checkFormUpdate = () => {
 
     console.log(employee);
     console.log(oldEmployee);
-    
+
     if (employee != null && oldEmployee !== null) {
         if (employee.fullname != oldEmployee.fullname) {
             updates = updates + "Full name - " + oldEmployee.fullname + " to " + employee.fullname + "\n";
@@ -275,10 +279,10 @@ const checkFormUpdate = () => {
         }
         if (employee.note != oldEmployee.note) {
             updates = updates + "note - " + oldEmployee.note + " to " + employee.note + "\n";
-        } 
+        }
         if (employee.empphoto != oldEmployee.empphoto) {
             updates = updates + "Photo - " + oldEmployee.empphoto + " to " + employee.empphoto + "\n";
-        } 
+        }
     }
     return updates;
 };
@@ -290,7 +294,7 @@ const buttonEmployeeUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update "+ employee.fullname +"?");
+            let userConfirm = window.confirm("Are you sure to update " + employee.fullname + "?");
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/employee/update", "PUT", employee);
                 if (putResponce == "OK") {
@@ -305,7 +309,7 @@ const buttonEmployeeUpdate = () => {
         }
     } else {
         window.alert("Form has following errors..\n" + errors)
-    } 
+    }
 };
 
 //Add new record ************************************************************************************************************************************************************************************
