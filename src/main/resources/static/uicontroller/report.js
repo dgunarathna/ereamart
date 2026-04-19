@@ -32,17 +32,17 @@ window.addEventListener("load", () => {
 });
 
 const refreshAllReports = () => {
-    generateOrderReport();
-    generateInvoiceReport();
-    generateIncomeExpenseReport();
-    generateStockAvailabilityReport();
-    generateSupplierSpendingReport();
-    generateExpenseCategoryReport();
-    generateLowStockReport();
-    generateExpiringStockReport();
-    generateStockByManufacturerReport();
-    generateCustomerLoyaltyReport();
-    generateBestSellingProductsReport();
+  generateOrderReport();
+  generateInvoiceReport();
+  generateIncomeExpenseReport();
+  generateStockAvailabilityReport();
+  generateSupplierSpendingReport();
+  generateExpenseCategoryReport();
+  generateLowStockReport();
+  generateExpiringStockReport();
+  generateStockByManufacturerReport();
+  generateCustomerLoyaltyReport();
+  generateBestSellingProductsReport();
 }
 
 //Purchasing & Suppliers
@@ -701,6 +701,7 @@ const generateExpenseCategoryReport = () => {
 }
 
 //print
+//print
 const printChart = (chartname, chartid, table) => {
 
   const ctx = document.getElementById(chartid)
@@ -714,9 +715,62 @@ const printChart = (chartname, chartid, table) => {
     + "<link rel='stylesheet' href='/css/main.css'>"
     + "</head>"
     + "<body>"
+    + "<div class='container m-0 mt-4'>"
     + "<h6 class='mb-4'>" + chartname + "</h6>"
     + "<div class='col-12'><img src='" + ctx.toDataURL() + "'/></div>"
-    + "<div class='col-12'>" + tableid.outerHTML + "</div>"
+    + (tableid ? "<div class='col-12 mt-4'>" + tableid.outerHTML + "</div>" : "")
+    + "</div>"
+    + "</body>";
+
+  newWindow.document.write(printView);
+
+  setTimeout(() => {
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+  }, 500);
+}
+
+
+const printFullReport = () => {
+  const reports = [
+    { id: 'orderReport', name: 'Purchase Orders Report' },
+    { id: 'supplierSpending', name: 'Supplier Spending Report' },
+    { id: 'stockAvailability', name: 'Stock Status Report' },
+    { id: 'lowStock', name: 'Low Stock Report' },
+    { id: 'expiringStock', name: 'Expiring Stock Report' },
+    { id: 'stockByManufacturer', name: 'Stock by Manufacturer Report' },
+    { id: 'invoiceReport', name: 'Sales Report (Invoices)' },
+    { id: 'customerLoyalty', name: 'Customer Loyalty Report' },
+    { id: 'bestSellingProducts', name: 'Best Selling Products Report' },
+    { id: 'incomeExpenceReport', name: 'Income vs Expenses Report' },
+    { id: 'incomeExpenceCategory', name: 'Expense by Category Report' }
+  ];
+
+  let newWindow = window.open('', '_blank');
+
+  let chartsHTML = "";
+  reports.forEach(report => {
+    const canvas = document.getElementById(report.id);
+    if (canvas) {
+      chartsHTML +=
+        "<h6 class='mt-4 mb-2'>" + report.name + "</h6>"
+        + "<div class='col-12 mb-4'><img src='" + canvas.toDataURL() + "' style='max-width:100%'/></div>";
+    }
+  });
+
+  let printView =
+    "<head>"
+    + "<title>www.ereamart.com</title>"
+    + "<link href='/bootstrap-5.2.3/css/bootstrap.min.css' rel='stylesheet'/>"
+    + "<link rel='stylesheet' href='/css/main.css'>"
+    + "</head>"
+    + "<body>"
+    + "<div class='container m-0 mt-4'>"
+    + "<h4 class='mb-4'>Ereamart System Reports</h4>"
+    + "<p>Range: " + dateStart.value + " to " + dateEnd.value + "</p>"
+    + chartsHTML
+    + "</div>"
     + "</body>";
 
   newWindow.document.write(printView);
