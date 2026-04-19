@@ -17,10 +17,12 @@
         <nav class="navbar row py-0 mx-0 gap-1">
             <div class="col-xl d-flex p-0 gap-1">
                 <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
+                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span
+                        style=" color: #97CC16;">Mart</Span></h4>
             </div>
             <div class="col-xl-6  d-flex p-0">
-                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar"
+                    style="width: fit-content;">
                     <li class="nav-item"><a class="nav-link rounded-pill active" href="/dashboard">Home</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Store</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
@@ -33,297 +35,158 @@
     <div class=" container-fluid row p-0 m-0">
         <div class="col"></div>
         <div class="col-xl-6 mt-1">
-                <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page" href="/dashboard">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill active" href="/report">Reports</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/privilege">Privilege</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/employee">Employee</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
-                </ul>
+            <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
+                <li class="nav-item"><a class="nav-link rounded-pill" aria-current="page"
+                        href="/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill active" href="/report">Reports</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/privilege">Privilege</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/employee">Employee</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
+            </ul>
         </div>
+
         <div class="col-xl d-flex gap-0 justify-content-end my-auto p-0">
-                <input type="date" class="form-control w-auto rounded-pill" id="dateStart" onchange="genearatePayementReport()">
-                <input type="date" class="form-control w-auto rounded-pill" id="dateEnd" onchange="genearatePayementReport()">
-                <select name="" id="selectType" class="form-select w-auto rounded-pill me-1" onchange="genearatePayementReport()">
-                    <option value="Monthly">Monthly</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Daily">Daily</option>
-                </select>
-                <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-            </div>
+            <input type="date" class="form-control w-auto rounded-pill" id="dateStart" onchange="refreshAllReports()">
+            <input type="date" class="form-control w-auto rounded-pill" id="dateEnd" onchange="refreshAllReports()">
+            <select name="" id="selectType" class="form-select w-auto rounded-pill me-1" onchange="refreshAllReports()">
+                <option value="Monthly">Monthly</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Daily">Daily</option>
+            </select>
+            <button type="button" onclick="printChart('Order Report','orderReport', 'tablePayement')"
+                class="btn btn-icon btn-primary  rounded-circle" id="buttonPrint"><i
+                    class="fa-solid fa-print"></i></button>
+        </div>
     </div>
 
     <div class="row app p-0 m-0">
         <div class="col p-1 align-self-start appCenter">
-
-
-            <!-- 3rd row table -->
             <div class="row g-1 mb-1">
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-lg-12 col-md-12"><canvas id="paymentReport"></canvas></div>
-                            <div class="col-lg-12 col-md-12 table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayement"></tbody>
-                                </table>
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex justify-content-between align-items-center py-2 pt-4">
+                        <h6>Purchasing & Suppliers</h6>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 350px;">
+                            <p class="card-title d-flex align-items-center">Purchase Orders Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas id="orderReport"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBotdyPayement"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body ">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodtyPayementt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementtt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center pt-3">
-                            <p class="card-title d-flex align-items-center">Order Report</p>
-                            <button type="button" onclick="printChart('Order Report','paymentReport', 'tablePayement')" class="btn btn-icon btn-outline-primary  rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="col"><canvas id="paymentReport"></canvas></div>
-                            <div class="col table-responsive">
-                                <table class="table  table-hover" id="tablePayement">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Period</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBodyPayementttt"></tbody>
-                                </table>
+                <div class="col-xl-6 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 350px;">
+                            <p class="card-title d-flex align-items-center">Supplier Spending Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas id="supplierSpending"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <div class="row g-1 mb-1">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex justify-content-between align-items-center py-2 pt-4">
+                        <h6>Inventory & Products</h6>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 250px;">
+                            <p class="card-title d-flex align-items-center">Stock Status Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas
+                                    id="stockAvailability"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 250px;">
+                            <p class="card-title d-flex align-items-center">Low Stock Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas id="lowStock"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 250px;">
+                            <p class="card-title d-flex align-items-center">Expiring Stock Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas id="expiringStock"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 250px;">
+                            <p class="card-title d-flex align-items-center">Stock by Manufacturer Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas
+                                    id="stockByManufacturer"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-1 mb-1">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex justify-content-between align-items-center py-2 pt-4">
+                        <h6>Sales & Revenue</h6>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 350px;">
+                            <p class="card-title d-flex align-items-center">Sales Report (Invoices)</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas id="invoiceReport"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 350px;">
+                            <p class="card-title d-flex align-items-center">Customer Loyalty Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas id="customerLoyalty"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 350px;">
+                            <p class="card-title d-flex align-items-center">Best Selling Products Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas
+                                    id="bestSellingProducts"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-1 mb-1">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="d-flex justify-content-between align-items-center py-2 pt-4">
+                        <h6>Finance & Expenses</h6>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 400px;">
+                            <p class="card-title d-flex align-items-center">Income vs Expenses Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas
+                                    id="incomeExpenceReport"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column" style="min-height: 400px;">
+                            <p class="card-title d-flex align-items-center">Expense by Category Report</p>
+                            <div class="flex-grow-1" style="position: relative;"><canvas
+                                    id="incomeExpenceCategory"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     </div>

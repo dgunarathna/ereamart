@@ -41,22 +41,8 @@ public class ReportController {
 
 	return reportPage;
 	}
-
-
-	//request mapping for load productdepartment all data - /productdepartment/bycategory
-    @GetMapping(value = "/reportpayment/bymonth" , produces = "application/json")
-    public String[][] getPaymentReportMonthly(){
-        //check logged user authorization
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
-
-        if (userPrivilege.getPrivi_select()) {
-			return reportDao.getPaymentsByMonthly();
-		} else {
-			return new String[0][0];
-        } 
-    } 
-
+  
+    //Purchasing & Suppliers *************
     //request mapping for load productdepartment all data - /reportpayment/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
     @GetMapping(value = "/reportpayment/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
     public String[][] getPaymentReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
@@ -70,7 +56,7 @@ public class ReportController {
                 return reportDao.getPaymentsByMonth(startdate, enddate);
             }
             if (type.equals("Weekly")) {
-                return reportDao.getPaymentsByweek(startdate, enddate);
+                return reportDao.getPaymentsByWeek(startdate, enddate);
             }
             if (type.equals("Daily")) {
                 return reportDao.getPaymentsByDay(startdate, enddate);
@@ -80,4 +66,251 @@ public class ReportController {
 			return new String[0][0];
 		}
     } 
+
+    //request mapping for load generateSupplierSpendingReport
+    @GetMapping(value = "/reportsupplierspending/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getSupplierSpendingReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getSupplierSpendingReportByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getSupplierSpendingReportByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getSupplierSpendingReportByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+
+    //Inventory & Products *************
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportstockavailability/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getStockAvailabilityReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getStockAvailabilityByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getStockAvailabilityByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getStockAvailabilityByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportlowstock/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getLowStockReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getLowStockByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getLowStockByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getLowStockByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportexpiringstock/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getExpiringStockReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getExpiringStockByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getExpiringStockByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getExpiringStockByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportstockbymanufacturer/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getStockByManufacturerReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getStockByManufacturerByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getStockByManufacturerByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getStockByManufacturerByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+
+    //Sales & Revenue *************
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportinvoice/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getInvoiceReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getInvoicesByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getInvoicesByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getInvoicesByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportcustomerloyalty/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getCustomerLoyaltyReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getCustomerLoyaltyByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getCustomerLoyaltyByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getCustomerLoyaltyByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportbestsellingproducts/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getBestSellingProductsReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getBestSellingProductsByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getBestSellingProductsByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getBestSellingProductsByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+    
+    
+    //Finance & Expenses *************
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportincomeexpense/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getIncomeExpenseReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getIncomeExpensesByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getIncomeExpensesByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getIncomeExpensesByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
+    //request mapping for load productdepartment all data - /reportinvoice/bytime?startdate=2015-01-01&enddate=2025-08-01&type=Daily
+    @GetMapping(value = "/reportincomeexpense/category/bytime", params = {"startdate","enddate","type"} , produces = "application/json")
+    public String[][] getIncomeExpenseCategoryReportByTime(@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate, @RequestParam("type") String type){
+
+        //check logged user authorization
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Privilege userPrivilege = userPrivilegeController.getPrivilegeByUserModule(auth.getName(), "Report");
+        
+        if (userPrivilege.getPrivi_select()) {
+			if (type.equals("Monthly")) {
+                return reportDao.getIncomeExpensesCategoryByMonth(startdate, enddate);
+            }
+            if (type.equals("Weekly")) {
+                return reportDao.getIncomeExpensesCategoryByWeek(startdate, enddate);
+            }
+            if (type.equals("Daily")) {
+                return reportDao.getIncomeExpensesCategoryByDay(startdate, enddate);
+            } 
+            return new String[0][0];
+		} else {
+			return new String[0][0];
+		}
+    } 
+
 }

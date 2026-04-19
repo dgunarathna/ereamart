@@ -258,7 +258,7 @@ const genearateExpenseDistribution = () => {
   }
 
   new Chart(ctx, {
-    type: "pie",
+    type: "doughnut",
     data: {
       labels: lable,
       datasets: [{
