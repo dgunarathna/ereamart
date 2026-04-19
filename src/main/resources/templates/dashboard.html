@@ -15,10 +15,12 @@
         <nav class="navbar row py-0 mx-0 gap-1">
             <div class="col-xl d-flex p-0 gap-1">
                 <a href="/dashboard"><img src="/images/logo/logomark-md.svg" alt=""></a>
-                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span style=" color: #97CC16;">Mart</Span></h4>
+                <h4 class="my-auto" id="wordmark"><span style=" color: #059025;">Erea</span><Span
+                        style=" color: #97CC16;">Mart</Span></h4>
             </div>
             <div class="col-xl-6  d-flex p-0">
-                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar" style="width: fit-content;">
+                <ul class="list-group nav nav-pills list-group-horizontal rounded-pill justify-content-center sidebarbody p-1 mx-auto horizontal_navbar"
+                    style="width: fit-content;">
                     <li class="nav-item"><a class="nav-link rounded-pill active" href="/dashboard">Home</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/product">Store</a></li>
                     <li class="nav-item"><a class="nav-link rounded-pill" href="/expense">Wallet</i></a></li>
@@ -31,13 +33,14 @@
     <div class=" container-fluid row p-0 m-0">
         <div class="col"></div>
         <div class="col-xl-6 mt-1">
-                <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
-                    <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page" href="/dashboard">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/report">Reports</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/privilege">Privilege</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/employee">Employee</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
-                </ul>
+            <ul class="nav nav-pills rounded-pill justify-content-center p-1 mx-auto" style="width: fit-content;">
+                <li class="nav-item"><a class="nav-link rounded-pill active" aria-current="page"
+                        href="/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/report">Reports</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/privilege">Privilege</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/employee">Employee</a></li>
+                <li class="nav-item"><a class="nav-link rounded-pill" href="/user">User</a></li>
+            </ul>
         </div>
         <div class="col"></div>
     </div>
@@ -49,130 +52,121 @@
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <div class="card h-100">
                         <div class="card-body">
-                            <p class="card-title">Total Sales</p>
-                            <h4>$100.00</h4>
+                            <p class="card-title">Today's Revenue</p>
+                            <h4 id="valueRevenue">$0.00</h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 ">
                     <div class="card h-100">
                         <div class="card-body ">
-                            <p class="card-title">Total Profit</p>
-                            <h4>$100.00</h4>
+                            <p class="card-title">Today's Expenses</p>
+                            <h4 id="valueExpenses">$0.00</h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 ">
                     <div class="card h-100">
                         <div class="card-body ">
-                            <p class="card-title">Profit</p>
-                            <h4>$100.00</h4>
+                            <p class="card-title">Net Profit</p>
+                            <h4 id="valueProfit">$0.00</h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <div class="card h-100">
                         <div class="card-body">
-                            <p class="card-title">Inventory</p>
-                            <h4>$52.00</h4>
+                            <p class="card-title">Total Inventory Value</p>
+                            <h4 id="valueInventory">$0.00</h4>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 2nd row chart-->
             <div class="row g-1 mb-1">
-                <div class="col-xl-3">
-                    <div class="card">
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Profit by Year</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint" onclick="printChart('Orders','orderReport')"><i class="fa-solid fa-print"></i></button> -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-title">Revenue Performance</p>
                             </div>
-                            <div><canvas id="orderReport"></canvas></div>
+                            <div style="height: 250px;"><canvas id="chartRevenueTrend"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-title">Sales by Categories</p>
+                            </div>
+                            <div style="height: 250px;"><canvas id="chartSalesCategory"></canvas></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-12">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Sales by categories</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-title">Top Loyal Customers</p>
                             </div>
-                            <div><canvas id="topProducts"></canvas></div>
+                            <div style="height: 200px;"><canvas id="chartTopCustomers"></canvas></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-12">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Customer Count</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-title">Inventory Health Status</p>
                             </div>
-                            <div><canvas id="topProducts"></canvas></div>
+                            <div style="height: 200px;"><canvas id="chartInventoryHealth"></canvas></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-12">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Top order categories</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-title">Best Selling Products</p>
                             </div>
-                            <div><canvas id="topProducts"></canvas></div>
+                            <div style="height: 200px;"><canvas id="chartBestSellers"></canvas></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-12">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Top order categories</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-title">Expense Distribution</p>
                             </div>
-                            <div><canvas id="topCategories"></canvas></div>
+                            <div style="height: 200px;"><canvas id="chartExpenseDistribution"></canvas></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-12">
+                <div class="col-xl-12 col-lg-6 col-md-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Sales</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
+                                <p class="card-title">Income vs Expenses Trend</p>
                             </div>
-                            <div><canvas id="salesReport"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Sales</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
-                            </div>
-                            <div><canvas id="salesReport"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="card-title">Sales</p>
-                                <!-- <button type="button" class="btn btn-icon btn-outline-primary rounded-circle" id="buttonPrint"><i class="fa-solid fa-print"></i></button> -->
-                            </div>
-                            <div><canvas id="salesReport"></canvas></div>
+                            <table class="table table-hover align-middle table-sm" id="tableSummary">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th class="text-end">Income</th>
+                                        <th class="text-end">Expenses</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableSummaryBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     </div>
 
     <div th:replace="~{common :: scripts}"></div>
