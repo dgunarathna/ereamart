@@ -114,10 +114,90 @@ const getHTTPServiceRequest = (url, method, data)=>{
 //cusor effect
 var cursor = document.querySelector('.cursor');
 document.addEventListener('mousemove', function(e){
+  if (!cursor) {
+    return;
+  }
   var x = e.clientX;
   var y = e.clientY;
   cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`
 });
+
+
+const centerActiveMobileTab = () => {
+    if (!window.matchMedia('(max-width: 991.98px)').matches) {
+        return;
+    }
+
+    const tabContainers = document.querySelectorAll('.nav.nav-pills:not(.horizontal_navbar)');
+
+    tabContainers.forEach(container => {
+        const activeLink = container.querySelector('.nav-link.active');
+
+        if (!activeLink) {
+            return;
+        }
+
+        const containerRect = container.getBoundingClientRect();
+        const activeRect = activeLink.getBoundingClientRect();
+        const scrollOffset = activeRect.left - containerRect.left - ((container.clientWidth - activeLink.clientWidth) / 2);
+
+        container.scrollTo({
+            left: container.scrollLeft + scrollOffset,
+            behavior: 'auto'
+        });
+    });
+};
+
+const applyMobileBottomNavIcons = () => {
+    const bottomNavLinks = document.querySelectorAll('.horizontal_navbar .nav-link');
+    const isMobileView = window.matchMedia('(max-width: 991.98px)').matches;
+
+    bottomNavLinks.forEach(link => {
+        const savedLabel = link.dataset.mobileLabel || link.textContent.trim();
+
+        if (!isMobileView) {
+            if (link.dataset.mobileIconApplied === 'true') {
+                link.textContent = savedLabel;
+                link.dataset.mobileIconApplied = 'false';
+            }
+            return;
+        }
+
+        const href = link.getAttribute('href');
+        const label = savedLabel;
+        let iconClass = '';
+
+        if (href === '/dashboard') {
+            iconClass = 'fa-solid fa-house';
+        } else if (href === '/product') {
+            iconClass = 'fa-solid fa-store';
+        } else if (href === '/expense') {
+            iconClass = 'fa-solid fa-wallet';
+        }
+
+        if (!iconClass) {
+            return;
+        }
+
+        if (link.dataset.mobileIconApplied === 'true') {
+            return;
+        }
+
+        link.dataset.mobileLabel = label;
+        link.dataset.mobileIconApplied = 'true';
+        link.setAttribute('aria-label', label);
+        link.setAttribute('title', label);
+        link.innerHTML = `<i class="${iconClass} mobile-bottom-nav-icon" aria-hidden="true"></i><span class="mobile-bottom-nav-text">${label}</span>`;
+    });
+};
+
+window.addEventListener('load', () => {
+    applyMobileBottomNavIcons();
+    centerActiveMobileTab();
+    setTimeout(centerActiveMobileTab, 150);
+});
+
+window.addEventListener('resize', applyMobileBottomNavIcons);
 
 
 

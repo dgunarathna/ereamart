@@ -259,6 +259,13 @@ th, .form-label{
         margin: 8px;
     }
 
+    .navbar {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
     .offcanvas{
         margin: 8px;
         width: auto !important;
@@ -315,12 +322,25 @@ th, .form-label{
 
     .app{
         /* background-color: #3CD500; */
-        height: calc(100vh - 240px);
+        height: calc(100dvh - 140px);
         overflow: auto;
+        padding-bottom: 120px;
+        scroll-padding-bottom: 120px;
     }
+
+    .app > .col,
+    .app > [class*="col-"] {
+        padding-bottom: 120px;
+    }
+
+    .appCenter {
+        padding-bottom: 120px;
+    }
+
     .itembody{
         /* background-color: #ff00ff; */
         height: calc(100vh - 60px);
+        padding-bottom: 120px;
         /* height: 100vh; */
     }
     
@@ -338,7 +358,43 @@ th, .form-label{
         box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .nav.nav-pills {
+    .horizontal_navbar .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 56px;
+        min-height: 44px;
+    }
+
+    .horizontal_navbar .mobile-bottom-nav-icon {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .horizontal_navbar .mobile-bottom-nav-text {
+        display: none;
+    }
+
+    .navbar > .col-xl-6.d-flex.p-0 {
+        width: 0;
+        flex: 0 0 0;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .navbar > .col-xl.d-flex.p-0.gap-1 {
+        flex: 1 1 auto;
+        min-width: 0;
+        align-items: center;
+    }
+
+    .navbar > .col-xl.d-flex.gap-1.justify-content-end.my-auto.p-0 {
+        flex: 0 0 auto;
+        margin-left: auto;
+        padding-right: 8px !important;
+    }
+
+    .nav.nav-pills:not(.horizontal_navbar) {
         width: 100% !important;
         max-width: 100%;
         flex-wrap: nowrap;
@@ -349,15 +405,15 @@ th, .form-label{
         -webkit-overflow-scrolling: touch;
     }
 
-    .nav.nav-pills::-webkit-scrollbar {
+    .nav.nav-pills:not(.horizontal_navbar)::-webkit-scrollbar {
         display: none;
     }
 
-    .nav.nav-pills .nav-item {
+    .nav.nav-pills:not(.horizontal_navbar) .nav-item {
         flex: 0 0 auto;
     }
 
-    .nav.nav-pills .nav-link {
+    .nav.nav-pills:not(.horizontal_navbar) .nav-link {
         white-space: nowrap;
     }
     

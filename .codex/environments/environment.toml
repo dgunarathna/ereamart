@@ -9,3 +9,12 @@ script = ""
 name = "Run"
 icon = "run"
 command = ".\\gradlew.bat bootRun"
+
+[[actions]]
+name = "Kill & Run"
+icon = "run"
+command = '''
+^C
+Y
+.\gradlew.bat bootRun
+'''
