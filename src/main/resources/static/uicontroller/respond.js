@@ -236,11 +236,8 @@ const checkFormUpdate = () => {
     console.log(oldRespond);
 
     if (respond != null && oldRespond !== null) {
-        if (respond.totalitems != oldRespond.totalitems) {
-            updates = updates + "Totalitems - " + oldRespond.totalitems + " to " + respond.totalitems + "\n";
-        }
         if (respond.totalprice != oldRespond.totalprice) {
-            updates = updates + "Totalitems - " + oldRespond.totalprice + " to " + respond.totalprice + "\n";
+            updates = updates + "Total price - " + oldRespond.totalprice + " to " + respond.totalprice + "\n";
         }
         if (respond.request_date != oldRespond.request_date) {
             updates = updates + "Request Date - " + oldRespond.request_date + " to " + respond.request_date + "\n";

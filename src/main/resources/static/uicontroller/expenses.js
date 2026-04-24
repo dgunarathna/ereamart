@@ -194,8 +194,8 @@ const expensesFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
     // set photo 
-    if (ob.image != null) {
-        imgReceiptPhotoPreview.src = atob(ob.image);
+    if (ob.receiptimage != null) {
+        imgReceiptPhotoPreview.src = atob(ob.receiptimage);
     } else {
         imgReceiptPhotoPreview.src = "/images/default.png";
     }
@@ -341,8 +341,8 @@ const checkFormUpdate = () => {
         if (expenses.grn_id.grn_no != oldExpenses.grn_id.grn_no) {
             updates = updates + "Bill no - " + oldExpenses.grn_id.grn_no + " to " + expenses.grn_id.grn_no + "\n";
         }
-        if (expenses.expensesreceipt != oldExpenses.expensesreceipt) {
-            updates = updates + "expensesReceipt - " + oldExpenses.expensesreceipt + " to " + expenses.expensesreceipt + "\n";
+        if (expenses.receiptimage != oldExpenses.receiptimage) {
+            updates = updates + "expensesReceipt - " + oldExpenses.receiptimage + " to " + expenses.receiptimage + "\n";
         }
         if (expenses.supplier_id.name != oldExpenses.supplier_id.name) {
             updates = updates + "Supplier - " + oldExpenses.supplier_id.name + " to " + expenses.supplier_id.name + "\n";
@@ -379,7 +379,7 @@ const buttonExpensesUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update " + expenses.billno + "?\n" + updates);
+            let userConfirm = window.confirm("Are you sure to update " + expenses.bill_no + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/expenses/update", "PUT", expenses);
                 if (putResponce == "OK") {

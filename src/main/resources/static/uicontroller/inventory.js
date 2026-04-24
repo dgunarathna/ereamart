@@ -250,26 +250,26 @@ const checkFormUpdate = () => {
         if (inventory.product_id.name != oldInventory.product_id.name) {
             updates = updates + "Product - " + oldInventory.product_id.name + " to " + inventory.product_id.name + "\n";
         }
-        if (inventory.saleprice != oldInventory.saleprice) {
-            updates = updates + "Sale Price - " + oldInventory.saleprice + " to " + inventory.saleprice + "\n";
+        if (inventory.sales_price != oldInventory.sales_price) {
+            updates = updates + "Sale Price - " + oldInventory.sales_price + " to " + inventory.sales_price + "\n";
         }
         if (inventory.discount != oldInventory.discount) {
             updates = updates + "Discount - " + oldInventory.discount + " to " + inventory.discount + "\n";
         }
-        if (inventory.totalqty != oldInventory.totalqty) {
-            updates = updates + "Total QTY - " + oldInventory.totalqty + " to " + inventory.totalqty + "\n";
+        if (inventory.total_qty != oldInventory.total_qty) {
+            updates = updates + "Total QTY - " + oldInventory.total_qty + " to " + inventory.total_qty + "\n";
         }
-        if (inventory.expiredate != oldInventory.expiredate) {
-            updates = updates + "Expire Date - " + oldInventory.expiredate + " to " + inventory.expiredate + "\n";
+        if (inventory.expire_date != oldInventory.expire_date) {
+            updates = updates + "Expire Date - " + oldInventory.expire_date + " to " + inventory.expire_date + "\n";
         }
-        if (inventory.manufacturedate != oldInventory.manufacturedate) {
-            updates = updates + "Manufacture Date - " + oldInventory.manufacturedate + " to " + inventory.manufacturedate + "\n";
+        if (inventory.manufacture_date != oldInventory.manufacture_date) {
+            updates = updates + "Manufacture Date - " + oldInventory.manufacture_date + " to " + inventory.manufacture_date + "\n";
         }
-        if (inventory.batchno != oldInventory.batchno) {
-            updates = updates + "Batch Number - " + oldInventory.batchno + " to " + inventory.batchno + "\n";
+        if (inventory.batch_number != oldInventory.batch_number) {
+            updates = updates + "Batch Number - " + oldInventory.batch_number + " to " + inventory.batch_number + "\n";
         }
-        if (inventory.grn_id.grnno != oldInventory.grn_id.grnno) {
-            updates = updates + "GRN No - " + oldInventory.grn_id.grnno + " to " + inventory.grn_id.grnno + "\n";
+        if (inventory.grn_id.grn_no != oldInventory.grn_id.grn_no) {
+            updates = updates + "GRN No - " + oldInventory.grn_id.grn_no + " to " + inventory.grn_id.grn_no + "\n";
         }
         if (inventory.inventory_status_id.name != oldInventory.inventory_status_id.name) {
             updates = updates + "Status ID - " + oldInventory.inventory_status_id.name + " to " + inventory.inventory_status_id.name + "\n";

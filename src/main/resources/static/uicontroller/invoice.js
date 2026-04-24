@@ -121,7 +121,7 @@ const invoiceFormRefill = (ob, index) => {
 
 const buttonInvoiceDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.invoiceno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.invoice_code + "?");
     if (userConfirm == true) {
         let deleteResponce = getHTTPServiceRequest("/invoice/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
@@ -192,7 +192,7 @@ const buttonInvoiceSubmit = () => {
 
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add " + invoice.invoiceno + "?");
+        let userConfirm = window.confirm("Are you sure to add " + (invoice.invoice_code ?? "this invoice") + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/invoice/insert", "POST", invoice);
             if (postResponce == "OK") {
@@ -216,12 +216,12 @@ const checkFormUpdate = () => {
     console.log(oldInvoice);
 
     if (invoice != null && oldInvoice !== null) {
-        if (invoice.invoiceno != oldInvoice.invoiceno) {
-            updates = updates + "Invoice no - " + oldInvoice.invoiceno + " to " + invoice.invoiceno + "\n";
+        if (invoice.invoice_code != oldInvoice.invoice_code) {
+            updates = updates + "Invoice no - " + oldInvoice.invoice_code + " to " + invoice.invoice_code + "\n";
         }
-        if (oldInvoice.customer_id != null) {
-            if (invoice.customer_id.name != oldInvoice.customer_id.name) {
-                updates = updates + "Customer - " + oldInvoice.customer_id.fullname + " to " + invoice.customer_id.name + "\n";
+        if (oldInvoice.customer_id != null && invoice.customer_id != null) {
+            if (invoice.customer_id.fullname != oldInvoice.customer_id.fullname) {
+                updates = updates + "Customer - " + oldInvoice.customer_id.fullname + " to " + invoice.customer_id.fullname + "\n";
             }
         }
         if (invoice.total_amount != oldInvoice.total_amount) {
@@ -230,8 +230,8 @@ const checkFormUpdate = () => {
         if (invoice.discount_amount != oldInvoice.discount_amount) {
             updates = updates + "Discount Amount - " + oldInvoice.discount_amount + " to " + invoice.discount_amount + "\n";
         }
-        if (invoice.netamount != oldInvoice.netamount) {
-            updates = updates + "Net Amount - " + oldInvoice.netamount + " to " + invoice.netamount + "\n";
+        if (invoice.net_amount != oldInvoice.net_amount) {
+            updates = updates + "Net Amount - " + oldInvoice.net_amount + " to " + invoice.net_amount + "\n";
         }
         if (invoice.invoice_status_id.name != oldInvoice.invoice_status_id.name) {
             updates = updates + "Invoice Status - " + oldInvoice.invoice_status_id.name + " to " + invoice.invoice_status_id.name + "\n";
@@ -273,7 +273,7 @@ const buttonInvoiceUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update " + invoice.invoiceno + "?\n" + updates);
+            let userConfirm = window.confirm("Are you sure to update " + (invoice.invoice_code ?? "this invoice") + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/invoice/update", "PUT", invoice);
                 if (putResponce == "OK") {

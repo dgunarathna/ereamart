@@ -92,8 +92,8 @@ const incomeFormRefill = (ob, index) => {
     console.log("Edit", ob, index);
 
     // set photo 
-    if (ob.image != null) {
-        imgReceiptPhotoPreview.src = atob(ob.image);
+    if (ob.receiptimage != null) {
+        imgReceiptPhotoPreview.src = atob(ob.receiptimage);
     } else {
         imgReceiptPhotoPreview.src = "/images/default.png";
     }
@@ -252,7 +252,7 @@ const buttonIncomeUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update " + income.incomeno + "?\n" + updates);
+            let userConfirm = window.confirm("Are you sure to update " + income.income_number + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/income/update", "PUT", income);
                 if (putResponce == "OK") {

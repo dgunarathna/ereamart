@@ -114,7 +114,7 @@ const QuotationFormRefill = (ob, index) => {
 
 const buttonQuotationDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.Quotationno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.quotation_code + "?");
     if (userConfirm == true) {
         let deleteResponce = getHTTPServiceRequest("/quotation/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
@@ -190,7 +190,7 @@ const buttonQuotationSubmit = () => {
 
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add " + quotation.Quotationno + "?");
+        let userConfirm = window.confirm("Are you sure to add " + (quotation.quotation_code ?? "this quotation") + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/quotation/insert", "POST", quotation);
             if (postResponce == "OK") {

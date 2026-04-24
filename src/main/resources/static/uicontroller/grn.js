@@ -116,7 +116,7 @@ const grnFormRefill = (ob, index) => {
 
 const buttonGRNDelete = (ob, index) => {
     console.log("Delete", ob, index);
-    let userConfirm = window.confirm("Are you sure to delete " + ob.grnno + "?");
+    let userConfirm = window.confirm("Are you sure to delete " + ob.grn_no + "?");
     if (userConfirm == true) {
         let deleteResponce = getHTTPServiceRequest("/grn/delete", "DELETE", ob);
         if (deleteResponce == "OK") {
@@ -201,7 +201,7 @@ const buttonGRNSubmit = () => {
 
     let errors = checkFormError();
     if (errors == "") {
-        let userConfirm = window.confirm("Are you sure to add " + grn.grnno + "?");
+        let userConfirm = window.confirm("Are you sure to add " + (grn.grn_no ?? "this GRN") + "?");
         if (userConfirm == true) {
             let postResponce = getHTTPServiceRequest("/grn/insert", "POST", grn);
             if (postResponce == "OK") {
@@ -225,29 +225,26 @@ const checkFormUpdate = () => {
     console.log(oldGrn);
 
     if (grn != null && oldGrn !== null) {
-        if (grn.grnno != oldGrn.grnno) {
-            updates = updates + "GRN no - " + oldGrn.grnno + " to " + grn.grnno + "\n";
+        if (grn.grn_no != oldGrn.grn_no) {
+            updates = updates + "GRN no - " + oldGrn.grn_no + " to " + grn.grn_no + "\n";
         }
         if (grn.orders_id.orders_code != oldGrn.orders_id.orders_code) {
             updates = updates + "Order no - " + oldGrn.orders_id.orders_code + " to " + grn.orders_id.orders_code + "\n";
         }
-        if (grn.invoiceno != oldGrn.invoiceno) {
-            updates = updates + "Invoice No - " + oldGrn.invoiceno + " to " + grn.invoiceno + "\n";
+        if (grn.supplier_invoice_number != oldGrn.supplier_invoice_number) {
+            updates = updates + "Invoice No - " + oldGrn.supplier_invoice_number + " to " + grn.supplier_invoice_number + "\n";
         }
-        if (grn.totalamount != oldGrn.totalamount) {
-            updates = updates + "Total Amount - " + oldGrn.totalamount + " to " + grn.totalamount + "\n";
+        if (grn.total_amount != oldGrn.total_amount) {
+            updates = updates + "Total Amount - " + oldGrn.total_amount + " to " + grn.total_amount + "\n";
         }
-        if (grn.discountrate != oldGrn.discountrate) {
-            updates = updates + "Discount Rate - " + oldGrn.discountrate + " to " + grn.discountrate + "\n";
+        if (grn.discount != oldGrn.discount) {
+            updates = updates + "Discount Rate - " + oldGrn.discount + " to " + grn.discount + "\n";
         }
-        if (grn.netamount != oldGrn.netamount) {
-            updates = updates + "Net amount - " + oldGrn.netamount + " to " + grn.netamount + "\n";
+        if (grn.net_amount != oldGrn.net_amount) {
+            updates = updates + "Net amount - " + oldGrn.net_amount + " to " + grn.net_amount + "\n";
         }
-        if (grn.note != oldGrn.note) {
-            updates = updates + "Note - " + oldGrn.note + " to " + grn.note + "\n";
-        }
-        if (grn.receiveddate != oldGrn.receiveddate) {
-            updates = updates + "Received date - " + oldGrn.receiveddate + " to " + grn.receiveddate + "\n";
+        if (grn.recieved_date != oldGrn.recieved_date) {
+            updates = updates + "Received date - " + oldGrn.recieved_date + " to " + grn.recieved_date + "\n";
         }
         if (grn.grn_status_id.name != oldGrn.grn_status_id.name) {
             updates = updates + "Status - " + oldGrn.grn_status_id.name + " to " + grn.grn_status_id.name + "\n";
@@ -289,7 +286,7 @@ const buttonGRNUpdate = () => {
         if (updates == "") {
             window.alert("Nothing to update");
         } else {
-            let userConfirm = window.confirm("Are you sure to update " + grn.grnno + "?\n" + updates);
+            let userConfirm = window.confirm("Are you sure to update " + grn.grn_no + "?\n" + updates);
             if (userConfirm) {
                 let putResponce = getHTTPServiceRequest("/grn/update", "PUT", grn);
                 if (putResponce == "OK") {
@@ -311,7 +308,7 @@ const buttonGRNUpdate = () => {
 
 const buttonAddNew = () => {
     refreshGRNForm();
-    $("#modalgrnFormLabel").text("Add New grn");
+    $("#modalGRNFormLabel").text("Add New GRN");
 
     $("#buttonSubmit").show();
     $("#buttonClear").show();
@@ -352,7 +349,7 @@ const calculateLinePrice = () => {
         textLinePrice.value = lineprice;
         textLinePrice.style.border = "1px solid lightgreen"
     } else {
-        grnHasProduct.unitPrice = null;
+        grnHasProduct.unitprice = null;
         grnHasProduct.lineprice = null;
         textQTY.style.border = "1px solid pink";
         textLinePrice.style.border = "1px solid #ced4da";
@@ -468,10 +465,10 @@ const orderInnerFormRefill = (ob, index) => {
     fillDataIntoSelect(selectItem, "Select Product", selectItems, "name");
 
     selectItem.value = JSON.stringify(grnHasProduct.product_id)
-    textUnitPrice.value = parseFloat(grnHasProduct.unitPrice);
+    textUnitPrice.value = parseFloat(grnHasProduct.unitprice);
     textQTY.value = grnHasProduct.quantity;
     textLinePrice.value = parseFloat(grnHasProduct.lineprice);
-    textBatchNo.value = parseFloat(grnHasProduct.batch_number);
+    textBatchNo.value = grnHasProduct.batch_number;
 
     $("#buttonItemSubmit").hide();
     $("#buttonItemUpdate").show();
@@ -490,14 +487,14 @@ const orderInnerFormDelete = (ob, index) => {
     }
 }
 
-const buttonInvoiceItemSubmit = () => {
+const buttonGRNItemSubmit = () => {
     console.log(grnHasProduct);
 
     grn.grnHasProductList.push(grnHasProduct);
     refreshGRNInnerForm();
 }
 
-const buttonInvoiceItemUpdate = () => {
+const buttonGRNItemUpdate = () => {
     console.log(grnHasProduct);
 
     if (grnHasProduct.quantity != oldGRNHasProduct.quantity) {
