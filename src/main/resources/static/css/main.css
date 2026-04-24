@@ -337,6 +337,29 @@ th, .form-label{
         z-index: 1000;
         box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     }
+
+    .nav.nav-pills {
+        width: 100% !important;
+        max-width: 100%;
+        flex-wrap: nowrap;
+        justify-content: flex-start !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav.nav-pills::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav.nav-pills .nav-item {
+        flex: 0 0 auto;
+    }
+
+    .nav.nav-pills .nav-link {
+        white-space: nowrap;
+    }
     
        
 }
