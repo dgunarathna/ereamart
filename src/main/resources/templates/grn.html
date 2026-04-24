@@ -148,17 +148,17 @@
               <div class="col-lg-4">
                 <label class="form-label">Total Amount<span class="text-danger">*</span></label>
                 <input id="textTotalAmount" type="text" Required class="form-control"
-                  onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','total_amount')">
+                  onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$','grn','total_amount')">
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Total Discount<span class="text-danger">*</span></label>
                 <input id="textDiscountRate" type="number" Required class="form-control"
-                  onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','discount'); calculateNetAmount();">
+                  onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$','grn','discount'); calculateNetAmount();">
               </div>
               <div class="col-lg-4">
                 <label class="form-label">Net Amount<span class="text-danger">*</span></label>
                 <input id="textNetAmount" type="text" Required class="form-control"
-                  onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','grn','net_amount')">
+                  onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$','grn','net_amount')">
               </div>
               <div class="col-lg-6">
                 <label class="form-label">Received Date<span class="text-danger">*</span></label>

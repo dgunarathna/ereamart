@@ -145,7 +145,7 @@
               <div class="col-xl-6">
                 <label class="form-label">Total Amount<span class="text-danger">*</span></label>
                 <input id="texttotalamount" type="text" Required class="form-control"
-                  onkeyup="textValidator(this,'^([A-Za-z0-9\\s\\,]{1,20}.?)+$','order','total_amount')">
+                  onkeyup="textValidator(this,'^[0-9]+(\\.[0-9]{1,2})?$','order','total_amount')">
               </div>
               <div class="col-xl-6">
                 <label for="selectStatus" class="form-label">Status<span class="text-danger">*</span></label>
