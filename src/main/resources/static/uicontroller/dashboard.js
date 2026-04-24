@@ -109,7 +109,7 @@ const genearateSalesByCategory = () => {
   }
 
   new Chart(ctx, {
-    type: "pie",
+    type: "bar",
     data: {
       labels: lable,
       datasets: [{
@@ -124,6 +124,10 @@ const genearateSalesByCategory = () => {
         legend: {
           display: false,
         }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { display: true, grid: { display: false } }
       }
     }
   });
