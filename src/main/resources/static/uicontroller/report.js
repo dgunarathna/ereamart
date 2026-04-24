@@ -145,7 +145,7 @@ const generateSupplierSpendingReport = () => {
 
 
   new Chart(ctx, {
-    type: "doughnut",
+    type: "bar",
     data: {
       labels: lable,
       datasets: [
@@ -165,13 +165,13 @@ const generateSupplierSpendingReport = () => {
       },
       scales: {
         x: {
-          display: false,
+          display: true,
           grid: {
             display: false
           }
         },
         y: {
-          display: false,
+          display: true,
           beginAtZero: true,
           grid: {
             display: false,
@@ -678,7 +678,7 @@ const generateExpenseCategoryReport = () => {
 
 
   new Chart(ctx, {
-    type: "pie",
+    type: "bar",
     data: {
       labels: lable,
       datasets: [
@@ -695,6 +695,10 @@ const generateExpenseCategoryReport = () => {
         legend: {
           display: false,
         }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { display: true, grid: { display: false } }
       }
     }
   });
